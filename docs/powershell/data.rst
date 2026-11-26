@@ -3,14 +3,26 @@ PowerShell 数据格式与 REST API
 
 .. meta::
    :group: 工程化
-   :summary: 不重复入门调用示例，补齐 JSON 深度、CSV 编码、XML/CliXml 与 REST 认证、分页、重试。
+   :summary: 掌握 JSON、CSV、XML 与 CliXml 的读写细节，并处理 REST 接口的认证、分页、超时与重试。
 
-实际应用一章已经演示过用 ``Invoke-RestMethod`` 读取一个公开接口，也展示了 CSV 与数据库的基本思路。本章不重复那个入门示例，重点讲**格式转换的坑**和**接口调用的工程化**。
+PowerShell 内部处理的是对象，而配置文件、报表和接口通常使用 JSON、CSV、XML 等文本格式。格式转换的默认行为往往决定了脚本是否稳定。
 
-一、JSON：三个最常见的坑
-------------------------
+本节将介绍以下内容：
 
-``ConvertTo-Json`` 默认只序列化两层，嵌套更深的属性会被降级成字符串：
+* JSON 序列化深度与反序列化选项。
+* CSV 文件的编码、分隔符与类型头。
+* XML 与 CliXml 的读写方式。
+* 调用 REST API 时的请求体、认证、分页与重试。
+
+一、对象与 JSON
+---------------
+
+``ConvertTo-Json`` 把对象序列化为 JSON，``ConvertFrom-Json`` 把 JSON 还原为对象。
+
+序列化深度
+~~~~~~~~~~
+
+默认只序列化两层，嵌套更深的属性会被降级为字符串：
 
 .. code-block:: powershell
 
@@ -24,22 +36,21 @@ PowerShell 数据格式与 REST API
    }
 
    $info | ConvertTo-Json              # Detail 会被压成字符串
-   $info | ConvertTo-Json -Depth 5     # 正确保留层级
-   $info | ConvertTo-Json -Depth 5 -Compress   # 单行，适合传输
+   $info | ConvertTo-Json -Depth 5     # 保留完整层级
+   $info | ConvertTo-Json -Depth 5 -Compress
 
-反序列化有两个行为需要注意：
+反序列化选项
+~~~~~~~~~~~~
 
 .. code-block:: powershell
 
    $json = Get-Content .\config.json -Raw
 
    $obj = $json | ConvertFrom-Json
-   $map = $json | ConvertFrom-Json -AsHashtable    # 按字典方式访问键
-
-   # 单元素数组默认会被展开成单个对象
+   $map = $json | ConvertFrom-Json -AsHashtable
    $single = $json | ConvertFrom-Json -NoEnumerate
 
-PowerShell 7.5 起，``ConvertFrom-Json`` 支持 ``-DateKind``，可以把日期字符串还原为真正的日期类型：
+``-AsHashtable`` 适合按字典方式访问键；``-NoEnumerate`` 可以避免单元素数组被展开成单个对象。PowerShell 7.5 起还支持 ``-DateKind``，用于把日期字符串还原为日期类型：
 
 .. code-block:: powershell
 
@@ -47,10 +58,10 @@ PowerShell 7.5 起，``ConvertFrom-Json`` 支持 ``-DateKind``，可以把日期
 
 .. warning::
 
-   含循环引用的对象（部分 WMI / CIM 结果）无法直接序列化。先用 ``Select-Object`` 投影出需要的字段，再转换。
+   包含循环引用的对象（例如部分 WMI / CIM 结果）无法直接序列化。应先用 ``Select-Object`` 投影出需要的字段，再进行转换。
 
-二、CSV：编码比字段更容易出错
------------------------------
+二、CSV 文件的读写
+------------------
 
 .. code-block:: powershell
 
@@ -60,22 +71,24 @@ PowerShell 7.5 起，``ConvertFrom-Json`` 支持 ``-DateKind``，可以把日期
        Export-Csv .\processes.csv -Encoding utf8BOM
 
    $rows = Import-Csv .\processes.csv
-   $rows | Group-Object Name | Sort-Object Count -Descending | Select-Object -First 5
+   $rows | Group-Object Name |
+       Sort-Object Count -Descending |
+       Select-Object -First 5
 
-要点：
+需要注意以下行为：
 
-* PowerShell 7 的 ``Export-Csv`` 默认不写 ``#TYPE`` 头，需要时用 ``-IncludeTypeInformation``。
-* ``utf8BOM`` 兼容旧版 Excel；``utf8NoBOM`` 更适合程序读取。
-* 非逗号分隔的文件用 ``-Delimiter ";"``，从旧系统导出的文件通常还要指定 ``-Encoding Default``。
+* PowerShell 7 的 ``Export-Csv`` 默认不写入 ``#TYPE`` 头，需要时使用 ``-IncludeTypeInformation``。
+* ``utf8BOM`` 兼容旧版 Excel，``utf8NoBOM`` 更适合程序读取。
+* 非逗号分隔的文件使用 ``-Delimiter ";"``，旧系统导出的文件可能还需要指定 ``-Encoding Default``。
 
 .. tip::
 
-   字段由第一条对象的属性决定。对象属性不一致时，缺失列会留空，多余列会被丢弃。导出前先用 ``Select-Object`` 统一结构。
+   CSV 字段由第一条对象的属性决定。对象属性不一致时，缺失列会留空，多余列会被丢弃。导出前应先使用 ``Select-Object`` 统一结构。
 
 三、XML 与 CliXml
 -----------------
 
-XML 用 ``[xml]`` 转换后即可按节点访问：
+XML 文件转换为 ``[xml]`` 后，可以按节点访问：
 
 .. code-block:: powershell
 
@@ -83,7 +96,7 @@ XML 用 ``[xml]`` 转换后即可按节点访问：
    $doc.configuration.appSettings.add | Select-Object key, value
    $doc.SelectNodes("//add[@key='LogLevel']")
 
-CliXml 是 PowerShell 的私有序列化格式，能保留类型信息，适合会话之间传递复杂对象：
+CliXml 是 PowerShell 的序列化格式，能够保留类型信息，适合在会话之间传递复杂对象：
 
 .. code-block:: powershell
 
@@ -93,12 +106,15 @@ CliXml 是 PowerShell 的私有序列化格式，能保留类型信息，适合�
 
 .. important::
 
-   ``Import-Clixml`` 会还原对象结构，不要用于来源不明的文件。只处理自己生成或可信来源的数据。
+   ``Import-Clixml`` 会还原对象结构，只应处理自己生成或来源可信的文件，不要用于来源不明的数据。
 
-四、REST：从“能调通”到“能上线”
--------------------------------
+四、调用 REST API
+-----------------
 
-入门示例通常只发 GET。真实接口还需要处理请求体、认证、分页和状态码：
+``Invoke-RestMethod`` 会自动把 JSON 响应解析为对象，是调用接口的常用命令。
+
+发送 POST 请求
+~~~~~~~~~~~~~~
 
 .. code-block:: powershell
 
@@ -114,7 +130,10 @@ CliXml 是 PowerShell 的私有序列化格式，能保留类型信息，适合�
        -Body $body `
        -TimeoutSec 20
 
-分页接口要循环取完，直到返回数量小于页大小：
+分页与状态码
+~~~~~~~~~~~~
+
+分页接口需要循环取完，直到返回数量小于页大小：
 
 .. code-block:: powershell
 
@@ -130,7 +149,7 @@ CliXml 是 PowerShell 的私有序列化格式，能保留类型信息，适合�
        $page++
    } while ($batch.items.Count -eq 100)
 
-需要自行判断 4xx/5xx 时，用 ``-SkipHttpErrorCheck`` 配合 ``-StatusCodeVariable``：
+需要自行处理 4xx/5xx 时，可以使用 ``-SkipHttpErrorCheck`` 与 ``-StatusCodeVariable``：
 
 .. code-block:: powershell
 
@@ -141,12 +160,12 @@ CliXml 是 PowerShell 的私有序列化格式，能保留类型信息，适合�
 
 .. warning::
 
-   ``-SkipCertificateCheck`` 只应在受控测试环境使用。生产环境应正确配置证书信任，而不是关闭校验。
+   ``-SkipCertificateCheck`` 只应在受控的测试环境中使用。生产环境应正确配置证书信任，而不是关闭校验。
 
-五、超时、重试与结果落盘
+五、超时、重试与结果保存
 ------------------------
 
-所有网络调用都应设置超时；批处理再加有限次退避重试：
+网络调用都应设置超时，批处理时可以增加有限次退避重试：
 
 .. code-block:: powershell
 
@@ -162,7 +181,7 @@ CliXml 是 PowerShell 的私有序列化格式，能保留类型信息，适合�
        }
    }
 
-结果最好落成结构化文件，而不是只打印到屏幕：
+结果应保存为结构化文件，而不是只输出到屏幕：
 
 .. code-block:: powershell
 
@@ -174,13 +193,13 @@ CliXml 是 PowerShell 的私有序列化格式，能保留类型信息，适合�
 .. csv-table::
    :header: "主题", "关键点"
 
-   "JSON 序列化", "显式 -Depth，避免嵌套被压平"
+   "JSON 序列化", "显式指定 -Depth，避免嵌套被压平"
    "JSON 反序列化", "-AsHashtable / -NoEnumerate / -DateKind"
-   "CSV", "编码、分隔符、#TYPE 头"
+   "CSV", "编码、分隔符与 #TYPE 头"
    "XML", "[xml] 转换后按节点或 XPath 访问"
    "CliXml", "保留类型，但只处理可信文件"
-   "REST", "请求体、认证头、分页、状态码、超时"
-   "重试", "有限次数 + 指数退避 + 最终抛出"
-   "落盘", "JSON/CSV + 明确编码"
+   "REST", "请求体、认证头、分页与状态码"
+   "重试", "有限次数、指数退避、最终抛出"
+   "保存结果", "JSON/CSV + 明确编码"
 
-格式转换的关键不是记住 cmdlet，而是记住每个格式的**默认行为**：JSON 的深度、CSV 的编码、CliXml 的信任边界。把这些默认值显式写出来，脚本就稳定了。
+格式转换的关键不是记住命令，而是记住每个格式的默认行为。把 JSON 的深度、CSV 的编码和 CliXml 的信任边界显式写出来，脚本就会更加稳定。

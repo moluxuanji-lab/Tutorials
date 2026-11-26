@@ -3,14 +3,21 @@ PowerShell 错误处理、调试与测试
 
 .. meta::
    :group: 工程化
-   :summary: 在已掌握 try/catch 的基础上，补错误记录、throw、$Error、断点调试、Pester 与静态检查。
+   :summary: 读懂错误记录，主动抛出可控错误，并用断点、Pester 与静态检查建立可靠的排错闭环。
 
-控制流一章已经讲过 ``try / catch / finally``、类型化 ``catch``、``-ErrorAction Stop`` 和 ``$ErrorActionPreference``。本章不再重复这些语法，只回答三个工程问题：**错误里有什么、怎么定位、怎么防止回归**。
+PowerShell 的错误分为终止性与非终止性，错误记录中保存了异常类型、错误分类与调用栈。掌握这些信息，才能让脚本在失败时给出可定位、可复现的线索。
 
-一、catch 里的错误记录
-----------------------
+本节将介绍以下内容：
 
-``catch`` 中的 ``$_``（也可写 ``$PSItem``）不只是一条消息，而是完整的 ``ErrorRecord``：
+* 错误记录的常用字段与读取方式。
+* 使用 ``throw`` 抛出终止性错误。
+* 使用 ``$Error``、错误视图与断点定位问题。
+* 使用 Pester 编写回归测试，使用 PSScriptAnalyzer 做静态检查。
+
+一、错误记录的结构
+------------------
+
+``catch`` 中的 ``$_``（也可写作 ``$PSItem``）是完整的错误记录，而不仅是一条消息：
 
 .. code-block:: powershell
 
@@ -18,16 +25,16 @@ PowerShell 错误处理、调试与测试
        Get-Item C:\NotExist.txt -ErrorAction Stop
    }
    catch {
-       $_.Exception.GetType().FullName     # System.Management.Automation.ItemNotFoundException
+       $_.Exception.GetType().FullName
        $_.Exception.Message
        $_.CategoryInfo.Activity
        $_.FullyQualifiedErrorId
        $_.ScriptStackTrace
    }
 
-多层函数调用时，``Message`` 往往只说明“失败在哪一步”，``ScriptStackTrace`` 才能指出“从哪一行调过来的”。记录日志时建议同时保存这两项。
+多层函数调用时，``Message`` 通常只说明失败发生在哪一步，``ScriptStackTrace`` 才能指出调用来源。记录日志时建议同时保存这两项。
 
-需要“继续执行但收集错误”时，用 ``-ErrorVariable``：
+需要继续执行并收集错误时，可以使用 ``-ErrorVariable``：
 
 .. code-block:: powershell
 
@@ -40,12 +47,12 @@ PowerShell 错误处理、调试与测试
 
 .. warning::
 
-   ``-ErrorAction SilentlyContinue`` 会让问题彻底消失。生产脚本至少要把 ``$scanErrors`` 汇总写入日志。
+   ``-ErrorAction SilentlyContinue`` 会让错误不再显示。生产脚本至少应将 ``$scanErrors`` 汇总写入日志。
 
-二、throw 与自定义终止性错误
-----------------------------
+二、throw 与自定义错误
+----------------------
 
-``throw`` 抛出的是终止性错误，信息应包含“做了什么、期望什么、实际得到什么”：
+``throw`` 抛出终止性错误，错误信息应说明做了什么、期望什么、实际得到什么：
 
 .. code-block:: powershell
 
@@ -59,7 +66,7 @@ PowerShell 错误处理、调试与测试
        Get-Content $Path -Raw | ConvertFrom-Json
    }
 
-需要让调用方按错误类别处理时，抛出带分类的 ``ErrorRecord``：
+需要让调用方按错误类别处理时，可以抛出带分类的 ``ErrorRecord``：
 
 .. code-block:: powershell
 
@@ -74,19 +81,19 @@ PowerShell 错误处理、调试与测试
 
 .. note::
 
-   ``throw "字符串"`` 生成的是通用 ``RuntimeException``。需要精确分类时用异常对象或 ``ErrorRecord``，调用方才能写 ``catch [System.IO.FileNotFoundException]``。
+   ``throw "字符串"`` 生成的是通用 ``RuntimeException``。需要精确分类时，应使用异常对象或 ``ErrorRecord``，调用方才能按类型捕获。
 
-三、$Error、Get-Error 与错误视图
---------------------------------
+三、$Error 与错误视图
+---------------------
 
-当前会话的错误都保存在 ``$Error`` 中，最近一条是 ``$Error[0]``：
+当前会话中的错误都保存在 ``$Error`` 中，最近一条是 ``$Error[0]``：
 
 .. code-block:: powershell
 
    $Error[0] | Format-List * -Force
    Get-Error
 
-PowerShell 7 默认使用 ``ConciseView``，只显示关键信息。需要完整堆栈时切换视图：
+PowerShell 7 默认使用 ``ConciseView``，只显示关键信息。需要查看完整堆栈时，可以切换错误视图：
 
 .. code-block:: powershell
 
@@ -94,10 +101,10 @@ PowerShell 7 默认使用 ``ConciseView``，只显示关键信息。需要完整
 
 .. tip::
 
-   交互式排障时临时切到 ``DetailedView``，退出会话即失效，不会污染其他环境。
+   交互式排障时可以临时切换到 ``DetailedView``，退出会话后自动失效，不会影响其他环境。
 
-四、调试：从“猜”变成“看”
---------------------------
+四、调试方法
+------------
 
 严格模式
 ~~~~~~~~
@@ -106,7 +113,7 @@ PowerShell 7 默认使用 ``ConciseView``，只显示关键信息。需要完整
 
    Set-StrictMode -Version Latest
 
-它会禁止未初始化变量、访问不存在的属性、越界索引，把静默的 ``$null`` 变成明确错误。新脚本建议默认开启。
+严格模式会禁止未初始化变量、访问不存在的属性和越界索引，把静默的 ``$null`` 变成明确错误。新脚本建议默认开启。
 
 会话转录
 ~~~~~~~~
@@ -126,12 +133,12 @@ PowerShell 7 默认使用 ``ConciseView``，只显示关键信息。需要完整
    Get-PSBreakpoint
    Remove-PSBreakpoint -Id 0
 
-VS Code 中可直接点击行号设置断点；任意环境里也可以插入 ``Wait-Debugger``，执行到该行自动进入调试器。
+在 VS Code 中可以直接点击行号设置断点；在任意环境中也可以插入 ``Wait-Debugger``，执行到该行时自动进入调试器。
 
 跟踪参数绑定
 ~~~~~~~~~~~~
 
-管道没生效、参数没绑上时，``Trace-Command`` 能直接给出绑定过程：
+管道未生效或参数未绑定时，``Trace-Command`` 可以输出完整的绑定过程：
 
 .. code-block:: powershell
 
@@ -139,16 +146,16 @@ VS Code 中可直接点击行号设置断点；任意环境里也可以插入 ``
        "notepad" | Get-Process
    }
 
-``Set-PSDebug -Trace 1`` 逐行打印执行过程，``-Trace 2`` 还会显示变量赋值；排查完用 ``Set-PSDebug -Off`` 关闭。
+``Set-PSDebug -Trace 1`` 会逐行打印执行过程，``-Trace 2`` 还会显示变量赋值。排查完成后使用 ``Set-PSDebug -Off`` 关闭。
 
 .. warning::
 
-   ``Set-PSDebug -Trace 2`` 输出量极大，只适合在最小复现脚本上使用，不要直接对着生产脚本开启。
+   ``Set-PSDebug -Trace 2`` 输出量较大，只适合在最小复现脚本中使用，不应直接对生产脚本开启。
 
-五、Pester：把问题变成回归测试
-------------------------------
+五、使用 Pester 编写测试
+------------------------
 
-Pester 是 PowerShell 官方测试框架。安装后按 ``Describe / Context / It / Should`` 组织用例：
+Pester 是 PowerShell 官方测试框架，使用 ``Describe``、``It`` 与 ``Should`` 组织用例：
 
 .. code-block:: powershell
 
@@ -169,23 +176,23 @@ Pester 是 PowerShell 官方测试框架。安装后按 ``Describe / Context / I
        }
    }
 
-运行：
+运行测试：
 
 .. code-block:: powershell
 
    Invoke-Pester .\Get-Square.Tests.ps1 -Output Detailed
 
-修复一个 bug 后补一条用例，是最划算的工程习惯。
+修复缺陷后补充一条用例，是成本最低的回归保障方式。
 
-六、PSScriptAnalyzer：运行前的静态检查
---------------------------------------
+六、使用 PSScriptAnalyzer 检查代码
+----------------------------------
 
 .. code-block:: powershell
 
    Install-PSResource PSScriptAnalyzer -Scope CurrentUser -TrustRepository
    Invoke-ScriptAnalyzer -Path .\deploy.ps1 -Severity Warning
 
-它能发现未使用变量、危险的 ``Invoke-Expression``、不当的凭据处理等问题。可以把它放进提交前检查或 CI 流程。
+PSScriptAnalyzer 可以发现未使用变量、危险的 ``Invoke-Expression``、不当的凭据处理等问题，适合放入提交前检查或 CI 流程。
 
 .. note::
 
@@ -198,11 +205,11 @@ Pester 是 PowerShell 官方测试框架。安装后按 ``Describe / Context / I
    :header: "场景", "推荐做法"
 
    "读取错误细节", "$_.Exception / ScriptStackTrace"
-   "保留错误但继续", "-ErrorAction SilentlyContinue -ErrorVariable"
+   "保留错误但继续执行", "-ErrorAction SilentlyContinue -ErrorVariable"
    "主动失败", "throw 或 $PSCmdlet.ThrowTerminatingError"
    "查看历史错误", "$Error / Get-Error / $ErrorView"
    "逐行定位", "断点 / Wait-Debugger / Trace-Command"
    "防止回归", "Pester 用例"
    "代码质量", "Invoke-ScriptAnalyzer"
 
-错误处理的目标不是“让错误消失”，而是让失败**可控、可观测、可复现**。做到这三点，脚本才算真正可靠。
+错误处理的目标不是让错误消失，而是让失败可控、可观测、可复现。做到这三点，脚本才算真正可靠。

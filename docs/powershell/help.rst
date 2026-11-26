@@ -1,16 +1,39 @@
-命令发现与帮助进阶
-==================
+PowerShell 命令发现与帮助
+=========================
 
 .. meta::
    :group: 入门
-   :summary: 在掌握 Get-Help、Get-Command、Get-Member 的基础上，补齐精确过滤、在线文档、PSReadLine 与脚本注释帮助。
+   :summary: 掌握命令过滤、帮助查阅、PSReadLine 提示与脚本注释帮助，快速找到并正确使用命令。
 
-核心概念一章已经介绍过 ``Get-Help``、``Get-Command``、``Get-Member`` 和 ``about_*`` 的基本用途，本章不再重复这些入门内容，只补三件能明显提高效率的事：**精确过滤命令**、**把帮助用透**、**让终端和脚本自己会“提示”**。
+PowerShell 内置了数百条 Cmdlet，加上模块、函数和别名，可用命令的数量还会继续增长。与其记住每一条命令，不如掌握一套稳定的查找方法：先确定方向，再阅读参数，最后在终端中验证。
 
-一、精确过滤命令
+本节将介绍以下内容：
+
+* 使用 ``Get-Command`` 的过滤参数缩小查找范围。
+* 查阅参数说明、完整帮助与在线文档。
+* 利用 PSReadLine 完成补全、预测和历史搜索。
+* 为编写的脚本添加可被 ``Get-Help`` 读取的注释帮助。
+
+一、精确查找命令
 ----------------
 
-只知道大概方向时，用过滤参数把范围缩小：
+PowerShell 的命令遵循“动词-名词”命名规范，因此动词和名词就是最有效的检索条件。
+
+按动词和名词过滤
+~~~~~~~~~~~~~~~~
+
+.. code-block:: powershell
+
+   # 找出所有删除类命令
+   Get-Command -Verb Remove
+
+   # 找出所有与服务相关的命令
+   Get-Command -Noun Service
+
+   # 按名称通配符查找
+   Get-Command Get-*Item
+
+常用过滤参数如下：
 
 .. csv-table::
    :header: "参数", "作用", "示例"
@@ -21,35 +44,49 @@
    "-CommandType", "限定命令类型", "Get-Command -CommandType Function"
    "-Name", "支持通配符", "Get-Command Get-*Item"
 
+确认命令来源
+~~~~~~~~~~~~
+
+找到命令后，可以进一步确认它来自哪个模块、哪个版本：
+
 .. code-block:: powershell
 
-   # 找出所有“删除类”命令
-   Get-Command -Verb Remove
-
-   # 确认某个命令来自哪个模块、哪个版本
    Get-Command Start-ThreadJob | Format-List Name, CommandType, Source, Version
 
-   # 查看 PowerShell 官方动词表
-   Get-Verb
-
-动词和名词是 PowerShell 的“索引键”。记住 ``Get-Verb`` 和 ``Get-Command -Noun``，比背命令表有效得多。
-
-二、把帮助用透
---------------
-
-``Get-Help`` 的默认输出只是摘要，按需加上参数才能看到关键信息：
+如果不确定应该使用哪个动词，可以先查看内置动词表：
 
 .. code-block:: powershell
 
-   Get-Help Get-ChildItem -Parameter Filter   # 只看某个参数
-   Get-Help Get-ChildItem -Full               # 参数、输入输出、相关链接
-   Get-Help Get-ChildItem -Online             # 直接打开微软官方文档
+   Get-Verb
+
+二、查看帮助的常用方式
+----------------------
+
+``Get-Help`` 的默认输出是摘要信息，按需添加参数才能看到参数、示例和完整说明。
+
+查看参数说明
+~~~~~~~~~~~~
+
+.. code-block:: powershell
+
+   Get-Help Get-ChildItem -Parameter Filter
+   Get-Help Get-ChildItem -Full
+
+查看在线文档
+~~~~~~~~~~~~
+
+.. code-block:: powershell
+
+   Get-Help Get-ChildItem -Online
 
 .. note::
 
-   本地帮助需要 ``Update-Help`` 下载，而且部分模块不提供可更新帮助。``-Online`` 始终指向微软最新文档，排查版本差异时优先使用。
+   本地帮助需要通过 ``Update-Help`` 下载，而且部分模块不提供可更新帮助。``-Online`` 始终指向微软最新文档，排查版本差异时更为可靠。
 
-概念类内容用 ``about_`` 主题查，比搜索引擎更快也更准确：
+查看概念主题
+~~~~~~~~~~~~
+
+概念类内容以 ``about_`` 开头，适合系统了解语法与行为：
 
 .. code-block:: powershell
 
@@ -58,20 +95,20 @@
    Get-Help about_Parsing
    Get-Help about_*
 
-三、PSReadLine：让终端主动提示
------------------------------
+三、PSReadLine 与历史命令
+-------------------------
 
-PowerShell 7 默认加载 PSReadLine，它负责补全、预测和历史搜索：
+PowerShell 7 默认加载 PSReadLine，它负责命令补全、预测提示和历史搜索。
 
-.. csv-table::
-   :header: "按键", "功能"
+Tab 补全
+~~~~~~~~
 
-   "Tab / Shift + Tab", "循环补全命令、参数、路径"
-   "F2", "切换行内预测与列表预测"
-   "Ctrl + R", "反向增量搜索历史命令"
-   "Ctrl + S", "正向搜索历史命令"
+输入命令或参数时按 ``Tab`` 循环补全，``Shift + Tab`` 反向循环。输入 ``Get-Ch`` 后按 Tab，即可补出 ``Get-ChildItem``。
 
-查看并调整预测来源：
+预测式 IntelliSense
+~~~~~~~~~~~~~~~~~~~
+
+PSReadLine 会根据历史记录和内联预测给出完整命令，按 ``F2`` 可以在行内预测和列表预测之间切换。
 
 .. code-block:: powershell
 
@@ -80,26 +117,36 @@ PowerShell 7 默认加载 PSReadLine，它负责补全、预测和历史搜索�
    Set-PSReadLineOption -PredictionSource HistoryAndPlugin
    Set-PSReadLineOption -PredictionViewStyle InlineView
 
-.. tip::
+历史搜索
+~~~~~~~~
 
-   ``Ctrl + R`` 是找回长命令的最快方式。输入关键词即可匹配历史，不必记得完整语法。
+按 ``Ctrl + R`` 进入反向增量搜索，输入关键词即可找到以前执行过的命令；``Ctrl + S`` 用于正向搜索。
 
-四、别名：知道它，但别依赖它
-----------------------------
+四、别名与外部命令
+------------------
 
 .. code-block:: powershell
 
    Get-Alias
    Get-Alias -Definition Get-ChildItem
 
+外部程序同样可以通过 ``Get-Command`` 查询：
+
+.. code-block:: powershell
+
+   Get-Command pwsh
+
 .. warning::
 
-   别名只适合交互式输入。脚本里请写完整命令名，否则换一台机器或换一个配置文件就可能失效。
+   别名只适合交互式输入。脚本中应使用完整命令名，否则换一台机器或换一个配置文件就可能失效。
 
-五、给自己的脚本写帮助
-----------------------
+五、为脚本编写帮助
+------------------
 
-在脚本或函数开头放注释块，就能被 ``Get-Help`` 读取：
+在脚本或函数的开头放置注释块，就可以用 ``Get-Help`` 查看帮助。
+
+注释帮助的基本结构
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: powershell
 
@@ -120,24 +167,28 @@ PowerShell 7 默认加载 PSReadLine，它负责补全、预测和历史搜索�
        [string]$Target
    )
 
+查看生成的帮助：
+
 .. code-block:: powershell
 
    Get-Help .\Backup-Folder.ps1 -Full
 
 .. important::
 
-   脚本的注释帮助放在文件开头（``param`` 之前）或文件末尾；函数的注释帮助放在 ``function`` 关键字之前，或函数体内开头、末尾。中间夹着其他语句就读不到。
+   脚本的注释帮助放在文件开头（``param`` 之前）或文件末尾；函数的注释帮助放在 ``function`` 关键字之前，或函数体内开头、末尾。中间夹着其他语句时无法被识别。
 
 六、小结
 --------
 
 .. csv-table::
-   :header: "场景", "用什么"
+   :header: "场景", "常用做法"
 
    "只记得动词或名词", "Get-Command -Verb / -Noun"
    "确认命令来源与版本", "Get-Command | Format-List Source, Version"
-   "查参数细节", "Get-Help -Parameter / -Full"
-   "查最新官方说明", "Get-Help -Online"
-   "查语言概念", "Get-Help about_*"
+   "查看参数细节", "Get-Help -Parameter / -Full"
+   "查看最新官方说明", "Get-Help -Online"
+   "学习语言概念", "Get-Help about_*"
    "找回历史命令", "Ctrl + R"
-   "让别人会用你的脚本", "注释帮助 + Get-Help"
+   "让脚本自带帮助", "注释帮助 + Get-Help"
+
+掌握这套方法后，不必记住所有命令，也能在任意一台安装了 PowerShell 的机器上快速找到正确的工具和参数。

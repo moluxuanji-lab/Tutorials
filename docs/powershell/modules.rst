@@ -3,14 +3,24 @@ PowerShell 模块与包管理
 
 .. meta::
    :group: 工程化
-   :summary: 不再重复模块概念与导入命令，专注 PSResourceGet 包管理、版本锁定、清单文件与依赖声明。
+   :summary: 使用 PSResourceGet 管理模块依赖，掌握版本锁定、私有仓库、模块清单与依赖声明。
 
-模块是什么、如何 ``Import-Module``、如何查看已加载模块，这些内容已经在核心概念与脚本编写章节讲过。本章只处理工程化问题：**依赖从哪来、版本怎么锁、模块怎么打包、脚本怎么声明依赖**。
+模块是 PowerShell 组织函数、Cmdlet 与资源的基本单位，也是脚本走向工程化的第一步。PowerShell 7.6 内置 PSResourceGet，模块的安装、升级与版本锁定都有了统一入口。
 
-一、PSResourceGet：7.6 内置的包管理器
--------------------------------------
+本节将介绍以下内容：
 
-早期教程常用 ``Install-Module``（PowerShellGet v2）。PowerShell 7.6 内置的是 **PSResourceGet 1.2**，命令统一以 ``PSResource`` 命名：
+* 使用 PSResourceGet 搜索、安装和更新模块。
+* 锁定模块版本并配置私有仓库。
+* 使用清单文件组织模块并控制导出范围。
+* 在脚本中声明模块依赖。
+
+一、PSResourceGet 包管理
+------------------------
+
+PowerShell 7.6 内置的包管理模块是 **PSResourceGet 1.2**，命令统一以 ``PSResource`` 命名。它与 PowerShellGet 并存，旧脚本中的 ``Install-Module`` 仍可使用，但新脚本建议直接使用新命令。
+
+常用命令
+~~~~~~~~
 
 .. csv-table::
    :header: "任务", "命令"
@@ -24,7 +34,7 @@ PowerShell 模块与包管理
    "发布", "Publish-PSResource"
    "仓库管理", "Get-PSResourceRepository / Register-PSResourceRepository"
 
-常用操作：
+示例：
 
 .. code-block:: powershell
 
@@ -34,23 +44,29 @@ PowerShell 模块与包管理
    Update-PSResource Pester
    Uninstall-PSResource Pester
 
-.. note::
+仓库与信任设置
+~~~~~~~~~~~~~~
 
-   ``-TrustRepository`` 表示不再逐次确认。首次使用 PSGallery 时，也可以先执行 ``Set-PSResourceRepository -Name PSGallery -Trusted``，之后安装就不会反复提示。
+.. code-block:: powershell
+
+   Get-PSResourceRepository
+   Set-PSResourceRepository -Name PSGallery -Trusted
+
+``-TrustRepository`` 表示不再逐次确认。首次使用 PSGallery 时，也可以先将其标记为可信，之后安装就不会反复提示。
 
 二、版本锁定与私有仓库
 ----------------------
 
-生产环境最怕“模块一升级，脚本就坏”。安装时锁定版本或版本范围：
+生产环境需要避免“模块升级后脚本无法运行”的情况。安装时应锁定版本或版本范围：
 
 .. code-block:: powershell
 
    Install-PSResource -Name Pester -Version "5.7.1" -Scope CurrentUser
    Install-PSResource -Name Pester -Version "[5.0,6.0)" -Scope CurrentUser
 
-范围语法来自 NuGet：``[1.0,2.0)`` 表示包含 1.0、不包含 2.0。需要预览版时加 ``-Prerelease``。
+版本范围语法来自 NuGet，``[1.0,2.0)`` 表示包含 1.0、不包含 2.0。需要预览版时添加 ``-Prerelease``。
 
-企业内部通常搭建私有 NuGet 源，把审核过的模块放进去：
+企业内部通常搭建私有 NuGet 源，将审核过的模块集中管理：
 
 .. code-block:: powershell
 
@@ -60,12 +76,15 @@ PowerShell 模块与包管理
 
 .. warning::
 
-   不要在自动化脚本里无条件执行 ``Update-PSResource``。升级应作为一次独立变更，经过测试后再推送到运行环境。
+   自动化脚本中不应无条件执行 ``Update-PSResource``。升级应作为一次独立变更，经过测试后再推送到运行环境。
 
-三、清单文件与目录结构
+三、模块清单与目录结构
 ----------------------
 
-脚本编写章节已经演示过最小的 ``.psm1`` 模块。正式模块需要清单文件来声明版本、作者和导出范围：
+脚本模块通常由一个 ``.psm1`` 文件组成，正式模块还需要清单文件来声明版本、作者和导出范围。
+
+生成模块清单
+~~~~~~~~~~~~
 
 .. code-block:: powershell
 
@@ -78,7 +97,10 @@ PowerShell 模块与包管理
        -FunctionsToExport @("Get-DiskFree") `
        -PowerShellVersion "7.4"
 
-推荐的目录结构：
+组织公开与私有函数
+~~~~~~~~~~~~~~~~~~
+
+推荐的目录结构如下：
 
 .. code-block:: text
 
@@ -88,23 +110,23 @@ PowerShell 模块与包管理
      Public/          # 对外导出的函数
      Private/         # 内部辅助函数
 
-在 ``.psm1`` 中用 ``$PSScriptRoot`` 加载子目录文件，避免依赖当前工作目录：
+在 ``.psm1`` 中使用 ``$PSScriptRoot`` 加载子目录文件，避免依赖当前工作目录：
 
 .. code-block:: powershell
 
    Get-ChildItem "$PSScriptRoot\Private\*.ps1" | ForEach-Object { . $_.FullName }
    Get-ChildItem "$PSScriptRoot\Public\*.ps1"  | ForEach-Object { . $_.FullName }
 
-``FunctionsToExport`` 只列出公开函数，内部函数不会污染使用者的会话。
+``FunctionsToExport`` 只列出公开函数，内部函数不会出现在使用者的会话中。
 
 .. tip::
 
-   清单里的 ``ModuleVersion`` 与 ``FunctionsToExport`` 直接影响使用体验。发布前用 ``Test-ModuleManifest`` 检查清单是否完整。
+   清单中的 ``ModuleVersion`` 与 ``FunctionsToExport`` 会直接影响使用体验。发布前可使用 ``Test-ModuleManifest`` 检查清单是否完整。
 
-四、在脚本里声明依赖
+四、在脚本中声明依赖
 --------------------
 
-``#Requires`` 可以在运行前强制检查版本、模块和权限：
+``#Requires`` 可以在运行前检查 PowerShell 版本、模块和权限：
 
 .. code-block:: powershell
 
@@ -114,7 +136,7 @@ PowerShell 模块与包管理
 
 .. important::
 
-   ``#Requires`` 只做检查，**不负责安装**。部署时应配套一份依赖清单，或提供初始化脚本统一安装指定版本。
+   ``#Requires`` 只负责检查，不负责安装。部署时应配套依赖清单，或提供初始化脚本统一安装指定版本。
 
 需要确认模块来源是否可信时，可以检查数字签名：
 
@@ -128,7 +150,7 @@ PowerShell 模块与包管理
 
 .. note::
 
-   签名状态为 ``Valid`` 只说明文件未被篡改且来自该发布者，不代表代码一定安全。内部模块仍应经过代码审查。
+   签名状态为 ``Valid`` 说明文件未被篡改且来自该发布者，但不代表代码一定安全。内部模块仍应经过代码审查。
 
 五、小结
 --------
@@ -143,4 +165,4 @@ PowerShell 模块与包管理
    "依赖声明", "#Requires", "只检查，不安装"
    "来源校验", "Get-AuthenticodeSignature", "签名有效不等于代码安全"
 
-模块化的价值不只是复用代码，更是把“版本、依赖、发布”变成可管理的边界。个人函数库也应该有清单文件，习惯从第一天养成。
+模块化不仅是复用代码，更是把版本、依赖和发布范围管理起来。即使只是个人函数库，也建议从第一天就使用清单文件。

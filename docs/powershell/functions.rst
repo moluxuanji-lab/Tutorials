@@ -3,14 +3,21 @@ PowerShell 函数与脚本组织
 
 .. meta::
    :group: 工程化
-   :summary: 跳过函数定义基础，专注高级函数、参数验证、begin/process/end、ShouldProcess 与脚本结构。
+   :summary: 使用高级函数、参数验证、管道块与 ShouldProcess，把脚本组织成可靠、可复用的工具。
 
-基本语法和脚本编写章节已经讲过 ``function``、``param``、``return`` 和函数作用域。本章不再重复这些基础，而是讲**怎么把函数写成和内置 Cmdlet 一样可靠**。
+函数是 PowerShell 脚本的基本复用单元。在 ``function`` 与 ``param`` 的基础上加入 ``[CmdletBinding()]``，函数就能拥有与内置 Cmdlet 一致的参数绑定、管道输入和通用参数。
 
-一、[CmdletBinding()]：高级函数的开关
--------------------------------------
+本节将介绍以下内容：
 
-在函数体第一行加上 ``[CmdletBinding()]``，函数立刻获得通用参数与完整的参数绑定机制：
+* 高级函数与 ``[CmdletBinding()]`` 的作用。
+* 参数验证特性与参数集。
+* ``begin``、``process``、``end`` 块处理管道输入。
+* 输出流、``ShouldProcess``、脚本结构与参数补全。
+
+一、高级函数与 CmdletBinding
+----------------------------
+
+在函数体第一行加入 ``[CmdletBinding()]``，函数就会启用完整的参数绑定机制：
 
 .. code-block:: powershell
 
@@ -27,7 +34,7 @@ PowerShell 函数与脚本组织
                @{ n = "FreeGB"; e = { [math]::Round($_.Free / 1GB, 2) } }
    }
 
-与普通函数相比，多了这些能力：
+与普通函数相比，高级函数多了以下能力：
 
 .. csv-table::
    :header: "能力", "体现"
@@ -40,12 +47,12 @@ PowerShell 函数与脚本组织
 
 .. note::
 
-   高级函数不能再用 ``function Foo($a, $b) { }`` 的简写形式，参数必须写在 ``param()`` 块里。
+   高级函数不能使用 ``function Foo($a, $b) { }`` 的简写形式，参数必须写在 ``param()`` 块中。
 
-二、参数验证：把错误挡在函数外
-------------------------------
+二、参数验证与参数集
+--------------------
 
-绑定阶段就校验参数，比在函数体里写一堆 ``if`` 清晰得多：
+在参数绑定阶段校验输入，比在函数体中编写大量 ``if`` 更清晰：
 
 .. code-block:: powershell
 
@@ -67,7 +74,8 @@ PowerShell 函数与脚本组织
        Write-Verbose "将 $Service 切换到 $State"
    }
 
-常用验证特性：
+常用验证特性
+~~~~~~~~~~~~
 
 .. csv-table::
    :header: "特性", "作用"
@@ -79,7 +87,10 @@ PowerShell 函数与脚本组织
    "ValidateNotNullOrEmpty", "禁止空值与空字符串"
    "ValidateScript", "用脚本块自定义校验"
 
-参数还可以通过 ``ParameterSetName`` 分组，做出“同一函数两套用法”的效果：
+参数集
+~~~~~~
+
+通过 ``ParameterSetName`` 可以把参数分组，使同一个函数支持两套用法：
 
 .. code-block:: powershell
 
@@ -91,8 +102,10 @@ PowerShell 函数与脚本组织
        [int]$Id
    )
 
-三、begin / process / end：正确处理流式输入
--------------------------------------------
+三、begin、process 与 end
+-------------------------
+
+高级函数可以定义三个代码块，用于正确处理管道输入：
 
 .. code-block:: powershell
 
@@ -118,16 +131,16 @@ PowerShell 函数与脚本组织
 
    Get-Content .\app.log | Measure-LineCount
 
-执行顺序是：``begin`` 一次 → 每个管道元素执行一次 ``process`` → ``end`` 一次。需要累积状态时，变量必须在 ``begin`` 中初始化。
+执行顺序是：``begin`` 执行一次，每个管道元素执行一次 ``process``，最后执行一次 ``end``。需要在多个元素之间累积状态时，变量必须在 ``begin`` 中初始化。
 
 .. warning::
 
-   只写 ``param`` 和函数体、不写 ``process`` 时，管道输入只绑定一次，函数体相当于 ``end``。这是“管道看起来没生效”的最常见原因。
+   只写 ``param`` 和函数体、不写 ``process`` 时，管道输入只会绑定一次，函数体相当于 ``end``。这是管道输入看似未生效的常见原因。
 
-四、输出流：数据与提示要分开
-----------------------------
+四、输出流与返回类型
+--------------------
 
-PowerShell 函数里所有未被捕获的输出都会进入管道，因此要区分“数据”和“给人看的提示”：
+PowerShell 函数中所有未被捕获的输出都会进入管道，因此需要区分数据和提示信息：
 
 .. code-block:: powershell
 
@@ -154,15 +167,15 @@ PowerShell 函数里所有未被捕获的输出都会进入管道，因此要区
    "Write-Verbose", "否（详细流）", "调试信息，-Verbose 才显示"
    "Write-Warning", "否（警告流）", "可恢复的异常情况"
    "Write-Error", "否（错误流）", "非终止性错误"
-   "Write-Host", "否（信息流）", "纯展示，不应作为数据返回"
+   "Write-Host", "否（信息流）", "纯展示，不应用作数据输出"
    "Write-Information", "否（信息流）", "结构化提示，可被 -InformationAction 控制"
 
-需要精确控制输出对象时，使用 ``$PSCmdlet.WriteObject($value)``；``[OutputType()]`` 则是给使用者和工具看的声明，不会强制转换类型。
+需要精确控制输出对象时，可以使用 ``$PSCmdlet.WriteObject($value)``；``[OutputType()]`` 是给使用者和工具看的声明，不会强制转换类型。
 
-五、ShouldProcess：免费获得 -WhatIf
------------------------------------
+五、ShouldProcess 与确认操作
+----------------------------
 
-涉及修改的函数应实现 ``SupportsShouldProcess``：
+涉及修改的函数应实现 ``SupportsShouldProcess``，从而自动获得 ``-WhatIf`` 和 ``-Confirm``：
 
 .. code-block:: powershell
 
@@ -184,15 +197,17 @@ PowerShell 函数里所有未被捕获的输出都会进入管道，因此要区
        }
    }
 
+调用时可以安全预览或逐项确认：
+
 .. code-block:: powershell
 
-   Remove-OldLog -Path C:\Logs -Days 7 -WhatIf     # 只显示将要做什么
-   Remove-OldLog -Path C:\Logs -Days 7 -Confirm    # 逐项确认
+   Remove-OldLog -Path C:\Logs -Days 7 -WhatIf
+   Remove-OldLog -Path C:\Logs -Days 7 -Confirm
 
-六、脚本结构：让脚本可移植、可测试
-----------------------------------
+六、脚本结构与公共库
+--------------------
 
-推荐的单文件脚本骨架：
+推荐的单文件脚本结构如下：
 
 .. code-block:: powershell
 
@@ -212,19 +227,21 @@ PowerShell 函数里所有未被捕获的输出都会进入管道，因此要区
 
    Invoke-Main
 
-要点：
+要点如下：
 
 * ``$PSScriptRoot`` 指向脚本所在目录，不依赖调用者的当前目录。
-* 主逻辑封装成函数，脚本末尾只留一行调用，方便被测试代码点源加载。
-* 公共函数抽到 ``.psm1`` 模块中，用 ``Import-Module`` 引用；点源 ``. .\lib.ps1`` 只适合临时共享。
-* 写脚本时使用完整命令名，不要依赖交互式别名。
+* 主逻辑封装为函数，脚本末尾只保留一行调用，便于测试代码点源加载。
+* 公共函数应抽到 ``.psm1`` 模块中，使用 ``Import-Module`` 引用；点源 ``. .\lib.ps1`` 只适合临时共享。
+* 脚本中应使用完整命令名，不依赖交互式别名。
 
 .. tip::
 
-   ``Set-StrictMode -Version Latest`` 能让未定义变量、访问不存在的属性尽早报错。新脚本建议默认开启，老脚本可以逐步启用。
+   ``Set-StrictMode -Version Latest`` 能让未定义变量、访问不存在的属性尽早报错。新脚本建议默认开启。
 
-七、给参数加补全
-----------------
+七、参数补全
+------------
+
+自定义补全可以让函数用起来更接近内置命令：
 
 .. code-block:: powershell
 
@@ -241,7 +258,7 @@ PowerShell 函数里所有未被捕获的输出都会进入管道，因此要区
        "连接到 $Environment"
    }
 
-PowerShell 7.6 的 ``Register-ArgumentCompleter`` 新增 ``-NativeFallback``，可以让原生命令的补全器在文件补全回退机制下依然生效。
+PowerShell 7.6 的 ``Register-ArgumentCompleter`` 新增 ``-NativeFallback``，可以为原生命令注册兜底补全器。
 
 八、小结
 --------
@@ -253,8 +270,8 @@ PowerShell 7.6 的 ``Register-ArgumentCompleter`` 新增 ``-NativeFallback``，�
    "参数校验", "ValidateSet / ValidateRange", "非法输入提前失败"
    "流式处理", "begin / process / end", "正确消费管道输入"
    "输出分层", "Write-Verbose / Write-Warning", "数据不被提示污染"
-   "安全变更", "SupportsShouldProcess", "免费获得 -WhatIf / -Confirm"
+   "安全变更", "SupportsShouldProcess", "自动获得 -WhatIf / -Confirm"
    "脚本骨架", "$PSScriptRoot + 主函数", "可移植、可测试"
    "参数补全", "ArgumentCompleter", "提升使用体验"
 
-判断函数写得好不好，标准很简单：别人不看实现，也能从参数和帮助里正确使用它。
+函数写得好不好，标准很简单：使用者不看实现，也能从参数和帮助中正确调用它。
