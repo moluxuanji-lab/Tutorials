@@ -85,6 +85,28 @@ PowerShell 提供了一种统一的资源访问方式：**Provider 模型**，�
    "Variable", "Variable:", "当前定义的变量"
    "Alias", "Alias:", "命令别名"
 
+查看当前加载的 Provider 与驱动器
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+用 ``Get-PSProvider`` 查看当前会话中已加载的 Provider：
+
+.. code-block:: powershell
+
+   Get-PSProvider
+
+输出中的 ``Name`` 是 Provider 名称，``Drives`` 列出该 Provider 已挂载的驱动器。如果某个 Provider 的 ``Drives`` 为空，说明它当前没有挂载任何资源。
+
+用 ``Get-PSDrive`` 查看当前会话中的驱动器：
+
+.. code-block:: powershell
+
+   Get-PSDrive
+
+   # 只看文件系统驱动器及其占用情况
+   Get-PSDrive -PSProvider FileSystem
+
+``Get-PSDrive`` 返回的对象包含 ``Name``、``Root``、``Used``、``Free`` 等属性，可以直接用来检查磁盘剩余空间；``Get-PSDrive -Name C`` 则用于查看单个驱动器。
+
 示例：操作注册表
 ~~~~~~~~~~~~~~~~
 
