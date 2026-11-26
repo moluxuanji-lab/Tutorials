@@ -107,6 +107,33 @@ PowerShell 提供了一种统一的资源访问方式：**Provider 模型**，�
 
 ``Get-PSDrive`` 返回的对象包含 ``Name``、``Root``、``Used``、``Free`` 等属性，可以直接用来检查磁盘剩余空间；``Get-PSDrive -Name C`` 则用于查看单个驱动器。
 
+创建自定义驱动器
+~~~~~~~~~~~~~~~~
+
+用 ``New-PSDrive`` 可以把一个路径映射成新的驱动器名：
+
+.. code-block:: powershell
+
+   New-PSDrive -Name Docs -PSProvider FileSystem -Root "C:\Users\Public\Documents"
+
+   Get-ChildItem Docs:\
+
+创建后就能像普通盘符一样访问 ``Docs:\``。默认情况下，驱动器只在当前作用域可见；加上 ``-Scope Global`` 可让当前会话中的所有作用域访问它，但 PowerShell 进程结束后仍会消失。
+
+不再需要时可以删除：
+
+.. code-block:: powershell
+
+   Remove-PSDrive -Name Docs
+
+在 Windows 上映射网络共享时，可以使用 ``-Persist`` 让驱动器在重启后保留：
+
+.. code-block:: powershell
+
+   New-PSDrive -Name Share -PSProvider FileSystem -Root "\\server\share" -Persist -Credential (Get-Credential)
+
+``-Persist`` 只支持 Windows，且必须配合 UNC 路径使用。
+
 示例：操作注册表
 ~~~~~~~~~~~~~~~~
 
