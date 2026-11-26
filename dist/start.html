@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PowerShell 入门指南 · PowerShell 教程</title>
+<meta name="description" content="从打开 PowerShell 到理解 UAC、查看版本、配置执行策略，完成第一次上手。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="start">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="index.html" aria-label="PowerShell 教程首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">PowerShell<span class="brand-sub">教程</span></span><span class="brand-badge">v7.4</span></a><nav class="header-nav"><a href="tutorial.html">入门</a><a href="core.html">核心概念</a><a href="filesystem.html">常用操作</a><a href="practice.html">实战</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">PowerShell 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">PowerShell 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">PowerShell 安装</span></a></li><li><a class="side-link is-active" href="start.html"><span class="side-num">04</span><span class="side-text">PowerShell 入门指南</span></a></li></ul></div><div class="side-group"><p class="side-label">核心概念</p><ul class="side-list"><li><a class="side-link" href="core.html"><span class="side-num">05</span><span class="side-text">PowerShell 核心概念</span></a></li><li><a class="side-link" href="object.html"><span class="side-num">06</span><span class="side-text">PowerShell 面向对象的命令行</span></a></li><li><a class="side-link" href="cmdlet.html"><span class="side-num">07</span><span class="side-text">PowerShell Cmdlet 基础</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">08</span><span class="side-text">PowerShell 基本语法</span></a></li></ul></div><div class="side-group"><p class="side-label">常用操作</p><ul class="side-list"><li><a class="side-link" href="filesystem.html"><span class="side-num">09</span><span class="side-text">Cmdlet 文件系统操作</span></a></li><li><a class="side-link" href="processes.html"><span class="side-num">10</span><span class="side-text">Cmdlet 进程和服务管理</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">11</span><span class="side-text">Cmdlet 网络与系统管理</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="pipeline.html"><span class="side-num">12</span><span class="side-text">PowerShell 管道和过滤</span></a></li><li><a class="side-link" href="variables.html"><span class="side-num">13</span><span class="side-text">PowerShell 变量和作用域</span></a></li><li><a class="side-link" href="control.html"><span class="side-num">14</span><span class="side-text">PowerShell 控制结构</span></a></li><li><a class="side-link" href="script.html"><span class="side-num">15</span><span class="side-text">PowerShell 脚本编写</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">16</span><span class="side-text">PowerShell 实际应用</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="index.html">教程</a><span>/</span><span>入门</span></nav><h1 class="doc-title">PowerShell 入门指南</h1><p class="doc-lead">从打开 PowerShell 到理解 UAC、查看版本、配置执行策略，完成第一次上手。</p><div class="doc-meta"><span>第 04 章</span><span class="doc-meta__dot"></span><span>约 11 分钟</span><span class="doc-meta__dot"></span><span>共 16 章</span></div><div class="doc-body">
+<p>PowerShell 是微软为 Windows 系统打造的一种命令行壳程序 + 脚本环境，主要用于系统管理与自动化任务。</p>
+<p>在 <strong>Windows 11</strong> 中，直接在开始菜单搜索 PowerShell 即可。</p>
+<p>常见的快捷方式包括（以 64 位系统为例）：</p>
+<div class="table-wrap"><table><caption>快捷方式说明</caption><thead><tr><th>快捷方式名称</th><th>说明</th></tr></thead><tbody><tr><td>Windows PowerShell</td><td>64 位命令行版</td></tr><tr><td>Windows PowerShell ISE</td><td>64 位图形脚本编辑器</td></tr><tr><td>Windows PowerShell (x86)</td><td>32 位命令行版</td></tr><tr><td>Windows PowerShell ISE (x86)</td><td>32 位图形脚本编辑器</td></tr></tbody></table></div>
+<div class="admonition admonition--note"><div class="admonition__icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></div><div class="admonition__body"><p class="admonition__title">说明</p><p>Windows 11 本身不支持 32 位系统，但仍包含 x86 的 PowerShell 版本以兼容旧程序。</p></div></div>
+<h2 id="sec-1" class="doc-heading">启动 PowerShell 的方法</h2>
+<p>单击 Windows PowerShell 快捷方式启动 PowerShell 控制台，标题栏会显示 “Windows PowerShell”。</p>
+<div class="admonition admonition--warning"><div class="admonition__icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10.3 4.3 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0Z"/><path d="M12 10v4M12 17h.01"/></svg></div><div class="admonition__body"><p class="admonition__title">注意</p><p>某些命令在以普通用户身份运行 PowerShell 时可以正常运行，但 PowerShell 本身不参与用户访问控制（UAC），无法主动提示用户提升权限。</p></div></div>
+<h2 id="sec-2" class="doc-heading">用户访问控制（UAC）说明</h2>
+<p><strong>UAC 作用：</strong> Windows 安全功能，防止恶意代码以提升权限运行。</p>
+<p><strong>普通用户权限限制：</strong> 当以普通用户身份运行时，尝试执行需要管理员权限的命令会报错。</p>
+<p>例如停止 Windows 服务：</p>
+<figure class="codeblock" data-lang="powershell"><div class="codeblock__bar"><span class="codeblock__lang">PowerShell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-powershell"><span class="tok-cmdlet">Stop-Service</span> <span class="tok-param">-Name</span> W32Time</code></pre></figure>
+<p>报错信息示例：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Stop-Service : Service 'Windows Time (W32Time)' cannot be stopped due to
+the following error: Cannot open W32Time service on computer '.'.
+At line:1 char:1
++ Stop-Service -Name W32Time
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : CloseError: (System.ServiceProcess.ServiceCon
+   troller:ServiceController) [Stop-Service], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotStopService,Microsoft.PowerShell.Comm
+   ands.StopServiceCommand</code></pre></figure>
+<p><strong>解决方案：</strong> 需要使用提升为本地管理员权限的用户运行 PowerShell。</p>
+<p>配置了第二个域用户帐户时，符合最小权限原则：该账户不是域管理员，且无域内提升权限。</p>
+<p>操作步骤：</p>
+<ul><li><p>右键点击 Windows PowerShell 快捷方式。</p></li><li><p>选择“以管理员身份运行”。</p></li><li><p>由于当前以普通用户登录，Windows 会提示输入本地管理员用户凭据。</p></li><li><p>提升后的 PowerShell 窗口标题栏会显示“管理员：Windows PowerShell”。</p></li></ul>
+<p><strong>效果：</strong> 在提升的 PowerShell 中运行需要管理员权限的命令，不再遇到 UAC 错误。</p>
+<p><strong>权限提升原则：</strong> 只有在绝对必要时才应以管理员身份提升 PowerShell。</p>
+<p><strong>远程计算机：</strong> 面向远程计算机时，无需提升 PowerShell 权限。提升权限只影响本地命令。</p>
+<p><strong>固定快捷方式：</strong> 可将 PowerShell 或 Windows 终端快捷方式固定到任务栏，方便启动。</p>
+<p><strong>安全启动提升的 PowerShell：</strong> 按住 Shift 键，同时右键点击任务栏上固定的 PowerShell 图标，选择“以管理员身份运行”。</p>
+<h2 id="sec-3" class="doc-heading">确定 PowerShell 版本</h2>
+<p>PowerShell 提供自动变量 <code>$PSVersionTable</code>，包含当前 PowerShell 会话的版本和相关信息。</p>
+<figure class="codeblock" data-lang="powershell"><div class="codeblock__bar"><span class="codeblock__lang">PowerShell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-powershell"><span class="tok-var">$PSVersionTable</span></code></pre></figure>
+<p>输出结果类似如下：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Name                           Value
+----                           -----
+PSVersion                      5.1.22621.2428
+PSEdition                      Desktop
+PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0...}
+BuildVersion                   10.0.22621.2428
+CLRVersion                     4.0.30319.42000
+WSManStackVersion              3.0
+PSRemotingProtocolVersion      2.3
+SerializationVersion           1.1.0.1</code></pre></figure>
+<p>版本说明：</p>
+<ul><li><p>Windows PowerShell 5.1 预装于当前支持的 Windows 版本中，是推荐使用的版本。</p></li><li><p>PowerShell 7（跨平台版）并非 Windows PowerShell 5.1 的替代品，而是与之并行安装的不同产品。</p></li><li><p>PowerShell 6（也称 PowerShell Core）已不再受支持。</p></li></ul>
+<h2 id="sec-4" class="doc-heading">理解执行策略（Execution Policy）</h2>
+<p>执行策略是 PowerShell 的安全功能，用于控制脚本运行条件，防止无意执行恶意脚本。</p>
+<div class="admonition admonition--note"><div class="admonition__icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></div><div class="admonition__body"><p class="admonition__title">说明</p><p>执行策略不是安全边界，熟练用户可绕过。</p></div></div>
+<h3 id="sec-5" class="doc-heading">执行策略的作用范围</h3>
+<ul><li><p>可以针对本地计算机（LocalMachine）、当前用户（CurrentUser）或当前会话（Process）设置。</p></li><li><p>也可通过组策略管理用户和计算机的执行策略。</p></li></ul>
+<h3 id="sec-6" class="doc-heading">常见 Windows 默认执行策略</h3>
+<div class="table-wrap"><table><thead><tr><th>操作系统版本</th><th>默认执行策略</th></tr></thead><tbody><tr><td>Windows Server 2022</td><td>RemoteSigned</td></tr><tr><td>Windows Server 2019</td><td>RemoteSigned</td></tr><tr><td>Windows Server 2016</td><td>RemoteSigned</td></tr><tr><td>Windows 11</td><td>Restricted</td></tr><tr><td>Windows 10</td><td>Restricted</td></tr></tbody></table></div>
+<p><code>Restricted</code> 表示默认不允许执行任何脚本。</p>
+<h3 id="sec-7" class="doc-heading">查询当前执行策略</h3>
+<figure class="codeblock" data-lang="powershell"><div class="codeblock__bar"><span class="codeblock__lang">PowerShell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-powershell"><span class="tok-cmdlet">Get-ExecutionPolicy</span></code></pre></figure>
+<p>输出结果类似如下：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Restricted</code></pre></figure>
+<p>列出所有范围的执行策略设置：</p>
+<figure class="codeblock" data-lang="powershell"><div class="codeblock__bar"><span class="codeblock__lang">PowerShell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-powershell"><span class="tok-cmdlet">Get-ExecutionPolicy</span> <span class="tok-param">-List</span></code></pre></figure>
+<p>输出类似如下：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Scope ExecutionPolicy
+        ----- ---------------
+MachinePolicy       Undefined
+   UserPolicy       Undefined
+      Process       Undefined
+  CurrentUser       Undefined
+ LocalMachine       Undefined</code></pre></figure>
+<h3 id="sec-8" class="doc-heading">执行策略对脚本运行的影响</h3>
+<p>假设有脚本文件 <code>Get-TimeService.ps1</code>，直接在交互式命令行运行该命令正常：</p>
+<figure class="codeblock" data-lang="powershell"><div class="codeblock__bar"><span class="codeblock__lang">PowerShell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-powershell"><span class="tok-cmdlet">Get-Service</span> <span class="tok-param">-Name</span> W32Time</code></pre></figure>
+<p>但是，从脚本中运行相同的命令时，PowerShell 将返回错误：</p>
+<figure class="codeblock" data-lang="powershell"><div class="codeblock__bar"><span class="codeblock__lang">PowerShell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-powershell">.\<span class="tok-cmdlet">Get-TimeService</span>.ps1</code></pre></figure>
+<p>错误信息：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">.\Get-TimeService.ps1 : File C:\tmp\Get-TimeService.ps1 cannot be loaded
+because running scripts is disabled on this system. For more information,
+see about_Execution_Policies at
+https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ .\Get-TimeService.ps1
++ ~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess</code></pre></figure>
+<h3 id="sec-9" class="doc-heading">修改执行策略</h3>
+<p>设置为 RemoteSigned（推荐），允许运行本地脚本和受信任发布者签名的远程脚本：</p>
+<figure class="codeblock" data-lang="powershell"><div class="codeblock__bar"><span class="codeblock__lang">PowerShell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-powershell"><span class="tok-cmdlet">Set-ExecutionPolicy</span> <span class="tok-param">-ExecutionPolicy</span> RemoteSigned</code></pre></figure>
+<ul><li><p>必须以管理员身份运行 PowerShell 才能更改本地计算机（LocalMachine）的执行策略。</p></li><li><p>更改时会有确认提示：<code>Do you want to change the execution policy? [Y] Yes  [A] Yes to All ...</code></p></li></ul>
+<p>仅修改当前用户的执行策略（无需管理员权限）：</p>
+<figure class="codeblock" data-lang="powershell"><div class="codeblock__bar"><span class="codeblock__lang">PowerShell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-powershell"><span class="tok-cmdlet">Set-ExecutionPolicy</span> <span class="tok-param">-ExecutionPolicy</span> RemoteSigned <span class="tok-param">-Scope</span> CurrentUser</code></pre></figure>
+<h3 id="sec-10" class="doc-heading">常见错误提示及解决</h3>
+<p>未提升管理员权限修改 LocalMachine 策略时错误：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Access to the registry key 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell' is denied.</code></pre></figure>
+<p><strong>解决方案</strong>：以管理员身份运行 PowerShell 后重试，或只修改当前用户策略。</p>
+<h3 id="sec-11" class="doc-heading">修改后验证</h3>
+<p>执行策略修改为 <code>RemoteSigned</code> 后，运行脚本：</p>
+<figure class="codeblock" data-lang="powershell"><div class="codeblock__bar"><span class="codeblock__lang">PowerShell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-powershell">.\<span class="tok-cmdlet">Get-TimeService</span>.ps1</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Status   Name    DisplayName
+------   ----    -----------
+Running  W32Time Windows Time</code></pre></figure>
+<h2 id="sec-12" class="doc-heading">注意事项</h2>
+<ul><li><p>脚本是纯文本文件，扩展名为 <code>.ps1</code>。</p></li><li><p>推荐使用 <a href="https://www.runoob.com/vscode/vscode-tutorial.html" target="_blank" rel="noopener">Visual Studio Code</a> 或文本编辑器编写脚本。</p></li><li><p>在修改执行策略前，请阅读官方文档 <code>about_Execution_Policies</code> 了解相关安全风险。</p></li></ul></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="install.html"><span class="pager-dir">← 上一章</span><span class="pager-title">PowerShell 安装</span></a><a class="pager-link pager-link--next" href="core.html"><span class="pager-dir">下一章 →</span><span class="pager-title">PowerShell 核心概念</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>PowerShell 教程</div><p class="site-footer__note">内容整理自菜鸟教程 PowerShell 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="index.html">首页</a><a href="tutorial.html">开始学习</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">启动 PowerShell 的方法</a><a class="toc-link toc-link--h2" href="#sec-2">用户访问控制（UAC）说明</a><a class="toc-link toc-link--h2" href="#sec-3">确定 PowerShell 版本</a><a class="toc-link toc-link--h2" href="#sec-4">理解执行策略（Execution Policy）</a><a class="toc-link toc-link--h3" href="#sec-5">执行策略的作用范围</a><a class="toc-link toc-link--h3" href="#sec-6">常见 Windows 默认执行策略</a><a class="toc-link toc-link--h3" href="#sec-7">查询当前执行策略</a><a class="toc-link toc-link--h3" href="#sec-8">执行策略对脚本运行的影响</a><a class="toc-link toc-link--h3" href="#sec-9">修改执行策略</a><a class="toc-link toc-link--h3" href="#sec-10">常见错误提示及解决</a><a class="toc-link toc-link--h3" href="#sec-11">修改后验证</a><a class="toc-link toc-link--h2" href="#sec-12">注意事项</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 Get-Process" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “管道” 、 “作用域” 或 “Get-Service”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">PowerShell 教程</span></div></div></div>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
