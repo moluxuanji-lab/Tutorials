@@ -120,21 +120,34 @@ PowerShell 提供了一种统一的资源访问方式：**Provider 模型**，�
 
 创建后就能像普通盘符一样访问 ``Docs:\``。默认情况下，驱动器只在当前作用域可见；加上 ``-Scope Global`` 可让当前会话中的所有作用域访问它，但 PowerShell 进程结束后仍会消失。
 
-不再需要时可以删除：
+在 Windows 上映射网络共享时，可以使用 ``-Persist`` 让驱动器在重启后保留。下面以本机管理共享 ``C$`` 为例，把 ``127.0.0.1`` 换成实际服务器地址即可映射远程共享：
+
+.. code-block:: powershell
+
+   New-PSDrive -Name X -PSProvider FileSystem -Root "\\127.0.0.1\C$" -Persist -Credential (Get-Credential)
+
+``C$`` 指向本机系统盘，需要开启“文件和打印机共享”；凭据中的用户名填写 ``计算机名\用户名``。只做本机临时验证时，可以去掉 ``-Persist`` 和 ``-Credential``，直接映射 ``\\127.0.0.1\C$``。
+
+``-Persist`` 只支持 Windows，``-Root`` 必须是 UNC 路径，驱动器名也必须是单个字母（例如 ``X``）。
+
+删除驱动器
+~~~~~~~~~~
+
+临时创建的驱动器可以直接删除，删除后不再出现在 ``Get-PSDrive`` 的结果中：
 
 .. code-block:: powershell
 
    Remove-PSDrive -Name Docs
 
-在 Windows 上映射网络共享时，可以使用 ``-Persist`` 让驱动器在重启后保留。下面以本机管理共享 ``C$`` 为例，把 ``127.0.0.1`` 换成实际服务器地址即可映射远程共享：
+   Get-PSDrive
+
+用 ``-Persist`` 创建的网络驱动器同样可以删除：
 
 .. code-block:: powershell
 
-   New-PSDrive -Name Share -PSProvider FileSystem -Root "\\127.0.0.1\C$" -Persist -Credential (Get-Credential)
+   Remove-PSDrive -Name X
 
-``C$`` 指向本机系统盘，需要开启“文件和打印机共享”；凭据中的用户名填写 ``计算机名\用户名``。只做本机临时验证时，可以去掉 ``-Persist`` 和 ``-Credential``，直接映射 ``\\127.0.0.1\C$``。
-
-``-Persist`` 只支持 Windows，且 ``-Root`` 必须是 UNC 路径。
+如果 Windows 资源管理器中仍保留该映射，可以再用 ``net use X: /delete`` 清理。
 
 示例：操作注册表
 ~~~~~~~~~~~~~~~~
