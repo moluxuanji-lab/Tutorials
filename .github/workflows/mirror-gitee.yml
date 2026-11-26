@@ -29,6 +29,6 @@ jobs:
             echo "::error::未配置 GITEE_TOKEN。请在仓库 Settings → Secrets and variables → Actions 中添加 Gitee 私人令牌后重新运行。"
             exit 1
           fi
-          git remote add gitee "https://oauth2:${GITEE_TOKEN}@gitee.com/jingjingpeng/powershell-tutorial.git"
+          git remote add gitee "https://oauth2:${GITEE_TOKEN}@gitee.com/jingjingpeng/Tutorials.git"
           git push --force gitee "HEAD:refs/heads/master"
           git push --force gitee --tags
