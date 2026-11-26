@@ -149,14 +149,114 @@ PowerShell 提供了一种统一的资源访问方式：**Provider 模型**，�
 
 如果 Windows 资源管理器中仍保留该映射，可以再用 ``net use X: /delete`` 清理。
 
-示例：操作注册表
-~~~~~~~~~~~~~~~~
+操作注册表
+~~~~~~~~~~
+
+注册表在 PowerShell 中通过 Registry Provider 暴露为 ``HKLM:`` 和 ``HKCU:`` 两个驱动器。注册表中的“键”相当于文件夹，“值”相当于文件属性，因此可以直接使用 ``Get-ChildItem``、``Get-ItemProperty``、``New-Item`` 等命令操作。
+
+Registry Provider 只在 Windows 上可用，Linux 和 macOS 上没有这两个驱动器。
+
+.. csv-table:: 两个默认注册表驱动器
+   :header: "驱动器", "对应根键", "范围"
+
+   "HKCU:", "HKEY_CURRENT_USER", "当前用户，普通权限即可写入"
+   "HKLM:", "HKEY_LOCAL_MACHINE", "本机所有用户，写入通常需要管理员权限"
+
+**浏览键**
 
 .. code-block:: powershell
 
-   Get-ChildItem HKLM:\Software\Microsoft
+   # 查看当前用户的软件注册表项
+   Get-ChildItem HKCU:\Software
 
-就像浏览文件夹一样浏览注册表。
+   # 只向下展开一层，避免递归过多
+   Get-ChildItem HKCU:\Software\Microsoft\Windows\CurrentVersion -Depth 1
+
+   # 查看某个键本身
+   Get-Item "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer"
+
+``Get-ChildItem`` 返回的是子键；键中的值要用 ``Get-ItemProperty`` 读取。
+
+**读取值**
+
+.. code-block:: powershell
+
+   Get-ItemProperty "HKCU:\Control Panel\Desktop"
+
+   # 只读取一个值
+   Get-ItemPropertyValue -Path "HKCU:\Control Panel\Desktop" -Name Wallpaper
+
+   # 列出该键下所有值的名称
+   (Get-Item "HKCU:\Control Panel\Desktop").Property
+
+``Get-ItemProperty`` 的输出会附带 ``PSPath``、``PSParentPath``、``PSChildName`` 等属性，这些是 PowerShell 添加的元数据，不是注册表值。
+
+**创建键和值**
+
+下面在 ``HKCU:\Software`` 下创建一个练习用的键，避免修改系统设置：
+
+.. code-block:: powershell
+
+   New-Item -Path HKCU:\Software\TutorialsDemo -Force
+
+   New-ItemProperty -Path HKCU:\Software\TutorialsDemo -Name Editor -Value "VS Code" -PropertyType String
+
+   New-ItemProperty -Path HKCU:\Software\TutorialsDemo -Name Timeout -Value 30 -PropertyType DWord
+
+   Get-ItemProperty HKCU:\Software\TutorialsDemo
+
+``New-ItemProperty`` 用于新建值；如果值已经存在，需要改用 ``Set-ItemProperty``：
+
+.. code-block:: powershell
+
+   Set-ItemProperty -Path HKCU:\Software\TutorialsDemo -Name Editor -Value "PowerShell"
+
+**值类型**
+
+.. csv-table:: 常见注册表值类型
+   :header: "类型", "用途", "示例值"
+
+   "String", "普通字符串", "VS Code"
+   "ExpandString", "包含环境变量的字符串", "%SystemRoot%\System32"
+   "DWord", "32 位整数", "30"
+   "QWord", "64 位整数", "3000000000"
+   "MultiString", "字符串数组", "C:\Tools, D:\Tools"
+   "Binary", "二进制数据", "0x01,0x02"
+
+创建值时要让 ``-PropertyType`` 与数据类型匹配，否则读取时可能得到意外的格式。
+
+**删除键和值**
+
+.. code-block:: powershell
+
+   Remove-ItemProperty -Path HKCU:\Software\TutorialsDemo -Name Timeout
+
+   Remove-Item -Path HKCU:\Software\TutorialsDemo -Recurse
+
+修改前先导出备份：
+
+.. code-block:: powershell
+
+   reg export "HKCU\Software\TutorialsDemo" "$env:TEMP\TutorialsDemo.reg"
+
+需要恢复时执行 ``reg import "$env:TEMP\TutorialsDemo.reg"``。
+
+.. warning::
+
+   注册表删除不会进入回收站，也不要在 ``HKLM:`` 下随意删除键。
+
+**权限与视图**
+
+* ``HKCU:`` 只影响当前用户，普通权限即可写入。
+* ``HKLM:`` 影响所有用户，写入或删除前应以管理员身份运行 PowerShell。
+* 32 位与 64 位 PowerShell 看到的注册表视图可能不同；如果值明明存在却读不到，先确认当前进程的位数。
+* ``HKCR:`` 默认没有挂载，可以手动创建：
+
+.. code-block:: powershell
+
+   New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT
+
+   Get-ChildItem HKCR:\
 
 四、脚本与模块：组织与复用
 --------------------------
