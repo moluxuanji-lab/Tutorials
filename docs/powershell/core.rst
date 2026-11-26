@@ -126,13 +126,15 @@ PowerShell 提供了一种统一的资源访问方式：**Provider 模型**，�
 
    Remove-PSDrive -Name Docs
 
-在 Windows 上映射网络共享时，可以使用 ``-Persist`` 让驱动器在重启后保留：
+在 Windows 上映射网络共享时，可以使用 ``-Persist`` 让驱动器在重启后保留。下面以本机管理共享 ``C$`` 为例，把 ``127.0.0.1`` 换成实际服务器地址即可映射远程共享：
 
 .. code-block:: powershell
 
-   New-PSDrive -Name Share -PSProvider FileSystem -Root "\\server\share" -Persist -Credential (Get-Credential)
+   New-PSDrive -Name Share -PSProvider FileSystem -Root "\\127.0.0.1\C$" -Persist -Credential (Get-Credential)
 
-``-Persist`` 只支持 Windows，且必须配合 UNC 路径使用。
+``C$`` 指向本机系统盘，需要开启“文件和打印机共享”；凭据中的用户名填写 ``计算机名\用户名``。只做本机临时验证时，可以去掉 ``-Persist`` 和 ``-Credential``，直接映射 ``\\127.0.0.1\C$``。
+
+``-Persist`` 只支持 Windows，且 ``-Root`` 必须是 UNC 路径。
 
 示例：操作注册表
 ~~~~~~~~~~~~~~~~
