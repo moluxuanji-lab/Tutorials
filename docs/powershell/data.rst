@@ -187,19 +187,46 @@ CliXml 是 PowerShell 的序列化格式，能够保留类型信息，适合在�
 
    $data | ConvertTo-Json -Depth 6 | Set-Content .\result.json -Encoding utf8NoBOM
 
-六、小结
---------
+六、练习任务
+------------
 
-.. csv-table::
-   :header: "主题", "关键点"
+任务 1：把嵌套对象导出为 JSON
 
-   "JSON 序列化", "显式指定 -Depth，避免嵌套被压平"
-   "JSON 反序列化", "-AsHashtable / -NoEnumerate / -DateKind"
-   "CSV", "编码、分隔符与 #TYPE 头"
-   "XML", "[xml] 转换后按节点或 XPath 访问"
-   "CliXml", "保留类型，但只处理可信文件"
-   "REST", "请求体、认证头、分页与状态码"
-   "重试", "有限次数、指数退避、最终抛出"
-   "保存结果", "JSON/CSV + 明确编码"
+.. code-block:: powershell
 
-格式转换的关键不是记住命令，而是记住每个格式的默认行为。把 JSON 的深度、CSV 的编码和 CliXml 的信任边界显式写出来，脚本就会更加稳定。
+   $data = [PSCustomObject]@{
+       Name = "Server01"
+       Disk = [PSCustomObject]@{ Free = 120; Total = 500 }
+   }
+
+   $data | ConvertTo-Json -Depth 3
+
+任务 2：导出进程信息为 CSV 并重新统计
+
+.. code-block:: powershell
+
+   Get-Process |
+       Select-Object -First 10 Name, Id, CPU |
+       Export-Csv .\processes.csv -Encoding utf8BOM
+
+   Import-Csv .\processes.csv |
+       Sort-Object CPU -Descending |
+       Select-Object -First 3
+
+任务 3：循环读取分页接口
+
+.. code-block:: powershell
+
+   $page = 1
+   do {
+       $batch = Invoke-RestMethod "https://api.example.com/items?page=$page&size=100"
+       $batch.items
+       $page++
+   } while ($batch.items.Count -eq 100)
+
+任务 4：读取 XML 配置文件中的键值
+
+.. code-block:: powershell
+
+   [xml]$doc = Get-Content .\app.config -Raw
+   $doc.configuration.appSettings.add | Select-Object key, value

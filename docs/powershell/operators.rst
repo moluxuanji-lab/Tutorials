@@ -189,18 +189,33 @@ PowerShell 7 提供了空值合并与空条件访问运算符，可以减少防�
 
    调用路径带空格的可执行文件时，应使用 ``& "C:\Program Files\App\app.exe"``，而不是直接书写路径。
 
-八、小结
---------
+八、练习任务
+------------
 
-.. csv-table::
-   :header: "类别", "关键运算符", "说明"
+任务 1：判断集合中是否包含指定元素
 
-   "比较", "-ceq / -ieq / -contains / -in", "注意大小写前缀与集合方向"
-   "正则", "-match / -replace / -split", "$Matches 与捕获组引用"
-   "格式化", "-f / -join", "数字与日期格式串"
-   "类型", "-is / -as", "安全转换与严格转换"
-   "空值", "?? / ??= / ?. / ?[]", "仅在对象为 null 时短路"
-   "分支", "? : / && / ||", "表达式与命令链"
-   "调用", "& / . / --%", "动态执行与参数透传"
+.. code-block:: powershell
 
-比较与正则运算符是日常脚本中使用频率最高的部分，建议先熟练掌握，再逐步引入 PowerShell 7 的空值与管道链语法。
+   $os = "Windows", "Linux", "macOS"
+   $os -contains "Linux"
+   "macOS" -in $os
+
+任务 2：使用正则重新排列日期格式
+
+.. code-block:: powershell
+
+   "2026-11-26" -replace "(\d{4})-(\d{2})-(\d{2})", '$3/$2/$1'
+
+任务 3：使用空值运算符设置默认端口
+
+.. code-block:: powershell
+
+   $config = @{}
+   $port = $config.Port ?? 8080
+   $port -gt 1024 ? "高位端口" : "系统端口"
+
+任务 4：仅当文件存在时读取最后几行
+
+.. code-block:: powershell
+
+   Test-Path .\app.log && Get-Content .\app.log -Tail 5

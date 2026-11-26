@@ -260,18 +260,57 @@ PowerShell 函数中所有未被捕获的输出都会进入管道，因此需要
 
 PowerShell 7.6 的 ``Register-ArgumentCompleter`` 新增 ``-NativeFallback``，可以为原生命令注册兜底补全器。
 
-八、小结
---------
+八、练习任务
+------------
 
-.. csv-table::
-   :header: "主题", "关键写法", "解决的问题"
+任务 1：编写带参数验证的函数
 
-   "高级函数", "[CmdletBinding()]", "通用参数与严格绑定"
-   "参数校验", "ValidateSet / ValidateRange", "非法输入提前失败"
-   "流式处理", "begin / process / end", "正确消费管道输入"
-   "输出分层", "Write-Verbose / Write-Warning", "数据不被提示污染"
-   "安全变更", "SupportsShouldProcess", "自动获得 -WhatIf / -Confirm"
-   "脚本骨架", "$PSScriptRoot + 主函数", "可移植、可测试"
-   "参数补全", "ArgumentCompleter", "提升使用体验"
+.. code-block:: powershell
 
-函数写得好不好，标准很简单：使用者不看实现，也能从参数和帮助中正确调用它。
+   function Get-EvenNumber {
+       [CmdletBinding()]
+       param(
+           [Parameter(Mandatory, Position = 0)]
+           [ValidateRange(1, 100)]
+           [int]$Max
+       )
+
+       1..$Max | Where-Object { $_ % 2 -eq 0 }
+   }
+
+   Get-EvenNumber -Max 10
+
+任务 2：使用 process 块统计管道输入行数
+
+.. code-block:: powershell
+
+   function Measure-Line {
+       [CmdletBinding()]
+       param(
+           [Parameter(ValueFromPipeline)]
+           [string]$Line
+       )
+
+       begin { $count = 0 }
+       process { if ($Line) { $count++ } }
+       end { "共 $count 行" }
+   }
+
+   Get-Content .\app.log | Measure-Line
+
+任务 3：为删除操作添加 -WhatIf 支持
+
+.. code-block:: powershell
+
+   function Remove-TempFile {
+       [CmdletBinding(SupportsShouldProcess)]
+       param([string]$Path)
+
+       Get-ChildItem $Path -Filter *.tmp | ForEach-Object {
+           if ($PSCmdlet.ShouldProcess($_.FullName, "删除临时文件")) {
+               Remove-Item $_.FullName
+           }
+       }
+   }
+
+   Remove-TempFile -Path $env:TEMP -WhatIf

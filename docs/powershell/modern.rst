@@ -194,17 +194,31 @@ PowerShell 7.6 不自带机密保管库，需要安装 SecretManagement 与 Secr
 7. 为关键脚本补充 Pester 用例，确认迁移前后行为一致。
 8. 保留 5.1 回退路径，确认新版本稳定后再切换生产入口。
 
-七、小结
---------
+七、练习任务
+------------
 
-.. csv-table::
-   :header: "关注点", "7.6 带来的变化", "对应操作"
+任务 1：查看版本与随附模块
 
-   "运行时", ".NET 10.0.12", "验证依赖程序集与 TLS 行为"
-   "包管理", "内置 PSResourceGet 1.2.0", "改用 *-PSResource 命令"
-   "后台任务", "Microsoft.PowerShell.ThreadJob 2.2.0", "更新模块名与依赖声明"
-   "命令体验", "Get-Clipboard -Delimiter、Join-Path 多路径", "简化现有脚本"
-   "补全", "Register-ArgumentCompleter -NativeFallback", "完善 CLI 工具链体验"
-   "安装包", "macOS PKG 已由微软签名并公证", "使用官方安装包重新安装"
+.. code-block:: powershell
 
-升级的目的不是更换版本号，而是让脚本在新运行时上更安全、更易维护。按清单逐项验证，比一次性切换更为稳妥。
+   $PSVersionTable
+   Get-Module -ListAvailable Microsoft.PowerShell.ThreadJob | Select-Object Name, Version
+
+任务 2：按分隔符拆分剪贴板内容
+
+.. code-block:: powershell
+
+   Set-Clipboard -Value "a|b|c"
+   Get-Clipboard -Delimiter "|"
+
+任务 3：一次拼接多级路径
+
+.. code-block:: powershell
+
+   Join-Path -Path $env:TEMP -ChildPath "logs", "2026", "app.log"
+
+任务 4：检查旧脚本的兼容性问题
+
+.. code-block:: powershell
+
+   Invoke-ScriptAnalyzer -Path .\legacy.ps1 -Severity Warning

@@ -182,18 +182,43 @@ PowerShell Remoting 可以在多台主机上执行命令，本地并行则能在
 
    将凭据作为普通字符串传入 ``-ScriptBlock``，会让它在远程主机的进程内存中以明文存在。应将 ``PSCredential`` 作为参数传入，或在目标端使用托管身份。
 
-七、小结
---------
+七、练习任务
+------------
 
-.. csv-table::
-   :header: "需求", "首选方案", "关键参数"
+任务 1：向远程脚本块传递阈值
 
-   "传值到远程块", "Invoke-Command", "$using: / -ArgumentList"
-   "执行本地脚本", "Invoke-Command -FilePath", "-ArgumentList"
-   "复用连接", "New-PSSession + -Session", "Remove-PSSession 收尾"
-   "传输文件", "Copy-Item -ToSession / -FromSession", "会话对象"
-   "Linux 主机", "New-PSSession -HostName", "-UserName + SSH 密钥"
-   "单机并发", "ForEach-Object -Parallel", "-ThrottleLimit / $using:"
-   "后台长任务", "Start-ThreadJob", "Wait-Job / Receive-Job"
+.. code-block:: powershell
 
-远程块运行在另一台机器的会话中，并行块运行在另一条执行线程中。理解变量传递、输出序列化和权限边界，批量运维才能保持可控。
+   $threshold = 90
+   Invoke-Command -ComputerName $env:COMPUTERNAME -ScriptBlock {
+       Get-CimInstance Win32_LogicalDisk -Filter "DriveType=3" |
+           Where-Object { ($_.FreeSpace / $_.Size) * 100 -lt $using:threshold }
+   }
+
+任务 2：建立会话并复用连接
+
+.. code-block:: powershell
+
+   $s = New-PSSession -ComputerName localhost
+   Invoke-Command -Session $s -ScriptBlock { $env:COMPUTERNAME }
+   Remove-PSSession $s
+
+任务 3：并行处理多个地址
+
+.. code-block:: powershell
+
+   1..10 | ForEach-Object -Parallel {
+       "https://example.com/item/$_"
+   } -ThrottleLimit 5
+
+任务 4：启动线程任务并收取结果
+
+.. code-block:: powershell
+
+   $job = Start-ThreadJob {
+       Start-Sleep -Seconds 2
+       "扫描完成"
+   }
+
+   $job | Wait-Job | Receive-Job
+   $job | Remove-Job

@@ -198,18 +198,51 @@ PSScriptAnalyzer 可以发现未使用变量、危险的 ``Invoke-Expression``�
 
    PSScriptAnalyzer 是规则引擎，不是安全审计工具。它会漏报业务逻辑漏洞，也不能替代代码审查。
 
-七、小结
---------
+七、练习任务
+------------
 
-.. csv-table::
-   :header: "场景", "推荐做法"
+任务 1：捕获文件不存在错误并输出关键字段
 
-   "读取错误细节", "$_.Exception / ScriptStackTrace"
-   "保留错误但继续执行", "-ErrorAction SilentlyContinue -ErrorVariable"
-   "主动失败", "throw 或 $PSCmdlet.ThrowTerminatingError"
-   "查看历史错误", "$Error / Get-Error / $ErrorView"
-   "逐行定位", "断点 / Wait-Debugger / Trace-Command"
-   "防止回归", "Pester 用例"
-   "代码质量", "Invoke-ScriptAnalyzer"
+.. code-block:: powershell
 
-错误处理的目标不是让错误消失，而是让失败可控、可观测、可复现。做到这三点，脚本才算真正可靠。
+   try {
+       Get-Item .\not-exist.txt -ErrorAction Stop
+   }
+   catch {
+       $_.Exception.Message
+       $_.ScriptStackTrace
+   }
+
+任务 2：使用 throw 校验配置文件是否存在
+
+.. code-block:: powershell
+
+   function Get-Config {
+       param([string]$Path)
+
+       if (-not (Test-Path $Path)) {
+           throw "配置文件不存在：$Path"
+       }
+
+       Get-Content $Path -Raw | ConvertFrom-Json
+   }
+
+任务 3：为函数编写 Pester 测试
+
+.. code-block:: powershell
+
+   Describe "Get-Square" {
+       It "返回平方值" {
+           Get-Square -Number 4 | Should -Be 16
+       }
+
+       It "拒绝非整数输入" {
+           { Get-Square -Number "abc" } | Should -Throw
+       }
+   }
+
+任务 4：扫描脚本中的潜在问题
+
+.. code-block:: powershell
+
+   Invoke-ScriptAnalyzer -Path .\deploy.ps1 -Severity Warning

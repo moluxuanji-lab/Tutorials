@@ -177,18 +177,35 @@ PSReadLine 会根据历史记录和内联预测给出完整命令，按 ``F2`` �
 
    脚本的注释帮助放在文件开头（``param`` 之前）或文件末尾；函数的注释帮助放在 ``function`` 关键字之前，或函数体内开头、末尾。中间夹着其他语句时无法被识别。
 
-六、小结
---------
+六、练习任务
+------------
 
-.. csv-table::
-   :header: "场景", "常用做法"
+任务 1：查找与进程相关的命令
 
-   "只记得动词或名词", "Get-Command -Verb / -Noun"
-   "确认命令来源与版本", "Get-Command | Format-List Source, Version"
-   "查看参数细节", "Get-Help -Parameter / -Full"
-   "查看最新官方说明", "Get-Help -Online"
-   "学习语言概念", "Get-Help about_*"
-   "找回历史命令", "Ctrl + R"
-   "让脚本自带帮助", "注释帮助 + Get-Help"
+.. code-block:: powershell
 
-掌握这套方法后，不必记住所有命令，也能在任意一台安装了 PowerShell 的机器上快速找到正确的工具和参数。
+   Get-Command -Noun Process
+   Get-Command -Verb Get -Noun Process
+
+任务 2：查看某个参数的详细说明
+
+.. code-block:: powershell
+
+   Get-Help Get-ChildItem -Parameter Filter
+   Get-Help Get-ChildItem -Online
+
+任务 3：为脚本添加注释帮助并查看
+
+.. code-block:: powershell
+
+   <#
+   .SYNOPSIS
+       输出问候语。
+   .EXAMPLE
+       .\Hello.ps1
+   #>
+   "Hello, PowerShell"
+
+.. code-block:: powershell
+
+   Get-Help .\Hello.ps1 -Full

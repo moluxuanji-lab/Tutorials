@@ -152,17 +152,34 @@ PowerShell 7.6 内置的包管理模块是 **PSResourceGet 1.2**，命令统一�
 
    签名状态为 ``Valid`` 说明文件未被篡改且来自该发布者，但不代表代码一定安全。内部模块仍应经过代码审查。
 
-五、小结
---------
+五、练习任务
+------------
 
-.. csv-table::
-   :header: "能力", "关键命令", "要点"
+任务 1：搜索并查看模块版本
 
-   "搜索与安装", "Find-PSResource / Install-PSResource", "7.6 内置 PSResourceGet"
-   "版本控制", "-Version / 版本范围", "生产环境避免浮动版本"
-   "私有源", "Register-PSResourceRepository", "只从可信源安装"
-   "模块清单", "New-ModuleManifest / Test-ModuleManifest", "声明版本与导出函数"
-   "依赖声明", "#Requires", "只检查，不安装"
-   "来源校验", "Get-AuthenticodeSignature", "签名有效不等于代码安全"
+.. code-block:: powershell
 
-模块化不仅是复用代码，更是把版本、依赖和发布范围管理起来。即使只是个人函数库，也建议从第一天就使用清单文件。
+   Find-PSResource Pester
+   Get-InstalledPSResource Pester
+
+任务 2：安装指定版本的模块
+
+.. code-block:: powershell
+
+   Install-PSResource Pester -Version "5.7.1" -Scope CurrentUser -TrustRepository
+
+任务 3：为模块创建清单文件
+
+.. code-block:: powershell
+
+   New-ModuleManifest -Path .\Demo.psd1 `
+       -RootModule Demo.psm1 `
+       -ModuleVersion 1.0.0 `
+       -FunctionsToExport @("Get-Demo")
+
+任务 4：在脚本中声明依赖
+
+.. code-block:: powershell
+
+   #Requires -Version 7.4
+   #Requires -Modules @{ ModuleName = "Pester"; ModuleVersion = "5.7.1" }
