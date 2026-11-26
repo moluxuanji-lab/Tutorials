@@ -9,9 +9,9 @@ PowerShell 简介
 
 PowerShell 是微软推出的跨平台（Windows / Linux / macOS）自动化与配置管理框架，由「命令行外壳（host）」和「脚本语言」两部分组成。
 
-PowerShell 基于 .NET（完整 .NET Framework 或 .NET Core / .NET 6+），因此能直接调用数以千计的 .NET API，并原生支持面向对象管道（object pipeline），而非传统 Shell 的纯文本流。
+PowerShell 基于 .NET：Windows PowerShell 5.1 使用 .NET Framework，PowerShell 7+ 使用现代 .NET（7.6 对应 .NET 10）。因此它能直接调用数以千计的 .NET API，并原生支持面向对象管道（object pipeline），而非传统 Shell 的纯文本流。
 
-PowerShell 构建在 .NET Framework 之上，专为系统管理员和高级用户设计，用于自动化各种系统管理任务。
+PowerShell 诞生之初构建在 .NET Framework 之上，7.x 则完成了向跨平台 .NET 的迁移，用于自动化各种系统管理任务。
 
 PowerShell 的核心特点
 ---------------------
@@ -36,6 +36,7 @@ PowerShell 的核心特点
    "2018", "PowerShell Core 6.0", "正式开源，全面跨平台，迁移到 GitHub"
    "2020", "PowerShell 7.0", "基于 .NET Core 3.1，首次支持与 Windows PowerShell 并存"
    "2023", "PowerShell 7.4", "基于 .NET 8，性能与兼容性持续提升，支持原生容器场景"
+   "2026", "PowerShell 7.6", "长期支持（LTS）版本，基于 .NET 10，内置 PSResourceGet 1.2 与新版 PSReadLine"
 
 PowerShell 与传统命令行对比
 ---------------------------

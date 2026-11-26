@@ -59,7 +59,7 @@ PowerShell 中变量以美元符号（``$``）开头，无需事先声明类型�
 三、数据类型
 ------------
 
-PowerShell 是弱类型语言，但变量背后都有对应的 .NET 类型。
+PowerShell 是动态类型语言：变量无需声明类型，但每个值背后都有确定的 .NET 类型。
 
 .. csv-table::
    :header: "类型", "示例"
@@ -185,7 +185,7 @@ PowerShell 允许自定义函数，语法如下：
 .. code-block:: powershell
 
    try {
-       Get-Item "C:\NotExist.txt"
+       Get-Item "C:\NotExist.txt" -ErrorAction Stop
    } catch {
        Write-Output "找不到文件"
    }

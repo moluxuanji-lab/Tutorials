@@ -177,7 +177,7 @@ PowerShell Remoting 支持通过 **WS-MAN（基于 WinRM）** 或 **SSH** 协议
 
 .. code-block:: powershell
 
-   Enter-PSSession -HostName linux01 -User user1 -SSHTransport
+   Enter-PSSession -HostName linux01 -UserName user1
 
 七、Desired State Configuration（DSC）
 ---------------------------------------

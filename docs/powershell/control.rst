@@ -170,7 +170,7 @@ PowerShell 提供结构化异常处理机制，用于捕获和响应运行时错
 .. code-block:: powershell
 
    try {
-       Get-Content "不存在的文件.txt"
+       Get-Content "不存在的文件.txt" -ErrorAction Stop
    }
    catch [System.IO.FileNotFoundException] {
        Write-Output "文件未找到！"

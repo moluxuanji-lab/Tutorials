@@ -5,7 +5,7 @@ PowerShell 安装
    :group: 入门
    :summary: 在 Windows、Linux、macOS 上安装 PowerShell 7+，并完成版本验证与卸载。
 
-PowerShell 自从 6.0 起实现了完全开源和跨平台（PowerShell Core / PowerShell 7+），可运行于 Windows、Linux 和 macOS。
+PowerShell 自从 6.0 起实现了完全开源和跨平台（PowerShell Core / PowerShell 7+），可运行于 Windows、Linux 和 macOS。当前最新稳定版为 **PowerShell 7.6.6**（基于 .NET 10），本教程的示例均以 PowerShell 7.x 为准。
 
 一、Windows 上安装 PowerShell 7+
 --------------------------------
@@ -27,7 +27,7 @@ PowerShell 自从 6.0 起实现了完全开源和跨平台（PowerShell Core / P
 
    winget install --id Microsoft.Powershell --source winget
 
-可选参数：``--silent`` 表示静默安装，``--version 7.4.1`` 可指定版本。
+可选参数：``--silent`` 表示静默安装，``--version 7.6.6`` 可指定版本。
 
 二、Linux 上安装 PowerShell
 ---------------------------
@@ -103,7 +103,7 @@ Arch Linux / Manjaro
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. 前往 GitHub 发布页：`PowerShell Releases <https://github.com/PowerShell/PowerShell/releases>`_
-2. 下载 ``.pkg`` 安装文件（如 ``powershell-7.4.1-osx-x64.pkg``）。
+2. 下载 ``.pkg`` 安装文件（如 ``powershell-7.6.6-osx-arm64.pkg``）。
 3. 双击安装并根据引导完成。
 
 四、安装验证与卸载
