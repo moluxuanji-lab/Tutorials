@@ -1,9 +1,9 @@
 {
-  "name": "powershell-tutorial-site",
-  "version": "1.0.0",
+  "name": "tutorials-site",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "PowerShell 中文教程站点 —— reStructuredText 驱动，零依赖静态构建",
+  "description": "多教程合集站点 —— reStructuredText 驱动，零依赖静态构建",
   "scripts": {
     "build": "node src/build.mjs"
   }

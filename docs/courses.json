@@ -1,0 +1,49 @@
+{
+  "site": {
+    "name": "Tutorials",
+    "sub": "教程库",
+    "title": "Tutorials 教程库",
+    "description": "每门课程按学习路径拆成章节，配套可复制示例、全文搜索与深色模式，让技术学习有章可循。"
+  },
+  "courses": [
+    {
+      "slug": "powershell",
+      "title": "PowerShell",
+      "subtitle": "自动化与运维脚本",
+      "mark": "PS",
+      "tech": "PowerShell 7.4",
+      "level": "入门 → 进阶",
+      "groups": ["入门", "核心概念", "常用操作", "进阶"],
+      "description": "从对象管道、Cmdlet 到远程运维与自动化脚本，用 16 章可复制示例带你系统掌握微软的自动化平台。",
+      "cover": { "from": "#2f6bf6", "to": "#06b6d4" },
+      "hero": {
+        "title": "把 PowerShell 真正用起来",
+        "accent": "真正用起来",
+        "lead": "从对象管道、Cmdlet 到远程运维与自动化脚本，16 个章节、240+ 段可复制示例，带你系统掌握微软的自动化平台。",
+        "codeTitle": "pwsh — PowerShell 7.4",
+        "codeLang": "powershell",
+        "code": "# 找出最耗 CPU 的 5 个进程\nGet-Process |\n    Sort-Object CPU -Descending |\n    Select-Object -First 5 Name, CPU\n\n# 只看正在运行的服务\nGet-Service | Where-Object Status -eq Running",
+        "badgeK": "Cmdlet",
+        "badgeV": "动词-名词",
+        "codeFoot": "对象管道已就绪"
+      }
+    }
+  ],
+  "upcoming": [
+    {
+      "title": "Git 版本控制",
+      "tag": "Git",
+      "desc": "从提交、分支到协作工作流，建立可回滚、可追溯的工程习惯。"
+    },
+    {
+      "title": "Linux 命令行",
+      "tag": "Linux",
+      "desc": "文件、权限、进程与 Shell 脚本，服务器运维的必备基础。"
+    },
+    {
+      "title": "Docker 容器",
+      "tag": "Docker",
+      "desc": "镜像、容器、网络与 Compose，把环境一次配置、到处运行。"
+    }
+  ]
+}

@@ -169,9 +169,15 @@
       .replace(/"/g, '&quot;');
   }
 
+  var base = body.getAttribute('data-base') || '';
+
+  function link(record) {
+    return base + record.u + record.hash;
+  }
+
   function loadIndex() {
     if (indexPromise) return indexPromise;
-    indexPromise = fetch('assets/search-index.json')
+    indexPromise = fetch(base + 'assets/search-index.json')
       .then(function (res) { return res.json(); })
       .then(function (pages) {
         var flat = [];
@@ -179,6 +185,7 @@
           flat.push({
             u: page.u,
             page: page.t,
+            course: page.c,
             group: page.g,
             num: page.n,
             hash: '',
@@ -190,6 +197,7 @@
               flat.push({
                 u: page.u,
                 page: page.t,
+                course: page.c,
                 group: page.g,
                 num: page.n,
                 hash: section.h,
@@ -272,9 +280,14 @@
     }
     resultsEl.innerHTML = list
       .map(function (r, i) {
+        var meta = [];
+        if (r.course) meta.push('<b>' + esc(r.course) + '</b>');
+        meta.push('<span>' + String(r.num).padStart(2, '0') + '</span>');
+        meta.push('<span>' + esc(r.group) + '</span>');
+        meta.push('<span>' + esc(r.page) + '</span>');
         return (
-          '<a class="search-result' + (i === 0 ? ' is-selected' : '') + '" href="' + r.u + r.hash + '" data-index="' + i + '">' +
-          '<div class="search-result__meta"><b>' + String(r.num).padStart(2, '0') + '</b><span>' + esc(r.group) + '</span><span>·</span><span>' + esc(r.page) + '</span></div>' +
+          '<a class="search-result' + (i === 0 ? ' is-selected' : '') + '" href="' + link(r) + '" data-index="' + i + '">' +
+          '<div class="search-result__meta">' + meta.join('<span>·</span>') + '</div>' +
           '<div class="search-result__title">' + markTitle(r.title, ts) + '</div>' +
           (r.text ? '<div class="search-result__snippet">' + snippet(r.text, ts) + '</div>' : '') +
           '</a>'
@@ -290,6 +303,7 @@
       return {
         u: page.u,
         page: page.t,
+        course: page.c,
         group: page.g,
         num: page.n,
         hash: '',
@@ -322,6 +336,7 @@
       pool.push({
         u: page.u,
         page: page.t,
+        course: page.c,
         group: page.g,
         num: page.n,
         hash: '',
@@ -333,6 +348,7 @@
         pool.push({
           u: page.u,
           page: page.t,
+          course: page.c,
           group: page.g,
           num: page.n,
           hash: section.h,
@@ -402,7 +418,7 @@
         var pick = current[activeIndex] || current[0];
         if (pick) {
           event.preventDefault();
-          window.location.href = pick.u + pick.hash;
+          window.location.href = link(pick);
         }
       }
     });
