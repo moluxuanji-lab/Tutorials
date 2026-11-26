@@ -215,18 +215,3 @@ PowerShell 提供了丰富的帮助系统，让你可以轻松探索命令：
 .. code-block:: powershell
 
    Get-Process | Get-Member
-
-总结
-----
-
-.. csv-table::
-   :header: "概念", "关键词", "简述"
-
-   "Cmdlet", "动词-名词", "最小执行单元，基于 .NET"
-   "管道", "|", "对象而非文本传递"
-   "Provider", "FileSystem, Env:", "统一访问各类资源"
-   "模块", ".psm1, .psd1", "组织可重用命令集合"
-   "执行策略", "Set-ExecutionPolicy", "控制脚本运行权限"
-   "远程管理", "Enter-PSSession", "远程执行命令"
-   "DSC", "Configuration", "声明式系统配置平台"
-   "帮助系统", "Get-Help", "自带文档系统"

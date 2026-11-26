@@ -184,15 +184,3 @@ PowerShell 提供了一系列用于操作对象的内置命令，常用于筛选
 .. code-block:: powershell
 
    Get-Service | Group-Object Status | Select-Object Name, Count
-
-小结与建议
-----------
-
-PowerShell 的面向对象特性，使得命令行操作更符合程序设计思维。通过对象的属性和方法，用户可以更精准地操作系统资源，构建更强大和可靠的自动化脚本。
-
-初学者建议从以下几个方面入手巩固：
-
-1. 多使用 ``Get-Member`` 探索对象结构。
-2. 熟练掌握 ``Where-Object`` 和 ``Select-Object`` 的用法。
-3. 尝试使用 ``Group-Object``、``Sort-Object`` 处理数据。
-4. 尝试将命令结果导出为 CSV 或 JSON 文件。

@@ -251,16 +251,3 @@ PowerShell Gallery 简介
 .. tip::
 
    可以将模块文件放入 ``$env:PSModulePath`` 中的路径，让系统自动识别。
-
-四、小结
---------
-
-.. csv-table::
-   :header: "内容", "说明"
-
-   ".ps1 文件", "PowerShell 脚本扩展名，存储命令"
-   "param", "用于定义脚本 / 函数参数"
-   "Set-ExecutionPolicy", "控制脚本是否允许运行"
-   "函数", "封装复用代码，提高结构清晰度"
-   "模块（.psm1）", "组织多个函数，实现可移植性"
-   "PowerShell Gallery", "官方模块仓库，可下载第三方模块"

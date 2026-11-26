@@ -228,13 +228,3 @@ PowerShell 不仅能管理本地文件、进程和服务，它还具备强大的
 
    $report = Get-ComputerInfo | Select-Object OSName, OSArchitecture, CsName, CsProcessors, WindowsVersion
    $report | Out-File -FilePath "C:\SystemReport.txt"
-
-六、小结
---------
-
-PowerShell 提供了强大的网络与系统管理能力，远超传统命令行工具：
-
-* 网络操作支持测试、监测、配置 IP 和端口。
-* 系统信息命令便于生成诊断报告和自动化审计。
-* 本地账户管理适合小型系统或工作组环境。
-* 所有命令都是对象导向、组合灵活、可脚本化。

@@ -143,18 +143,3 @@ PowerShell 提供了完整的帮助系统，可以使用 ``Get-Help`` 查看任�
 .. code-block:: powershell
 
    Get-Content -Path "C:\TestFolder\demo.txt"
-
-小结与学习建议
---------------
-
-* Cmdlet 是 PowerShell 的核心单位，每个 Cmdlet 都是功能明确的任务执行器。
-* 统一的“动词-名词”命名规范让 Cmdlet 可预测、易于学习。
-* 管道、参数系统与对象模型相结合，使 Cmdlet 在数据处理和自动化方面表现出色。
-* 掌握常用 Cmdlet 并结合对象操作，是学习 PowerShell 的重要起点。
-
-建议初学者从以下方面着手练习：
-
-1. 使用 ``Get-Command`` 探索所有可用命令。
-2. 配合 ``Get-Help`` 学会查阅命令用法。
-3. 利用 ``New-Item`` 和 ``Get-Content`` 等命令进行本地文件操作。
-4. 多尝试通过管道将命令组合起来处理数据。

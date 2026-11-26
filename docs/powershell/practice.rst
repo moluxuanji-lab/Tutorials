@@ -212,15 +212,3 @@ PowerShell 内建对 .NET 类库的访问能力，几乎可以调用所有 .NET 
    $sheet.Cells.Item(1, 2) = "Score"
    $sheet.Cells.Item(2, 1) = "Alice"
    $sheet.Cells.Item(2, 2) = 95
-
-四、小结
---------
-
-.. csv-table::
-   :header: "应用类型", "实际用途", "技术点"
-
-   "本地自动化", "批量重命名、清理文件、系统信息", "文件系统、定时器、对象"
-   "日志分析", "检查错误日志并生成报告", "文本处理、过滤、导出"
-   "远程运维", "多主机批量操作、远程会话", "Invoke-Command, PSSession"
-   "技术集成", "与 REST API、数据库、Excel 联动", "Invoke-RestMethod, COM, ADO.NET"
-   ".NET 支持", "调用底层 API 实现扩展功能", "使用 .NET 类库"
