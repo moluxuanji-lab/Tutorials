@@ -1,34 +1,62 @@
-name: Mirror to Gitee
+name: GitHub to Gitee Mirror
 
 on:
   push:
-    branches: [main]
+  schedule:
+    - cron: "17 3 * * *"
+      timezone: "Asia/Singapore"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: mirror-to-gitee
-  cancel-in-progress: true
+  group: gitee-mirror-${{ github.repository }}
+  cancel-in-progress: false
 
 jobs:
   mirror:
+    name: Sync branches and tags to Gitee
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    timeout-minutes: 30
 
-      - name: Push to Gitee
+    steps:
+      - name: Mirror GitHub repository to Gitee
+        shell: bash
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         run: |
-          if [ -z "$GITEE_TOKEN" ]; then
-            echo "::error::未配置 GITEE_TOKEN。请在仓库 Settings → Secrets and variables → Actions 中添加 Gitee 私人令牌后重新运行。"
+          set -Eeuo pipefail
+
+          if [[ -z "$GITEE_TOKEN" ]]; then
+            echo "::error::Missing repository secret GITEE_TOKEN. Add it in Settings > Secrets and variables > Actions."
             exit 1
           fi
-          git remote add gitee "https://oauth2:${GITEE_TOKEN}@gitee.com/jingjingpeng/Tutorials.git"
-          git push --force gitee "HEAD:refs/heads/master"
-          git push --force gitee --tags
+
+          repo_name="$(basename "$GITHUB_REPOSITORY")"
+          source_url="https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          target_url="https://oauth2:$GITEE_TOKEN@gitee.com/jingjingpeng/$repo_name.git"
+
+          git clone --mirror "$source_url" source.git
+
+          # Update every source branch. Do not delete Gitee-only branches.
+          while IFS= read -r branch; do
+            [[ -n "$branch" ]] || continue
+            target_branch="$branch"
+
+            # Keep the existing Tutorials mapping: GitHub main -> Gitee master.
+            if [[ "$GITHUB_REPOSITORY" == "moluxuanji/Tutorials" && "$branch" == "main" ]]; then
+              target_branch="master"
+            fi
+
+            echo "Syncing branch: $branch -> $target_branch"
+            git -C source.git push --force "$target_url" \
+              "refs/heads/$branch:refs/heads/$target_branch"
+          done < <(git -C source.git for-each-ref --format='%(refname:strip=2)' refs/heads)
+
+          echo "Syncing tags"
+          git -C source.git push --force "$target_url" \
+            'refs/tags/*:refs/tags/*'
+
+          echo "Sync completed. Gitee-only refs are intentionally retained."
