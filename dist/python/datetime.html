@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 日期和时间 · Python</title>
+<meta name="description" content="掌握 time、datetime、calendar 三个模块：date、time、datetime、timedelta 的创建与运算，strftime 与 strptime 的格式化与解析，固定时间戳与日期的互转，以及 zoneinfo 时区处理。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="datetime" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link is-active" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python 日期和时间</h1><p class="doc-lead">掌握 time、datetime、calendar 三个模块：date、time、datetime、timedelta 的创建与运算，strftime 与 strptime 的格式化与解析，固定时间戳与日期的互转，以及 zoneinfo 时区处理。</p><div class="doc-meta"><span>第 35 章</span><span class="doc-meta__dot"></span><span>约 36 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>几乎每个实际项目都在和日期打交道：日志要带时间戳，订单要算有效期，报表要按自然月汇总，定时任务要判断今天是不是工作日。Python 标准库把这块能力拆成三个模块：<code>time</code> 贴近操作系统，<code>datetime</code> 面向对象、日常使用最多，<code>calendar</code> 负责月历、闰年这类日历规则。三者互相配合，覆盖了绝大多数日期需求。</p>
+<p>本章所有示例都使用固定日期和固定时间戳，不读取系统当前时间，因此每次运行的结果完全一致，可以逐行对照输出。需要获取“现在”的时候，把示例里的固定值换成 <code>datetime.now()</code> 或 <code>date.today()</code> 即可。</p>
+<h2 id="sec-1" class="doc-heading">一、time 模块</h2>
+<p><code>time</code> 是最底层的接口，直接对应 C 语言的 <code>time.h</code>。它以 Unix 时间戳为核心，表示从 1970 年 1 月 1 日 0 时（UTC）起经过的秒数：<code>time.time()</code> 返回带小数的当前秒数，<code>time.gmtime()</code> 把时间戳拆成 UTC 的 <code>struct_time</code>，<code>time.localtime()</code> 则按本机时区拆分，<code>time.strftime()</code> 负责把 <code>struct_time</code> 格式化成字符串。</p>
+<p><code>struct_time</code> 是一个具名元组，既能用 <code>tm_year</code>、<code>tm_mon</code> 这样的字段名访问，也能按下标取值。其中 <code>tm_wday</code> 用 0 表示周一、6 表示周日，<code>tm_yday</code> 表示一年中的第几天、从 1 开始计数。这两个下标规则和日常习惯不同，容易写错。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> time
+
+epoch <span class="tok-op">=</span> time.<span class="tok-cmdlet">gmtime</span>(<span class="tok-num">0</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;纪元时间：&quot;</span>, time.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, epoch))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;年份、月份：&quot;</span>, epoch.tm_year, epoch.tm_mon)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;一周中的第几天（0 为周一）：&quot;</span>, epoch.tm_wday)
+
+moment <span class="tok-op">=</span> time.<span class="tok-cmdlet">gmtime</span>(<span class="tok-num">1704096000</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;固定时间戳对应：&quot;</span>, time.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, moment))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;时、分、秒：&quot;</span>, moment.tm_hour, moment.tm_min, moment.tm_sec)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;一年中的第几天：&quot;</span>, moment.tm_yday)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">纪元时间： 1970-01-01 00:00:00
+年份、月份： 1970 1
+一周中的第几天（0 为周一）： 3
+固定时间戳对应： 2024-01-01 08:00:00
+时、分、秒： 8 0 0
+一年中的第几天： 1</code></pre></figure>
+<p>示例只用了 <code>gmtime()</code>，因为 <code>localtime()</code> 的结果取决于运行机器的时区设置，同一段代码在纽约和上海会打印出不同的时间。写日志、存数据库、跨系统交换数据时，统一用 UTC 再按需转换，能省掉大量“差八小时”的排查工作。</p>
+<p><code>time</code> 还有两个专门用来计时的函数：<code>time.monotonic()</code> 和 <code>time.perf_counter()</code>。它们返回单调递增的数值，不受系统时间被手动修改或 NTP 校准的影响，测量耗时比相减两次 <code>time.time()</code> 可靠得多。这两个值本身没有意义，只能做差，所以不适合写进日志或展示给用户。</p>
+<h2 id="sec-2" class="doc-heading">二、date、time 与 datetime</h2>
+<p><code>datetime</code> 模块里最常用的三个类是 <code>date</code>、<code>time</code> 和 <code>datetime</code>：<code>date</code> 精确到天，<code>time</code> 精确到微秒，<code>datetime</code> 是两者的组合。它们都是不可变对象，创建之后不能就地修改，<code>replace()</code>、<code>+</code>、<code>-</code> 都会返回一个新对象，这一点和字符串很像，也意味着可以安全地在多个线程之间共享。</p>
+<p>构造函数的参数顺序固定为年、月、日、时、分、秒、微秒，超出范围的取值会立刻抛出 <code>ValueError</code>，不会悄悄进位。<code>isoformat()</code> 输出 ISO 8601 格式，是配置文件、JSON 接口里最通用的写法；<code>fromisoformat()</code> 则负责把它读回来。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> date, datetime, time
+
+day <span class="tok-op">=</span> <span class="tok-cmdlet">date</span>(<span class="tok-num">2026</span>, <span class="tok-num">3</span>, <span class="tok-num">15</span>)
+moment <span class="tok-op">=</span> <span class="tok-cmdlet">time</span>(<span class="tok-num">9</span>, <span class="tok-num">30</span>, <span class="tok-num">15</span>, <span class="tok-num">250000</span>)
+stamp <span class="tok-op">=</span> <span class="tok-cmdlet">datetime</span>(<span class="tok-num">2026</span>, <span class="tok-num">3</span>, <span class="tok-num">15</span>, <span class="tok-num">9</span>, <span class="tok-num">30</span>, <span class="tok-num">15</span>, <span class="tok-num">250000</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;日期：&quot;</span>, day, <span class="tok-string">&quot;| ISO：&quot;</span>, day.<span class="tok-cmdlet">isoformat</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;时间：&quot;</span>, moment, <span class="tok-string">&quot;| ISO：&quot;</span>, moment.<span class="tok-cmdlet">isoformat</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;日期时间：&quot;</span>, stamp, <span class="tok-string">&quot;| ISO：&quot;</span>, stamp.<span class="tok-cmdlet">isoformat</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;年月日：&quot;</span>, day.year, day.month, day.day)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;时分秒微秒：&quot;</span>, moment.hour, moment.minute, moment.second, moment.microsecond)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;组合：&quot;</span>, datetime.<span class="tok-cmdlet">combine</span>(day, moment))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;拆分：&quot;</span>, stamp.<span class="tok-cmdlet">date</span>(), stamp.<span class="tok-cmdlet">time</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;替换年份：&quot;</span>, stamp.<span class="tok-cmdlet">replace</span>(year<span class="tok-op">=</span><span class="tok-num">2027</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;解析 ISO 字符串：&quot;</span>, datetime.<span class="tok-cmdlet">fromisoformat</span>(<span class="tok-string">&quot;2026-03-15T09:30:15&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">日期： 2026-03-15 | ISO： 2026-03-15
+时间： 09:30:15.250000 | ISO： 09:30:15.250000
+日期时间： 2026-03-15 09:30:15.250000 | ISO： 2026-03-15T09:30:15.250000
+年月日： 2026 3 15
+时分秒微秒： 9 30 15 250000
+组合： 2026-03-15 09:30:15.250000
+拆分： 2026-03-15 09:30:15.250000
+替换年份： 2027-03-15 09:30:15.250000
+解析 ISO 字符串： 2026-03-15 09:30:15</code></pre></figure>
+<p><code>print()</code> 调用 <code>str()</code>，日期时间会显示成 <code>2026-03-15 09:30:15.250000</code> 这种便于阅读的形式；<code>repr()</code> 则会显示 <code>datetime.datetime(2026, 3, 15, 9, 30, 15, 250000)</code>，在交互式解释器和调试器里看到的就是后者。两者都不带时区信息，这类对象被称为 naive（无时区）对象。</p>
+<p><code>date</code> 和 <code>datetime</code> 可以直接比较大小、排序，因为同类型对象之间定义了完整的比较规则。<code>time</code> 对象在 Python 中不支持比较，需要排序时可以先转成 <code>(hour, minute, second, microsecond)</code> 元组。</p>
+<h2 id="sec-3" class="doc-heading">三、timedelta 与时间间隔</h2>
+<p><code>timedelta</code> 表示一段时长，构造参数可以是 <code>weeks</code>、<code>days</code>、<code>hours</code>、<code>minutes</code>、<code>seconds</code>、<code>milliseconds</code>、<code>microseconds</code>。它内部只保存 <code>days</code>、<code>seconds</code>、<code>microseconds</code> 三个字段，并自动做规范化：写 25 小时，实际存成 1 天 1 小时。</p>
+<p>正因为做了规范化，<code>delta.seconds</code> 并不等于总秒数，它只是不足一天的那部分。需要总秒数时必须调用 <code>total_seconds()</code>，这个方法返回浮点数，适合再换算成分钟或小时。<code>timedelta</code> 支持与整数、浮点数相乘除，也支持两个时长相加相减，但不能直接和日期相加——那样得到的仍然是 <code>timedelta</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> datetime, timedelta
+
+delta <span class="tok-op">=</span> <span class="tok-cmdlet">timedelta</span>(days<span class="tok-op">=</span><span class="tok-num">10</span>, hours<span class="tok-op">=</span><span class="tok-num">6</span>, minutes<span class="tok-op">=</span><span class="tok-num">30</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;间隔：&quot;</span>, delta)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总秒数：&quot;</span>, delta.<span class="tok-cmdlet">total_seconds</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;只有天数：&quot;</span>, delta.days, <span class="tok-string">&quot;剩余秒数：&quot;</span>, delta.seconds)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;换算成周：&quot;</span>, delta.days <span class="tok-op">/</span><span class="tok-op">/</span> <span class="tok-num">7</span>, <span class="tok-string">&quot;天余&quot;</span>, delta.days <span class="tok-op">%</span> <span class="tok-num">7</span>)
+
+start <span class="tok-op">=</span> <span class="tok-cmdlet">datetime</span>(<span class="tok-num">2026</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">8</span>, <span class="tok-num">0</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;十天后：&quot;</span>, start <span class="tok-op">+</span> delta)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;十天前：&quot;</span>, start <span class="tok-op">-</span> delta)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;两倍时长：&quot;</span>, delta <span class="tok-op">*</span> <span class="tok-num">2</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;两个日期相差：&quot;</span>, <span class="tok-cmdlet">datetime</span>(<span class="tok-num">2026</span>, <span class="tok-num">1</span>, <span class="tok-num">31</span>) <span class="tok-op">-</span> <span class="tok-cmdlet">datetime</span>(<span class="tok-num">2026</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">间隔： 10 days, 6:30:00
+总秒数： 887400.0
+只有天数： 10 剩余秒数： 23400
+换算成周： 1 天余 3
+十天后： 2026-01-11 14:30:00
+十天前： 2025-12-22 01:30:00
+两倍时长： 20 days, 13:00:00
+两个日期相差： 30 days, 0:00:00</code></pre></figure>
+<p>两个 <code>datetime</code> 相减得到 <code>timedelta</code>，取 <code>.days</code> 就是相差的天数，这是统计账期、计算滞留时间最常用的写法。注意结果可能为负，负值的 <code>days</code> 会向下取整，例如 <code>timedelta(hours=-1).days</code> 是 <code>-1</code> 而不是 <code>0</code>，做除法或取模时要留意符号。</p>
+<p><code>timedelta</code> 没有“一个月”或“一年”的概念，因为月份长度不固定。要加一个月，应使用 <code>date.replace(month=...)</code> 配合月末判断；对“加一个月再减一天”这类业务规则，第三方库 <code>dateutil</code> 的 <code>relativedelta</code> 会更省事。</p>
+<h2 id="sec-4" class="doc-heading">四、strftime：把日期格式化成字符串</h2>
+<p><code>strftime()</code> 按格式串把日期时间转成文本，格式串里以百分号开头的部分会被替换成对应字段。下表列出最常用的指令，示例列对应 <code>2026-03-15 09:05:07.120000</code> 这个时刻：</p>
+<div class="table-wrap"><table><thead><tr><th>指令</th><th>含义</th><th>示例</th></tr></thead><tbody><tr><td>%Y</td><td>四位年份</td><td>2026</td></tr><tr><td>%y</td><td>两位年份</td><td>26</td></tr><tr><td>%m</td><td>两位月份（01-12）</td><td>03</td></tr><tr><td>%d</td><td>两位日期（01-31）</td><td>15</td></tr><tr><td>%H</td><td>24 小时制小时（00-23）</td><td>09</td></tr><tr><td>%I</td><td>12 小时制小时（01-12）</td><td>09</td></tr><tr><td>%M</td><td>分钟（00-59）</td><td>05</td></tr><tr><td>%S</td><td>秒（00-59）</td><td>07</td></tr><tr><td>%f</td><td>微秒（000000-999999）</td><td>120000</td></tr><tr><td>%j</td><td>一年中的第几天（001-366）</td><td>074</td></tr><tr><td>%A</td><td>星期全名</td><td>Sunday</td></tr><tr><td>%B</td><td>月份全名</td><td>March</td></tr><tr><td>%p</td><td>上午或下午标记</td><td>AM</td></tr><tr><td>%z</td><td>UTC 偏移</td><td>+0800</td></tr><tr><td>%Z</td><td>时区名称</td><td>CST</td></tr></tbody></table></div>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> datetime
+
+dt <span class="tok-op">=</span> <span class="tok-cmdlet">datetime</span>(<span class="tok-num">2026</span>, <span class="tok-num">3</span>, <span class="tok-num">15</span>, <span class="tok-num">9</span>, <span class="tok-num">5</span>, <span class="tok-num">7</span>, <span class="tok-num">120000</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;日期时间：&quot;</span>, dt.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;中文格式：&quot;</span>, dt.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y 年 %m 月 %d 日&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;紧凑格式：&quot;</span>, dt.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y%m%d-%H%M%S&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;微秒六位：&quot;</span>, dt.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%f&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;年内第几天：&quot;</span>, dt.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%j&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;两位年份：&quot;</span>, dt.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%y&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;十二小时制：&quot;</span>, dt.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%I:%M&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;转义百分号：&quot;</span>, dt.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y%%&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">日期时间： 2026-03-15 09:05:07
+中文格式： 2026 年 03 月 15 日
+紧凑格式： 20260315-090507
+微秒六位： 120000
+年内第几天： 074
+两位年份： 26
+十二小时制： 09:05
+转义百分号： 2026%</code></pre></figure>
+<p><code>%A</code>、<code>%B</code>、<code>%p</code> 的输出跟随系统区域设置，在中文环境下可能变成“星期日”“三月”“上午”，跨平台比较字符串时不要依赖它们；<code>%z</code> 只对带时区的对象有意义，naive 对象会得到空字符串；<code>%s</code> 是平台扩展，Windows 上不可用。要写进文件名或接口参数时，优先使用纯数字指令。</p>
+<p>格式串里除了百分号指令，其余字符原样输出，包括中文和空格。上面 <code>&quot;%Y 年 %m 月 %d 日&quot;</code> 的结果里因此保留了空格：“2026 年 03 月 15 日”。想要“2026年3月15日”这种不带前导零的写法，直接在 <code>f-string</code> 里拼接属性更简单。</p>
+<h2 id="sec-5" class="doc-heading">五、strptime：把字符串解析成日期</h2>
+<p><code>strptime()</code> 是 <code>strftime()</code> 的逆操作：按格式串把文本解析成 <code>datetime</code> 对象。它要求文本与格式逐字符对应，缺少前导零、多了空格、分隔符不一致都会失败，失败时抛出 <code>ValueError</code>，而不是返回 <code>None</code>。</p>
+<p>解析用户输入或日志内容时，一定要用 <code>try</code> 包住，并把失败原因记录下来，否则一条脏数据就能让整批任务中止。作为对比，<code>datetime.fromisoformat()</code> 不需要写格式串，专门处理 ISO 8601 文本，速度快、写法短，适合内部数据交换。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> datetime
+
+raw <span class="tok-op">=</span> <span class="tok-string">&quot;2026-03-15 09:30:00&quot;</span>
+parsed <span class="tok-op">=</span> datetime.<span class="tok-cmdlet">strptime</span>(raw, <span class="tok-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;解析结果：&quot;</span>, parsed)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;对象类型：&quot;</span>, <span class="tok-type">type</span>(parsed).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;星期几（1 为周一）：&quot;</span>, parsed.<span class="tok-cmdlet">isoweekday</span>())
+
+<span class="tok-keyword">for</span> text <span class="tok-keyword">in</span> [<span class="tok-string">&quot;2026/03/15&quot;</span>, <span class="tok-string">&quot;2026-13-01&quot;</span>]:
+    <span class="tok-keyword">try</span>:
+        value <span class="tok-op">=</span> datetime.<span class="tok-cmdlet">strptime</span>(text, <span class="tok-string">&quot;%Y-%m-%d&quot;</span>)
+        <span class="tok-type">print</span>(text, <span class="tok-string">&quot;-&gt;&quot;</span>, value)
+    <span class="tok-keyword">except</span> <span class="tok-type">ValueError</span>:
+        <span class="tok-type">print</span>(text, <span class="tok-string">&quot;-&gt; 解析失败，月份越界或分隔符不匹配&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">解析结果： 2026-03-15 09:30:00
+对象类型： datetime
+星期几（1 为周一）： 7
+2026/03/15 -&gt; 解析失败，月份越界或分隔符不匹配
+2026-13-01 -&gt; 解析失败，月份越界或分隔符不匹配</code></pre></figure>
+<p>第二条失败记录是因为 <code>%m</code> 只接受 01 到 12，13 月无法匹配；第一条失败是分隔符用了斜杠而格式串要求短横线。实际项目中常见的坑是日志里带毫秒、带时区、带方括号，这时要么把格式串写全（<code>&quot;[%Y-%m-%d %H:%M:%S]&quot;</code>），要么先用正则把时间片段抠出来再解析。</p>
+<p><code>strptime()</code> 返回的始终是 naive 对象，即使文本里带 <code>+0800</code>，也不会自动变成带时区的对象。要保留时区，可以在解析后调用 <code>replace(tzinfo=timezone(timedelta(hours=8)))</code>，或者直接用 <code>fromisoformat()</code>，后者能识别文本中的偏移量。</p>
+<h2 id="sec-6" class="doc-heading">六、时间戳与日期互转</h2>
+<p><code>datetime.timestamp()</code> 把对象转成 Unix 时间戳，<code>datetime.fromtimestamp()</code> 则反向还原。麻烦之处在于时区：naive 对象调用 <code>timestamp()</code> 时，Python 会按本机时区解释它；<code>fromtimestamp()</code> 不带 <code>tz</code> 参数时，也按本机时区还原。同一段代码在不同时区的机器上会得到不同结果。</p>
+<p>稳妥的写法是全程使用带时区的对象，并把 UTC 显式传给 <code>tz</code> 参数。下面示例用固定时间戳 <code>1704096000</code>，它对应 UTC 的 2024 年 1 月 1 日 8 点：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> datetime, timezone
+
+moment <span class="tok-op">=</span> <span class="tok-cmdlet">datetime</span>(<span class="tok-num">2024</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">8</span>, <span class="tok-num">0</span>, tzinfo<span class="tok-op">=</span>timezone.utc)
+stamp <span class="tok-op">=</span> moment.<span class="tok-cmdlet">timestamp</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;秒级时间戳：&quot;</span>, stamp)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;毫秒时间戳：&quot;</span>, <span class="tok-type">int</span>(stamp <span class="tok-op">*</span> <span class="tok-num">1000</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;还原为 UTC：&quot;</span>, datetime.<span class="tok-cmdlet">fromtimestamp</span>(<span class="tok-type">int</span>(stamp), tz<span class="tok-op">=</span>timezone.utc).<span class="tok-cmdlet">isoformat</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;按 UTC 格式化：&quot;</span>, datetime.<span class="tok-cmdlet">fromtimestamp</span>(<span class="tok-type">int</span>(stamp), tz<span class="tok-op">=</span>timezone.utc).<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y-%m-%d %H:%M:%S %Z&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;带时区对象可比较：&quot;</span>, moment <span class="tok-op">=</span><span class="tok-op">=</span> datetime.<span class="tok-cmdlet">fromtimestamp</span>(<span class="tok-type">int</span>(stamp), tz<span class="tok-op">=</span>timezone.utc))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">秒级时间戳： 1704096000.0
+毫秒时间戳： 1704096000000
+还原为 UTC： 2024-01-01T08:00:00+00:00
+按 UTC 格式化： 2024-01-01 08:00:00 UTC
+带时区对象可比较： True</code></pre></figure>
+<p><code>timestamp()</code> 返回浮点数，因为时间戳允许小数秒；需要整数时用 <code>int()</code> 截断，或者 <code>round()</code> 四舍五入。前端 JavaScript 习惯用毫秒时间戳，传给后端时记得整除 1000，反过来则乘 1000。</p>
+<p>数据库里存时间通常有三种做法：存 UTC 时间戳、存带时区的 <code>datetime</code>、存 ISO 字符串。无论选哪种，都要保证“写入”和“读出”使用同一套时区约定。混用本地时间和 UTC 是日期相关 bug 最常见的来源，而且往往要等到跨时区部署或夏令时切换时才暴露。</p>
+<h2 id="sec-7" class="doc-heading">七、时区与 zoneinfo</h2>
+<p>不带时区的 naive 对象无法确定对应哪个时刻，带时区的 aware 对象则通过 <code>tzinfo</code> 记录偏移量。<code>datetime.timezone</code> 只能表示固定偏移（例如 <code>timezone(timedelta(hours=8))</code>），<code>zoneinfo.ZoneInfo</code> 则读取 IANA 时区数据库，能正确处理历史上多次变更的偏移和夏令时规则。</p>
+<p>创建 <code>ZoneInfo</code> 需要时区名，比如 <code>Asia/Shanghai</code>、<code>Europe/Paris</code>。Linux 和 macOS 自带时区数据库，Windows 没有，必须额外安装 <code>tzdata</code> 包，否则会抛出 <code>ZoneInfoNotFoundError</code>。示例里做了兜底：拿不到时区数据库时退回固定 +08:00，中国自 1991 年起不再使用夏令时，两者在当前日期上完全等价，所以输出保持一致。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> datetime, timedelta, timezone
+<span class="tok-keyword">from</span> zoneinfo <span class="tok-keyword">import</span> ZoneInfo, ZoneInfoNotFoundError
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">shanghai_zone</span>():
+    <span class="tok-keyword">try</span>:
+        <span class="tok-keyword">return</span> <span class="tok-cmdlet">ZoneInfo</span>(<span class="tok-string">&quot;Asia/Shanghai&quot;</span>)
+    <span class="tok-keyword">except</span> ZoneInfoNotFoundError:
+        <span class="tok-comment"># Windows 未安装 tzdata 时的兜底方案</span>
+        <span class="tok-keyword">return</span> <span class="tok-cmdlet">timezone</span>(<span class="tok-cmdlet">timedelta</span>(hours<span class="tok-op">=</span><span class="tok-num">8</span>))
+
+
+zone <span class="tok-op">=</span> <span class="tok-cmdlet">shanghai_zone</span>()
+utc_moment <span class="tok-op">=</span> <span class="tok-cmdlet">datetime</span>(<span class="tok-num">2024</span>, <span class="tok-num">6</span>, <span class="tok-num">1</span>, <span class="tok-num">12</span>, <span class="tok-num">0</span>, tzinfo<span class="tok-op">=</span>timezone.utc)
+local_moment <span class="tok-op">=</span> utc_moment.<span class="tok-cmdlet">astimezone</span>(zone)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;UTC 时间：&quot;</span>, utc_moment.<span class="tok-cmdlet">isoformat</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;上海时间：&quot;</span>, local_moment.<span class="tok-cmdlet">isoformat</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;UTC 偏移：&quot;</span>, local_moment.<span class="tok-cmdlet">utcoffset</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;换算回 UTC：&quot;</span>, local_moment.<span class="tok-cmdlet">astimezone</span>(timezone.utc).<span class="tok-cmdlet">isoformat</span>())
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-cmdlet">datetime</span>(<span class="tok-num">2024</span>, <span class="tok-num">6</span>, <span class="tok-num">1</span>, <span class="tok-num">12</span>, <span class="tok-num">0</span>) <span class="tok-op">&lt;</span> utc_moment
+<span class="tok-keyword">except</span> <span class="tok-type">TypeError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;naive 与 aware 对象不能直接比较大小&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">UTC 时间： 2024-06-01T12:00:00+00:00
+上海时间： 2024-06-01T20:00:00+08:00
+UTC 偏移： 8:00:00
+换算回 UTC： 2024-06-01T12:00:00+00:00
+naive 与 aware 对象不能直接比较大小</code></pre></figure>
+<p><code>astimezone()</code> 负责在时区之间换算，它不改变时间点，只改变显示方式；<code>utcoffset()</code> 返回该时刻相对 UTC 的偏移。对 aware 对象做算术运算，结果仍然是 aware，跨夏令时切换时会自动调整偏移，这正是不能用固定偏移硬编码欧洲、北美时区的原因。</p>
+<p>判断对象是否带时区，看 <code>tzinfo</code> 是否为 <code>None</code> 即可，但更严谨的做法是检查 <code>utcoffset()</code> 是否返回 <code>None</code>；某些自定义 <code>tzinfo</code> 虽然有实例，却可能返回 <code>None</code>。两种对象混用会抛 <code>TypeError</code>，报错信息里会明确提示 &quot;can't compare offset-naive and offset-aware datetimes&quot;。</p>
+<h2 id="sec-8" class="doc-heading">八、常见的日期计算</h2>
+<p>业务代码里的日期计算大多集中在这几件事上：从开始日期推截止日期、算两个日期相隔多久、统计区间内的工作日、取上个月的最后一天、按固定参考日期算周岁。把它们写成小函数，比在业务逻辑里到处写 <code>timedelta</code> 更清晰。</p>
+<p>注意区间统计的边界约定：<code>(end - start).days</code> 计算的是“相差天数”，不包含起始日；而“区间内有几天”通常要包含起始日、不包含结束日，循环里写 <code>while current &lt; end</code>。同一个需求用错边界，结果就会差一天。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> date, timedelta
+
+start <span class="tok-op">=</span> <span class="tok-cmdlet">date</span>(<span class="tok-num">2026</span>, <span class="tok-num">3</span>, <span class="tok-num">1</span>)
+deadline <span class="tok-op">=</span> start <span class="tok-op">+</span> <span class="tok-cmdlet">timedelta</span>(days<span class="tok-op">=</span><span class="tok-num">45</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;开始日期： {start}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;截止日期： {deadline}（星期 {deadline.isoweekday()}）&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;相隔天数：&quot;</span>, (deadline <span class="tok-op">-</span> start).days)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;上个月最后一天：&quot;</span>, <span class="tok-cmdlet">date</span>(<span class="tok-num">2026</span>, <span class="tok-num">3</span>, <span class="tok-num">1</span>) <span class="tok-op">-</span> <span class="tok-cmdlet">timedelta</span>(days<span class="tok-op">=</span><span class="tok-num">1</span>))
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">count_workdays</span>(begin, end):
+    total <span class="tok-op">=</span> <span class="tok-num">0</span>
+    current <span class="tok-op">=</span> begin
+    <span class="tok-keyword">while</span> current <span class="tok-op">&lt;</span> end:
+        <span class="tok-keyword">if</span> current.<span class="tok-cmdlet">isoweekday</span>() <span class="tok-op">&lt;</span><span class="tok-op">=</span> <span class="tok-num">5</span>:
+            total <span class="tok-op">+</span><span class="tok-op">=</span> <span class="tok-num">1</span>
+        current <span class="tok-op">+</span><span class="tok-op">=</span> <span class="tok-cmdlet">timedelta</span>(days<span class="tok-op">=</span><span class="tok-num">1</span>)
+    <span class="tok-keyword">return</span> total
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">full_age</span>(birth, reference):
+    years <span class="tok-op">=</span> reference.year <span class="tok-op">-</span> birth.year
+    <span class="tok-keyword">if</span> (reference.month, reference.day) <span class="tok-op">&lt;</span> (birth.month, birth.day):
+        years <span class="tok-op">-</span><span class="tok-op">=</span> <span class="tok-num">1</span>
+    <span class="tok-keyword">return</span> years
+
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;区间内工作日：&quot;</span>, <span class="tok-cmdlet">count_workdays</span>(start, deadline))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;周岁：&quot;</span>, <span class="tok-cmdlet">full_age</span>(<span class="tok-cmdlet">date</span>(<span class="tok-num">1998</span>, <span class="tok-num">9</span>, <span class="tok-num">20</span>), <span class="tok-cmdlet">date</span>(<span class="tok-num">2026</span>, <span class="tok-num">3</span>, <span class="tok-num">15</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;年末最后一天：&quot;</span>, <span class="tok-cmdlet">date</span>(<span class="tok-num">2026</span>, <span class="tok-num">12</span>, <span class="tok-num">31</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">开始日期： 2026-03-01
+截止日期： 2026-04-15（星期 3）
+相隔天数： 45
+上个月最后一天： 2026-02-28
+区间内工作日： 32
+周岁： 27
+年末最后一天： 2026-12-31</code></pre></figure>
+<p><code>isoweekday()</code> 返回 1 到 7，1 表示周一；<code>weekday()</code> 返回 0 到 6，0 表示周一。两个方法只差一个偏移量，混用时最容易写出“星期 0”。<code>count_workdays()</code> 只排除了周六周日，没有考虑法定节假日，真实排班需要额外维护节假日表。</p>
+<p>周岁函数用元组比较 <code>(month, day)</code> 判断生日是否已过，比先算天数再除以 365 更准确，也不会受闰年影响。取月末日期用“下个月 1 号减一天”的写法，比硬编码 28、29、30、31 更可靠。</p>
+<h2 id="sec-9" class="doc-heading">九、calendar 模块</h2>
+<p><code>calendar</code> 处理“月”这一层的规则：某月有几天、1 号是星期几、某年是不是闰年，以及直接生成月历文本。<code>calendar.month(year, month)</code> 返回多行字符串，默认以周一为一周的第一天，可以直接打印到终端或写进报告。</p>
+<p><code>calendar.monthcalendar(year, month)</code> 把整月拆成“按周分组的二维列表”，每行固定 7 个元素，属于本月的日期用日号表示，不属于本月的补 0。需要在界面上画日历控件时，用这个函数比解析月历文本方便得多。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> calendar
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;2026 年 2 月的月历：&quot;</span>)
+<span class="tok-keyword">for</span> line <span class="tok-keyword">in</span> calendar.<span class="tok-cmdlet">month</span>(<span class="tok-num">2026</span>, <span class="tok-num">2</span>).<span class="tok-cmdlet">splitlines</span>():
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;| &quot;</span> <span class="tok-op">+</span> line)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第一周：&quot;</span>, calendar.<span class="tok-cmdlet">monthcalendar</span>(<span class="tok-num">2026</span>, <span class="tok-num">2</span>)[<span class="tok-num">0</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;闰年 2024：&quot;</span>, calendar.<span class="tok-cmdlet">isleap</span>(<span class="tok-num">2024</span>), <span class="tok-string">&quot;| 闰年 2026：&quot;</span>, calendar.<span class="tok-cmdlet">isleap</span>(<span class="tok-num">2026</span>))
+
+first_weekday, days_in_month <span class="tok-op">=</span> calendar.<span class="tok-cmdlet">monthrange</span>(<span class="tok-num">2024</span>, <span class="tok-num">2</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;2024 年 2 月天数：&quot;</span>, days_in_month, <span class="tok-string">&quot;| 1 号是星期：&quot;</span>, <span class="tok-type">int</span>(first_weekday) <span class="tok-op">+</span> <span class="tok-num">1</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;2026-01-01 是星期：&quot;</span>, calendar.<span class="tok-cmdlet">weekday</span>(<span class="tok-num">2026</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>) <span class="tok-op">+</span> <span class="tok-num">1</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">2026 年 2 月的月历：
+|    February 2026
+| Mo Tu We Th Fr Sa Su
+|                    1
+|  2  3  4  5  6  7  8
+|  9 10 11 12 13 14 15
+| 16 17 18 19 20 21 22
+| 23 24 25 26 27 28
+第一周： [0, 0, 0, 0, 0, 0, 1]
+闰年 2024： True | 闰年 2026： False
+2024 年 2 月天数： 29 | 1 号是星期： 4
+2026-01-01 是星期： 4</code></pre></figure>
+<p>每行前面的 <code>|</code> 是示例自己加的前缀，纯粹的 <code>calendar.month()</code> 输出里，第一行月份标题带若干前导空格，直接贴进文档容易被误读成缩进。月历文本里的月份名是英文，因为 <code>calendar</code> 在导入时按当前区域设置生成了月份名列表；<code>calendar.setfirstweekday()</code> 可以把一周的第一天改成周日，<code>calendar.LocaleTextCalendar</code> 支持按指定区域输出本地化的月名。</p>
+<p><code>monthrange()</code> 的返回值在 Python 3.13 里是 <code>calendar.Day</code> 枚举，直接打印会显示 <code>calendar.THURSDAY</code> 这样的名字，所以示例用 <code>int()</code> 转成数字再加 1。做“某月有多少个工作日”这类统计时，把 <code>monthrange()</code> 和 <code>weekday()</code> 结合起来，比手写循环判断闰年省事。</p>
+<h2 id="sec-10" class="doc-heading">十、练习任务</h2>
+<p>任务 1：计算 2026 年从元旦到年末的间隔天数、完整周数和余下天数。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> date
+
+start <span class="tok-op">=</span> <span class="tok-cmdlet">date</span>(<span class="tok-num">2026</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>)
+end <span class="tok-op">=</span> <span class="tok-cmdlet">date</span>(<span class="tok-num">2026</span>, <span class="tok-num">12</span>, <span class="tok-num">31</span>)
+days <span class="tok-op">=</span> (end <span class="tok-op">-</span> start).days
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;间隔天数：&quot;</span>, days)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;完整周数：&quot;</span>, days <span class="tok-op">/</span><span class="tok-op">/</span> <span class="tok-num">7</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;余下天数：&quot;</span>, days <span class="tok-op">%</span> <span class="tok-num">7</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;结束日是年内第几天：&quot;</span>, end.<span class="tok-cmdlet">timetuple</span>().tm_yday)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">间隔天数： 364
+完整周数： 52
+余下天数： 0
+结束日是年内第几天： 365</code></pre></figure>
+<p>任务 2：把三条日志时间解析成 <code>datetime</code>，按时间先后重新排序后输出时分秒和事件。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> datetime
+
+records <span class="tok-op">=</span> [
+    (<span class="tok-string">&quot;2026-03-15 09:30:00&quot;</span>, <span class="tok-string">&quot;备份完成&quot;</span>),
+    (<span class="tok-string">&quot;2026-03-15 08:05:30&quot;</span>, <span class="tok-string">&quot;服务启动&quot;</span>),
+    (<span class="tok-string">&quot;2026-03-15 09:12:45&quot;</span>, <span class="tok-string">&quot;任务排队&quot;</span>),
+]
+
+parsed <span class="tok-op">=</span> []
+<span class="tok-keyword">for</span> text, event <span class="tok-keyword">in</span> records:
+    <span class="tok-keyword">try</span>:
+        parsed.<span class="tok-cmdlet">append</span>((datetime.<span class="tok-cmdlet">strptime</span>(text, <span class="tok-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>), event))
+    <span class="tok-keyword">except</span> <span class="tok-type">ValueError</span>:
+        <span class="tok-type">print</span>(<span class="tok-string">&quot;跳过无法解析的记录：&quot;</span>, text)
+
+<span class="tok-keyword">for</span> moment, event <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(parsed):
+    <span class="tok-type">print</span>(moment.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%H:%M:%S&quot;</span>), event)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">08:05:30 服务启动
+09:12:45 任务排队
+09:30:00 备份完成</code></pre></figure>
+<p>任务 3：用 <code>calendar</code> 查出 2026 年 2 月的天数、1 号是星期几，并算出 3 月 1 日。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> calendar
+<span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> date, timedelta
+
+first_weekday, days_in_month <span class="tok-op">=</span> calendar.<span class="tok-cmdlet">monthrange</span>(<span class="tok-num">2026</span>, <span class="tok-num">2</span>)
+last_day <span class="tok-op">=</span> <span class="tok-cmdlet">date</span>(<span class="tok-num">2026</span>, <span class="tok-num">2</span>, days_in_month)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;当月天数：&quot;</span>, days_in_month)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;1 号是星期：&quot;</span>, <span class="tok-type">int</span>(first_weekday) <span class="tok-op">+</span> <span class="tok-num">1</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;当月最后一天：&quot;</span>, last_day)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;下个月第一天：&quot;</span>, last_day <span class="tok-op">+</span> <span class="tok-cmdlet">timedelta</span>(days<span class="tok-op">=</span><span class="tok-num">1</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">当月天数： 28
+1 号是星期： 7
+当月最后一天： 2026-02-28
+下个月第一天： 2026-03-01</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="json.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python JSON</span></a><a class="pager-link pager-link--next" href="threading.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 多线程</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、time 模块</a><a class="toc-link toc-link--h2" href="#sec-2">二、date、time 与 datetime</a><a class="toc-link toc-link--h2" href="#sec-3">三、timedelta 与时间间隔</a><a class="toc-link toc-link--h2" href="#sec-4">四、strftime：把日期格式化成字符串</a><a class="toc-link toc-link--h2" href="#sec-5">五、strptime：把字符串解析成日期</a><a class="toc-link toc-link--h2" href="#sec-6">六、时间戳与日期互转</a><a class="toc-link toc-link--h2" href="#sec-7">七、时区与 zoneinfo</a><a class="toc-link toc-link--h2" href="#sec-8">八、常见的日期计算</a><a class="toc-link toc-link--h2" href="#sec-9">九、calendar 模块</a><a class="toc-link toc-link--h2" href="#sec-10">十、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

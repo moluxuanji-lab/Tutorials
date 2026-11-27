@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 多线程 · Python</title>
+<meta name="description" content="理解线程与 GIL 的关系，掌握 Thread 的创建、start 与 join，守护线程、Lock、RLock、Event、Queue 的用法，以及 ThreadPoolExecutor 与 Future 的任务编排，并避开共享状态下的竞态问题。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="threading" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link is-active" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python 多线程</h1><p class="doc-lead">理解线程与 GIL 的关系，掌握 Thread 的创建、start 与 join，守护线程、Lock、RLock、Event、Queue 的用法，以及 ThreadPoolExecutor 与 Future 的任务编排，并避开共享状态下的竞态问题。</p><div class="doc-meta"><span>第 36 章</span><span class="doc-meta__dot"></span><span>约 38 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>线程是操作系统调度的最小单位，同一进程内的多个线程共享内存空间和文件描述符，因此切换成本低、数据传递方便。Python 的 <code>threading</code> 模块把这套能力封装成一套面向对象的接口：创建 <code>Thread</code> 对象、调用 <code>start()</code> 启动、调用 <code>join()</code> 等待结束，再配合锁、事件、队列等同步原语协调执行顺序。</p>
+<p>多线程最适合 I/O 密集型任务：等待网络响应、读写磁盘、查询数据库时，线程会主动让出执行权，让其他线程继续工作。对于纯计算任务，Python 的全局解释器锁（GIL）会限制同一时刻只有一个线程执行字节码，多线程并不能带来真正的多核并行，这类场景应该改用 <code>multiprocessing</code> 或把计算下沉到 C 扩展。</p>
+<p>本章的示例都使用固定输入，所有汇总结果都在 <code>join()</code> 之后由主线程打印，不依赖线程的调度顺序，也不打印耗时，因此每次运行的输出完全一致。示例不访问网络、不读写外部文件，可以直接复制运行。</p>
+<h2 id="sec-1" class="doc-heading">一、线程与 GIL</h2>
+<p>GIL（Global Interpreter Lock）是 CPython 解释器内部的一把全局锁：任何线程执行 Python 字节码之前都必须先持有它。这意味着即使机器有 8 个核，一个进程里的多个线程也无法同时执行纯 Python 计算，它们在字节码层面是轮流运行的。</p>
+<p>GIL 并不是时时刻刻都被持有。线程执行 <code>time.sleep()</code>、<code>socket.recv()</code>、文件读写这类阻塞调用时会主动释放 GIL，等操作完成后再重新竞争，所以多线程抓取网页、批量请求接口仍然能获得数倍的加速。解释器默认每 5 毫秒检查一次是否需要切换线程，这个间隔可以用 <code>sys.getswitchinterval()</code> 读取。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> sys
+<span class="tok-keyword">import</span> threading
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;主线程名称：&quot;</span>, threading.<span class="tok-cmdlet">current_thread</span>().name)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;活动线程数：&quot;</span>, threading.<span class="tok-cmdlet">active_count</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;主线程是否存活：&quot;</span>, threading.<span class="tok-cmdlet">main_thread</span>().<span class="tok-cmdlet">is_alive</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;线程切换间隔（秒）：&quot;</span>, sys.<span class="tok-cmdlet">getswitchinterval</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;默认线程栈大小（字节）：&quot;</span>, threading.<span class="tok-cmdlet">stack_size</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">主线程名称： MainThread
+活动线程数： 1
+主线程是否存活： True
+线程切换间隔（秒）： 0.005
+默认线程栈大小（字节）： 0</code></pre></figure>
+<p><code>threading.current_thread()</code> 返回当前线程对象，主线程的名字固定是 <code>MainThread</code>；<code>active_count()</code> 统计当前存活的线程数量，程序刚启动时只有主线程一个。<code>stack_size()</code> 返回 0 表示使用操作系统的默认栈大小，需要创建大量线程时才考虑手动调小。</p>
+<p>Python 3.13 提供了实验性的自由线程构建（free-threading），编译时关闭 GIL 后可以用 <code>sys._is_gil_enabled()</code> 查看当前状态。常规发行版仍然带 GIL，因此“多线程做计算”这条路的性能上限并没有改变。判断该用线程还是进程，看任务是等待多还是计算多：等待多用线程，计算多用进程。</p>
+<h2 id="sec-2" class="doc-heading">二、创建线程：Thread、start 与 join</h2>
+<p>创建线程有两种写法：把函数传给 <code>Thread(target=..., args=...)</code>，或者继承 <code>Thread</code> 并重写 <code>run()</code>。前者适合简单的任务函数，后者适合需要保存状态、复用逻辑的场景。参数必须用 <code>args</code> 以元组形式传入，只传一个参数时别忘记逗号。</p>
+<p><code>start()</code> 只是把线程标记为就绪并交给操作系统调度，它会立刻返回，不会等任务执行完；<code>join()</code> 才是等待，调用它的线程会阻塞，直到目标线程结束。新手最常见的错误是只调用 <code>start()</code> 就继续往下走，结果主线程先打印了汇总结果，拿到一堆空值。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+
+collected <span class="tok-op">=</span> {}
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">collect</span>(name, limit):
+    collected[name] <span class="tok-op">=</span> <span class="tok-type">sum</span>(<span class="tok-type">range</span>(<span class="tok-num">1</span>, limit <span class="tok-op">+</span> <span class="tok-num">1</span>))
+
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">SumThread</span>(threading.Thread):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, limit):
+        <span class="tok-type">super</span>().<span class="tok-cmdlet">__init__</span>(name<span class="tok-op">=</span>name)
+        <span class="tok-var">self</span>.limit <span class="tok-op">=</span> limit
+        <span class="tok-var">self</span>.total <span class="tok-op">=</span> <span class="tok-num">0</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">run</span>(<span class="tok-var">self</span>):
+        <span class="tok-var">self</span>.total <span class="tok-op">=</span> <span class="tok-type">sum</span>(<span class="tok-type">range</span>(<span class="tok-num">1</span>, <span class="tok-var">self</span>.limit <span class="tok-op">+</span> <span class="tok-num">1</span>))
+
+
+custom <span class="tok-op">=</span> <span class="tok-cmdlet">SumThread</span>(<span class="tok-string">&quot;子类线程&quot;</span>, <span class="tok-num">100</span>)
+threads <span class="tok-op">=</span> [
+    threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>collect, args<span class="tok-op">=</span>(<span class="tok-string">&quot;函数线程&quot;</span>, <span class="tok-num">10</span>), name<span class="tok-op">=</span><span class="tok-string">&quot;func-1&quot;</span>),
+    custom,
+]
+
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">start</span>()
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">join</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;函数线程结果：&quot;</span>, collected[<span class="tok-string">&quot;函数线程&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;子类线程结果：&quot;</span>, custom.total)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全部结束：&quot;</span>, <span class="tok-type">all</span>(<span class="tok-keyword">not</span> thread.<span class="tok-cmdlet">is_alive</span>() <span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;子类线程名称：&quot;</span>, custom.name)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">函数线程结果： 55
+子类线程结果： 5050
+全部结束： True
+子类线程名称： 子类线程</code></pre></figure>
+<p>两个线程各自把结果写进独立的槽位，主线程等到它们都结束后再统一读取，因此不存在“谁先谁后”的问题。如果让两个线程往同一个累加变量上写，就必须加锁，这正是后面几节要讨论的内容。</p>
+<p><code>join()</code> 可以带 <code>timeout</code> 参数，超时后不再等待，但线程本身不会被终止，仍在后台运行。<code>is_alive()</code> 用来判断线程是否还活着。线程一旦结束就不能再次 <code>start()</code>，需要重跑只能新建对象。<code>threading.enumerate()</code> 可以列出所有存活线程，排查“线程泄漏”时很有用。</p>
+<h2 id="sec-3" class="doc-heading">三、守护线程 daemon</h2>
+<p>线程分为前台线程和守护线程。前台线程（<code>daemon=False</code>，默认值）会阻止解释器退出：只要还有一个前台线程在运行，进程就会等它结束。守护线程（<code>daemon=True</code>）不阻止退出，主线程结束时它们被直接终止，既不执行清理代码，也不会刷新缓冲区。</p>
+<p>守护线程适合做后台轮询、心跳上报、缓存刷新这类“主程序结束就该一起消失”的辅助工作。创建线程后、调用 <code>start()</code> 之前设置 <code>daemon</code> 属性，或者直接在构造函数里传 <code>daemon=True</code>；线程一旦启动，再修改这个属性会抛 <code>RuntimeError</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+
+records <span class="tok-op">=</span> []
+gate <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Event</span>()
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">background</span>():
+    gate.<span class="tok-cmdlet">wait</span>(<span class="tok-num">5</span>)
+    records.<span class="tok-cmdlet">append</span>(<span class="tok-string">&quot;后台线程完成&quot;</span>)
+
+
+worker <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>background, name<span class="tok-op">=</span><span class="tok-string">&quot;bg&quot;</span>, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+worker.<span class="tok-cmdlet">start</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;daemon 属性：&quot;</span>, worker.daemon)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;主线程检查时是否存活：&quot;</span>, worker.<span class="tok-cmdlet">is_alive</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;共享记录：&quot;</span>, records)
+
+<span class="tok-comment"># 主线程不调用 join，解释器退出时守护线程被直接终止</span></code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">daemon 属性： True
+主线程检查时是否存活： True
+共享记录： []</code></pre></figure>
+<p>守护线程因为可能被随时打断，绝不能用来写文件、提交事务或释放必须释放的资源——这些操作要么完整执行，要么根本不执行。需要保证收尾逻辑执行的场景，应该用前台线程加 <code>join()</code>，或者用 <code>atexit</code> 注册退出钩子。</p>
+<h2 id="sec-4" class="doc-heading">四、Lock：互斥锁</h2>
+<p>当多个线程读改写同一个变量时，需要互斥锁保证“读—改—写”三步不被打断。<code>threading.Lock</code> 有两种使用方式：手动 <code>acquire()</code> / <code>release()</code>，或者用 <code>with lock:</code> 语句。推荐后者，它能在代码块抛异常时自动释放锁，避免死锁。</p>
+<p>锁的保护范围要刚好覆盖共享数据的操作，范围太小起不到作用，范围太大又会让多线程退化成串行。另外，锁保护的是“访问同一份数据的全部代码路径”，如果某个线程忘了加锁，其他线程加得再认真也没用。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+
+count <span class="tok-op">=</span> <span class="tok-num">0</span>
+lock <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Lock</span>()
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">increase</span>(times):
+    <span class="tok-keyword">global</span> count
+    <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(times):
+        <span class="tok-keyword">with</span> lock:
+            count <span class="tok-op">+</span><span class="tok-op">=</span> <span class="tok-num">1</span>
+
+
+threads <span class="tok-op">=</span> [threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>increase, args<span class="tok-op">=</span>(<span class="tok-num">25000</span>,)) <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">4</span>)]
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">start</span>()
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">join</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;期望结果：&quot;</span>, <span class="tok-num">4</span> <span class="tok-op">*</span> <span class="tok-num">25000</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;实际结果：&quot;</span>, count)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是否一致：&quot;</span>, count <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">100000</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">期望结果： 100000
+实际结果： 100000
+是否一致： True</code></pre></figure>
+<p>四个线程各做两万五千次自增，累计十万次，加锁后的结果与预期完全一致。如果去掉 <code>with lock:</code>，结果通常会小于 100000，而且每次运行都不一样——<code>count += 1</code> 在字节码层面是“读取、加一、写回”三条指令，线程可能在这三步之间被切换走。</p>
+<p><code>Lock</code> 不可重入：同一个线程第二次调用 <code>acquire()</code> 会阻塞自己，形成死锁。<code>acquire(blocking=False)</code> 或 <code>acquire(timeout=...)</code> 可以在拿不到锁时返回 <code>False</code>，便于实现“尝试加锁、失败就跳过”的逻辑。锁的粒度应尽量小，尤其不要把 <code>sleep</code>、网络请求这类耗时操作放进锁里。</p>
+<h2 id="sec-5" class="doc-heading">五、RLock：可重入锁</h2>
+<p><code>RLock</code> 是带计数器版本的锁：同一个线程可以多次获取，每获取一次计数加一，释放时计数减一，计数归零才真正释放。它解决的是“加锁的函数调用另一个同样加锁的函数”这种递归场景，用普通 <code>Lock</code> 会直接卡死。</p>
+<p>RLock 只能被获取它的线程释放，其他线程释放会抛 <code>RuntimeError</code>。它适合保护那些内部会互相调用的方法，比如一个类的多个公开方法都要加锁，而它们之间又会互相调用；如果代码结构本身可以避免嵌套加锁，用普通 <code>Lock</code> 更清晰，也更容易看出临界区范围。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+
+rlock <span class="tok-op">=</span> threading.<span class="tok-cmdlet">RLock</span>()
+plain <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Lock</span>()
+records <span class="tok-op">=</span> []
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">enter</span>(level):
+    <span class="tok-keyword">with</span> rlock:
+        records.<span class="tok-cmdlet">append</span>(<span class="tok-string">f&quot;进入第 {level} 层&quot;</span>)
+        <span class="tok-keyword">if</span> level <span class="tok-op">&lt;</span> <span class="tok-num">3</span>:
+            <span class="tok-cmdlet">enter</span>(level <span class="tok-op">+</span> <span class="tok-num">1</span>)
+        records.<span class="tok-cmdlet">append</span>(<span class="tok-string">f&quot;离开第 {level} 层&quot;</span>)
+
+
+<span class="tok-cmdlet">enter</span>(<span class="tok-num">1</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;可重入锁递归结果：&quot;</span>, <span class="tok-string">&quot; | &quot;</span>.<span class="tok-cmdlet">join</span>(records))
+
+first <span class="tok-op">=</span> plain.<span class="tok-cmdlet">acquire</span>(timeout<span class="tok-op">=</span><span class="tok-num">0.1</span>)
+second <span class="tok-op">=</span> plain.<span class="tok-cmdlet">acquire</span>(timeout<span class="tok-op">=</span><span class="tok-num">0.1</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;普通 Lock 第一次获取：&quot;</span>, first)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;同一线程再次获取：&quot;</span>, second)
+plain.<span class="tok-cmdlet">release</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">可重入锁递归结果： 进入第 1 层 | 进入第 2 层 | 进入第 3 层 | 离开第 3 层 | 离开第 2 层 | 离开第 1 层
+普通 Lock 第一次获取： True
+同一线程再次获取： False</code></pre></figure>
+<p>同样的递归换成普通 <code>Lock</code>，第二次 <code>with rlock</code> 就会永久阻塞，程序只能靠外部超时或 Ctrl+C 结束。示例里用带超时的 <code>acquire(timeout=0.1)</code> 演示这一点：第一次返回 <code>True</code>，第二次等满 0.1 秒后返回 <code>False</code>，既说明了行为，又不会真的把程序挂死。</p>
+<p>RLock 的计数必须严格配对释放，少释放一次，其他线程就永远拿不到锁；多释放一次会抛 <code>RuntimeError</code>。<code>with</code> 语句天然保证配对，所以即使在递归函数里，也应该坚持用 <code>with</code> 而不是手写 <code>acquire</code> / <code>release</code>。</p>
+<h2 id="sec-6" class="doc-heading">六、Event：线程间的事件通知</h2>
+<p>线程之间除了共享变量，还需要“等某个条件成立再继续”的协作方式。<code>threading.Event</code> 内部维护一个布尔标志：<code>set()</code> 把它设为真并唤醒所有等待者，<code>clear()</code> 复位，<code>wait(timeout)</code> 阻塞到标志为真或超时。</p>
+<p>Event 适合“一次性通知”的场景：初始化完成、配置加载完毕、收到退出信号。它不传递数据，只传递“可以继续了”这个信号；需要连数据一起传，用 <code>queue.Queue</code> 更合适。<code>wait()</code> 一定要带超时，否则上游线程崩溃时下游会永久阻塞。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+
+ready <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Event</span>()
+buffer <span class="tok-op">=</span> []
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">producer</span>():
+    buffer.<span class="tok-cmdlet">extend</span>([<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">4</span>, <span class="tok-num">1</span>, <span class="tok-num">5</span>])
+    ready.<span class="tok-type">set</span>()
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">consumer</span>():
+    ready.<span class="tok-cmdlet">wait</span>(timeout<span class="tok-op">=</span><span class="tok-num">2</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;收到数据：&quot;</span>, buffer)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;排序后：&quot;</span>, <span class="tok-type">sorted</span>(buffer))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;求和：&quot;</span>, <span class="tok-type">sum</span>(buffer))
+
+
+worker <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>producer, name<span class="tok-op">=</span><span class="tok-string">&quot;producer&quot;</span>)
+watcher <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>consumer, name<span class="tok-op">=</span><span class="tok-string">&quot;consumer&quot;</span>)
+watcher.<span class="tok-cmdlet">start</span>()
+worker.<span class="tok-cmdlet">start</span>()
+worker.<span class="tok-cmdlet">join</span>()
+watcher.<span class="tok-cmdlet">join</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;事件状态：&quot;</span>, ready.<span class="tok-cmdlet">is_set</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;缓冲区长度：&quot;</span>, <span class="tok-type">len</span>(buffer))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">收到数据： [3, 1, 4, 1, 5]
+排序后： [1, 1, 3, 4, 5]
+求和： 14
+事件状态： True
+缓冲区长度： 5</code></pre></figure>
+<p>消费者先启动并停在 <code>ready.wait()</code>，生产者填好数据后调用 <code>set()</code>，消费者被唤醒，读到的是完整列表。即使线程调度顺序变化，输出也不会改变，因为“读数据”这个动作一定发生在“事件被设置”之后。</p>
+<p>Event 的等待是一次性的：<code>wait()</code> 返回后标志仍然为真，后续调用会立刻通过。需要周期性通知时，应在每轮结束后调用 <code>clear()</code>，或者改用 <code>Condition</code>。Python 3 的 Event 在 <code>set()</code> 之后调用 <code>wait()</code> 也会立即返回，不存在“通知丢失”的问题。</p>
+<h2 id="sec-7" class="doc-heading">七、Queue：线程安全的队列</h2>
+<p><code>queue.Queue</code> 是标准库提供的线程安全队列，内部已经处理好加锁和条件变量：<code>put()</code> 入队，<code>get()</code> 出队，队列为空时 <code>get()</code> 会阻塞等待，达到上限时 <code>put()</code> 也会阻塞。它是生产者—消费者模型的首选工具，比手写锁加列表可靠得多。</p>
+<p>除了先进先出的 <code>Queue</code>，还有后进先出的 <code>LifoQueue</code> 和按优先级出队的 <code>PriorityQueue</code>。<code>task_done()</code> 与 <code>join()</code> 配合，可以等待队列里的任务全部处理完毕。多线程抓取、日志异步落盘、任务分发这类架构，核心都是这个模式。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> queue
+<span class="tok-keyword">import</span> threading
+
+tasks <span class="tok-op">=</span> queue.<span class="tok-cmdlet">Queue</span>()
+results <span class="tok-op">=</span> queue.<span class="tok-cmdlet">Queue</span>()
+stop <span class="tok-op">=</span> <span class="tok-type">object</span>()
+
+<span class="tok-keyword">for</span> number <span class="tok-keyword">in</span> [<span class="tok-num">7</span>, <span class="tok-num">11</span>, <span class="tok-num">13</span>, <span class="tok-num">17</span>]:
+    tasks.<span class="tok-cmdlet">put</span>(number)
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">worker</span>():
+    <span class="tok-keyword">while</span> <span class="tok-keyword">True</span>:
+        item <span class="tok-op">=</span> tasks.<span class="tok-cmdlet">get</span>()
+        <span class="tok-keyword">try</span>:
+            <span class="tok-keyword">if</span> item <span class="tok-keyword">is</span> stop:
+                <span class="tok-keyword">return</span>
+            results.<span class="tok-cmdlet">put</span>((item, item <span class="tok-op">*</span> item))
+        <span class="tok-keyword">finally</span>:
+            tasks.<span class="tok-cmdlet">task_done</span>()
+
+
+threads <span class="tok-op">=</span> [threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>worker, name<span class="tok-op">=</span><span class="tok-string">f&quot;worker-{index}&quot;</span>) <span class="tok-keyword">for</span> index <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">2</span>)]
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">start</span>()
+<span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> threads:
+    tasks.<span class="tok-cmdlet">put</span>(stop)
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">join</span>()
+
+pairs <span class="tok-op">=</span> []
+<span class="tok-keyword">while</span> <span class="tok-keyword">not</span> results.<span class="tok-cmdlet">empty</span>():
+    pairs.<span class="tok-cmdlet">append</span>(results.<span class="tok-cmdlet">get</span>())
+
+<span class="tok-keyword">for</span> number, square <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(pairs):
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{number} 的平方： {square}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;剩余任务：&quot;</span>, tasks.<span class="tok-cmdlet">qsize</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">7 的平方： 49
+11 的平方： 121
+13 的平方： 169
+17 的平方： 289
+剩余任务： 0</code></pre></figure>
+<p>每个消费者线程循环取任务，取到哨兵对象 <code>stop</code> 就退出，哨兵的数量与线程数一致，保证每个线程都能收到退出信号。结果先收进 <code>results</code> 队列，主线程 <code>join()</code> 之后再排序打印，所以输出顺序与线程调度无关。</p>
+<p>不用哨兵也有办法：调用 <code>tasks.join()</code> 等所有任务被 <code>task_done()</code> 标记完成，再给每个线程发一个 <code>None</code>，或者用 <code>ThreadPoolExecutor</code> 代替。注意 <code>qsize()</code> 只适合监控和调试，在多线程环境下它返回的只是瞬时值，不能用来做同步判断。</p>
+<h2 id="sec-8" class="doc-heading">八、ThreadPoolExecutor 与 Future</h2>
+<p>手动管理线程的创建和销毁比较繁琐。<code>concurrent.futures.ThreadPoolExecutor</code> 提供了线程池：任务提交后由池内空闲线程执行，用 <code>Future</code> 对象表示“将来会有结果”。<code>submit()</code> 提交单个任务，<code>map()</code> 批量提交并按参数顺序返回结果。</p>
+<p><code>Future</code> 的 <code>result()</code> 会阻塞到任务完成，任务内部抛出的异常会在调用 <code>result()</code> 时重新抛出；<code>exception()</code> 用于查询异常，<code>done()</code> 判断是否结束，<code>cancel()</code> 尝试取消尚未开始的任务。<code>with</code> 语句结束时会自动调用 <code>shutdown(wait=True)</code>，等待所有已提交任务完成。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> concurrent.futures <span class="tok-keyword">import</span> ThreadPoolExecutor
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">parse</span>(text):
+    <span class="tok-keyword">if</span> text <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-string">&quot;bad&quot;</span>:
+        <span class="tok-keyword">raise</span> <span class="tok-type">ValueError</span>(<span class="tok-string">&quot;无法解析的输入&quot;</span>)
+    <span class="tok-keyword">return</span> <span class="tok-type">int</span>(text)
+
+
+inputs <span class="tok-op">=</span> [<span class="tok-string">&quot;12&quot;</span>, <span class="tok-string">&quot;7&quot;</span>, <span class="tok-string">&quot;bad&quot;</span>, <span class="tok-string">&quot;25&quot;</span>]
+
+<span class="tok-keyword">with</span> <span class="tok-cmdlet">ThreadPoolExecutor</span>(max_workers<span class="tok-op">=</span><span class="tok-num">2</span>) <span class="tok-keyword">as</span> executor:
+    futures <span class="tok-op">=</span> [executor.<span class="tok-cmdlet">submit</span>(parse, item) <span class="tok-keyword">for</span> item <span class="tok-keyword">in</span> inputs]
+
+<span class="tok-keyword">for</span> item, future <span class="tok-keyword">in</span> <span class="tok-type">zip</span>(inputs, futures):
+    <span class="tok-keyword">try</span>:
+        <span class="tok-type">print</span>(item, <span class="tok-string">&quot;-&gt;&quot;</span>, future.<span class="tok-cmdlet">result</span>())
+    <span class="tok-keyword">except</span> <span class="tok-type">ValueError</span> <span class="tok-keyword">as</span> error:
+        <span class="tok-type">print</span>(item, <span class="tok-string">&quot;-&gt; 捕获异常：&quot;</span>, error)
+
+<span class="tok-keyword">with</span> <span class="tok-cmdlet">ThreadPoolExecutor</span>(max_workers<span class="tok-op">=</span><span class="tok-num">2</span>) <span class="tok-keyword">as</span> executor:
+    squares <span class="tok-op">=</span> <span class="tok-type">list</span>(executor.<span class="tok-type">map</span>(<span class="tok-keyword">lambda</span> n: n <span class="tok-op">*</span> n, [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>]))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;map 结果：&quot;</span>, squares)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">12 -&gt; 12
+7 -&gt; 7
+bad -&gt; 捕获异常： 无法解析的输入
+25 -&gt; 25
+map 结果： [1, 4, 9, 16]</code></pre></figure>
+<p><code>max_workers</code> 决定池内线程数，默认值是 CPU 核数与 4 中的较小值加上 4，I/O 密集任务可以适当调大，计算密集任务调大没有意义。<code>map()</code> 返回的是生成器，结果顺序与输入顺序一致；<code>as_completed()</code> 则按完成先后产出，顺序不确定，适合“谁先完成先处理谁”的场景。</p>
+<p>任务里抛出的异常不会让程序崩溃，而是被 <code>Future</code> 捕获，直到有人调用 <code>result()</code> 才重新抛出。这既是优点也是坑：如果只提交任务却从不读取结果，异常就会被静默吞掉。线程池用完必须关闭，否则进程可能因为残留的工作线程而迟迟不退出。</p>
+<h2 id="sec-9" class="doc-heading">九、多线程计算示例</h2>
+<p>虽然 GIL 限制了纯计算的并行度，把大任务拆成若干分片交给线程处理仍然是常见写法：一来代码结构清晰，二来分片逻辑可以直接换到进程池上复用。下面的例子把 1 到 200000 求和拆成四段，每个线程算一段，主线程汇总。</p>
+<p>分片边界最容易出错。示例用 <code>index * (TOTAL // PARTS) + 1</code> 作为起点、<code>(index + 1) * (TOTAL // PARTS)</code> 作为终点，四段首尾相接且不重叠。如果写成 <code>range(begin, end)</code>，每段末尾那个数就会被漏掉，汇总结果和公式对不上。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+
+TOTAL <span class="tok-op">=</span> <span class="tok-num">200000</span>
+PARTS <span class="tok-op">=</span> <span class="tok-num">4</span>
+CHUNK <span class="tok-op">=</span> TOTAL <span class="tok-op">/</span><span class="tok-op">/</span> PARTS
+
+partial <span class="tok-op">=</span> [<span class="tok-num">0</span>] <span class="tok-op">*</span> PARTS
+lock <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Lock</span>()
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">sum_chunk</span>(index):
+    begin <span class="tok-op">=</span> index <span class="tok-op">*</span> CHUNK <span class="tok-op">+</span> <span class="tok-num">1</span>
+    end <span class="tok-op">=</span> (index <span class="tok-op">+</span> <span class="tok-num">1</span>) <span class="tok-op">*</span> CHUNK
+    local <span class="tok-op">=</span> <span class="tok-type">sum</span>(<span class="tok-type">range</span>(begin, end <span class="tok-op">+</span> <span class="tok-num">1</span>))
+    <span class="tok-keyword">with</span> lock:
+        partial[index] <span class="tok-op">=</span> local
+
+
+threads <span class="tok-op">=</span> [threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>sum_chunk, args<span class="tok-op">=</span>(index,)) <span class="tok-keyword">for</span> index <span class="tok-keyword">in</span> <span class="tok-type">range</span>(PARTS)]
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">start</span>()
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">join</span>()
+
+total <span class="tok-op">=</span> <span class="tok-type">sum</span>(partial)
+expected <span class="tok-op">=</span> TOTAL <span class="tok-op">*</span> (TOTAL <span class="tok-op">+</span> <span class="tok-num">1</span>) <span class="tok-op">/</span><span class="tok-op">/</span> <span class="tok-num">2</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;分片结果：&quot;</span>, partial)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;汇总结果：&quot;</span>, total)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;公式校验：&quot;</span>, expected)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是否一致：&quot;</span>, total <span class="tok-op">=</span><span class="tok-op">=</span> expected)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">分片结果： [1250025000, 3750025000, 6250025000, 8750025000]
+汇总结果： 20000100000
+公式校验： 20000100000
+是否一致： True</code></pre></figure>
+<p>每个线程只写自己下标对应的位置，互不干扰，加锁是为了演示共享列表的写法；即使不加锁，这份数据也不会出错，因为写入的是不同元素。汇总在 <code>join()</code> 之后进行，主线程看到的一定是全部线程写完的结果。</p>
+<p>这段代码的耗时和单线程版本相差不大，因为 <code>sum()</code> 是 C 实现，GIL 并没有真正释放。要压榨多核，应该把 <code>sum_chunk</code> 改成独立函数交给 <code>ProcessPoolExecutor</code>，通过序列化传递参数和结果；分片思路完全一样，只是把 <code>Thread</code> 换成 <code>Process</code>。</p>
+<h2 id="sec-10" class="doc-heading">十、线程安全的常见坑</h2>
+<p>第一个坑是“读—改—写”不是原子操作。两个线程都读到旧值，各自加一，再分别写回，最终只增加了一次，这种现象叫丢失更新。GIL 只保证单条字节码不被抢占，不保证多条字节码组成的逻辑整体不被打断。</p>
+<p>下面的示例用 <code>threading.Barrier</code> 强制复现这种交错：两个线程先读值，然后在栅栏处互相等待，等双方都读完再一起写回。这样每次运行都必然丢掉一次更新，把“偶发的生产事故”变成了可稳定复现的演示。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+
+state <span class="tok-op">=</span> {<span class="tok-string">&quot;value&quot;</span>: <span class="tok-num">0</span>}
+barrier <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Barrier</span>(<span class="tok-num">2</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">unsafe_add</span>():
+    current <span class="tok-op">=</span> state[<span class="tok-string">&quot;value&quot;</span>]
+    barrier.<span class="tok-cmdlet">wait</span>()          <span class="tok-comment"># 两个线程都读完之后才允许写回</span>
+    state[<span class="tok-string">&quot;value&quot;</span>] <span class="tok-op">=</span> current <span class="tok-op">+</span> <span class="tok-num">1</span>
+
+
+threads <span class="tok-op">=</span> [threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>unsafe_add) <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">2</span>)]
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">start</span>()
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">join</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;两个线程各加一次，期望：&quot;</span>, <span class="tok-num">2</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;实际结果：&quot;</span>, state[<span class="tok-string">&quot;value&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是否丢失更新：&quot;</span>, state[<span class="tok-string">&quot;value&quot;</span>] <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">1</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">两个线程各加一次，期望： 2
+实际结果： 1
+是否丢失更新： True</code></pre></figure>
+<p>修复办法是把“读、算、写”整体放进临界区，让这段逻辑变成互斥的。注意锁要保护数据的所有访问路径：只给写操作加锁、读操作不加锁，同样会读到中间状态。锁对象本身要在多个线程之间共享，每个线程各自 <code>Lock()</code> 等于没加锁。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+
+state <span class="tok-op">=</span> {<span class="tok-string">&quot;value&quot;</span>: <span class="tok-num">0</span>}
+lock <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Lock</span>()
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">safe_add</span>():
+    <span class="tok-keyword">with</span> lock:
+        current <span class="tok-op">=</span> state[<span class="tok-string">&quot;value&quot;</span>]
+        state[<span class="tok-string">&quot;value&quot;</span>] <span class="tok-op">=</span> current <span class="tok-op">+</span> <span class="tok-num">1</span>
+
+
+threads <span class="tok-op">=</span> [threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>safe_add) <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">2</span>)]
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">start</span>()
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">join</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;加锁后结果：&quot;</span>, state[<span class="tok-string">&quot;value&quot;</span>])
+
+items <span class="tok-op">=</span> []
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">append_item</span>(value):
+    items.<span class="tok-cmdlet">append</span>(value)
+
+
+workers <span class="tok-op">=</span> [threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>append_item, args<span class="tok-op">=</span>(index,)) <span class="tok-keyword">for</span> index <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">5</span>)]
+<span class="tok-keyword">for</span> worker <span class="tok-keyword">in</span> workers:
+    worker.<span class="tok-cmdlet">start</span>()
+<span class="tok-keyword">for</span> worker <span class="tok-keyword">in</span> workers:
+    worker.<span class="tok-cmdlet">join</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;列表长度：&quot;</span>, <span class="tok-type">len</span>(items), <span class="tok-string">&quot;元素集合：&quot;</span>, <span class="tok-type">sorted</span>(items))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">加锁后结果： 2
+列表长度： 5 元素集合： [0, 1, 2, 3, 4]</code></pre></figure>
+<p>第二个坑是“检查后再操作”。先判断文件不存在再创建、先查余额再扣款，这两步之间可能被其他线程插入，结果两个线程都通过了检查。正确做法是把检查和修改合并到同一个临界区，或者用数据库的唯一约束、<code>setdefault()</code> 这类原子接口兜底。</p>
+<p>第三个坑是可变默认参数和全局缓存。多个线程同时往同一个字典里塞数据，虽然单个 <code>[]</code> 赋值在 CPython 下是原子的，但“先查再写”的组合不是。与其小心翼翼地给每处访问加锁，不如把共享状态收敛到一个线程里，其他线程通过 <code>queue.Queue</code> 发消息，这也是 <code>asyncio</code> 和多数服务端框架采用的思路。</p>
+<h2 id="sec-11" class="doc-heading">十一、练习任务</h2>
+<p>任务 1：把一段文本切成两半，两个线程分别统计词频，最后合并并按出现次数降序输出。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> collections <span class="tok-keyword">import</span> Counter
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;python threads share memory python threads need locks&quot;</span>
+words <span class="tok-op">=</span> text.<span class="tok-cmdlet">split</span>()
+half <span class="tok-op">=</span> <span class="tok-type">len</span>(words) <span class="tok-op">/</span><span class="tok-op">/</span> <span class="tok-num">2</span>
+parts <span class="tok-op">=</span> [<span class="tok-string">&quot; &quot;</span>.<span class="tok-cmdlet">join</span>(words[:half]), <span class="tok-string">&quot; &quot;</span>.<span class="tok-cmdlet">join</span>(words[half:])]
+counters <span class="tok-op">=</span> [<span class="tok-cmdlet">Counter</span>(), <span class="tok-cmdlet">Counter</span>()]
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">count_words</span>(index):
+    counters[index].<span class="tok-cmdlet">update</span>(parts[index].<span class="tok-cmdlet">split</span>())
+
+
+threads <span class="tok-op">=</span> [threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>count_words, args<span class="tok-op">=</span>(index,)) <span class="tok-keyword">for</span> index <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">2</span>)]
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">start</span>()
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">join</span>()
+
+total <span class="tok-op">=</span> counters[<span class="tok-num">0</span>] <span class="tok-op">+</span> counters[<span class="tok-num">1</span>]
+<span class="tok-keyword">for</span> word, times <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(total.<span class="tok-cmdlet">items</span>(), key<span class="tok-op">=</span><span class="tok-keyword">lambda</span> item: (<span class="tok-op">-</span>item[<span class="tok-num">1</span>], item[<span class="tok-num">0</span>])):
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{word}: {times}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">python: 2
+threads: 2
+locks: 1
+memory: 1
+need: 1
+share: 1</code></pre></figure>
+<p>任务 2：用线程池并发计算 5、10、20 的阶乘，按提交顺序输出结果并求和。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> concurrent.futures <span class="tok-keyword">import</span> ThreadPoolExecutor
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">factorial</span>(number):
+    result <span class="tok-op">=</span> <span class="tok-num">1</span>
+    <span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">2</span>, number <span class="tok-op">+</span> <span class="tok-num">1</span>):
+        result <span class="tok-op">*</span><span class="tok-op">=</span> value
+    <span class="tok-keyword">return</span> number, result
+
+
+<span class="tok-keyword">with</span> <span class="tok-cmdlet">ThreadPoolExecutor</span>(max_workers<span class="tok-op">=</span><span class="tok-num">3</span>) <span class="tok-keyword">as</span> executor:
+    results <span class="tok-op">=</span> <span class="tok-type">list</span>(executor.<span class="tok-type">map</span>(factorial, [<span class="tok-num">5</span>, <span class="tok-num">10</span>, <span class="tok-num">20</span>]))
+
+<span class="tok-keyword">for</span> number, value <span class="tok-keyword">in</span> results:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{number}! = {value}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;三项之和：&quot;</span>, <span class="tok-type">sum</span>(value <span class="tok-keyword">for</span> _, value <span class="tok-keyword">in</span> results))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">5! = 120
+10! = 3628800
+20! = 2432902008176640000
+三项之和： 2432902008180268920</code></pre></figure>
+<p>任务 3：六个线程各自判断一个数字的奇偶，把结论写进共享字典，最后按原始顺序汇总。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+
+numbers <span class="tok-op">=</span> [<span class="tok-num">17</span>, <span class="tok-num">4</span>, <span class="tok-num">23</span>, <span class="tok-num">9</span>, <span class="tok-num">12</span>, <span class="tok-num">6</span>]
+results <span class="tok-op">=</span> {}
+lock <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Lock</span>()
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">classify</span>(index, value):
+    kind <span class="tok-op">=</span> <span class="tok-string">&quot;偶数&quot;</span> <span class="tok-keyword">if</span> value <span class="tok-op">%</span> <span class="tok-num">2</span> <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span> <span class="tok-keyword">else</span> <span class="tok-string">&quot;奇数&quot;</span>
+    <span class="tok-keyword">with</span> lock:
+        results[index] <span class="tok-op">=</span> (value, kind)
+
+
+threads <span class="tok-op">=</span> [
+    threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>classify, args<span class="tok-op">=</span>(index, value))
+    <span class="tok-keyword">for</span> index, value <span class="tok-keyword">in</span> <span class="tok-type">enumerate</span>(numbers)
+]
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">start</span>()
+<span class="tok-keyword">for</span> thread <span class="tok-keyword">in</span> threads:
+    thread.<span class="tok-cmdlet">join</span>()
+
+<span class="tok-keyword">for</span> index <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(results):
+    value, kind <span class="tok-op">=</span> results[index]
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{value} 是{kind}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;偶数个数：&quot;</span>, <span class="tok-type">sum</span>(<span class="tok-num">1</span> <span class="tok-keyword">for</span> _, kind <span class="tok-keyword">in</span> results.<span class="tok-cmdlet">values</span>() <span class="tok-keyword">if</span> kind <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-string">&quot;偶数&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">17 是奇数
+4 是偶数
+23 是奇数
+9 是奇数
+12 是偶数
+6 是偶数
+偶数个数： 3</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="datetime.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 日期和时间</span></a><a class="pager-link pager-link--next" href="network.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 网络编程</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、线程与 GIL</a><a class="toc-link toc-link--h2" href="#sec-2">二、创建线程：Thread、start 与 join</a><a class="toc-link toc-link--h2" href="#sec-3">三、守护线程 daemon</a><a class="toc-link toc-link--h2" href="#sec-4">四、Lock：互斥锁</a><a class="toc-link toc-link--h2" href="#sec-5">五、RLock：可重入锁</a><a class="toc-link toc-link--h2" href="#sec-6">六、Event：线程间的事件通知</a><a class="toc-link toc-link--h2" href="#sec-7">七、Queue：线程安全的队列</a><a class="toc-link toc-link--h2" href="#sec-8">八、ThreadPoolExecutor 与 Future</a><a class="toc-link toc-link--h2" href="#sec-9">九、多线程计算示例</a><a class="toc-link toc-link--h2" href="#sec-10">十、线程安全的常见坑</a><a class="toc-link toc-link--h2" href="#sec-11">十一、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

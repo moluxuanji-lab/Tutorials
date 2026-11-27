@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python urllib · Python</title>
+<meta name="description" content="使用标准库 urllib 打开 URL、发送 GET 与 POST 请求、构造查询参数、解析和拼接 URL、处理 HTTP 错误、下载文件，并了解 robots.txt 与编码安全注意事项。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="urllib" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link is-active" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python urllib</h1><p class="doc-lead">使用标准库 urllib 打开 URL、发送 GET 与 POST 请求、构造查询参数、解析和拼接 URL、处理 HTTP 错误、下载文件，并了解 robots.txt 与编码安全注意事项。</p><div class="doc-meta"><span>第 41 章</span><span class="doc-meta__dot"></span><span>约 24 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p><code>urllib</code> 是 Python 标准库里的 URL 处理工具包，不需要安装第三方依赖就能抓取网页、调用 HTTP 接口、解析地址。它由几个子模块组成，各管一件事：</p>
+<div class="table-wrap"><table><thead><tr><th>模块</th><th>职责</th></tr></thead><tbody><tr><td><code>urllib.request</code></td><td>打开 URL，构造请求，读取响应</td></tr><tr><td><code>urllib.error</code></td><td>定义 <code>URLError</code>、<code>HTTPError</code> 等异常</td></tr><tr><td><code>urllib.parse</code></td><td>拆分 URL、编码查询参数、拼接相对地址</td></tr><tr><td><code>urllib.robotparser</code></td><td>解析 robots.txt，判断能否抓取</td></tr></tbody></table></div>
+<p>本章示例尽量不依赖外部网络：能用 <code>data:</code> URL 演示的就不发真实请求，需要 HTTP 交互时启动一个本地回环服务器，运行结束后自动关闭。</p>
+<h2 id="sec-1" class="doc-heading">一、打开 URL：urlopen</h2>
+<p><code>urlopen()</code> 接受 URL 字符串或 <code>Request</code> 对象，返回一个类似文件的对象，可以 <code>read()</code>、<code>readline()</code>，也可以用 <code>with</code> 自动关闭。下面用 <code>data:</code> URL 演示，它把内容直接编码在地址里，适合离线验证：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> urllib.request <span class="tok-keyword">import</span> urlopen
+
+<span class="tok-keyword">with</span> <span class="tok-cmdlet">urlopen</span>(<span class="tok-string">&quot;data:text/plain;charset=utf-8,Hello%20urllib&quot;</span>) <span class="tok-keyword">as</span> response:
+    body <span class="tok-op">=</span> response.<span class="tok-cmdlet">read</span>()
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;内容：&quot;</span>, body.<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;Content-Type：&quot;</span>, response.headers[<span class="tok-string">&quot;Content-Type&quot;</span>])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">内容： Hello urllib
+Content-Type： text/plain;charset=utf-8</code></pre></figure>
+<p><code>read()</code> 返回 <code>bytes</code>，文本内容需要按响应头里的字符集解码。真实网页常见的编码是 UTF-8，但并非全部；稳妥的做法是从 <code>Content-Type</code> 中取 <code>charset</code>，取不到时再回退到 UTF-8。</p>
+<p><code>urlopen()</code> 的常用参数有 <code>timeout</code>（秒）、<code>data</code>（请求体）和 <code>cafile</code> / <code>context</code>（HTTPS 证书设置）。不传 <code>data</code> 时使用 GET；传入 <code>data</code> 时自动变成 POST。</p>
+<h2 id="sec-2" class="doc-heading">二、URL 编码</h2>
+<p>URL 只能安全传输一部分 ASCII 字符，中文、空格、<code>&amp;</code>、<code>?</code> 等都必须转义。<code>urlencode()</code> 把字典或键值对序列化成查询串，<code>parse_qs()</code> 反向解析：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> urlencode, parse_qs
+
+params <span class="tok-op">=</span> {<span class="tok-string">&quot;q&quot;</span>: <span class="tok-string">&quot;Python 教程&quot;</span>, <span class="tok-string">&quot;page&quot;</span>: <span class="tok-num">2</span>, <span class="tok-string">&quot;lang&quot;</span>: <span class="tok-string">&quot;zh&quot;</span>}
+query <span class="tok-op">=</span> <span class="tok-cmdlet">urlencode</span>(params)
+<span class="tok-type">print</span>(query)
+<span class="tok-type">print</span>(<span class="tok-cmdlet">parse_qs</span>(query))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">q=Python+%E6%95%99%E7%A8%8B&amp;page=2&amp;lang=zh
+{'q': ['Python 教程'], 'page': ['2'], 'lang': ['zh']}</code></pre></figure>
+<p><code>urlencode()</code> 默认用 <code>+</code> 表示空格，这适合查询串；如果编码的是路径片段，应当把 <code>quote_via=quote</code> 传进去，让空格变成 <code>%20</code>。<code>parse_qs()</code> 的结果是“键 → 列表”，因为同一个参数可以出现多次；只想要最后一个值时用 <code>parse_qsl()</code> 再自行处理。</p>
+<p><code>quote()</code> 与 <code>unquote()</code> 负责单个字符串的转义。<code>safe</code> 参数指定哪些字符保持原样，默认保留 <code>/</code>，处理路径片段时通常设为空字符串：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> quote, unquote
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">quote</span>(<span class="tok-string">&quot;a b/c?d&quot;</span>, safe<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">unquote</span>(<span class="tok-string">&quot;%E4%BD%A0%E5%A5%BD&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">unquote</span>(<span class="tok-string">&quot;a%20b&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">a%20b%2Fc%3Fd
+你好
+a b</code></pre></figure>
+<p>直接把中文拼进 URL 会出问题：<code>http.client</code> 发送请求行时只接受 ASCII，遇到未编码的中文会抛出 <code>UnicodeEncodeError</code>。所有动态参数都应当先经过 <code>urlencode()</code> 或 <code>quote()</code>。</p>
+<h2 id="sec-3" class="doc-heading">三、解析与拼接 URL</h2>
+<p><code>urlparse()</code> 把地址拆成协议、主机、路径、查询串、片段五部分，并额外提供用户名、密码、端口等属性：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> urlparse, urljoin
+
+url <span class="tok-op">=</span> <span class="tok-string">&quot;https://user:pass@docs.python.org:8443/zh-cn/3/library/urllib.parse.html?q=1#top&quot;</span>
+parts <span class="tok-op">=</span> <span class="tok-cmdlet">urlparse</span>(url)
+
+<span class="tok-type">print</span>(parts.scheme, parts.netloc, parts.path, parts.query, parts.fragment)
+<span class="tok-type">print</span>(parts.username, parts.password, parts.port)
+<span class="tok-type">print</span>(<span class="tok-cmdlet">urljoin</span>(<span class="tok-string">&quot;https://example.com/a/b/&quot;</span>, <span class="tok-string">&quot;../c.html&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">https user:pass@docs.python.org:8443 /zh-cn/3/library/urllib.parse.html q=1 top
+user pass 8443
+https://example.com/a/c.html</code></pre></figure>
+<p><code>urljoin()</code> 按 RFC 3986 的规则解析相对地址：以 <code>/</code> 开头替换整个路径，以 <code>../</code> 开头先回退一级目录，不带斜杠则替换最后一段。抓取网页时，页内链接大多需要这样转成绝对地址再继续访问。</p>
+<p><code>urlsplit()</code> 与 <code>urlparse()</code> 接近，但不单独解析 <code>params</code>（分号后的参数），在新代码中更常用。<code>urlunsplit()</code> 则把拆分后的元组重新拼回字符串。</p>
+<h2 id="sec-4" class="doc-heading">四、发送 GET 与 POST</h2>
+<p>真实请求通常要带查询参数、请求头、请求体。下面启动一个本地 HTTP 服务，依次演示 GET、404 错误、自定义 <code>User-Agent</code> 和 POST：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+<span class="tok-keyword">from</span> urllib.error <span class="tok-keyword">import</span> HTTPError
+<span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> parse_qs, urlencode, urlparse
+<span class="tok-keyword">from</span> urllib.request <span class="tok-keyword">import</span> Request, urlopen
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Handler</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_GET</span>(<span class="tok-var">self</span>):
+        parsed <span class="tok-op">=</span> <span class="tok-cmdlet">urlparse</span>(<span class="tok-var">self</span>.path)
+        <span class="tok-keyword">if</span> parsed.path <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-string">&quot;/hello&quot;</span>:
+            name <span class="tok-op">=</span> <span class="tok-cmdlet">parse_qs</span>(parsed.query).<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;name&quot;</span>, [<span class="tok-string">&quot;访客&quot;</span>])[<span class="tok-num">0</span>]
+            body <span class="tok-op">=</span> <span class="tok-string">f&quot;你好，{name}&quot;</span>.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+            <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+            <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;text/plain; charset=utf-8&quot;</span>)
+            <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+            <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(body)
+        <span class="tok-keyword">elif</span> parsed.path <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-string">&quot;/headers&quot;</span>:
+            body <span class="tok-op">=</span> <span class="tok-var">self</span>.headers.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;User-Agent&quot;</span>, <span class="tok-string">&quot;无&quot;</span>).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+            <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+            <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;text/plain; charset=utf-8&quot;</span>)
+            <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+            <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(body)
+        <span class="tok-keyword">else</span>:
+            <span class="tok-var">self</span>.<span class="tok-cmdlet">send_error</span>(<span class="tok-num">404</span>, <span class="tok-string">&quot;Not Found&quot;</span>)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_POST</span>(<span class="tok-var">self</span>):
+        length <span class="tok-op">=</span> <span class="tok-type">int</span>(<span class="tok-var">self</span>.headers[<span class="tok-string">&quot;Content-Length&quot;</span>])
+        body <span class="tok-op">=</span> <span class="tok-var">self</span>.rfile.<span class="tok-cmdlet">read</span>(length).<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        reply <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>(
+            {<span class="tok-string">&quot;received&quot;</span>: body, <span class="tok-string">&quot;type&quot;</span>: <span class="tok-var">self</span>.headers[<span class="tok-string">&quot;Content-Type&quot;</span>]},
+            ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>,
+        ).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;application/json; charset=utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+        <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(reply)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Handler)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+base <span class="tok-op">=</span> <span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}&quot;</span>
+
+query <span class="tok-op">=</span> <span class="tok-cmdlet">urlencode</span>({<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小明&quot;</span>})
+<span class="tok-keyword">with</span> <span class="tok-cmdlet">urlopen</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/hello?&quot;</span> <span class="tok-op">+</span> query) <span class="tok-keyword">as</span> response:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;GET：&quot;</span>, response.<span class="tok-cmdlet">read</span>().<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-cmdlet">urlopen</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/missing&quot;</span>)
+<span class="tok-keyword">except</span> HTTPError <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;错误码：&quot;</span>, exc.code, <span class="tok-string">&quot;原因：&quot;</span>, exc.reason)
+
+request <span class="tok-op">=</span> <span class="tok-cmdlet">Request</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/headers&quot;</span>, headers<span class="tok-op">=</span>{<span class="tok-string">&quot;User-Agent&quot;</span>: <span class="tok-string">&quot;TutorialBot/1.0&quot;</span>})
+<span class="tok-keyword">with</span> <span class="tok-cmdlet">urlopen</span>(request) <span class="tok-keyword">as</span> response:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;UA：&quot;</span>, response.<span class="tok-cmdlet">read</span>().<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+
+request <span class="tok-op">=</span> <span class="tok-cmdlet">Request</span>(
+    base <span class="tok-op">+</span> <span class="tok-string">&quot;/echo&quot;</span>,
+    data<span class="tok-op">=</span><span class="tok-string">&quot;name=小红&quot;</span>.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>),
+    method<span class="tok-op">=</span><span class="tok-string">&quot;POST&quot;</span>,
+    headers<span class="tok-op">=</span>{<span class="tok-string">&quot;Content-Type&quot;</span>: <span class="tok-string">&quot;text/plain; charset=utf-8&quot;</span>},
+)
+<span class="tok-keyword">with</span> <span class="tok-cmdlet">urlopen</span>(request) <span class="tok-keyword">as</span> response:
+    reply <span class="tok-op">=</span> json.<span class="tok-cmdlet">loads</span>(response.<span class="tok-cmdlet">read</span>().<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;POST：&quot;</span>, reply[<span class="tok-string">&quot;received&quot;</span>])
+
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">GET： 你好，小明
+错误码： 404 原因： Not Found
+UA： TutorialBot/1.0
+POST： name=小红</code></pre></figure>
+<p><code>Request</code> 对象把方法、地址、请求头、请求体打包在一起。<code>headers</code> 的键不区分大小写，默认的 <code>User-Agent</code> 是 <code>Python-urllib/3.x</code>，很多站点会拒绝默认值，抓取前应当设置一个能说明用途的标识。</p>
+<p>服务端读取 POST 请求体时必须依据 <code>Content-Length</code>，否则 <code>rfile.read()</code> 不知道读到哪里。示例里用 <code>json.dumps(..., ensure_ascii=False)</code> 保留中文，再用 UTF-8 编码，避免出现 <code>\u4f60</code> 这样的转义。</p>
+<h2 id="sec-5" class="doc-heading">五、错误处理</h2>
+<p><code>urllib</code> 把两类错误分得很清楚：</p>
+<ul><li><p><code>HTTPError</code>：服务器已经返回响应，只是状态码不是 2xx，例如 404、403、500。它同时是一个响应对象，可以读取错误页内容。</p></li><li><p><code>URLError</code>：请求没能到达服务器，例如域名解析失败、连接被拒绝、超时。真正的底层异常放在 <code>exc.reason</code> 里。</p></li></ul>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> urllib.error <span class="tok-keyword">import</span> URLError
+<span class="tok-keyword">from</span> urllib.request <span class="tok-keyword">import</span> urlopen
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-cmdlet">urlopen</span>(<span class="tok-string">&quot;http://127.0.0.1:1/&quot;</span>, timeout<span class="tok-op">=</span><span class="tok-num">1</span>)
+<span class="tok-keyword">except</span> URLError <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;连接失败：&quot;</span>, <span class="tok-type">type</span>(exc).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">连接失败： URLError</code></pre></figure>
+<p><code>HTTPError</code> 是 <code>URLError</code> 的子类，所以捕获顺序应当先处理 <code>HTTPError</code>，再处理 <code>URLError</code>。网络请求必须设置超时，否则遇到不响应的服务器会一直等待。</p>
+<h2 id="sec-6" class="doc-heading">六、下载文件</h2>
+<p><code>urlretrieve()</code> 把响应直接写入文件，适合下载图片、压缩包等二进制内容。它不负责校验和断点续传，生产环境更常用 <code>requests</code> 或专门下载库：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+<span class="tok-keyword">import</span> tempfile
+<span class="tok-keyword">from</span> urllib.request <span class="tok-keyword">import</span> urlretrieve
+
+folder <span class="tok-op">=</span> tempfile.<span class="tok-cmdlet">mkdtemp</span>(prefix<span class="tok-op">=</span><span class="tok-string">&quot;urllib_demo_&quot;</span>)
+target <span class="tok-op">=</span> os.path.<span class="tok-cmdlet">join</span>(folder, <span class="tok-string">&quot;hello.txt&quot;</span>)
+<span class="tok-cmdlet">urlretrieve</span>(<span class="tok-string">&quot;data:text/plain;charset=utf-8,download%20ok&quot;</span>, target)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(target, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    <span class="tok-type">print</span>(file.<span class="tok-cmdlet">read</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;字节数：&quot;</span>, os.path.<span class="tok-cmdlet">getsize</span>(target))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">download ok
+字节数： 11</code></pre></figure>
+<p><code>urlretrieve()</code> 返回 <code>(文件名, headers)</code> 元组，可以用后者确认内容类型和长度。下载大文件时应当分块读写，避免一次性把内容读进内存。</p>
+<h2 id="sec-7" class="doc-heading">七、robots.txt 与抓取礼仪</h2>
+<p><code>RobotFileParser</code> 读取站点的 robots.txt，判断某个 User-Agent 能否访问指定路径。它只负责解析规则，不会自动帮你遵守：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> urllib.robotparser <span class="tok-keyword">import</span> RobotFileParser
+
+parser <span class="tok-op">=</span> <span class="tok-cmdlet">RobotFileParser</span>()
+parser.<span class="tok-cmdlet">parse</span>([
+    <span class="tok-string">&quot;User-agent: *&quot;</span>,
+    <span class="tok-string">&quot;Disallow: /admin/&quot;</span>,
+    <span class="tok-string">&quot;Crawl-delay: 2&quot;</span>,
+])
+
+<span class="tok-type">print</span>(parser.<span class="tok-cmdlet">can_fetch</span>(<span class="tok-string">&quot;*&quot;</span>, <span class="tok-string">&quot;https://example.com/index.html&quot;</span>))
+<span class="tok-type">print</span>(parser.<span class="tok-cmdlet">can_fetch</span>(<span class="tok-string">&quot;*&quot;</span>, <span class="tok-string">&quot;https://example.com/admin/secret&quot;</span>))
+<span class="tok-type">print</span>(parser.<span class="tok-cmdlet">crawl_delay</span>(<span class="tok-string">&quot;*&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">True
+False
+2</code></pre></figure>
+<p><code>parse()</code> 既能接受多行字符串列表，也能接受 <code>readlines()</code> 的结果；<code>set_url()</code> 加 <code>read()</code> 会真正下载 robots.txt。抓取前先读取规则，控制请求频率，并在 <code>User-Agent</code> 里留下联系方式，是基本的抓取礼仪。</p>
+<h2 id="sec-8" class="doc-heading">八、编码与安全注意事项</h2>
+<p>使用 urllib 时有几件事需要特别注意：</p>
+<ul><li><p><strong>中文参数必须编码</strong>：查询串用 <code>urlencode()</code>，路径片段用 <code>quote()</code>，否则会抛出 <code>UnicodeEncodeError</code>。</p></li><li><p><strong>响应内容按声明解码</strong>：优先读 <code>Content-Type</code> 的 <code>charset</code>，没有声明时再尝试 UTF-8，并处理解码失败。</p></li><li><p><strong>不要信任 URL</strong>：服务端脚本如果接受用户传入的地址并直接 <code>urlopen()</code>，可能被用来访问内网地址（SSRF）。应当限制协议为 <code>http</code> / <code>https</code>，并校验主机和解析后的 IP。</p></li><li><p><strong>限制大小与超时</strong>：读取 <code>read()</code> 前先看 <code>Content-Length</code>，对未知长度的响应分块读取并设置上限。</p></li><li><p><strong>遵守 robots.txt 与版权</strong>：抓取公开页面也要控制频率，不要绕过登录、验证码或付费墙。</p></li></ul>
+<h2 id="sec-9" class="doc-heading">九、练习任务</h2>
+<p>任务 1：把一段查询串解析成字典，再添加一个参数重新编码，保证中文正确转义。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> parse_qs, urlencode
+
+original <span class="tok-op">=</span> <span class="tok-string">&quot;q=Python+%E6%95%99%E7%A8%8B&amp;page=2&quot;</span>
+params <span class="tok-op">=</span> {key: values[<span class="tok-num">0</span>] <span class="tok-keyword">for</span> key, values <span class="tok-keyword">in</span> <span class="tok-cmdlet">parse_qs</span>(original).<span class="tok-cmdlet">items</span>()}
+params[<span class="tok-string">&quot;lang&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;zh&quot;</span>
+
+<span class="tok-type">print</span>(params)
+<span class="tok-type">print</span>(<span class="tok-cmdlet">urlencode</span>(params))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">{'q': 'Python 教程', 'page': '2', 'lang': 'zh'}
+q=Python+%E6%95%99%E7%A8%8B&amp;page=2&amp;lang=zh</code></pre></figure>
+<p>任务 2：用 <code>urljoin()</code> 把页面里的相对链接补成绝对地址。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> urljoin
+
+base <span class="tok-op">=</span> <span class="tok-string">&quot;https://example.com/docs/python/&quot;</span>
+links <span class="tok-op">=</span> [<span class="tok-string">&quot;intro.html&quot;</span>, <span class="tok-string">&quot;/about&quot;</span>, <span class="tok-string">&quot;../index.html&quot;</span>, <span class="tok-string">&quot;?page=2&quot;</span>]
+
+<span class="tok-keyword">for</span> link <span class="tok-keyword">in</span> links:
+    <span class="tok-type">print</span>(<span class="tok-cmdlet">urljoin</span>(base, link))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">https://example.com/docs/python/intro.html
+https://example.com/about
+https://example.com/docs/index.html
+https://example.com/docs/python/?page=2</code></pre></figure>
+<p>任务 3：启动一个本地服务，返回一段 JSON，用 urllib 读取并解析成字典。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+<span class="tok-keyword">from</span> urllib.request <span class="tok-keyword">import</span> urlopen
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Api</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_GET</span>(<span class="tok-var">self</span>):
+        body <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>({<span class="tok-string">&quot;ok&quot;</span>: <span class="tok-keyword">True</span>, <span class="tok-string">&quot;lang&quot;</span>: <span class="tok-string">&quot;Python&quot;</span>}).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;application/json; charset=utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+        <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(body)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Api)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+
+<span class="tok-keyword">with</span> <span class="tok-cmdlet">urlopen</span>(<span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}/status&quot;</span>) <span class="tok-keyword">as</span> response:
+    data <span class="tok-op">=</span> json.<span class="tok-cmdlet">loads</span>(response.<span class="tok-cmdlet">read</span>().<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;ok：&quot;</span>, data[<span class="tok-string">&quot;ok&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;lang：&quot;</span>, data[<span class="tok-string">&quot;lang&quot;</span>])
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">ok： True
+lang： Python</code></pre></figure>
+<p>标准库能完成基础抓取，但处理会话、重试、连接池时写法会比较繁琐。下一章介绍第三方库 requests，它把这些常见需求封装成了更简洁的接口。</p></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="xml.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python XML 解析</span></a><a class="pager-link pager-link--next" href="requests.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python requests 模块</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、打开 URL：urlopen</a><a class="toc-link toc-link--h2" href="#sec-2">二、URL 编码</a><a class="toc-link toc-link--h2" href="#sec-3">三、解析与拼接 URL</a><a class="toc-link toc-link--h2" href="#sec-4">四、发送 GET 与 POST</a><a class="toc-link toc-link--h2" href="#sec-5">五、错误处理</a><a class="toc-link toc-link--h2" href="#sec-6">六、下载文件</a><a class="toc-link toc-link--h2" href="#sec-7">七、robots.txt 与抓取礼仪</a><a class="toc-link toc-link--h2" href="#sec-8">八、编码与安全注意事项</a><a class="toc-link toc-link--h2" href="#sec-9">九、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

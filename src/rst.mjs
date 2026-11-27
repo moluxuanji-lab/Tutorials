@@ -2,6 +2,7 @@
 // 支持的语法：章节标题、段落、项目符号/编号列表、code-block、csv-table、
 // note/tip/warning/important、meta、toctree、literal block（段落以 :: 结尾）、
 // 行内 ``code``、**粗体**、*斜体*、`文字 <链接>`_ 以及裸链接。
+// 代码块语言：powershell / bash / python / cmake / cpp / json / text。
 
 import { escapeHtml, highlight, normalizeLang } from './highlight.mjs';
 
@@ -62,7 +63,7 @@ export function inline(text) {
 export function renderCode(code, lang, opts = {}) {
   const language = normalizeLang(lang);
   const highlighted = highlight(code, language);
-  const label = { powershell: 'PowerShell', bash: 'Shell', text: '输出' }[language] || language || 'code';
+  const label = { powershell: 'PowerShell', bash: 'Shell', python: 'Python', text: '输出', cmake: 'CMake', cpp: 'C++', c: 'C', json: 'JSON' }[language] || language || 'code';
   let inner = highlighted;
   if (opts.linenos) {
     inner = highlighted

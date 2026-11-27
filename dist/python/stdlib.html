@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 标准库概览 · Python</title>
+<meta name="description" content="认识 Python 标准库的组织方式与浏览方法，掌握 os、sys、math、random、datetime、collections、itertools、functools、pathlib、logging、statistics、hashlib、base64、uuid、time 十五个常用模块的基本用法。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="stdlib" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link is-active" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python 标准库概览</h1><p class="doc-lead">认识 Python 标准库的组织方式与浏览方法，掌握 os、sys、math、random、datetime、collections、itertools、functools、pathlib、logging、statistics、hashlib、base64、uuid、time 十五个常用模块的基本用法。</p><div class="doc-meta"><span>第 31 章</span><span class="doc-meta__dot"></span><span>约 37 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>Python 常被称为“自带电池”的语言，一个重要原因就是它附带了规模庞大的标准库。安装解释器时，几百个模块已经就绪，不需要额外下载就能完成文件处理、文本解析、日期计算、数据统计、日志记录等工作。标准库的接口稳定、跨平台，并且随语言同步演进，写脚本时最应该先翻的就是这本“手册”。</p>
+<p>标准库的模块按用途分组：文本处理、数据类型、数学与统计、文件与目录、数据持久化、压缩与归档、加密与摘要、操作系统接口、并发、网络与进程间通信、开发工具等。官方文档 <a href="https://docs.python.org/zh-cn/3/library/index.html" target="_blank" rel="noopener">Python 标准库</a> 就是按这套分组编排的，遇到不熟悉的模块先去那里查，通常比搜索二手文章更准确。</p>
+<h2 id="sec-1" class="doc-heading">一、标准库的意义与浏览方式</h2>
+<p>标准库的价值体现在三个方面：一是省去重复造轮子，路径拼接、日期格式化、日志分级这些琐事都有现成实现；二是行为可预期，标准库遵循统一的风格和异常约定，读别人的代码时不需要重新适应；三是减少对外部依赖的担忧，能用标准库解决的需求就不必引入第三方包，部署时少一层风险。</p>
+<h3 id="sec-2" class="doc-heading">浏览方式</h3>
+<p>想快速了解本机装了哪些模块，可以在命令行执行 <code>python -m pydoc -b</code>，浏览器会打开一个按字母排序的模块索引；也可以在交互式解释器里执行 <code>help(&quot;modules&quot;)</code>，直接列出全部模块名。这两者都会把第三方包一并列出，标准库模块可以用 <code>sys.stdlib_module_names</code> 过滤。</p>
+<p>进入具体模块后，<code>dir(module)</code> 列出它的公开名字，<code>help(module.function)</code> 显示函数的签名和文档字符串。标准库源码位于 Python 安装目录的 <code>Lib</code> 子目录，读一读实现往往比看文档更能理解边界情况。</p>
+<p>本章按用途挑出十五个最常用的模块，每个模块配一段可以直接运行的短示例。示例都刻意避开了当前时间、随机数和本机路径，保证每次运行的结果一致，方便对照输出。</p>
+<h2 id="sec-3" class="doc-heading">二、os：操作系统接口</h2>
+<p><code>os</code> 封装了操作系统提供的接口：环境变量、进程信息、目录操作、路径处理都在这里。路径相关的函数集中在 <code>os.path</code> 子模块，它会根据当前平台自动选择分隔符，所以拼接路径应该用 <code>os.path.join()</code>，而不是手写斜杠。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+os.<span class="tok-cmdlet">makedirs</span>(<span class="tok-string">&quot;demo_os/2026&quot;</span>, exist_ok<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(os.path.<span class="tok-cmdlet">join</span>(<span class="tok-string">&quot;demo_os&quot;</span>, <span class="tok-string">&quot;2026&quot;</span>, <span class="tok-string">&quot;a.txt&quot;</span>), <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;hello&quot;</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;目录内容：&quot;</span>, <span class="tok-type">sorted</span>(os.<span class="tok-cmdlet">listdir</span>(<span class="tok-string">&quot;demo_os/2026&quot;</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;路径拼接：&quot;</span>, os.path.<span class="tok-cmdlet">join</span>(<span class="tok-string">&quot;demo_os&quot;</span>, <span class="tok-string">&quot;2026&quot;</span>, <span class="tok-string">&quot;a.txt&quot;</span>).<span class="tok-cmdlet">replace</span>(os.sep, <span class="tok-string">&quot;/&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;文件大小：&quot;</span>, os.path.<span class="tok-cmdlet">getsize</span>(os.path.<span class="tok-cmdlet">join</span>(<span class="tok-string">&quot;demo_os&quot;</span>, <span class="tok-string">&quot;2026&quot;</span>, <span class="tok-string">&quot;a.txt&quot;</span>)))
+
+os.<span class="tok-cmdlet">remove</span>(os.path.<span class="tok-cmdlet">join</span>(<span class="tok-string">&quot;demo_os&quot;</span>, <span class="tok-string">&quot;2026&quot;</span>, <span class="tok-string">&quot;a.txt&quot;</span>))
+os.<span class="tok-cmdlet">rmdir</span>(<span class="tok-string">&quot;demo_os/2026&quot;</span>)
+os.<span class="tok-cmdlet">rmdir</span>(<span class="tok-string">&quot;demo_os&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">目录内容： ['a.txt']
+路径拼接： demo_os/2026/a.txt
+文件大小： 5</code></pre></figure>
+<p><code>os.makedirs()</code> 的 <code>exist_ok=True</code> 让目录已存在时不再抛异常，脚本可以重复执行。<code>os.listdir()</code> 返回的顺序由文件系统决定，所以示例套了一层 <code>sorted()</code>；<code>os.path.getsize()</code> 以字节为单位，写入的 <code>hello</code> 正好是 5 个字节。示例结尾把创建的文件和目录删掉，保证下一段代码不受影响。</p>
+<h2 id="sec-4" class="doc-heading">三、sys：解释器信息</h2>
+<p><code>sys</code> 提供解释器自身的信息和运行时开关：<code>sys.argv</code> 是命令行参数，<code>sys.path</code> 是模块搜索路径，<code>sys.exit()</code> 用来带状态码退出程序。写命令行工具时，这几个名字几乎一定会用到。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> sys
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;主版本：&quot;</span>, sys.version_info.major)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;次版本：&quot;</span>, sys.version_info.minor)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;整数上限：&quot;</span>, sys.maxsize)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;默认编码：&quot;</span>, sys.<span class="tok-cmdlet">getdefaultencoding</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;浮点精度位数：&quot;</span>, sys.float_info.dig)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">主版本： 3
+次版本： 13
+整数上限： 9223372036854775807
+默认编码： utf-8
+浮点精度位数： 15</code></pre></figure>
+<p><code>sys.version_info</code> 是一个具名元组，可以直接按 <code>major</code>、<code>minor</code> 取值，做版本兼容判断时比解析字符串可靠。<code>sys.maxsize</code> 是当前平台上列表、字符串等容器能容纳的最大长度，64 位系统上是 <code>2 ** 63 - 1</code>。<code>sys.float_info.dig</code> 表示双精度浮点能保证的有效十进制位数，也就是常见的 15 位。</p>
+<h2 id="sec-5" class="doc-heading">四、math：数学函数</h2>
+<p><code>math</code> 面向浮点数，提供三角函数、对数、取整、最大公约数等常用计算。它不处理复数，复数要用 <code>cmath</code>；整数的高精度运算则交给内置的 <code>pow()</code> 和 <code>int</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;圆周率：&quot;</span>, <span class="tok-type">round</span>(math.pi, <span class="tok-num">6</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平方根：&quot;</span>, math.<span class="tok-cmdlet">sqrt</span>(<span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;斜边：&quot;</span>, math.<span class="tok-cmdlet">hypot</span>(<span class="tok-num">3</span>, <span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最大公约数：&quot;</span>, math.<span class="tok-cmdlet">gcd</span>(<span class="tok-num">48</span>, <span class="tok-num">18</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;向上取整：&quot;</span>, math.<span class="tok-cmdlet">ceil</span>(<span class="tok-num">3.2</span>), <span class="tok-string">&quot;向下取整：&quot;</span>, math.<span class="tok-cmdlet">floor</span>(<span class="tok-op">-</span><span class="tok-num">2.5</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;近似相等：&quot;</span>, math.<span class="tok-cmdlet">isclose</span>(<span class="tok-num">0.1</span> <span class="tok-op">+</span> <span class="tok-num">0.2</span>, <span class="tok-num">0.3</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">圆周率： 3.141593
+平方根： 1.4142135623730951
+斜边： 5.0
+最大公约数： 6
+向上取整： 4 向下取整： -3
+近似相等： True</code></pre></figure>
+<p><code>math.hypot(3, 4)</code> 直接算出直角三角形的斜边，比手写平方和再开方更稳，也不容易溢出。<code>math.floor(-2.5)</code> 得到 <code>-3</code>，方向是向负无穷取整，和内置的 <code>round()</code> 四舍五入不是一回事。比较两个浮点数是否相等不要用 <code>==</code>，<code>math.isclose()</code> 会按相对误差判断，能避开 <code>0.1 + 0.2</code> 这类二进制误差。</p>
+<h2 id="sec-6" class="doc-heading">五、random：伪随机数</h2>
+<p><code>random</code> 生成的是伪随机数，由内部状态决定，适合抽奖、打乱顺序、模拟数据这类场景。只要在开头调用 <code>random.seed()</code> 固定种子，同一段程序每次运行的结果就完全一致，这一点在测试和教学里非常重要。涉及密码、令牌时必须改用 <code>secrets</code> 模块。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> random
+
+random.<span class="tok-cmdlet">seed</span>(<span class="tok-num">2026</span>)
+
+words <span class="tok-op">=</span> [<span class="tok-string">&quot;alpha&quot;</span>, <span class="tok-string">&quot;beta&quot;</span>, <span class="tok-string">&quot;gamma&quot;</span>, <span class="tok-string">&quot;delta&quot;</span>, <span class="tok-string">&quot;epsilon&quot;</span>]
+random.<span class="tok-cmdlet">shuffle</span>(words)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;打乱顺序：&quot;</span>, words)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;随机小数：&quot;</span>, random.<span class="tok-cmdlet">random</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;随机整数：&quot;</span>, random.<span class="tok-cmdlet">randint</span>(<span class="tok-num">1</span>, <span class="tok-num">100</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;随机选择：&quot;</span>, random.<span class="tok-cmdlet">choice</span>([<span class="tok-string">&quot;rock&quot;</span>, <span class="tok-string">&quot;paper&quot;</span>, <span class="tok-string">&quot;scissors&quot;</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;抽样五个：&quot;</span>, random.<span class="tok-cmdlet">sample</span>(<span class="tok-type">range</span>(<span class="tok-num">1</span>, <span class="tok-num">50</span>), <span class="tok-num">5</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">打乱顺序： ['beta', 'epsilon', 'delta', 'gamma', 'alpha']
+随机小数： 0.8841197954362969
+随机整数： 77
+随机选择： scissors
+抽样五个： [36, 27, 37, 47, 32]</code></pre></figure>
+<p><code>random.random()</code> 返回 <code>[0.0, 1.0)</code> 区间的小数，<code>randint(a, b)</code> 两端的整数都能取到。<code>random.sample()</code> 不放回抽样，结果不会重复；<code>random.shuffle()</code> 就地打乱列表并返回 <code>None</code>，所以不能写 <code>words = random.shuffle(words)</code>。去掉 <code>seed()</code> 之后每次结果都不同，这正是它不适合做安全随机源的原因。</p>
+<h2 id="sec-7" class="doc-heading">六、datetime：日期与时间</h2>
+<p><code>datetime</code> 提供 <code>date</code>、<code>time</code>、<code>datetime</code>、<code>timedelta</code> 四个核心类型，覆盖日期运算、格式化和解析。两个 <code>date</code> 相减得到 <code>timedelta</code>，加上 <code>timedelta</code> 就能得到新日期，闰年、月末天数都由库负责。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> date, datetime, timedelta
+
+today <span class="tok-op">=</span> <span class="tok-cmdlet">date</span>(<span class="tok-num">2026</span>, <span class="tok-num">11</span>, <span class="tok-num">27</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;日期：&quot;</span>, today.<span class="tok-cmdlet">isoformat</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;格式化：&quot;</span>, today.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y年%m月%d日&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;45 天后：&quot;</span>, today <span class="tok-op">+</span> <span class="tok-cmdlet">timedelta</span>(days<span class="tok-op">=</span><span class="tok-num">45</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;距元旦：&quot;</span>, (<span class="tok-cmdlet">date</span>(<span class="tok-num">2027</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>) <span class="tok-op">-</span> today).days, <span class="tok-string">&quot;天&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;带时间：&quot;</span>, <span class="tok-cmdlet">datetime</span>(<span class="tok-num">2026</span>, <span class="tok-num">11</span>, <span class="tok-num">27</span>, <span class="tok-num">9</span>, <span class="tok-num">30</span>, <span class="tok-num">15</span>).<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">日期： 2026-11-27
+格式化： 2026年11月27日
+45 天后： 2027-01-11
+距元旦： 35 天
+带时间： 2026-11-27 09:30:15</code></pre></figure>
+<p><code>isoformat()</code> 输出 <code>YYYY-MM-DD</code>，是日志和接口里最通用的日期写法。<code>strftime()</code> 把日期转成自定义格式的字符串，<code>strptime()</code> 则做反向解析。<code>date(2026, 11, 27).weekday()</code> 返回 0 到 6，周一为 0，所以这天是星期五，值为 4。示例使用固定日期而不是 <code>date.today()</code>，输出才不会随运行时间变化。</p>
+<h2 id="sec-8" class="doc-heading">七、collections：专用容器</h2>
+<p><code>collections</code> 在 list、dict、tuple 之外补充了几种针对性更强的容器：<code>Counter</code> 计数、<code>defaultdict</code> 带默认值的字典、<code>deque</code> 双端队列、<code>namedtuple</code> 带字段名的元组。它们都是标准容器的子类或轻量替代，接口风格保持一致。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> collections <span class="tok-keyword">import</span> Counter, defaultdict, deque, namedtuple
+
+counts <span class="tok-op">=</span> <span class="tok-cmdlet">Counter</span>(<span class="tok-string">&quot;banana&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;计数：&quot;</span>, counts)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最常见：&quot;</span>, counts.<span class="tok-cmdlet">most_common</span>(<span class="tok-num">2</span>))
+
+letters <span class="tok-op">=</span> <span class="tok-cmdlet">defaultdict</span>(<span class="tok-type">int</span>)
+<span class="tok-keyword">for</span> char <span class="tok-keyword">in</span> <span class="tok-string">&quot;hello&quot;</span>:
+    letters[char] <span class="tok-op">+</span><span class="tok-op">=</span> <span class="tok-num">1</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;默认字典：&quot;</span>, <span class="tok-type">dict</span>(letters))
+
+queue <span class="tok-op">=</span> <span class="tok-cmdlet">deque</span>([<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>])
+queue.<span class="tok-cmdlet">appendleft</span>(<span class="tok-num">0</span>)
+queue.<span class="tok-cmdlet">append</span>(<span class="tok-num">4</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;双端队列：&quot;</span>, <span class="tok-type">list</span>(queue), <span class="tok-string">&quot;左端弹出：&quot;</span>, queue.<span class="tok-cmdlet">popleft</span>())
+
+Point <span class="tok-op">=</span> <span class="tok-cmdlet">namedtuple</span>(<span class="tok-string">&quot;Point&quot;</span>, <span class="tok-string">&quot;x y&quot;</span>)
+point <span class="tok-op">=</span> <span class="tok-cmdlet">Point</span>(<span class="tok-num">3</span>, <span class="tok-num">4</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;命名元组：&quot;</span>, point, point.x <span class="tok-op">+</span> point.y)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">计数： Counter({'a': 3, 'n': 2, 'b': 1})
+最常见： [('a', 3), ('n', 2)]
+默认字典： {'h': 1, 'e': 1, 'l': 2, 'o': 1}
+双端队列： [0, 1, 2, 3, 4] 左端弹出： 0
+命名元组： Point(x=3, y=4) 7</code></pre></figure>
+<p><code>Counter</code> 是 dict 的子类，元素作键、次数作值，<code>most_common(n)</code> 按次数降序返回前 n 项，次数相同时保持首次出现的顺序。<code>defaultdict(int)</code> 在访问不存在的键时自动写入 <code>0</code>，省掉了 <code>if key not in mapping</code> 的判断。<code>deque</code> 从两端增删都是 O(1)，实现队列比列表的 <code>pop(0)</code> 更高效。<code>namedtuple</code> 生成的类可以用属性访问字段，同时仍然支持下标和解包。</p>
+<h2 id="sec-9" class="doc-heading">八、itertools：迭代器工具</h2>
+<p><code>itertools</code> 里的函数都返回惰性迭代器，只在需要时计算下一个元素，因此可以处理无限序列或超大文件。常见的有 <code>count</code> 计数、<code>islice</code> 切片、<code>chain</code> 串联、<code>groupby</code> 分组、<code>combinations</code> 组合、<code>product</code> 笛卡尔积、<code>accumulate</code> 累计。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> itertools <span class="tok-keyword">import</span> accumulate, chain, combinations, count, groupby, islice, product
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;无限计数：&quot;</span>, <span class="tok-type">list</span>(<span class="tok-cmdlet">islice</span>(<span class="tok-cmdlet">count</span>(<span class="tok-num">10</span>, <span class="tok-num">5</span>), <span class="tok-num">5</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;串联：&quot;</span>, <span class="tok-type">list</span>(<span class="tok-cmdlet">chain</span>([<span class="tok-num">1</span>, <span class="tok-num">2</span>], [<span class="tok-string">&quot;a&quot;</span>, <span class="tok-string">&quot;b&quot;</span>])))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;分组：&quot;</span>, [(key, <span class="tok-type">len</span>(<span class="tok-type">list</span>(group))) <span class="tok-keyword">for</span> key, group <span class="tok-keyword">in</span> <span class="tok-cmdlet">groupby</span>(<span class="tok-string">&quot;aabbbcca&quot;</span>)])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;组合：&quot;</span>, <span class="tok-type">list</span>(<span class="tok-cmdlet">combinations</span>([<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>], <span class="tok-num">2</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;笛卡尔积：&quot;</span>, <span class="tok-type">list</span>(<span class="tok-cmdlet">product</span>(<span class="tok-string">&quot;ab&quot;</span>, [<span class="tok-num">1</span>, <span class="tok-num">2</span>])))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;累计求和：&quot;</span>, <span class="tok-type">list</span>(<span class="tok-cmdlet">accumulate</span>([<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>])))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">无限计数： [10, 15, 20, 25, 30]
+串联： [1, 2, 'a', 'b']
+分组： [('a', 2), ('b', 3), ('c', 2), ('a', 1)]
+组合： [(1, 2), (1, 3), (2, 3)]
+笛卡尔积： [('a', 1), ('a', 2), ('b', 1), ('b', 2)]
+累计求和： [1, 3, 6, 10]</code></pre></figure>
+<p><code>count(10, 5)</code> 是无限递增序列，必须用 <code>islice</code> 截断后才能转成列表，否则程序会一直算下去。<code>groupby</code> 只合并相邻的相同元素，输入没有排序时同一分组可能出现多次，示例里的 <code>a</code> 就出现了两段。<code>combinations</code> 不考虑顺序，<code>permutations</code> 则把顺序也算作不同结果。</p>
+<h2 id="sec-10" class="doc-heading">九、functools：函数工具</h2>
+<p><code>functools</code> 面向高阶函数：<code>reduce</code> 把二元函数累积作用到序列上，<code>partial</code> 固定部分参数生成新函数，<code>lru_cache</code> 为纯函数加缓存，<code>wraps</code> 在写装饰器时保留原函数的元信息。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> functools <span class="tok-keyword">import</span> lru_cache, partial, reduce
+
+numbers <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;累乘：&quot;</span>, <span class="tok-cmdlet">reduce</span>(<span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">*</span> b, numbers))
+
+add <span class="tok-op">=</span> <span class="tok-cmdlet">partial</span>(<span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">+</span> b, <span class="tok-num">10</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;固定第一个参数：&quot;</span>, <span class="tok-cmdlet">add</span>(<span class="tok-num">5</span>))
+
+<span class="tok-param">@lru_cache</span>(maxsize<span class="tok-op">=</span><span class="tok-keyword">None</span>)
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">fib</span>(n):
+    <span class="tok-keyword">return</span> n <span class="tok-keyword">if</span> n <span class="tok-op">&lt;</span> <span class="tok-num">2</span> <span class="tok-keyword">else</span> <span class="tok-cmdlet">fib</span>(n <span class="tok-op">-</span> <span class="tok-num">1</span>) <span class="tok-op">+</span> <span class="tok-cmdlet">fib</span>(n <span class="tok-op">-</span> <span class="tok-num">2</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;斐波那契：&quot;</span>, <span class="tok-cmdlet">fib</span>(<span class="tok-num">20</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;缓存信息：&quot;</span>, fib.<span class="tok-cmdlet">cache_info</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">累乘： 120
+固定第一个参数： 15
+斐波那契： 6765
+缓存信息： CacheInfo(hits=18, misses=21, maxsize=None, currsize=21)</code></pre></figure>
+<p><code>reduce</code> 在没有初始值时会拿序列的前两个元素先算一次，空序列则会抛 <code>TypeError</code>，需要初始值时显式传第三个参数。<code>partial</code> 适合把配置项提前绑定，例如给日志函数固定级别。<code>lru_cache</code> 用参数做键缓存返回值，<code>cache_info()</code> 里的 <code>hits</code> 是命中次数、<code>misses</code> 是未命中次数，递归计算斐波那契时能把指数级调用降到线性。</p>
+<h2 id="sec-11" class="doc-heading">十、pathlib：面向对象的路径</h2>
+<p><code>pathlib</code> 用 <code>Path</code> 对象替代字符串拼接路径，<code>/</code> 运算符负责连接各级目录，<code>.name</code>、<code>.suffix</code>、<code>.stem</code>、<code>.parent</code> 直接取路径的组成部分。它比 <code>os.path</code> 更直观，也是新代码推荐的方式。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> pathlib <span class="tok-keyword">import</span> Path
+
+path <span class="tok-op">=</span> <span class="tok-cmdlet">Path</span>(<span class="tok-string">&quot;data&quot;</span>) <span class="tok-op">/</span> <span class="tok-string">&quot;2026&quot;</span> <span class="tok-op">/</span> <span class="tok-string">&quot;report.csv&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;文件名：&quot;</span>, path.name)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;后缀：&quot;</span>, path.suffix, <span class="tok-string">&quot;主干：&quot;</span>, path.stem)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;分段：&quot;</span>, path.parts)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;换成 JSON：&quot;</span>, path.<span class="tok-cmdlet">with_suffix</span>(<span class="tok-string">&quot;.json&quot;</span>).<span class="tok-cmdlet">as_posix</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">文件名： report.csv
+后缀： .csv 主干： report
+分段： ('data', '2026', 'report.csv')
+换成 JSON： data/2026/report.json</code></pre></figure>
+<p><code>parts</code> 把路径拆成元组，不受平台分隔符影响；<code>as_posix()</code> 统一用正斜杠输出，写进配置文件或网址时不会出现反斜杠。<code>with_suffix()</code> 只替换最后一个后缀，<code>with_name()</code> 则替换整个文件名。<code>Path</code> 还提供 <code>read_text()</code>、<code>write_text()</code>、<code>mkdir()</code>、<code>glob()</code> 等方法，读写小文件时一行就能完成。</p>
+<h2 id="sec-12" class="doc-heading">十一、logging：日志记录</h2>
+<p><code>logging</code> 比 <code>print</code> 更适合正式程序：它按级别过滤、按模块命名、可以同时输出到控制台和文件，还能通过配置统一调整格式。默认情况下日志写到标准错误，示例显式指定 <code>stream=sys.stdout</code>，方便和输出结果对照。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> logging
+<span class="tok-keyword">import</span> sys
+
+logging.<span class="tok-cmdlet">basicConfig</span>(
+    level<span class="tok-op">=</span>logging.INFO,
+    <span class="tok-type">format</span><span class="tok-op">=</span><span class="tok-string">&quot;%(levelname)s %(name)s: %(message)s&quot;</span>,
+    stream<span class="tok-op">=</span>sys.stdout,
+    force<span class="tok-op">=</span><span class="tok-keyword">True</span>,
+)
+logger <span class="tok-op">=</span> logging.<span class="tok-cmdlet">getLogger</span>(<span class="tok-string">&quot;report&quot;</span>)
+
+logger.<span class="tok-cmdlet">info</span>(<span class="tok-string">&quot;开始处理 3 条记录&quot;</span>)
+logger.<span class="tok-cmdlet">warning</span>(<span class="tok-string">&quot;第 2 条记录缺少字段，已跳过&quot;</span>)
+logger.<span class="tok-cmdlet">info</span>(<span class="tok-string">&quot;处理完成&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">INFO report: 开始处理 3 条记录
+WARNING report: 第 2 条记录缺少字段，已跳过
+INFO report: 处理完成</code></pre></figure>
+<p><code>level=logging.INFO</code> 表示 INFO 及以上级别才会输出，<code>debug()</code> 的调用会被直接丢弃。<code>%(name)s</code> 取的是 <code>getLogger(&quot;report&quot;)</code> 传入的名字，大型项目通常按模块名建 logger，方便单独开关某个模块的日志。<code>force=True</code> 会移除已有处理器再重新配置，避免在交互式环境里重复添加处理器导致一行日志打印多次。</p>
+<h2 id="sec-13" class="doc-heading">十二、statistics：统计计算</h2>
+<p><code>statistics</code> 用纯 Python 实现了均值、中位数、众数、方差、标准差、分位数等常见统计量，输入可以是列表、元组或任何可迭代对象。数据量不大时它足够方便，数据量达到百万级则应换成 NumPy。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> statistics <span class="tok-keyword">import</span> mean, median, mode, pstdev, quantiles
+
+scores <span class="tok-op">=</span> [<span class="tok-num">78</span>, <span class="tok-num">85</span>, <span class="tok-num">92</span>, <span class="tok-num">85</span>, <span class="tok-num">96</span>, <span class="tok-num">88</span>, <span class="tok-num">73</span>, <span class="tok-num">90</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平均分：&quot;</span>, <span class="tok-cmdlet">mean</span>(scores))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;中位数：&quot;</span>, <span class="tok-cmdlet">median</span>(scores))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;众数：&quot;</span>, <span class="tok-cmdlet">mode</span>(scores))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总体标准差：&quot;</span>, <span class="tok-type">round</span>(<span class="tok-cmdlet">pstdev</span>(scores), <span class="tok-num">3</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;四分位数：&quot;</span>, <span class="tok-cmdlet">quantiles</span>(scores, n<span class="tok-op">=</span><span class="tok-num">4</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">平均分： 85.875
+中位数： 86.5
+众数： 85
+总体标准差： 6.99
+四分位数： [79.75, 86.5, 91.5]</code></pre></figure>
+<p><code>mean()</code> 返回的结果可能是 <code>int</code> 也可能是 <code>float</code>，取决于输入；<code>median()</code> 在数据个数为偶数时取中间两个数的平均值，所以 8 个分数得到 <code>86.5</code>。<code>pstdev()</code> 计算总体标准差，分母是 n；<code>stdev()</code> 计算样本标准差，分母是 n - 1，前者适合描述全部数据，后者适合从样本推断总体。<code>quantiles(data, n=4)</code> 返回三个切点，把数据分成四段。</p>
+<h2 id="sec-14" class="doc-heading">十三、hashlib：消息摘要</h2>
+<p><code>hashlib</code> 提供 MD5、SHA-1、SHA-256 等哈希算法，用来校验文件完整性、生成内容指纹、给缓存做键。哈希是单向的，不能用来还原原文；MD5 和 SHA-1 已经不适合安全场景，新代码应优先选 SHA-256。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> hashlib
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;Python 标准库&quot;</span>
+data <span class="tok-op">=</span> text.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;MD5：&quot;</span>, hashlib.<span class="tok-cmdlet">md5</span>(data).<span class="tok-cmdlet">hexdigest</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;SHA-256：&quot;</span>, hashlib.<span class="tok-cmdlet">sha256</span>(data).<span class="tok-cmdlet">hexdigest</span>())
+
+digest <span class="tok-op">=</span> hashlib.<span class="tok-cmdlet">sha256</span>()
+digest.<span class="tok-cmdlet">update</span>(<span class="tok-string">&quot;Python &quot;</span>.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+digest.<span class="tok-cmdlet">update</span>(<span class="tok-string">&quot;标准库&quot;</span>.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;分块更新一致：&quot;</span>, digest.<span class="tok-cmdlet">hexdigest</span>() <span class="tok-op">=</span><span class="tok-op">=</span> hashlib.<span class="tok-cmdlet">sha256</span>(data).<span class="tok-cmdlet">hexdigest</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">MD5： e411c8ba49be6f63007c9dc896d9e4c1
+SHA-256： e46e881963094d4dca65a0f91c61ca395e6b6972f6effbfb9a016074e986a949
+分块更新一致： True</code></pre></figure>
+<p><code>hexdigest()</code> 返回十六进制字符串，<code>digest()</code> 返回原始字节，写进数据库或 JSON 时用前者更方便。<code>update()</code> 可以分多次喂数据，效果与一次性传入完整内容相同，读取大文件时可以边读边算，不必把整个文件载入内存。密码存储不要直接用一次哈希，标准库提供了 <code>hashlib.pbkdf2_hmac()</code> 和 <code>scrypt()</code> 这类带盐、可调迭代次数的函数。</p>
+<h2 id="sec-15" class="doc-heading">十四、base64：编码转换</h2>
+<p><code>base64</code> 把任意字节转换成只含字母、数字和少量符号的文本，常用于在 JSON、邮件、网址中传输二进制数据。它只是编码不是加密，任何人都能还原，而且体积会比原始数据增大约三分之一。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> base64
+
+data <span class="tok-op">=</span> <span class="tok-string">&quot;Python 标准库&quot;</span>.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+encoded <span class="tok-op">=</span> base64.<span class="tok-cmdlet">b64encode</span>(data)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;编码：&quot;</span>, encoded)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;解码：&quot;</span>, base64.<span class="tok-cmdlet">b64decode</span>(encoded).<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;URL 安全编码：&quot;</span>, base64.<span class="tok-cmdlet">urlsafe_b64encode</span>(<span class="tok-string">b&quot;\xfb\xff&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">编码： b'UHl0aG9uIOagh+WHhuW6kw=='
+解码： Python 标准库
+URL 安全编码： b'-_8='</code></pre></figure>
+<p>标准 Base64 的字母表里包含 <code>+</code> 和 <code>/</code>，直接放进 URL 会被转义，<code>urlsafe_b64encode()</code> 把它们换成 <code>-</code> 和 <code>_</code>。编码前必须把字符串转成字节，编码后得到的是 <code>bytes</code>，打印时会带 <code>b''</code> 前缀；要还原成文本，先 <code>b64decode()</code> 再 <code>decode()</code>。</p>
+<h2 id="sec-16" class="doc-heading">十五、uuid：唯一标识符</h2>
+<p><code>uuid</code> 生成 128 位的全局唯一标识符，常用于数据库主键、请求编号、会话标识。模块支持多种生成方式：<code>uuid1()</code> 依赖时间和网卡地址，<code>uuid4()</code> 使用随机数，<code>uuid5()</code> 对命名空间和名字做哈希。示例只解析一个固定的 UUID 字符串，不涉及随机值。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> uuid
+
+fixed <span class="tok-op">=</span> uuid.<span class="tok-cmdlet">UUID</span>(<span class="tok-string">&quot;6ba7b810-9dad-11d1-80b4-00c04fd430c8&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;字符串：&quot;</span>, fixed)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;十六进制：&quot;</span>, fixed.<span class="tok-type">hex</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;版本：&quot;</span>, fixed.version)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;整数：&quot;</span>, fixed.<span class="tok-type">int</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;URN：&quot;</span>, fixed.urn)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">字符串： 6ba7b810-9dad-11d1-80b4-00c04fd430c8
+十六进制： 6ba7b8109dad11d180b400c04fd430c8
+版本： 1
+整数： 143098242404177361603877621312831893704
+URN： urn:uuid:6ba7b810-9dad-11d1-80b4-00c04fd430c8</code></pre></figure>
+<p>UUID 的标准写法是 8-4-4-4-12 共 32 个十六进制数字，用连字符分成五段。<code>hex</code> 去掉连字符，<code>int</code> 转成 128 位整数，<code>urn</code> 加上 <code>urn:uuid:</code> 前缀。示例里的字符串第三段以 <code>1</code> 开头、第四段以 <code>8</code> 开头，分别对应版本号和变体位，所以 <code>version</code> 是 1。需要新 ID 时调用 <code>uuid.uuid4()</code>，它的随机性由操作系统提供，不需要自己播种。</p>
+<h2 id="sec-17" class="doc-heading">十六、time：时间处理</h2>
+<p><code>time</code> 是最底层的时间模块，围绕“时间戳”和“时间元组”工作：<code>time.time()</code> 取当前时间戳，<code>gmtime()</code>、<code>localtime()</code> 把时间戳转成 <code>struct_time</code>，<code>strftime()</code> 格式化，<code>strptime()</code> 解析。示例只用固定的时间戳，避免输出随运行时刻变化。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> time
+
+epoch <span class="tok-op">=</span> time.<span class="tok-cmdlet">gmtime</span>(<span class="tok-num">0</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;时间元组：&quot;</span>, <span class="tok-type">tuple</span>(epoch)[:<span class="tok-num">6</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;格式化：&quot;</span>, time.<span class="tok-cmdlet">strftime</span>(<span class="tok-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, time.<span class="tok-cmdlet">gmtime</span>(<span class="tok-num">86400</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;可读形式：&quot;</span>, time.<span class="tok-cmdlet">asctime</span>(epoch))
+parsed <span class="tok-op">=</span> time.<span class="tok-cmdlet">strptime</span>(<span class="tok-string">&quot;2026-11-27&quot;</span>, <span class="tok-string">&quot;%Y-%m-%d&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;一年中的第几天：&quot;</span>, parsed.tm_yday, <span class="tok-string">&quot;星期：&quot;</span>, parsed.tm_wday)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">时间元组： (1970, 1, 1, 0, 0, 0)
+格式化： 1970-01-02 00:00:00
+可读形式： Thu Jan  1 00:00:00 1970
+一年中的第几天： 331 星期： 4</code></pre></figure>
+<p><code>gmtime()</code> 返回 UTC 时间，<code>localtime()</code> 返回本地时间，两者结果都是 <code>struct_time</code>，字段包括年、月、日、时、分、秒、星期、一年中的第几天和夏令时标志。<code>time.gmtime(0)</code> 对应 Unix 纪元 1970 年 1 月 1 日。<code>strptime()</code> 的 <code>tm_wday</code> 同样以周一为 0。<code>time.time()</code> 和 <code>time.perf_counter()</code> 每次调用都不同，适合计时，不适合写进需要逐字比对的示例。</p>
+<h2 id="sec-18" class="doc-heading">十七、常用模块速查表</h2>
+<div class="table-wrap"><table><thead><tr><th>分类</th><th>模块</th><th>典型用途</th></tr></thead><tbody><tr><td>操作系统</td><td><code>os</code>、<code>sys</code></td><td>环境变量、目录操作、路径拼接、解释器信息</td></tr><tr><td>数学与随机</td><td><code>math</code>、<code>random</code></td><td>取整、开方、三角函数、抽样与打乱</td></tr><tr><td>日期时间</td><td><code>datetime</code>、<code>time</code></td><td>日期运算、格式化、时间戳转换</td></tr><tr><td>容器扩展</td><td><code>collections</code></td><td>计数、默认字典、双端队列、命名元组</td></tr><tr><td>迭代工具</td><td><code>itertools</code>、<code>functools</code></td><td>无限序列切片、组合、缓存、参数固定</td></tr><tr><td>路径处理</td><td><code>pathlib</code></td><td>面向对象的路径拼接与文件读写</td></tr><tr><td>运行支撑</td><td><code>logging</code></td><td>分级日志、多目标输出、统一格式</td></tr><tr><td>数据计算</td><td><code>statistics</code></td><td>均值、中位数、标准差、分位数</td></tr><tr><td>编码摘要</td><td><code>hashlib</code>、<code>base64</code></td><td>完整性校验、内容指纹、二进制转文本</td></tr><tr><td>唯一标识</td><td><code>uuid</code></td><td>生成、解析固定格式的 128 位标识符</td></tr></tbody></table></div>
+<h2 id="sec-19" class="doc-heading">十八、练习任务</h2>
+<p>任务：下面是一段简化的访问日志，每条记录包含路径、状态码和耗时。请用标准库统计访问次数最多的路径、列出所有异常请求、计算平均耗时，并把日期、记录数和总耗时拼成一行报表，最后给出报表的 SHA-256 摘要前 16 位。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> hashlib
+<span class="tok-keyword">import</span> statistics
+<span class="tok-keyword">from</span> collections <span class="tok-keyword">import</span> Counter
+<span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> date
+
+records <span class="tok-op">=</span> [
+    (<span class="tok-string">&quot;/index&quot;</span>, <span class="tok-num">200</span>, <span class="tok-num">0.12</span>),
+    (<span class="tok-string">&quot;/api/users&quot;</span>, <span class="tok-num">200</span>, <span class="tok-num">0.35</span>),
+    (<span class="tok-string">&quot;/api/users&quot;</span>, <span class="tok-num">500</span>, <span class="tok-num">0.80</span>),
+    (<span class="tok-string">&quot;/index&quot;</span>, <span class="tok-num">200</span>, <span class="tok-num">0.20</span>),
+    (<span class="tok-string">&quot;/login&quot;</span>, <span class="tok-num">404</span>, <span class="tok-num">0.05</span>),
+]
+
+paths <span class="tok-op">=</span> <span class="tok-cmdlet">Counter</span>(path <span class="tok-keyword">for</span> path, status, cost <span class="tok-keyword">in</span> records)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;访问最多的路径：&quot;</span>, paths.<span class="tok-cmdlet">most_common</span>(<span class="tok-num">1</span>)[<span class="tok-num">0</span>])
+
+errors <span class="tok-op">=</span> [path <span class="tok-keyword">for</span> path, status, cost <span class="tok-keyword">in</span> records <span class="tok-keyword">if</span> status <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">400</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;异常请求：&quot;</span>, errors)
+
+costs <span class="tok-op">=</span> [cost <span class="tok-keyword">for</span> path, status, cost <span class="tok-keyword">in</span> records]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平均耗时：&quot;</span>, <span class="tok-type">round</span>(statistics.<span class="tok-cmdlet">mean</span>(costs), <span class="tok-num">3</span>), <span class="tok-string">&quot;秒&quot;</span>)
+
+report <span class="tok-op">=</span> <span class="tok-string">f&quot;{date(2026, 11, 27).isoformat()}|{len(records)}|{sum(costs):.2f}&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;报表：&quot;</span>, report)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;摘要：&quot;</span>, hashlib.<span class="tok-cmdlet">sha256</span>(report.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)).<span class="tok-cmdlet">hexdigest</span>()[:<span class="tok-num">16</span>])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">访问最多的路径： ('/index', 2)
+异常请求： ['/api/users', '/login']
+平均耗时： 0.304 秒
+报表： 2026-11-27|5|1.52
+摘要： 490ed4cc75a47629</code></pre></figure>
+<p>这段代码把本章的几个模块串在了一起：<code>Counter</code> 负责计数，列表推导式配合条件筛选异常请求，<code>statistics.mean()</code> 算平均耗时，<code>datetime.date</code> 提供固定日期，<code>hashlib</code> 给报表生成摘要。可以试着把 <code>records</code> 换成自己的数据，或者把摘要长度改成 32 位，观察输出有什么变化。</p></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="scope.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 命名空间和作用域</span></a><a class="pager-link pager-link--next" href="builtins.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 内置函数</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、标准库的意义与浏览方式</a><a class="toc-link toc-link--h3" href="#sec-2">浏览方式</a><a class="toc-link toc-link--h2" href="#sec-3">二、os：操作系统接口</a><a class="toc-link toc-link--h2" href="#sec-4">三、sys：解释器信息</a><a class="toc-link toc-link--h2" href="#sec-5">四、math：数学函数</a><a class="toc-link toc-link--h2" href="#sec-6">五、random：伪随机数</a><a class="toc-link toc-link--h2" href="#sec-7">六、datetime：日期与时间</a><a class="toc-link toc-link--h2" href="#sec-8">七、collections：专用容器</a><a class="toc-link toc-link--h2" href="#sec-9">八、itertools：迭代器工具</a><a class="toc-link toc-link--h2" href="#sec-10">九、functools：函数工具</a><a class="toc-link toc-link--h2" href="#sec-11">十、pathlib：面向对象的路径</a><a class="toc-link toc-link--h2" href="#sec-12">十一、logging：日志记录</a><a class="toc-link toc-link--h2" href="#sec-13">十二、statistics：统计计算</a><a class="toc-link toc-link--h2" href="#sec-14">十三、hashlib：消息摘要</a><a class="toc-link toc-link--h2" href="#sec-15">十四、base64：编码转换</a><a class="toc-link toc-link--h2" href="#sec-16">十五、uuid：唯一标识符</a><a class="toc-link toc-link--h2" href="#sec-17">十六、time：时间处理</a><a class="toc-link toc-link--h2" href="#sec-18">十七、常用模块速查表</a><a class="toc-link toc-link--h2" href="#sec-19">十八、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

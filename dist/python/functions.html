@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 函数 · Python</title>
+<meta name="description" content="掌握函数的定义与调用、返回值、位置参数、关键字参数、默认参数、可变参数、参数解包、作用域、递归、文档字符串、类型注解与高阶函数。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="functions" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link is-active" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>进阶</span></nav><h1 class="doc-title">Python 函数</h1><p class="doc-lead">掌握函数的定义与调用、返回值、位置参数、关键字参数、默认参数、可变参数、参数解包、作用域、递归、文档字符串、类型注解与高阶函数。</p><div class="doc-meta"><span>第 20 章</span><span class="doc-meta__dot"></span><span>约 18 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>函数是组织代码的基本单位。它把一段可以被反复使用的逻辑封装起来，通过参数接收输入，通过返回值交出结果。把代码拆成函数之后，重复的逻辑只需要维护一份，调用处只关心“做什么”，不必重复阅读“怎么做”。</p>
+<p>本章从最简单的定义与调用开始，依次介绍返回值、各类参数形式、参数解包、作用域、递归、文档字符串、类型注解和高阶函数，最后用三个练习巩固这些用法。</p>
+<h2 id="sec-1" class="doc-heading">一、定义与调用</h2>
+<p>函数用 <code>def</code> 关键字定义，后面依次是函数名、圆括号包裹的参数列表和冒号，函数体统一缩进。定义本身不会执行函数体，只有调用时才真正运行。</p>
+<p>下面定义一个带默认问候语的函数：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">greet</span>(name, greeting<span class="tok-op">=</span><span class="tok-string">&quot;你好&quot;</span>):
+    <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{greeting}，{name}！&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">greet</span>(<span class="tok-string">&quot;小明&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">greet</span>(<span class="tok-string">&quot;小红&quot;</span>, <span class="tok-string">&quot;早上好&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">你好，小明！
+早上好，小红！</code></pre></figure>
+<p>函数名后面加圆括号就是调用。调用时传入的参数会按位置绑定到形参上，返回值可以用变量接收，也可以直接打印或继续参与运算。没有 <code>return</code> 的函数默认返回 <code>None</code>。</p>
+<h2 id="sec-2" class="doc-heading">二、返回值</h2>
+<p><code>return</code> 负责结束函数并把结果交还给调用者。Python 的函数可以返回多个值，写法上是用逗号分隔，实际返回的是一个元组，调用处可以直接解包。</p>
+<p>下面的函数一次返回最低分、最高分和平均分：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">analyze</span>(numbers):
+    <span class="tok-keyword">return</span> <span class="tok-type">min</span>(numbers), <span class="tok-type">max</span>(numbers), <span class="tok-type">sum</span>(numbers) <span class="tok-op">/</span> <span class="tok-type">len</span>(numbers)
+
+low, high, average <span class="tok-op">=</span> <span class="tok-cmdlet">analyze</span>([<span class="tok-num">80</span>, <span class="tok-num">92</span>, <span class="tok-num">75</span>, <span class="tok-num">88</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最低分：&quot;</span>, low)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最高分：&quot;</span>, high)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平均分：&quot;</span>, <span class="tok-type">round</span>(average, <span class="tok-num">2</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">最低分： 75
+最高分： 92
+平均分： 83.75</code></pre></figure>
+<p><code>return</code> 之后的代码不会再执行。如果函数体走完了所有分支都没有遇到 <code>return</code>，调用结果就是 <code>None</code>。需要提前结束时，可以单独写一个不带值的 <code>return</code>。</p>
+<h2 id="sec-3" class="doc-heading">三、位置、关键字与默认参数</h2>
+<p>调用函数时，参数既可以按位置传递，也可以按名字传递。位置参数要求顺序和个数都匹配；关键字参数通过 <code>参数名=值</code> 的形式传入，顺序可以调整。默认参数在定义时给出默认值，调用时省略即可。</p>
+<div class="table-wrap"><table><thead><tr><th>形式</th><th>示例</th><th>说明</th></tr></thead><tbody><tr><td>位置参数</td><td><code>f(1, 2)</code></td><td>按定义顺序传参，个数必须匹配</td></tr><tr><td>关键字参数</td><td><code>f(a=1, b=2)</code></td><td>按参数名传参，顺序可以调整</td></tr><tr><td>默认参数</td><td><code>def f(a, b=2)</code></td><td>省略时使用默认值，默认值只求值一次</td></tr><tr><td>可变位置参数</td><td><code>def f(*args)</code></td><td>收集多余的位置参数为元组</td></tr><tr><td>可变关键字参数</td><td><code>def f(**kwargs)</code></td><td>收集多余的关键字参数为字典</td></tr></tbody></table></div>
+<p>三种基本形式可以混用：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">describe</span>(name, age, city<span class="tok-op">=</span><span class="tok-string">&quot;北京&quot;</span>):
+    <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{name}，{age} 岁，来自{city}&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">describe</span>(<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-num">18</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">describe</span>(<span class="tok-string">&quot;小红&quot;</span>, <span class="tok-num">20</span>, city<span class="tok-op">=</span><span class="tok-string">&quot;上海&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">describe</span>(age<span class="tok-op">=</span><span class="tok-num">22</span>, name<span class="tok-op">=</span><span class="tok-string">&quot;小刚&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">小明，18 岁，来自北京
+小红，20 岁，来自上海
+小刚，22 岁，来自北京</code></pre></figure>
+<p>位置参数必须写在关键字参数前面，否则会触发 <code>SyntaxError</code>。默认参数也不能放在普通位置参数之前，定义时同样要遵循“先必填、后可选”的顺序。</p>
+<h3 id="sec-4" class="doc-heading">可变默认值陷阱</h3>
+<p>默认值只在函数定义时求值一次，之后所有调用共享同一个对象。如果默认值是列表、字典这类可变对象，函数内部对它的修改会保留到下一次调用：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">add_item</span>(item, bucket<span class="tok-op">=</span>[]):
+    bucket.<span class="tok-cmdlet">append</span>(item)
+    <span class="tok-keyword">return</span> bucket
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">add_item</span>(<span class="tok-string">&quot;a&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">add_item</span>(<span class="tok-string">&quot;b&quot;</span>))
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">add_item_fixed</span>(item, bucket<span class="tok-op">=</span><span class="tok-keyword">None</span>):
+    <span class="tok-keyword">if</span> bucket <span class="tok-keyword">is</span> <span class="tok-keyword">None</span>:
+        bucket <span class="tok-op">=</span> []
+    bucket.<span class="tok-cmdlet">append</span>(item)
+    <span class="tok-keyword">return</span> bucket
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">add_item_fixed</span>(<span class="tok-string">&quot;a&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">add_item_fixed</span>(<span class="tok-string">&quot;b&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">['a']
+['a', 'b']
+['a']
+['b']</code></pre></figure>
+<p>第一次调用返回 <code>['a']</code>，第二次却变成 <code>['a', 'b']</code>，原因就是两次调用使用的是同一个默认列表。正确的做法是用 <code>None</code> 作为默认值，在函数体内部再创建新列表。字典、集合等可变对象都有同样的问题。</p>
+<h2 id="sec-5" class="doc-heading">四、可变参数</h2>
+<p>在参数名前加一个星号，表示收集任意数量的位置参数。函数内部拿到的 <code>args</code> 是一个元组，可以像普通元组一样遍历、求和或取长度。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">total</span>(<span class="tok-op">*</span>args):
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;参数个数：&quot;</span>, <span class="tok-type">len</span>(args))
+    <span class="tok-keyword">return</span> <span class="tok-type">sum</span>(args)
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">total</span>(<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">total</span>(<span class="tok-num">10</span>, <span class="tok-num">20</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">total</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">参数个数： 3
+6
+参数个数： 2
+30
+参数个数： 0
+0</code></pre></figure>
+<p>在参数名前加两个星号，表示收集任意数量的关键字参数。函数内部拿到的 <code>kwargs</code> 是一个字典，键是参数名，值是传入的内容。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">build_profile</span>(name, <span class="tok-op">*</span><span class="tok-op">*</span>kwargs):
+    profile <span class="tok-op">=</span> {<span class="tok-string">&quot;name&quot;</span>: name}
+    profile.<span class="tok-cmdlet">update</span>(kwargs)
+    <span class="tok-keyword">return</span> profile
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">build_profile</span>(<span class="tok-string">&quot;小明&quot;</span>, age<span class="tok-op">=</span><span class="tok-num">18</span>, city<span class="tok-op">=</span><span class="tok-string">&quot;北京&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">build_profile</span>(<span class="tok-string">&quot;小红&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">{'name': '小明', 'age': 18, 'city': '北京'}
+{'name': '小红'}</code></pre></figure>
+<p><code>*args</code> 与 <code>**kwargs</code> 可以同时出现，但 <code>*args</code> 必须写在 <code>**kwargs</code> 前面。它们常用来编写装饰器、转发参数或封装通用接口，不过滥用会让函数签名失去约束，调用方也难以判断到底该传什么。</p>
+<h2 id="sec-6" class="doc-heading">五、参数解包</h2>
+<p>调用函数时，可以在列表、元组前加 <code>*</code>，把其中的元素依次展开成位置参数；在字典前加 <code>**</code>，把键值对展开成关键字参数。解包让“把已有数据结构直接传给函数”变得非常自然。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">distance</span>(x1, y1, x2, y2):
+    <span class="tok-keyword">return</span> ((x2 <span class="tok-op">-</span> x1) <span class="tok-op">*</span><span class="tok-op">*</span> <span class="tok-num">2</span> <span class="tok-op">+</span> (y2 <span class="tok-op">-</span> y1) <span class="tok-op">*</span><span class="tok-op">*</span> <span class="tok-num">2</span>) <span class="tok-op">*</span><span class="tok-op">*</span> <span class="tok-num">0.5</span>
+
+point_a <span class="tok-op">=</span> (<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+point_b <span class="tok-op">=</span> (<span class="tok-num">3</span>, <span class="tok-num">4</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;两点距离：&quot;</span>, <span class="tok-cmdlet">distance</span>(<span class="tok-op">*</span>point_a, <span class="tok-op">*</span>point_b))
+
+options <span class="tok-op">=</span> {<span class="tok-string">&quot;x1&quot;</span>: <span class="tok-num">0</span>, <span class="tok-string">&quot;y1&quot;</span>: <span class="tok-num">0</span>, <span class="tok-string">&quot;x2&quot;</span>: <span class="tok-num">6</span>, <span class="tok-string">&quot;y2&quot;</span>: <span class="tok-num">8</span>}
+<span class="tok-type">print</span>(<span class="tok-string">&quot;两点距离：&quot;</span>, <span class="tok-cmdlet">distance</span>(<span class="tok-op">*</span><span class="tok-op">*</span>options))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">两点距离： 5.0
+两点距离： 10.0</code></pre></figure>
+<p>解包时，元素个数和键名必须与函数签名匹配。多传、少传或键名拼错都会抛出 <code>TypeError</code>。同一个参数不能被位置解包和关键字解包重复赋值。</p>
+<h2 id="sec-7" class="doc-heading">六、作用域简介</h2>
+<p>函数内部定义的变量属于局部作用域，函数执行结束后就不可访问；模块顶层定义的变量属于全局作用域，函数可以读取，但直接赋值会被当成新建局部变量。需要修改全局变量时用 <code>global</code> 声明，需要修改外层函数变量时用 <code>nonlocal</code> 声明。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">count <span class="tok-op">=</span> <span class="tok-num">0</span>
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">increase</span>():
+    <span class="tok-keyword">global</span> count
+    count <span class="tok-op">+</span><span class="tok-op">=</span> <span class="tok-num">1</span>
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">make_counter</span>():
+    value <span class="tok-op">=</span> <span class="tok-num">0</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">step</span>():
+        <span class="tok-keyword">nonlocal</span> value
+        value <span class="tok-op">+</span><span class="tok-op">=</span> <span class="tok-num">1</span>
+        <span class="tok-keyword">return</span> value
+
+    <span class="tok-keyword">return</span> step
+
+<span class="tok-cmdlet">increase</span>()
+<span class="tok-cmdlet">increase</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全局计数：&quot;</span>, count)
+
+counter <span class="tok-op">=</span> <span class="tok-cmdlet">make_counter</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;连续调用：&quot;</span>, <span class="tok-cmdlet">counter</span>(), <span class="tok-cmdlet">counter</span>(), <span class="tok-cmdlet">counter</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">全局计数： 2
+连续调用： 1 2 3</code></pre></figure>
+<p><code>make_counter()</code> 返回的 <code>step</code> 函数记住了外层变量 <code>value</code>，即使外层函数已经返回，<code>value</code> 仍然保存在闭包里。每调用一次 <code>make_counter()</code> 都会创建一份独立的状态，因此不同的计数器互不影响。</p>
+<h2 id="sec-8" class="doc-heading">七、递归</h2>
+<p>递归是函数直接或间接调用自己。写好递归的关键是两件事：确定终止条件，保证问题规模每次都向终止条件靠近；确定递推关系，把大问题拆成同类的子问题。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">factorial</span>(n):
+    <span class="tok-keyword">if</span> n <span class="tok-op">&lt;</span><span class="tok-op">=</span> <span class="tok-num">1</span>:
+        <span class="tok-keyword">return</span> <span class="tok-num">1</span>
+    <span class="tok-keyword">return</span> n <span class="tok-op">*</span> <span class="tok-cmdlet">factorial</span>(n <span class="tok-op">-</span> <span class="tok-num">1</span>)
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">fib</span>(n):
+    <span class="tok-keyword">if</span> n <span class="tok-op">&lt;</span> <span class="tok-num">2</span>:
+        <span class="tok-keyword">return</span> n
+    <span class="tok-keyword">return</span> <span class="tok-cmdlet">fib</span>(n <span class="tok-op">-</span> <span class="tok-num">1</span>) <span class="tok-op">+</span> <span class="tok-cmdlet">fib</span>(n <span class="tok-op">-</span> <span class="tok-num">2</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;5! =&quot;</span>, <span class="tok-cmdlet">factorial</span>(<span class="tok-num">5</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;前 8 个斐波那契数：&quot;</span>, [<span class="tok-cmdlet">fib</span>(i) <span class="tok-keyword">for</span> i <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">8</span>)])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">5! = 120
+前 8 个斐波那契数： [0, 1, 1, 2, 3, 5, 8, 13]</code></pre></figure>
+<p>递归写法接近数学定义，可读性好，但每一层调用都会占用栈空间。层数过深会触发 <code>RecursionError</code>，而朴素的斐波那契递归还会重复计算大量子问题。实际项目里可以用循环、缓存或 <code>functools.lru_cache</code> 来替代。</p>
+<h2 id="sec-9" class="doc-heading">八、文档字符串</h2>
+<p>函数体的第一行如果是字符串字面量，它就会被当作文档字符串保存在 <code>__doc__</code> 属性里。文档字符串用于说明函数做什么、参数含义、返回值以及可能抛出的异常，是自动生成文档的主要来源。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">average</span>(numbers):
+    <span class="tok-string">&quot;&quot;&quot;返回一组数字的平均值。</span>
+
+<span class="tok-string">    参数 numbers 必须是非空的可迭代对象。</span>
+<span class="tok-string">    &quot;&quot;&quot;</span>
+    <span class="tok-keyword">return</span> <span class="tok-type">sum</span>(numbers) <span class="tok-op">/</span> <span class="tok-type">len</span>(numbers)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;首行文档：&quot;</span>, average.__doc__.<span class="tok-cmdlet">splitlines</span>()[<span class="tok-num">0</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;计算结果：&quot;</span>, <span class="tok-cmdlet">average</span>([<span class="tok-num">2</span>, <span class="tok-num">4</span>, <span class="tok-num">6</span>]))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">首行文档： 返回一组数字的平均值。
+计算结果： 4.0</code></pre></figure>
+<p>按惯例，首行用一句话概括功能，空一行后再写详细说明。多行文档字符串的结束引号单独占一行，缩进与开头保持一致。调用 <code>help(average)</code> 可以看到格式化后的完整说明。</p>
+<h2 id="sec-10" class="doc-heading">九、类型注解</h2>
+<p>类型注解写在参数名和返回值箭头后面，例如 <code>text: str</code> 与 <code>-&gt; str</code>。Python 不会在运行时强制检查这些注解，它们主要服务于阅读代码、IDE 补全和 <code>mypy</code> 之类的静态检查工具。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">repeat</span>(text: <span class="tok-type">str</span>, times: <span class="tok-type">int</span> <span class="tok-op">=</span> <span class="tok-num">2</span>) <span class="tok-op">-</span><span class="tok-op">&gt;</span> <span class="tok-type">str</span>:
+    <span class="tok-keyword">return</span> text <span class="tok-op">*</span> times
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">repeat</span>(<span class="tok-string">&quot;ab&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">repeat</span>(<span class="tok-string">&quot;ab&quot;</span>, <span class="tok-num">3</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;参数注解：&quot;</span>, repeat.__annotations__[<span class="tok-string">&quot;text&quot;</span>].__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;返回注解：&quot;</span>, repeat.__annotations__[<span class="tok-string">&quot;return&quot;</span>].__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">abab
+ababab
+参数注解： str
+返回注解： str</code></pre></figure>
+<p>注解保存在函数的 <code>__annotations__</code> 字典里，默认参数仍然照常生效。复杂类型可以借助 <code>list[int]</code>、<code>dict[str, int]</code>、<code>Optional[str]</code> 等写法表达，需要更精细的约束时再引入 <code>typing</code> 模块。</p>
+<h2 id="sec-11" class="doc-heading">十、高阶函数简介</h2>
+<p>接受函数作为参数，或者把函数作为返回值的函数，称为高阶函数。Python 的函数是一等对象，可以赋值给变量、放进列表、当作参数传递。标准库里的 <code>map()</code>、<code>filter()</code>、<code>sorted()</code> 都接受函数参数。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">apply_twice</span>(func, value):
+    <span class="tok-keyword">return</span> <span class="tok-cmdlet">func</span>(<span class="tok-cmdlet">func</span>(value))
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">add_ten</span>(n):
+    <span class="tok-keyword">return</span> n <span class="tok-op">+</span> <span class="tok-num">10</span>
+
+numbers <span class="tok-op">=</span> [<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">4</span>, <span class="tok-num">1</span>, <span class="tok-num">5</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;连续加十：&quot;</span>, <span class="tok-cmdlet">apply_twice</span>(add_ten, <span class="tok-num">5</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平方：&quot;</span>, <span class="tok-type">list</span>(<span class="tok-type">map</span>(<span class="tok-keyword">lambda</span> n: n <span class="tok-op">*</span> n, numbers)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;偶数：&quot;</span>, <span class="tok-type">list</span>(<span class="tok-type">filter</span>(<span class="tok-keyword">lambda</span> n: n <span class="tok-op">%</span> <span class="tok-num">2</span> <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span>, numbers)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;降序：&quot;</span>, <span class="tok-type">sorted</span>(numbers, key<span class="tok-op">=</span><span class="tok-keyword">lambda</span> n: <span class="tok-op">-</span>n))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">连续加十： 25
+平方： [9, 1, 16, 1, 25]
+偶数： [4]
+降序： [5, 4, 3, 1, 1]</code></pre></figure>
+<p>高阶函数把“做什么”与“怎么做”分开，适合把通用流程和具体操作组合起来。简单的变换用 <code>lambda</code> 很方便，逻辑稍复杂时就应该改成具名函数，或者直接用推导式和普通循环，避免一行里塞进太多表达式。</p>
+<h2 id="sec-12" class="doc-heading">十一、练习任务</h2>
+<p>任务 1：编写判断素数的函数，并列出 2 到 19 之间的所有素数。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">is_prime</span>(n):
+    <span class="tok-keyword">if</span> n <span class="tok-op">&lt;</span> <span class="tok-num">2</span>:
+        <span class="tok-keyword">return</span> <span class="tok-keyword">False</span>
+    <span class="tok-keyword">for</span> divisor <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">2</span>, <span class="tok-type">int</span>(n <span class="tok-op">*</span><span class="tok-op">*</span> <span class="tok-num">0.5</span>) <span class="tok-op">+</span> <span class="tok-num">1</span>):
+        <span class="tok-keyword">if</span> n <span class="tok-op">%</span> divisor <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span>:
+            <span class="tok-keyword">return</span> <span class="tok-keyword">False</span>
+    <span class="tok-keyword">return</span> <span class="tok-keyword">True</span>
+
+<span class="tok-type">print</span>([n <span class="tok-keyword">for</span> n <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">2</span>, <span class="tok-num">20</span>) <span class="tok-keyword">if</span> <span class="tok-cmdlet">is_prime</span>(n)])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">[2, 3, 5, 7, 11, 13, 17, 19]</code></pre></figure>
+<p>任务 2：编写一个同时使用 <code>*args</code> 与 <code>**kwargs</code> 的函数，把若干商品拼成订单描述。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">format_order</span>(<span class="tok-op">*</span>items, <span class="tok-op">*</span><span class="tok-op">*</span>options):
+    prefix <span class="tok-op">=</span> options.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;prefix&quot;</span>, <span class="tok-string">&quot;订单&quot;</span>)
+    <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{prefix}：{'、'.join(items)}&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">format_order</span>(<span class="tok-string">&quot;苹果&quot;</span>, <span class="tok-string">&quot;香蕉&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">format_order</span>(<span class="tok-string">&quot;咖啡&quot;</span>, <span class="tok-string">&quot;蛋糕&quot;</span>, prefix<span class="tok-op">=</span><span class="tok-string">&quot;下午茶&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">订单：苹果、香蕉
+下午茶：咖啡、蛋糕</code></pre></figure>
+<p>任务 3：用递归计算一个非负整数各位数字之和。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">digit_sum</span>(n):
+    <span class="tok-keyword">if</span> n <span class="tok-op">&lt;</span> <span class="tok-num">10</span>:
+        <span class="tok-keyword">return</span> n
+    <span class="tok-keyword">return</span> n <span class="tok-op">%</span> <span class="tok-num">10</span> <span class="tok-op">+</span> <span class="tok-cmdlet">digit_sum</span>(n <span class="tok-op">/</span><span class="tok-op">/</span> <span class="tok-num">10</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;2026 各位之和：&quot;</span>, <span class="tok-cmdlet">digit_sum</span>(<span class="tok-num">2026</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;999 各位之和：&quot;</span>, <span class="tok-cmdlet">digit_sum</span>(<span class="tok-num">999</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">2026 各位之和： 10
+999 各位之和： 27</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="comprehensions.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 推导式</span></a><a class="pager-link pager-link--next" href="lambda.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python Lambda 表达式</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、定义与调用</a><a class="toc-link toc-link--h2" href="#sec-2">二、返回值</a><a class="toc-link toc-link--h2" href="#sec-3">三、位置、关键字与默认参数</a><a class="toc-link toc-link--h3" href="#sec-4">可变默认值陷阱</a><a class="toc-link toc-link--h2" href="#sec-5">四、可变参数</a><a class="toc-link toc-link--h2" href="#sec-6">五、参数解包</a><a class="toc-link toc-link--h2" href="#sec-7">六、作用域简介</a><a class="toc-link toc-link--h2" href="#sec-8">七、递归</a><a class="toc-link toc-link--h2" href="#sec-9">八、文档字符串</a><a class="toc-link toc-link--h2" href="#sec-10">九、类型注解</a><a class="toc-link toc-link--h2" href="#sec-11">十、高阶函数简介</a><a class="toc-link toc-link--h2" href="#sec-12">十一、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

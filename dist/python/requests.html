@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python requests 模块 · Python</title>
+<meta name="description" content="安装并使用 requests 发送 GET 与 POST 请求，掌握查询参数、请求头、JSON 与表单、响应对象、超时与异常、Session 会话和请求预处理，理解它相比 urllib 的简洁之处。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="requests" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link is-active" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python requests 模块</h1><p class="doc-lead">安装并使用 requests 发送 GET 与 POST 请求，掌握查询参数、请求头、JSON 与表单、响应对象、超时与异常、Session 会话和请求预处理，理解它相比 urllib 的简洁之处。</p><div class="doc-meta"><span>第 42 章</span><span class="doc-meta__dot"></span><span>约 33 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p><code>requests</code> 是最常用的第三方 HTTP 库。它把连接池、会话、编码、JSON 解析、异常处理这些细节封装成简洁的接口，同样的请求用 urllib 往往要写十几行，用 requests 两三行就能完成。它和标准库 <code>urllib</code> 不是替代关系：requests 依赖 urllib3 实现底层连接，只是把易用性做到了极致。</p>
+<h2 id="sec-1" class="doc-heading">一、安装与导入</h2>
+<p>requests 不是标准库，需要用 pip 安装：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">pip <span class="tok-keyword">install</span> requests</code></pre></figure>
+<p>安装完成后，导入并确认版本可用：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">try</span>:
+    <span class="tok-keyword">import</span> requests
+<span class="tok-keyword">except</span> <span class="tok-type">ImportError</span>:
+    requests <span class="tok-op">=</span> <span class="tok-keyword">None</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;requests 已安装：&quot;</span>, requests <span class="tok-keyword">is</span> <span class="tok-keyword">not</span> <span class="tok-keyword">None</span>)
+<span class="tok-keyword">if</span> requests <span class="tok-keyword">is</span> <span class="tok-keyword">None</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;安装命令：pip install requests&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">requests 已安装： True</code></pre></figure>
+<p>很多项目会锁定版本，避免上游更新导致行为变化：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">pip <span class="tok-keyword">install</span> <span class="tok-string">&quot;requests==2.34.2&quot;</span></code></pre></figure>
+<h2 id="sec-2" class="doc-heading">二、发送 GET 请求</h2>
+<p><code>requests.get()</code> 接收 URL 和一组关键字参数，返回 <code>Response</code> 对象。<code>params</code> 传查询参数，库会负责编码；<code>headers</code> 传请求头；<code>timeout</code> 限制等待时间：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+<span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> parse_qs, urlparse
+
+<span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Api</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_GET</span>(<span class="tok-var">self</span>):
+        parsed <span class="tok-op">=</span> <span class="tok-cmdlet">urlparse</span>(<span class="tok-var">self</span>.path)
+        <span class="tok-keyword">if</span> parsed.path <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-string">&quot;/missing&quot;</span>:
+            <span class="tok-var">self</span>.<span class="tok-cmdlet">send_error</span>(<span class="tok-num">404</span>, <span class="tok-string">&quot;Not Found&quot;</span>)
+            <span class="tok-keyword">return</span>
+        params <span class="tok-op">=</span> <span class="tok-cmdlet">parse_qs</span>(parsed.query)
+        payload <span class="tok-op">=</span> {
+            <span class="tok-string">&quot;path&quot;</span>: parsed.path,
+            <span class="tok-string">&quot;name&quot;</span>: params.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;name&quot;</span>, [<span class="tok-string">&quot;访客&quot;</span>])[<span class="tok-num">0</span>],
+            <span class="tok-string">&quot;ua&quot;</span>: <span class="tok-var">self</span>.headers.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;User-Agent&quot;</span>),
+        }
+        body <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>(payload, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;application/json; charset=utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+        <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(body)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Api)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+base <span class="tok-op">=</span> <span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}&quot;</span>
+
+response <span class="tok-op">=</span> requests.<span class="tok-cmdlet">get</span>(
+    base <span class="tok-op">+</span> <span class="tok-string">&quot;/hello&quot;</span>,
+    params<span class="tok-op">=</span>{<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小明&quot;</span>},
+    headers<span class="tok-op">=</span>{<span class="tok-string">&quot;User-Agent&quot;</span>: <span class="tok-string">&quot;TutorialBot/2.0&quot;</span>},
+    timeout<span class="tok-op">=</span><span class="tok-num">5</span>,
+)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;状态码：&quot;</span>, response.status_code)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;编码：&quot;</span>, response.encoding)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;JSON：&quot;</span>, response.<span class="tok-cmdlet">json</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;请求路径：&quot;</span>, response.url.<span class="tok-cmdlet">replace</span>(base, <span class="tok-string">&quot;&quot;</span>))
+
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">状态码： 200
+编码： utf-8
+JSON： {'path': '/hello', 'name': '小明', 'ua': 'TutorialBot/2.0'}
+请求路径： /hello?name=%E5%B0%8F%E6%98%8E</code></pre></figure>
+<p>查询参数传字典即可，中文会自动转成 UTF-8 百分号编码。不要把参数手工拼进 URL，既容易漏转义，也无法处理列表参数（<code>params={&quot;tag&quot;: [&quot;a&quot;, &quot;b&quot;]}</code> 会展开成 <code>tag=a&amp;tag=b</code>）。</p>
+<h2 id="sec-3" class="doc-heading">三、响应对象</h2>
+<p><code>Response</code> 把服务器返回的信息集中在一起，最常用的属性如下：</p>
+<div class="table-wrap"><table><thead><tr><th>属性或方法</th><th>说明</th></tr></thead><tbody><tr><td><code>status_code</code></td><td>HTTP 状态码，200 表示成功</td></tr><tr><td><code>ok</code></td><td>状态码是否小于 400</td></tr><tr><td><code>text</code></td><td>按推断的编码解码后的字符串</td></tr><tr><td><code>content</code></td><td>原始字节，适合图片、压缩包</td></tr><tr><td><code>json()</code></td><td>把响应体解析成 Python 对象，失败抛 <code>JSONDecodeError</code></td></tr><tr><td><code>headers</code></td><td>响应头字典，键不区分大小写</td></tr><tr><td><code>encoding</code></td><td>当前使用的字符编码，可以手动修改</td></tr><tr><td><code>url</code></td><td>最终请求的地址，跟随重定向后可能变化</td></tr></tbody></table></div>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+<span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> parse_qs, urlparse
+
+<span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Api</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_GET</span>(<span class="tok-var">self</span>):
+        body <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>({<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小明&quot;</span>}, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;application/json; charset=utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;X-Trace-Id&quot;</span>, <span class="tok-string">&quot;demo-001&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+        <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(body)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Api)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+base <span class="tok-op">=</span> <span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}&quot;</span>
+
+response <span class="tok-op">=</span> requests.<span class="tok-cmdlet">get</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/profile&quot;</span>, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;状态码：&quot;</span>, response.status_code, <span class="tok-string">&quot;ok：&quot;</span>, response.ok)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;内容类型：&quot;</span>, response.headers[<span class="tok-string">&quot;Content-Type&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;追踪号：&quot;</span>, response.headers.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;X-Trace-Id&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;文本长度：&quot;</span>, <span class="tok-type">len</span>(response.text))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;字节长度：&quot;</span>, <span class="tok-type">len</span>(response.content))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;JSON：&quot;</span>, response.<span class="tok-cmdlet">json</span>())
+
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">状态码： 200 ok： True
+内容类型： application/json; charset=utf-8
+追踪号： demo-001
+文本长度： 15
+字节长度： 15
+JSON： {'name': '小明'}</code></pre></figure>
+<p><code>response.encoding</code> 来自响应头里的 <code>charset</code>；如果服务器没有声明，requests 会按 HTTP 规范推断，中文站点偶尔会猜错。此时可以手动设置 <code>response.encoding = &quot;utf-8&quot;</code>，再读 <code>response.text</code>。<code>response.content</code> 永远返回原始字节，不受编码设置影响。</p>
+<h2 id="sec-4" class="doc-heading">四、发送 POST 请求</h2>
+<p><code>data</code> 用来提交表单，<code>json</code> 用来提交 JSON。两者的关键区别是 <code>Content-Type</code>：<code>data</code> 默认为 <code>application/x-www-form-urlencoded</code>，<code>json</code> 会自动设为 <code>application/json</code> 并序列化：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+<span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> parse_qs
+
+<span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Api</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_POST</span>(<span class="tok-var">self</span>):
+        length <span class="tok-op">=</span> <span class="tok-type">int</span>(<span class="tok-var">self</span>.headers.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;Content-Length&quot;</span>, <span class="tok-num">0</span>))
+        raw <span class="tok-op">=</span> <span class="tok-var">self</span>.rfile.<span class="tok-cmdlet">read</span>(length).<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        content_type <span class="tok-op">=</span> <span class="tok-var">self</span>.headers.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;&quot;</span>)
+        <span class="tok-keyword">if</span> content_type.<span class="tok-cmdlet">startswith</span>(<span class="tok-string">&quot;application/json&quot;</span>):
+            payload <span class="tok-op">=</span> {<span class="tok-string">&quot;json&quot;</span>: json.<span class="tok-cmdlet">loads</span>(raw)}
+        <span class="tok-keyword">else</span>:
+            payload <span class="tok-op">=</span> {<span class="tok-string">&quot;form&quot;</span>: {key: values[<span class="tok-num">0</span>] <span class="tok-keyword">for</span> key, values <span class="tok-keyword">in</span> <span class="tok-cmdlet">parse_qs</span>(raw).<span class="tok-cmdlet">items</span>()}}
+        body <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>(payload, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;application/json; charset=utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+        <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(body)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Api)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+base <span class="tok-op">=</span> <span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}&quot;</span>
+
+form <span class="tok-op">=</span> requests.<span class="tok-cmdlet">post</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/echo&quot;</span>, data<span class="tok-op">=</span>{<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小红&quot;</span>, <span class="tok-string">&quot;age&quot;</span>: <span class="tok-string">&quot;18&quot;</span>}, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;表单：&quot;</span>, form.<span class="tok-cmdlet">json</span>()[<span class="tok-string">&quot;form&quot;</span>])
+
+payload <span class="tok-op">=</span> requests.<span class="tok-cmdlet">post</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/echo&quot;</span>, json<span class="tok-op">=</span>{<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小红&quot;</span>, <span class="tok-string">&quot;age&quot;</span>: <span class="tok-num">18</span>}, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;JSON：&quot;</span>, payload.<span class="tok-cmdlet">json</span>()[<span class="tok-string">&quot;json&quot;</span>])
+
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">表单： {'name': '小红', 'age': '18'}
+JSON： {'name': '小红', 'age': 18}</code></pre></figure>
+<p>表单里的值最终都会变成字符串，JSON 则保留数字、布尔、嵌套结构等类型。接口文档要求 JSON 时不要用 <code>data=json.dumps(...)</code> 再手工设 Content-Type，直接传 <code>json=</code> 更不容易出错。</p>
+<h2 id="sec-5" class="doc-heading">五、超时与异常</h2>
+<p>requests 的异常都继承自 <code>RequestException</code>，常见的有：</p>
+<div class="table-wrap"><table><thead><tr><th>异常</th><th>触发场景</th></tr></thead><tbody><tr><td><code>Timeout</code></td><td>连接或读取超过指定时间</td></tr><tr><td><code>ConnectionError</code></td><td>连接被拒绝、DNS 失败、网络中断</td></tr><tr><td><code>HTTPError</code></td><td>调用 <code>raise_for_status()</code> 且状态码为 4xx 或 5xx</td></tr><tr><td><code>TooManyRedirects</code></td><td>重定向次数超过上限</td></tr><tr><td><code>RequestException</code></td><td>以上异常的基类，用它兜底最稳</td></tr></tbody></table></div>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">try</span>:
+    requests.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;http://127.0.0.1:1/&quot;</span>, timeout<span class="tok-op">=</span><span class="tok-num">1</span>)
+<span class="tok-keyword">except</span> requests.RequestException <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;捕获 RequestException：&quot;</span>, <span class="tok-type">isinstance</span>(exc, requests.RequestException))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">捕获 RequestException： True</code></pre></figure>
+<p><code>timeout</code> 可以是一个数字，表示连接与读取共用的上限；也可以传 <code>(connect_timeout, read_timeout)</code> 元组分别控制。不设置超时，请求可能永久阻塞，生产代码中应当始终显式传入。</p>
+<p>状态码 4xx 和 5xx 默认不会抛异常，需要调用 <code>raise_for_status()</code> 显式检查：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+
+<span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Api</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_GET</span>(<span class="tok-var">self</span>):
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_error</span>(<span class="tok-num">404</span>, <span class="tok-string">&quot;Not Found&quot;</span>)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Api)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+base <span class="tok-op">=</span> <span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}&quot;</span>
+
+response <span class="tok-op">=</span> requests.<span class="tok-cmdlet">get</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/missing&quot;</span>, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;状态码：&quot;</span>, response.status_code, <span class="tok-string">&quot;ok：&quot;</span>, response.ok)
+
+<span class="tok-keyword">try</span>:
+    response.<span class="tok-cmdlet">raise_for_status</span>()
+<span class="tok-keyword">except</span> requests.HTTPError <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;异常：&quot;</span>, <span class="tok-type">type</span>(exc).__name__)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;响应状态：&quot;</span>, exc.response.status_code)
+
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">状态码： 404 ok： False
+异常： HTTPError
+响应状态： 404</code></pre></figure>
+<h2 id="sec-6" class="doc-heading">六、Session 会话</h2>
+<p><code>requests.get()</code> 每次都会新建连接。多个请求访问同一站点时，用 <code>Session</code> 可以复用 TCP 连接、保持 Cookie、统一默认请求头：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+<span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> parse_qs, urlparse
+
+<span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Api</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_GET</span>(<span class="tok-var">self</span>):
+        params <span class="tok-op">=</span> <span class="tok-cmdlet">parse_qs</span>(<span class="tok-cmdlet">urlparse</span>(<span class="tok-var">self</span>.path).query)
+        payload <span class="tok-op">=</span> {
+            <span class="tok-string">&quot;name&quot;</span>: params.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;name&quot;</span>, [<span class="tok-string">&quot;访客&quot;</span>])[<span class="tok-num">0</span>],
+            <span class="tok-string">&quot;ua&quot;</span>: <span class="tok-var">self</span>.headers.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;User-Agent&quot;</span>),
+        }
+        body <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>(payload, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;application/json; charset=utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+        <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(body)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Api)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+base <span class="tok-op">=</span> <span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}&quot;</span>
+
+<span class="tok-keyword">with</span> requests.<span class="tok-cmdlet">Session</span>() <span class="tok-keyword">as</span> session:
+    session.headers.<span class="tok-cmdlet">update</span>({<span class="tok-string">&quot;User-Agent&quot;</span>: <span class="tok-string">&quot;SessionBot/1.0&quot;</span>})
+    first <span class="tok-op">=</span> session.<span class="tok-cmdlet">get</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/hello&quot;</span>, params<span class="tok-op">=</span>{<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;甲&quot;</span>}, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+    second <span class="tok-op">=</span> session.<span class="tok-cmdlet">get</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/hello&quot;</span>, params<span class="tok-op">=</span>{<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;乙&quot;</span>}, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;会话结果：&quot;</span>, first.<span class="tok-cmdlet">json</span>()[<span class="tok-string">&quot;name&quot;</span>], second.<span class="tok-cmdlet">json</span>()[<span class="tok-string">&quot;name&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;UA：&quot;</span>, first.<span class="tok-cmdlet">json</span>()[<span class="tok-string">&quot;ua&quot;</span>])
+
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">会话结果： 甲 乙
+UA： SessionBot/1.0</code></pre></figure>
+<p><code>Session</code> 还可以挂载重试策略、代理、证书，配合 <code>requests.adapters.HTTPAdapter</code> 使用。爬虫、API 客户端几乎都会创建一个长生命周期的 Session，而不是反复调用顶层函数。</p>
+<h2 id="sec-7" class="doc-heading">七、准备请求与参数编码</h2>
+<p><code>Session.prepare_request()</code> 把请求对象转换成最终要发送的形式，可以提前检查 URL 编码和请求头：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">with</span> requests.<span class="tok-cmdlet">Session</span>() <span class="tok-keyword">as</span> session:
+    prepared <span class="tok-op">=</span> session.<span class="tok-cmdlet">prepare_request</span>(
+        requests.<span class="tok-cmdlet">Request</span>(
+            <span class="tok-string">&quot;GET&quot;</span>,
+            <span class="tok-string">&quot;https://example.com/search&quot;</span>,
+            params<span class="tok-op">=</span>{<span class="tok-string">&quot;q&quot;</span>: <span class="tok-string">&quot;Python 教程&quot;</span>, <span class="tok-string">&quot;page&quot;</span>: <span class="tok-num">2</span>},
+        )
+    )
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;URL：&quot;</span>, prepared.url)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;带 UA：&quot;</span>, <span class="tok-string">&quot;User-Agent&quot;</span> <span class="tok-keyword">in</span> prepared.headers)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;UA 前缀：&quot;</span>, prepared.headers[<span class="tok-string">&quot;User-Agent&quot;</span>].<span class="tok-cmdlet">startswith</span>(<span class="tok-string">&quot;python-requests/&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">URL： https://example.com/search?q=Python+%E6%95%99%E7%A8%8B&amp;page=2
+带 UA： True
+UA 前缀： True</code></pre></figure>
+<p>顶层 <code>requests.get()</code> 内部同样会经过这一步。需要签名、重放或调试时，提前拿到 prepared request 会更方便。</p>
+<h2 id="sec-8" class="doc-heading">八、常用技巧与注意事项</h2>
+<div class="table-wrap"><table><thead><tr><th>需求</th><th>写法</th></tr></thead><tbody><tr><td>自定义请求头</td><td><code>headers={\Authorization\: \Bearer ...\}</code></td></tr><tr><td>上传文件</td><td><code>files={\file\: open(\a.txt\, \rb\)}</code></td></tr><tr><td>设置 Cookie</td><td><code>cookies={\token\: \abc\}</code></td></tr><tr><td>禁止重定向</td><td><code>allow_redirects=False</code></td></tr><tr><td>关闭证书校验（仅测试）</td><td><code>verify=False</code>，同时会收到警告</td></tr><tr><td>使用代理</td><td><code>proxies={\https\: \http://127.0.0.1:7890\}</code></td></tr><tr><td>限制响应大小</td><td><code>stream=True</code> 后按块读取，及时关闭</td></tr></tbody></table></div>
+<p>几个常见坑：</p>
+<ul><li><p><strong>编码错误</strong>：响应头没有 <code>charset</code> 时，<code>response.text</code> 可能乱码，手动设置 <code>response.encoding = &quot;utf-8&quot;</code>。</p></li><li><p><strong>JSON 解析失败</strong>：先看 <code>response.text</code> 实际内容，有些接口出错时返回的是 HTML 而不是 JSON。</p></li><li><p><strong>HTTPS 证书</strong>：公司内网代理可能导致证书校验失败，应安装公司根证书，而不是无脑 <code>verify=False</code>。</p></li><li><p><strong>连接泄漏</strong>：<code>stream=True</code> 的响应必须调用 <code>response.close()</code> 或使用 <code>with</code> 语句。</p></li><li><p><strong>重试</strong>：网络抖动用 <code>HTTPAdapter(max_retries=...)</code> 配置，不要自己写无限循环。</p></li></ul>
+<h2 id="sec-9" class="doc-heading">九、练习任务</h2>
+<p>任务 1：请求本地接口，把返回的文本保存到文件，并打印文件大小。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+
+<span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Api</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_GET</span>(<span class="tok-var">self</span>):
+        body <span class="tok-op">=</span> <span class="tok-string">&quot;requests 下载完成&quot;</span>.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;text/plain; charset=utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+        <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(body)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Api)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+base <span class="tok-op">=</span> <span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}&quot;</span>
+
+response <span class="tok-op">=</span> requests.<span class="tok-cmdlet">get</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/download&quot;</span>, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(<span class="tok-string">&quot;download.txt&quot;</span>, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(response.text)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;内容：&quot;</span>, response.text)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;字符数：&quot;</span>, <span class="tok-type">len</span>(response.text))
+
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">内容： requests 下载完成
+字符数： 8</code></pre></figure>
+<p>任务 2：用同一个 Session 依次查询三个名字，收集返回结果。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+<span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> parse_qs, urlparse
+
+<span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Api</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_GET</span>(<span class="tok-var">self</span>):
+        name <span class="tok-op">=</span> <span class="tok-cmdlet">parse_qs</span>(<span class="tok-cmdlet">urlparse</span>(<span class="tok-var">self</span>.path).query).<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;name&quot;</span>, [<span class="tok-string">&quot;访客&quot;</span>])[<span class="tok-num">0</span>]
+        body <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>({<span class="tok-string">&quot;name&quot;</span>: name}, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_response</span>(<span class="tok-num">200</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_header</span>(<span class="tok-string">&quot;Content-Type&quot;</span>, <span class="tok-string">&quot;application/json; charset=utf-8&quot;</span>)
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">end_headers</span>()
+        <span class="tok-var">self</span>.wfile.<span class="tok-cmdlet">write</span>(body)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Api)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+base <span class="tok-op">=</span> <span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}&quot;</span>
+
+names <span class="tok-op">=</span> []
+<span class="tok-keyword">with</span> requests.<span class="tok-cmdlet">Session</span>() <span class="tok-keyword">as</span> session:
+    <span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> [<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-string">&quot;小红&quot;</span>, <span class="tok-string">&quot;小刚&quot;</span>]:
+        response <span class="tok-op">=</span> session.<span class="tok-cmdlet">get</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/query&quot;</span>, params<span class="tok-op">=</span>{<span class="tok-string">&quot;name&quot;</span>: name}, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+        names.<span class="tok-cmdlet">append</span>(response.<span class="tok-cmdlet">json</span>()[<span class="tok-string">&quot;name&quot;</span>])
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;查询结果：&quot;</span>, names)
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">查询结果： ['小明', '小红', '小刚']</code></pre></figure>
+<p>任务 3：访问一个不存在的路径，分别打印状态码、<code>ok</code>，并演示 <code>raise_for_status()</code> 抛出的异常类型。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> threading
+<span class="tok-keyword">from</span> http.server <span class="tok-keyword">import</span> BaseHTTPRequestHandler, ThreadingHTTPServer
+
+<span class="tok-keyword">import</span> requests
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Api</span>(BaseHTTPRequestHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">do_GET</span>(<span class="tok-var">self</span>):
+        <span class="tok-var">self</span>.<span class="tok-cmdlet">send_error</span>(<span class="tok-num">404</span>, <span class="tok-string">&quot;Not Found&quot;</span>)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">log_message</span>(<span class="tok-var">self</span>, <span class="tok-op">*</span>args):
+        <span class="tok-keyword">pass</span>
+
+server <span class="tok-op">=</span> <span class="tok-cmdlet">ThreadingHTTPServer</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>), Api)
+threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>server.serve_forever, daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>).<span class="tok-cmdlet">start</span>()
+base <span class="tok-op">=</span> <span class="tok-string">f&quot;http://127.0.0.1:{server.server_address[1]}&quot;</span>
+
+response <span class="tok-op">=</span> requests.<span class="tok-cmdlet">get</span>(base <span class="tok-op">+</span> <span class="tok-string">&quot;/not-exists&quot;</span>, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;状态码：&quot;</span>, response.status_code)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;ok：&quot;</span>, response.ok)
+<span class="tok-keyword">try</span>:
+    response.<span class="tok-cmdlet">raise_for_status</span>()
+<span class="tok-keyword">except</span> requests.HTTPError <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;异常类型：&quot;</span>, <span class="tok-type">type</span>(exc).__name__)
+
+server.<span class="tok-cmdlet">shutdown</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">状态码： 404
+ok： False
+异常类型： HTTPError</code></pre></figure>
+<p>requests 用起来简单，但它默认不做重试、不限制响应大小，也不校验业务状态码。封装一层客户端，把超时、重试、日志和错误码统一处理，才能让接口调用在线上稳定运行。下一章介绍 pip，把依赖安装与环境管理讲清楚。</p></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="urllib.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python urllib</span></a><a class="pager-link pager-link--next" href="pip.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python pip</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、安装与导入</a><a class="toc-link toc-link--h2" href="#sec-2">二、发送 GET 请求</a><a class="toc-link toc-link--h2" href="#sec-3">三、响应对象</a><a class="toc-link toc-link--h2" href="#sec-4">四、发送 POST 请求</a><a class="toc-link toc-link--h2" href="#sec-5">五、超时与异常</a><a class="toc-link toc-link--h2" href="#sec-6">六、Session 会话</a><a class="toc-link toc-link--h2" href="#sec-7">七、准备请求与参数编码</a><a class="toc-link toc-link--h2" href="#sec-8">八、常用技巧与注意事项</a><a class="toc-link toc-link--h2" href="#sec-9">九、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

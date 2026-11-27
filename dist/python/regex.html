@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 正则表达式 · Python</title>
+<meta name="description" content="从 re 模块的核心函数讲起，掌握元字符、字符类、分组、量词与编译标志，并用正则完成手机号、邮箱、日期的校验和日志解析、批量替换等实战任务。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="regex" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link is-active" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python 正则表达式</h1><p class="doc-lead">从 re 模块的核心函数讲起，掌握元字符、字符类、分组、量词与编译标志，并用正则完成手机号、邮箱、日期的校验和日志解析、批量替换等实战任务。</p><div class="doc-meta"><span>第 33 章</span><span class="doc-meta__dot"></span><span>约 35 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>正则表达式是一套描述“文本模式”的小语言：用少量符号概括一大类字符串，再让引擎去文本里把它们找出来。它的价值在于把“逐字符判断”变成“声明规则”，一行模式往往能替代几十行 <code>if</code> 与 <code>startswith</code>。</p>
+<p>Python 的标准库 <code>re</code> 模块是这套能力的入口。它支持 Perl 风格的正则语法，提供匹配、查找、替换、分割四类操作，返回的 <code>Match</code> 对象还能读出分组、位置等细节。这一章从最常用的几个函数讲起，逐步过渡到元字符、分组与编译标志，最后用几段完整脚本收尾。</p>
+<h2 id="sec-1" class="doc-heading">一、re 模块：从一次匹配开始</h2>
+<p><code>re.search()</code> 是最常用的入口：它在整段文本里扫描，返回第一个匹配到的 <code>Match</code> 对象；找不到时返回 <code>None</code>，所以调用 <code>.group()</code> 之前最好先判断结果是否为空。</p>
+<p>模式串建议一律写成原始字符串，例如 <code>r&quot;\d{4}&quot;</code>。正则里的反斜杠本身有含义，普通字符串会先做一次转义，写出 <code>&quot;\\d{4}&quot;</code> 才能得到同样的效果，而原始字符串让反斜杠原样传给正则引擎，可读性高很多。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;订单 A1024 已于 2026-11-27 发货，金额 268 元&quot;</span>
+
+date <span class="tok-op">=</span> re.<span class="tok-cmdlet">search</span>(<span class="tok-string">r&quot;\d{4}-\d{2}-\d{2}&quot;</span>, text)
+amount <span class="tok-op">=</span> re.<span class="tok-cmdlet">search</span>(<span class="tok-string">r&quot;\d+&quot;</span>, text)
+code <span class="tok-op">=</span> re.<span class="tok-cmdlet">search</span>(<span class="tok-string">r&quot;[A-Z]\d{4}&quot;</span>, text)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;日期：&quot;</span>, date.<span class="tok-cmdlet">group</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第一个数字串：&quot;</span>, amount.<span class="tok-cmdlet">group</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;编号：&quot;</span>, code.<span class="tok-cmdlet">group</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是否匹配到编号：&quot;</span>, code <span class="tok-keyword">is</span> <span class="tok-keyword">not</span> <span class="tok-keyword">None</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">日期： 2026-11-27
+第一个数字串： 1024
+编号： A1024
+是否匹配到编号： True</code></pre></figure>
+<p><code>\d</code> 表示一个数字，<code>{4}</code> 表示前面的元素重复四次，两者拼起来就是“四位数字”。<code>group()</code> 不带参数时返回整个匹配到的文本，<code>match.group(0)</code> 与它等价。如果改用 <code>re.search(r&quot;\d{5}&quot;, text)</code>，结果会是 <code>None</code>，此时 <code>.group()</code> 会抛出 <code>AttributeError</code>，先判断再取值是更稳妥的写法。</p>
+<h2 id="sec-2" class="doc-heading">二、match、search 与 fullmatch</h2>
+<p>三个函数的名字很像，区别只在“从哪里开始、到哪里结束”：</p>
+<ul><li><p><code>re.match()</code> 只从字符串开头尝试匹配，开头对不上就返回 <code>None</code>。</p></li><li><p><code>re.search()</code> 扫描整段文本，任何位置匹配到都算成功。</p></li><li><p><code>re.fullmatch()</code> 要求整个字符串完全匹配，多一个字符都不行。</p></li></ul>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+pattern <span class="tok-op">=</span> <span class="tok-string">r&quot;\d{3}&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;match：&quot;</span>, re.<span class="tok-keyword">match</span>(pattern, <span class="tok-string">&quot;abc123&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;search：&quot;</span>, re.<span class="tok-cmdlet">search</span>(pattern, <span class="tok-string">&quot;abc123&quot;</span>).<span class="tok-cmdlet">group</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;fullmatch：&quot;</span>, re.<span class="tok-cmdlet">fullmatch</span>(pattern, <span class="tok-string">&quot;abc123&quot;</span>))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;match 从头匹配：&quot;</span>, re.<span class="tok-keyword">match</span>(pattern, <span class="tok-string">&quot;123abc&quot;</span>).<span class="tok-cmdlet">group</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;fullmatch 完全匹配：&quot;</span>, re.<span class="tok-cmdlet">fullmatch</span>(pattern, <span class="tok-string">&quot;123&quot;</span>).<span class="tok-cmdlet">group</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">match： None
+search： 123
+fullmatch： None
+match 从头匹配： 123
+fullmatch 完全匹配： 123</code></pre></figure>
+<p>做格式校验时应该用 <code>fullmatch()</code>，或者给 <code>match()</code> 的模式加上 <code>^</code> 与 <code>$</code>。只写 <code>re.match(r&quot;\d{3}&quot;, &quot;123abc&quot;)</code> 会成功，因为它只要求开头三位是数字，后面的 <code>abc</code> 根本不参与判断，这是校验类代码最常见的漏洞。</p>
+<h2 id="sec-3" class="doc-heading">三、findall 与 finditer</h2>
+<p><code>search()</code> 只找第一个结果，想拿到全部匹配要用 <code>findall()</code> 或 <code>finditer()</code>。前者直接返回字符串列表，适合快速统计；后者返回迭代器，每次产出一个 <code>Match</code> 对象，能读到位置和分组。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;a1 b22 c333 d4444&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;findall：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;[a-z]\d+&quot;</span>, text))
+
+<span class="tok-keyword">for</span> <span class="tok-keyword">match</span> <span class="tok-keyword">in</span> re.<span class="tok-cmdlet">finditer</span>(<span class="tok-string">r&quot;[a-z](\d+)&quot;</span>, text):
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;整体：&quot;</span>, <span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-num">0</span>), <span class="tok-string">&quot;数字：&quot;</span>, <span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-num">1</span>), <span class="tok-string">&quot;位置：&quot;</span>, <span class="tok-keyword">match</span>.<span class="tok-cmdlet">span</span>())
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;带多个分组：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;([a-z])(\d+)&quot;</span>, text))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">findall： ['a1', 'b22', 'c333', 'd4444']
+整体： a1 数字： 1 位置： (0, 2)
+整体： b22 数字： 22 位置： (3, 6)
+整体： c333 数字： 333 位置： (7, 11)
+整体： d4444 数字： 4444 位置： (12, 17)
+带多个分组： [('a', '1'), ('b', '22'), ('c', '333'), ('d', '4444')]</code></pre></figure>
+<p><code>findall()</code> 的返回值会随分组数量变化：没有分组时返回匹配到的整段文本；有一个分组时只返回分组内容；有多个分组时返回元组列表。<code>finditer()</code> 不受这个规则影响，始终能通过 <code>group(n)</code> 精确取值，需要位置信息时只能用它。</p>
+<h2 id="sec-4" class="doc-heading">四、分组与命名分组</h2>
+<p>圆括号除了改变优先级，还会“捕获”括号内的内容。<code>group(1)</code>、<code>group(2)</code> 按左括号出现的顺序编号，给括号加上 <code>?P&lt;name&gt;</code> 前缀则可以用名字取值，日志解析这类场景用命名分组可读性最好。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+line <span class="tok-op">=</span> <span class="tok-string">&quot;2026-11-27 08:30:00 ERROR 数据库连接超时&quot;</span>
+pattern <span class="tok-op">=</span> (
+    <span class="tok-string">r&quot;(?P&lt;date&gt;\d{4}-\d{2}-\d{2}) &quot;</span>
+    <span class="tok-string">r&quot;(?P&lt;time&gt;\d{2}:\d{2}:\d{2}) &quot;</span>
+    <span class="tok-string">r&quot;(?P&lt;level&gt;[A-Z]+) &quot;</span>
+    <span class="tok-string">r&quot;(?P&lt;message&gt;.+)&quot;</span>
+)
+
+<span class="tok-keyword">match</span> <span class="tok-op">=</span> re.<span class="tok-keyword">match</span>(pattern, line)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;整体：&quot;</span>, <span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-num">0</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;日期：&quot;</span>, <span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;date&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;时间：&quot;</span>, <span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;级别：&quot;</span>, <span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;level&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全部捕获：&quot;</span>, <span class="tok-keyword">match</span>.<span class="tok-cmdlet">groups</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;命名映射：&quot;</span>, <span class="tok-keyword">match</span>.<span class="tok-cmdlet">groupdict</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">整体： 2026-11-27 08:30:00 ERROR 数据库连接超时
+日期： 2026-11-27
+时间： 08:30:00
+级别： ERROR
+全部捕获： ('2026-11-27', '08:30:00', 'ERROR', '数据库连接超时')
+命名映射： {'date': '2026-11-27', 'time': '08:30:00', 'level': 'ERROR', 'message': '数据库连接超时'}</code></pre></figure>
+<p><code>groups()</code> 按编号顺序返回元组，<code>groupdict()</code> 返回名字到内容的字典，二者都不包含 <code>group(0)</code>。如果某个分组没有参与匹配，它在 <code>groups()</code> 里的位置是 <code>None</code>。</p>
+<p>不需要保留内容时用非捕获分组 <code>(?:...)</code>，它只分组不编号。<code>(ab)+</code> 会重复匹配，但分组只保留最后一次捕获的 <code>ab</code>，<code>re.findall(r&quot;(ab)+&quot;, &quot;ababab&quot;)</code> 因此只得到两个 <code>ab</code>；换成 <code>(?:ab)+</code> 后没有捕获组，<code>findall()</code> 返回整段 <code>ababab</code>。本章后面出现的 <code>(?:\.\d+)?</code>、<code>(?:\d{1,3}){3}</code> 都是这个写法，它们只负责把多个元素捆成一个整体，不占用分组编号。</p>
+<h2 id="sec-5" class="doc-heading">五、compile 预编译</h2>
+<p>同一个模式在循环里反复使用时，应该先用 <code>re.compile()</code> 编译成 <code>Pattern</code> 对象。<code>re</code> 模块内部有缓存，重复调用 <code>re.search()</code> 不会真的重复编译，但显式编译更清晰，也方便把模式、标志位集中在一处管理。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+word <span class="tok-op">=</span> re.<span class="tok-type">compile</span>(<span class="tok-string">r&quot;\bpython\b&quot;</span>, re.IGNORECASE)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;原始模式：&quot;</span>, word.pattern)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是否忽略大小写：&quot;</span>, <span class="tok-type">bool</span>(word.flags <span class="tok-op">&amp;</span> re.IGNORECASE))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;分组数量：&quot;</span>, word.groups)
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;Python is great, pythonic style also counts&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全部匹配：&quot;</span>, word.<span class="tok-cmdlet">findall</span>(text))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;替换结果：&quot;</span>, word.<span class="tok-cmdlet">sub</span>(<span class="tok-string">&quot;Python&quot;</span>, text))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;匹配次数：&quot;</span>, <span class="tok-type">len</span>(word.<span class="tok-cmdlet">findall</span>(text)))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">原始模式： \bpython\b
+是否忽略大小写： True
+分组数量： 0
+全部匹配： ['Python']
+替换结果： Python is great, pythonic style also counts
+匹配次数： 1</code></pre></figure>
+<p><code>\b</code> 是单词边界，<code>\bpython\b</code> 要求 <code>python</code> 前后都不是单词字符。文本开头的 <code>Python</code> 右侧是空格，符合条件；<code>pythonic</code> 里的 <code>python</code> 后面紧跟 <code>i</code>，仍属于同一个单词，没有边界，因此被排除——这正是 <code>\b</code> 想要的效果。<code>word.pattern</code> 原样返回模式串，<code>word.groups</code> 是捕获分组数量，这里没有括号所以是 0。</p>
+<h2 id="sec-6" class="doc-heading">六、元字符速查</h2>
+<p>正则的“魔法”几乎全部来自下面这些符号。它们单独出现时各有含义，放进方括号里则会变成普通字符：</p>
+<div class="table-wrap"><table><thead><tr><th>元字符</th><th>含义</th><th>示例</th></tr></thead><tbody><tr><td><code>.</code></td><td>匹配除换行符以外的任意单个字符</td><td><code>a.c</code> 可匹配 <code>abc</code>、<code>a c</code></td></tr><tr><td><code>^</code></td><td>匹配字符串或行的开头</td><td><code>^Python</code> 只匹配开头的 Python</td></tr><tr><td><code>$</code></td><td>匹配字符串或行的结尾</td><td><code>end$</code> 只匹配结尾的 end</td></tr><tr><td><code>*</code></td><td>前一个元素重复 0 次或多次</td><td><code>ab*c</code> 可匹配 <code>ac</code>、<code>abc</code></td></tr><tr><td><code>+</code></td><td>前一个元素重复 1 次或多次</td><td><code>ab+c</code> 不匹配 <code>ac</code></td></tr><tr><td><code>?</code></td><td>前一个元素重复 0 次或 1 次</td><td><code>colou?r</code> 匹配两种拼写</td></tr><tr><td><code>{m,n}</code></td><td>前一个元素重复 m 到 n 次</td><td><code>\d{2,4}</code> 匹配 2 到 4 位数字</td></tr><tr><td><code>[]</code></td><td>字符集合，匹配其中任意一个字符</td><td><code>[aeiou]</code> 匹配任意元音</td></tr><tr><td><code>|</code></td><td>或，左右两侧任选其一</td><td><code>cat|dog</code> 匹配 cat 或 dog</td></tr><tr><td><code>()</code></td><td>分组并捕获，可配合量词使用</td><td><code>(ab)+</code> 匹配连续的 ab</td></tr><tr><td><code>\</code></td><td>转义，把元字符还原成字面字符</td><td><code>\.</code> 匹配真正的句点</td></tr></tbody></table></div>
+<p>这些符号在方括号内部会失去特殊含义：<code>[.]</code> 匹配句点，<code>[$]</code> 匹配美元符号，<code>[+*?]</code> 匹配三个运算符字符。反过来，方括号里要表示“非”得用 <code>^</code>，并且必须写在最前面，例如 <code>[^0-9]</code> 表示“不是数字的字符”。</p>
+<h2 id="sec-7" class="doc-heading">七、字符类：<code>\d</code>、<code>\w</code>、<code>\s</code></h2>
+<p>最常用的三个字符类各有大小写两个版本：小写匹配“是”，大写匹配“不是”。它们都受 <code>re.UNICODE</code> 影响，在 Python 3 里默认识别 Unicode，所以 <code>\w</code> 能匹配汉字。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;ID: A-1024, 价格 268.50, 库存 12 件&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;数字：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;\d+&quot;</span>, text))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;单词字符：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;\w+&quot;</span>, text))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;带符号的数值：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;-?\d+(?:\.\d+)?&quot;</span>, text))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;非数字片段：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;\D+&quot;</span>, <span class="tok-string">&quot;a1b2c3&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;空白数量：&quot;</span>, <span class="tok-type">len</span>(re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;\s&quot;</span>, text)))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;十六进制：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;[0-9A-F]{2}&quot;</span>, <span class="tok-string">&quot;颜色 #FF8800&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">数字： ['1024', '268', '50', '12']
+单词字符： ['ID', 'A', '1024', '价格', '268', '50', '库存', '12', '件']
+带符号的数值： ['-1024', '268.50', '12']
+非数字片段： ['a', 'b', 'c']
+空白数量： 6
+十六进制： ['FF', '88', '00']</code></pre></figure>
+<p><code>\d</code> 只认数字，遇到小数点就断开，所以 <code>268.50</code> 会被拆成 <code>268</code> 和 <code>50</code>；加上 <code>(?:\.\d+)?</code> 这个可选的小数部分后，才能整体取出 <code>268.50</code>。<code>\w</code> 包含字母、数字、下划线和汉字，因此“价格”“库存”也会出现在结果里，想只匹配 ASCII 单词可以给模式加 <code>re.ASCII</code> 标志。<code>\D</code> 是 <code>\d</code> 的补集，得到的正是被数字隔开的那些片段。</p>
+<h2 id="sec-8" class="doc-heading">八、量词、贪婪与懒惰</h2>
+<p>默认情况下，<code>*</code>、<code>+</code>、<code>{m,n}</code> 都是贪婪的：在能让整体匹配成功的前提下，它们会尽可能多吞字符。在量词后面加一个 <code>?</code> 就变成懒惰模式，改为尽可能少吞。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+html <span class="tok-op">=</span> <span class="tok-string">&quot;&lt;b&gt;加粗&lt;/b&gt;&lt;i&gt;斜体&lt;/i&gt;&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;贪婪：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;&lt;.+&gt;&quot;</span>, html))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;懒惰：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;&lt;.+?&gt;&quot;</span>, html))
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;编号 1001，数量 25，单价 9.9&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;贪婪数字：&quot;</span>, re.<span class="tok-cmdlet">search</span>(<span class="tok-string">r&quot;\d.+\d&quot;</span>, text).<span class="tok-cmdlet">group</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;懒惰数字：&quot;</span>, re.<span class="tok-cmdlet">search</span>(<span class="tok-string">r&quot;\d.+?\d&quot;</span>, text).<span class="tok-cmdlet">group</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">贪婪： ['&lt;b&gt;加粗&lt;/b&gt;&lt;i&gt;斜体&lt;/i&gt;']
+懒惰： ['&lt;b&gt;', '&lt;/b&gt;', '&lt;i&gt;', '&lt;/i&gt;']
+贪婪数字： 1001，数量 25，单价 9.9
+懒惰数字： 100</code></pre></figure>
+<p><code>&lt;.+&gt;</code> 从第一个 <code>&lt;</code> 一直吞到最后一个 <code>&gt;</code>，整段 HTML 被当成一个匹配；<code>&lt;.+?&gt;</code> 每遇到一个 <code>&gt;</code> 就收手，于是得到四个标签。解析 HTML 这类嵌套结构时应改用专门的解析器，正则只适合处理结构规整的短文本。</p>
+<p>量词还有第三种写法 <code>*+</code>、<code>++</code>、<code>?+</code>，称为占有量词，Python 3.11 起支持。它一旦吞下字符就不再回退，适合需要避免回溯爆炸的场合，代价是可能匹配不到本可以匹配的结果。</p>
+<h2 id="sec-9" class="doc-heading">九、替换：sub 与 subn</h2>
+<p><code>re.sub()</code> 把匹配到的部分替换成新文本，替换内容里可以用 <code>\1</code>、<code>\g&lt;name&gt;</code> 引用分组；<code>re.subn()</code> 在替换的同时返回替换次数，适合做统计或校验。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;联系电话 138-0000-1111，备用 139-2222-3333&quot;</span>
+
+masked <span class="tok-op">=</span> re.<span class="tok-cmdlet">sub</span>(<span class="tok-string">r&quot;(\d{3})-\d{4}-(\d{4})&quot;</span>, <span class="tok-string">r&quot;\1-****-\2&quot;</span>, text)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;掩码：&quot;</span>, masked)
+
+result, count <span class="tok-op">=</span> re.<span class="tok-cmdlet">subn</span>(<span class="tok-string">r&quot;\d&quot;</span>, <span class="tok-string">&quot;#&quot;</span>, <span class="tok-string">&quot;A1B2C3&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;替换结果：&quot;</span>, result)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;替换次数：&quot;</span>, count)
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">double</span>(<span class="tok-keyword">match</span>):
+    <span class="tok-keyword">return</span> <span class="tok-type">str</span>(<span class="tok-type">int</span>(<span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>()) <span class="tok-op">*</span> <span class="tok-num">2</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;函数替换：&quot;</span>, re.<span class="tok-cmdlet">sub</span>(<span class="tok-string">r&quot;\d+&quot;</span>, double, <span class="tok-string">&quot;a1 b22 c333&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">掩码： 联系电话 138-****-1111，备用 139-****-3333
+替换结果： A#B#C#
+替换次数： 3
+函数替换： a2 b44 c666</code></pre></figure>
+<p>替换字符串里的 <code>\1</code> 表示第一个分组，写成 <code>\g&lt;1&gt;</code> 也可以；如果分组后面紧跟数字，必须用 <code>\g&lt;1&gt;0</code> 这种形式，否则 <code>\10</code> 会被理解成第 10 个分组。传入函数时，函数收到的是 <code>Match</code> 对象，返回值会替换整个匹配，用来做数值加倍、大小写转换这类动态替换非常方便。</p>
+<h2 id="sec-10" class="doc-heading">十、分割：split</h2>
+<p><code>re.split()</code> 按模式切分字符串，比 <code>str.split()</code> 灵活得多：分隔符可以是多个字符、可以是多种符号的集合，还能保留分隔符本身。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+line <span class="tok-op">=</span> <span class="tok-string">&quot;苹果, 香蕉;  橙子|西瓜&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;多分隔符：&quot;</span>, re.<span class="tok-cmdlet">split</span>(<span class="tok-string">r&quot;[,;|]\s*&quot;</span>, line))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;限制次数：&quot;</span>, re.<span class="tok-cmdlet">split</span>(<span class="tok-string">r&quot;\s+&quot;</span>, <span class="tok-string">&quot;a  b   c d&quot;</span>, maxsplit<span class="tok-op">=</span><span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;保留分隔符：&quot;</span>, re.<span class="tok-cmdlet">split</span>(<span class="tok-string">r&quot;(\s+)&quot;</span>, <span class="tok-string">&quot;a  b&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">多分隔符： ['苹果', '香蕉', '橙子', '西瓜']
+限制次数： ['a', 'b', 'c d']
+保留分隔符： ['a', '  ', 'b']</code></pre></figure>
+<p><code>maxsplit</code> 控制最多切几刀，剩下的部分原样保留；不指定时全部分割。如果分隔模式里带捕获分组，分组内容会作为独立元素插进结果列表，这个特性在需要保留分隔符时很有用，不需要时记得写成非捕获分组 <code>(?:...)</code>。</p>
+<h2 id="sec-11" class="doc-heading">十一、编译标志 flags</h2>
+<p>标志位用来整体改变模式的解释方式，既可以在调用函数时以关键字参数传入，也可以在 <code>re.compile()</code> 时固定下来：</p>
+<ul><li><p><code>re.IGNORECASE</code>（简写 <code>re.I</code>）：忽略大小写。</p></li><li><p><code>re.MULTILINE</code>（简写 <code>re.M</code>）：让 <code>^</code> 与 <code>$</code> 匹配每一行的开头和结尾，而不只是整段文本的首尾。</p></li><li><p><code>re.DOTALL</code>（简写 <code>re.S</code>）：让 <code>.</code> 也能匹配换行符。</p></li><li><p><code>re.VERBOSE</code>（简写 <code>re.X</code>）：允许在模式里写空白和 <code>#</code> 注释，把长模式拆成多行。</p></li></ul>
+<p>多个标志用按位或 <code>|</code> 组合。</p>
+<p>省略 <code>MULTILINE</code> 时，<code>^python$</code> 只认“整段文本恰好是 python”，所以多行文本一行都匹配不上。同理，<code>.</code> 默认不匹配换行，跨行匹配必须打开 <code>DOTALL</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;Python\npython\nPYTHON&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;默认：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;^python$&quot;</span>, text))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;IGNORECASE：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;^python$&quot;</span>, text, re.IGNORECASE))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;再加 MULTILINE：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;^python$&quot;</span>, text, re.IGNORECASE <span class="tok-op">|</span> re.MULTILINE))
+
+paragraph <span class="tok-op">=</span> <span class="tok-string">&quot;第一行\n第二行\n第三行&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;默认点号：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;第一.*第三行&quot;</span>, paragraph))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;DOTALL：&quot;</span>, re.<span class="tok-cmdlet">findall</span>(<span class="tok-string">r&quot;第一.*第三行&quot;</span>, paragraph, re.DOTALL))
+
+phone <span class="tok-op">=</span> re.<span class="tok-type">compile</span>(
+    <span class="tok-string">r&quot;&quot;&quot;</span>
+<span class="tok-string">    ^1[3-9]\d      # 号段：1 开头，第二位 3 到 9</span>
+<span class="tok-string">    \d{8}          # 后面再接 8 位数字</span>
+<span class="tok-string">    $</span>
+<span class="tok-string">    &quot;&quot;&quot;</span>,
+    re.VERBOSE,
+)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;VERBOSE 接受合法号码：&quot;</span>, <span class="tok-type">bool</span>(phone.<span class="tok-keyword">match</span>(<span class="tok-string">&quot;13800001111&quot;</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;VERBOSE 拒绝非法号码：&quot;</span>, <span class="tok-type">bool</span>(phone.<span class="tok-keyword">match</span>(<span class="tok-string">&quot;12800001111&quot;</span>)))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">默认： []
+IGNORECASE： []
+再加 MULTILINE： ['Python', 'python', 'PYTHON']
+默认点号： []
+DOTALL： ['第一行\n第二行\n第三行']
+VERBOSE 接受合法号码： True
+VERBOSE 拒绝非法号码： False</code></pre></figure>
+<p>单独使用 <code>IGNORECASE</code> 时结果依然为空，因为它只解决大小写，不解决 <code>^</code> 与 <code>$</code> 的匹配范围：不放宽 <code>MULTILINE</code> 时，这两个锚点只认整段文本的首尾。两个标志叠加后，每一行的首尾都会参与判断，三种大小写写法全部命中。<code>VERBOSE</code> 模式下空白会被忽略，想匹配真正的空格要写成 <code>\</code> 或 <code>[ ]</code>；<code>#</code> 之后到行尾的内容全部是注释。</p>
+<h2 id="sec-12" class="doc-heading">十二、常用校验：手机号、邮箱、日期</h2>
+<p>正则最日常的用途是校验格式。校验类模式的共同点是“首尾都要卡死”，所以要么用 <code>fullmatch()</code>，要么在模式里写 <code>^</code> 和 <code>$</code>。</p>
+<h3 id="sec-13" class="doc-heading">手机号与邮箱</h3>
+<p>中国大陆手机号是 11 位，第一位固定为 1，第二位目前是 3 到 9。邮箱的完整规范非常复杂，实践里用一条够用的近似模式即可，真正投递成功与否只能靠发验证邮件确认。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+PHONE <span class="tok-op">=</span> re.<span class="tok-type">compile</span>(<span class="tok-string">r&quot;^1[3-9]\d{9}$&quot;</span>)
+EMAIL <span class="tok-op">=</span> re.<span class="tok-type">compile</span>(<span class="tok-string">r&quot;^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$&quot;</span>)
+
+<span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> [<span class="tok-string">&quot;13800001111&quot;</span>, <span class="tok-string">&quot;19912345678&quot;</span>, <span class="tok-string">&quot;12345678901&quot;</span>, <span class="tok-string">&quot;1380000111&quot;</span>]:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;手机号 {value}：&quot;</span>, <span class="tok-string">&quot;通过&quot;</span> <span class="tok-keyword">if</span> PHONE.<span class="tok-keyword">match</span>(value) <span class="tok-keyword">else</span> <span class="tok-string">&quot;不通过&quot;</span>)
+
+<span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> [<span class="tok-string">&quot;dev@example.com&quot;</span>, <span class="tok-string">&quot;user.name+tag@sub.example.cn&quot;</span>, <span class="tok-string">&quot;dev@example&quot;</span>, <span class="tok-string">&quot;@example.com&quot;</span>]:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;邮箱 {value}：&quot;</span>, <span class="tok-string">&quot;通过&quot;</span> <span class="tok-keyword">if</span> EMAIL.<span class="tok-keyword">match</span>(value) <span class="tok-keyword">else</span> <span class="tok-string">&quot;不通过&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">手机号 13800001111： 通过
+手机号 19912345678： 通过
+手机号 12345678901： 不通过
+手机号 1380000111： 不通过
+邮箱 dev@example.com： 通过
+邮箱 user.name+tag@sub.example.cn： 通过
+邮箱 dev@example： 不通过
+邮箱 @example.com： 不通过</code></pre></figure>
+<p><code>12345678901</code> 的第二位是 2，不符合 <code>[3-9]</code>；<code>1380000111</code> 只有 10 位，被 <code>\d{9}</code> 挡下。邮箱模式里 <code>[A-Za-z0-9.-]+</code> 允许域名带点和连字符，<code>\.[A-Za-z]{2,}$</code> 要求最后一段至少两个字母，所以 <code>dev@example</code> 缺少顶级域名会被拒绝。</p>
+<h3 id="sec-14" class="doc-heading">日期</h3>
+<p>只靠正则判断“年月日”只能保证形状正确，像 2 月 30 日这种不存在的日期它看不出来。稳妥的做法是先用正则卡格式，再交给 <code>datetime.date</code> 验证真实性。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+<span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> date
+
+DATE <span class="tok-op">=</span> re.<span class="tok-type">compile</span>(<span class="tok-string">r&quot;^(?P&lt;year&gt;\d{4})-(?P&lt;month&gt;\d{2})-(?P&lt;day&gt;\d{2})$&quot;</span>)
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">check</span>(value):
+    <span class="tok-keyword">match</span> <span class="tok-op">=</span> DATE.<span class="tok-keyword">match</span>(value)
+    <span class="tok-keyword">if</span> <span class="tok-keyword">match</span> <span class="tok-keyword">is</span> <span class="tok-keyword">None</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;格式错误&quot;</span>
+    <span class="tok-keyword">try</span>:
+        <span class="tok-cmdlet">date</span>(<span class="tok-type">int</span>(<span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;year&quot;</span>)), <span class="tok-type">int</span>(<span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;month&quot;</span>)), <span class="tok-type">int</span>(<span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;day&quot;</span>)))
+    <span class="tok-keyword">except</span> <span class="tok-type">ValueError</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;日期不存在&quot;</span>
+    <span class="tok-keyword">return</span> <span class="tok-string">&quot;通过&quot;</span>
+
+<span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> [<span class="tok-string">&quot;2026-11-27&quot;</span>, <span class="tok-string">&quot;2026-02-30&quot;</span>, <span class="tok-string">&quot;2026/11/27&quot;</span>, <span class="tok-string">&quot;2026-13-01&quot;</span>]:
+    <span class="tok-type">print</span>(value, <span class="tok-cmdlet">check</span>(value))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">2026-11-27 通过
+2026-02-30 日期不存在
+2026/11/27 格式错误
+2026-13-01 日期不存在</code></pre></figure>
+<p><code>date()</code> 构造函数会检查月份是否在 1 到 12 之间、当月是否有那一天，抛出的 <code>ValueError</code> 正好用来区分“格式对但日期错”。这种“正则管形状、业务代码管语义”的分工，比把所有规则塞进一条巨型正则更易维护。</p>
+<h2 id="sec-15" class="doc-heading">十三、实战：日志解析与字段提取</h2>
+<p>把前面的零件拼起来，就能写一个小而实用的日志分析脚本：用命名分组拆出 IP、方法、路径和状态码，再筛出所有 4xx、5xx 请求，最后顺手把下划线命名转成驼峰。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+LOG <span class="tok-op">=</span> re.<span class="tok-type">compile</span>(
+    <span class="tok-string">r'(?P&lt;ip&gt;\d{1,3}(?:\.\d{1,3}){3}) - - '</span>
+    <span class="tok-string">r'&quot;(?P&lt;method&gt;[A-Z]+) (?P&lt;path&gt;\S+) [^&quot;]*&quot; '</span>
+    <span class="tok-string">r'(?P&lt;status&gt;\d{3})'</span>
+)
+
+lines <span class="tok-op">=</span> [
+    <span class="tok-string">'10.0.0.1 - - &quot;GET /index HTTP/1.1&quot; 200'</span>,
+    <span class="tok-string">'10.0.0.2 - - &quot;POST /api/login HTTP/1.1&quot; 401'</span>,
+    <span class="tok-string">'10.0.0.1 - - &quot;GET /missing HTTP/1.1&quot; 404'</span>,
+]
+
+records <span class="tok-op">=</span> [LOG.<span class="tok-keyword">match</span>(line) <span class="tok-keyword">for</span> line <span class="tok-keyword">in</span> lines]
+<span class="tok-keyword">for</span> record <span class="tok-keyword">in</span> records:
+    <span class="tok-type">print</span>(record.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;ip&quot;</span>), record.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;method&quot;</span>), record.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;path&quot;</span>), record.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;status&quot;</span>))
+
+failed <span class="tok-op">=</span> [record.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;path&quot;</span>) <span class="tok-keyword">for</span> record <span class="tok-keyword">in</span> records <span class="tok-keyword">if</span> <span class="tok-type">int</span>(record.<span class="tok-cmdlet">group</span>(<span class="tok-string">&quot;status&quot;</span>)) <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">400</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;失败接口：&quot;</span>, failed)
+
+names <span class="tok-op">=</span> [<span class="tok-string">&quot;user_name&quot;</span>, <span class="tok-string">&quot;order_id&quot;</span>, <span class="tok-string">&quot;http_status_code&quot;</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;驼峰命名：&quot;</span>, [re.<span class="tok-cmdlet">sub</span>(<span class="tok-string">r&quot;_([a-z])&quot;</span>, <span class="tok-keyword">lambda</span> m: m.<span class="tok-cmdlet">group</span>(<span class="tok-num">1</span>).<span class="tok-cmdlet">upper</span>(), name) <span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> names])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">10.0.0.1 GET /index 200
+10.0.0.2 POST /api/login 401
+10.0.0.1 GET /missing 404
+失败接口： ['/api/login', '/missing']
+驼峰命名： ['userName', 'orderId', 'httpStatusCode']</code></pre></figure>
+<p><code>(?:\d{1,3}){3}</code> 把“点加分段”重复三次，再用 <code>(?:\.\d{1,3}){3}</code> 之外的写法拼出完整 IPv4，外层用命名分组一次性取出。<code>[^&quot;]*</code> 匹配引号内的协议部分，比 <code>.*?</code> 更稳，因为它遇到引号必然停下，不会误吞后面的内容。驼峰转换用 <code>re.sub()</code> 加函数替换，每次只处理一个 <code>_字母</code>，逻辑比拆字符串再拼接更短。</p>
+<h2 id="sec-16" class="doc-heading">十四、练习任务</h2>
+<p>任务 1：文本里有三种日期写法，请统一成 <code>年-月-日</code>，月份和日期补足两位。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;开始 2026/03/05，结束 2026.11.27，备注 2026年12月01日&quot;</span>
+pattern <span class="tok-op">=</span> re.<span class="tok-type">compile</span>(<span class="tok-string">r&quot;(\d{4})[/.年](\d{1,2})[/.月](\d{1,2})日?&quot;</span>)
+
+<span class="tok-keyword">for</span> <span class="tok-keyword">match</span> <span class="tok-keyword">in</span> pattern.<span class="tok-cmdlet">finditer</span>(text):
+    year, month, day <span class="tok-op">=</span> <span class="tok-keyword">match</span>.<span class="tok-cmdlet">groups</span>()
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{year}-{int(month):02d}-{int(day):02d}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">2026-03-05
+2026-11-27
+2026-12-01</code></pre></figure>
+<p>任务 2：把用户记录里的手机号中间四位和邮箱用户名做脱敏，保留首字符。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+records <span class="tok-op">=</span> [
+    <span class="tok-string">&quot;张三 13800001111 zhang@example.com&quot;</span>,
+    <span class="tok-string">&quot;李四 13912345678 li.si@corp.cn&quot;</span>,
+]
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">mask</span>(text):
+    text <span class="tok-op">=</span> re.<span class="tok-cmdlet">sub</span>(<span class="tok-string">r&quot;(?&lt;=\d{3})\d{4}(?=\d{4})&quot;</span>, <span class="tok-string">&quot;****&quot;</span>, text)
+    text <span class="tok-op">=</span> re.<span class="tok-cmdlet">sub</span>(<span class="tok-string">r&quot;([\w.+-])[\w.+-]*@&quot;</span>, <span class="tok-string">r&quot;\1***@&quot;</span>, text)
+    <span class="tok-keyword">return</span> text
+
+<span class="tok-keyword">for</span> line <span class="tok-keyword">in</span> records:
+    <span class="tok-type">print</span>(<span class="tok-cmdlet">mask</span>(line))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">张三 138****1111 z***@example.com
+李四 139****5678 l***@corp.cn</code></pre></figure>
+<p>任务 3：用正则实现一个极简模板引擎，把 <code>{key}</code> 替换成字典里对应的值，缺少的键保持原样。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> re
+
+template <span class="tok-op">=</span> <span class="tok-string">&quot;你好 {name}，你的订单 {order} 已发货，预计 {days} 天送达。&quot;</span>
+values <span class="tok-op">=</span> {<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小明&quot;</span>, <span class="tok-string">&quot;order&quot;</span>: <span class="tok-string">&quot;A1024&quot;</span>}
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">replace</span>(<span class="tok-keyword">match</span>):
+    <span class="tok-keyword">return</span> values.<span class="tok-cmdlet">get</span>(<span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-num">1</span>), <span class="tok-keyword">match</span>.<span class="tok-cmdlet">group</span>(<span class="tok-num">0</span>))
+
+<span class="tok-type">print</span>(re.<span class="tok-cmdlet">sub</span>(<span class="tok-string">r&quot;\{(\w+)\}&quot;</span>, replace, template))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">你好 小明，你的订单 A1024 已发货，预计 {days} 天送达。</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="builtins.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 内置函数</span></a><a class="pager-link pager-link--next" href="json.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python JSON</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、re 模块：从一次匹配开始</a><a class="toc-link toc-link--h2" href="#sec-2">二、match、search 与 fullmatch</a><a class="toc-link toc-link--h2" href="#sec-3">三、findall 与 finditer</a><a class="toc-link toc-link--h2" href="#sec-4">四、分组与命名分组</a><a class="toc-link toc-link--h2" href="#sec-5">五、compile 预编译</a><a class="toc-link toc-link--h2" href="#sec-6">六、元字符速查</a><a class="toc-link toc-link--h2" href="#sec-7">七、字符类：<code>\d</code>、<code>\w</code>、<code>\s</code></a><a class="toc-link toc-link--h2" href="#sec-8">八、量词、贪婪与懒惰</a><a class="toc-link toc-link--h2" href="#sec-9">九、替换：sub 与 subn</a><a class="toc-link toc-link--h2" href="#sec-10">十、分割：split</a><a class="toc-link toc-link--h2" href="#sec-11">十一、编译标志 flags</a><a class="toc-link toc-link--h2" href="#sec-12">十二、常用校验：手机号、邮箱、日期</a><a class="toc-link toc-link--h3" href="#sec-13">手机号与邮箱</a><a class="toc-link toc-link--h3" href="#sec-14">日期</a><a class="toc-link toc-link--h2" href="#sec-15">十三、实战：日志解析与字段提取</a><a class="toc-link toc-link--h2" href="#sec-16">十四、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

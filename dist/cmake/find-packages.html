@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CMake 查找库与包 · CMake</title>
+<meta name="description" content="find_package 的两种模式、查找路径变量、导入目标用法与查找失败的排查手段。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="find-packages" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">CM</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#064f8c,#23d18b)">CM</span><span class="side-course__meta"><span class="side-course__name">CMake</span><span class="side-course__desc">16 章 · 入门 → 工程化</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">CMake 教程</span></a></li><li><a class="side-link" href="install-setup.html"><span class="side-num">02</span><span class="side-text">CMake 安装与配置</span></a></li><li><a class="side-link" href="basic.html"><span class="side-num">03</span><span class="side-text">CMake 基础</span></a></li><li><a class="side-link" href="build-flow.html"><span class="side-num">04</span><span class="side-text">CMake 构建流程</span></a></li><li><a class="side-link" href="build-demo.html"><span class="side-num">05</span><span class="side-text">CMake 构建实例</span></a></li></ul></div><div class="side-group"><p class="side-label">核心概念</p><ul class="side-list"><li><a class="side-link" href="syntax.html"><span class="side-num">06</span><span class="side-text">CMake 语法基础</span></a></li><li><a class="side-link" href="variables.html"><span class="side-num">07</span><span class="side-text">CMake 变量与缓存</span></a></li><li><a class="side-link" href="targets.html"><span class="side-num">08</span><span class="side-text">CMake 目标与依赖</span></a></li><li><a class="side-link" href="build-config.html"><span class="side-num">09</span><span class="side-text">CMake 编译与构建配置</span></a></li><li><a class="side-link is-active" href="find-packages.html"><span class="side-num">10</span><span class="side-text">CMake 查找库与包</span></a></li></ul></div><div class="side-group"><p class="side-label">工程化</p><ul class="side-list"><li><a class="side-link" href="install-export.html"><span class="side-num">11</span><span class="side-text">CMake 安装与导出</span></a></li><li><a class="side-link" href="custom-commands.html"><span class="side-num">12</span><span class="side-text">CMake 自定义命令与目标</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">13</span><span class="side-text">CMake 自定义模块与脚本</span></a></li><li><a class="side-link" href="presets.html"><span class="side-num">14</span><span class="side-text">CMake 预设与工作流</span></a></li><li><a class="side-link" href="testing.html"><span class="side-num">15</span><span class="side-text">CMake 测试与打包</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">16</span><span class="side-text">CMake 实战练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../python/index.html"><span class="side-num">PY</span><span class="side-text">Python</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">CMake</a><span>/</span><span>核心概念</span></nav><h1 class="doc-title">CMake 查找库与包</h1><p class="doc-lead">find_package 的两种模式、查找路径变量、导入目标用法与查找失败的排查手段。</p><div class="doc-meta"><span>第 10 章</span><span class="doc-meta__dot"></span><span>约 9 分钟</span><span class="doc-meta__dot"></span><span>共 16 章</span></div><div class="doc-body">
+<p>第三方库是 C++ 项目的常态。<code>find_package</code> 负责找到库的 <strong>头文件在哪里、要链接哪个文件、编译需要什么定义</strong>，并把结果封装成目标供你链接。</p>
+<h2 id="sec-1" class="doc-heading">一、两种查找模式</h2>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># MODULE 模式（默认）：使用 CMake 自带的 Find&lt;包名&gt;.cmake</span>
+<span class="tok-cmdlet">find_package</span>(Threads <span class="tok-keyword">REQUIRED</span>)
+<span class="tok-cmdlet">find_package</span>(ZLIB <span class="tok-num">1.2</span> <span class="tok-keyword">REQUIRED</span>)
+
+<span class="tok-comment"># CONFIG 模式：使用库安装时自带的 &lt;包名&gt;Config.cmake</span>
+<span class="tok-cmdlet">find_package</span>(Qt6 <span class="tok-keyword">COMPONENTS</span> Widgets <span class="tok-keyword">REQUIRED</span> <span class="tok-keyword">CONFIG</span>)
+<span class="tok-cmdlet">find_package</span>(OpenCV <span class="tok-num">4.8</span> <span class="tok-keyword">CONFIG</span> <span class="tok-keyword">REQUIRED</span>)</code></pre></figure>
+<div class="table-wrap"><table><thead><tr><th>模式</th><th>查找对象</th><th>典型包</th></tr></thead><tbody><tr><td>MODULE</td><td>CMake 发行自带的 FindZLIB.cmake 等模块</td><td>Threads、ZLIB、OpenSSL、BZip2、CURL</td></tr><tr><td>CONFIG</td><td>库安装目录下的 lib/cmake/&lt;包&gt;/Config.cmake</td><td>Qt6、Boost、OpenCV、fmt、nlohmann_json</td></tr></tbody></table></div>
+<p>CMake 会先按 MODULE 找（不带 <code>CONFIG</code> 且存在同名 Find 模块时），失败后自动回退 CONFIG 模式。</p>
+<h2 id="sec-2" class="doc-heading">二、使用导入目标</h2>
+<p>查找成功后得到两种东西：旧式变量（<code>ZLIB_INCLUDE_DIRS</code>、<code>ZLIB_LIBRARIES</code>）和 <strong>导入目标</strong>（<code>ZLIB::ZLIB</code>）。一律推荐导入目标：</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">find_package</span>(ZLIB <span class="tok-keyword">REQUIRED</span>)
+
+<span class="tok-cmdlet">add_executable</span>(gzip-demo src/main.cpp)
+<span class="tok-cmdlet">target_link_libraries</span>(gzip-demo <span class="tok-keyword">PRIVATE</span> <span class="tok-type">ZLIB::ZLIB</span>)
+<span class="tok-comment"># 头文件路径、链接库、宏定义全部随目标自动生效</span></code></pre></figure>
+<figure class="codeblock" data-lang="cpp"><div class="codeblock__bar"><span class="codeblock__lang">C++</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cpp"><span class="tok-comment">// src/main.cpp</span>
+<span class="tok-param">#include </span><span class="tok-type">&lt;zlib.h&gt;</span>
+<span class="tok-param">#include </span><span class="tok-type">&lt;cstdio&gt;</span>
+
+<span class="tok-keyword">int</span> <span class="tok-cmdlet">main</span>() {
+    <span class="tok-cmdlet">printf</span>(<span class="tok-string">&quot;zlib 版本: %s\n&quot;</span>, <span class="tok-cmdlet">zlibVersion</span>());
+    <span class="tok-keyword">return</span> <span class="tok-num">0</span>;
+}</code></pre></figure>
+<p>CMake 自带模块的常用导入目标：</p>
+<div class="table-wrap"><table><thead><tr><th>find_package</th><th>导入目标</th></tr></thead><tbody><tr><td>Threads</td><td>Threads::Threads</td></tr><tr><td>ZLIB</td><td>ZLIB::ZLIB</td></tr><tr><td>OpenSSL</td><td>OpenSSL::SSL、OpenSSL::Crypto</td></tr><tr><td>CURL</td><td>CURL::libcurl</td></tr><tr><td>BZip2</td><td>BZip2::BZip2</td></tr></tbody></table></div>
+<h2 id="sec-3" class="doc-heading">三、查找路径</h2>
+<p>CONFIG 模式按 “前缀 + 固定子路径” 搜索。最常用的控制手段：</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># 脚本内追加查找前缀</span>
+<span class="tok-cmdlet">list</span>(APPEND <span class="tok-param">CMAKE_PREFIX_PATH</span> &quot;C:/Qt/6.12.0/mingw_64&quot;)</code></pre></figure>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash"><span class="tok-comment"># 或在命令行传入（推荐，不改脚本）</span>
+cmake <span class="tok-param">-S</span> . <span class="tok-param">-B</span> build <span class="tok-param">-DCMAKE_PREFIX_PATH</span>=C:/Qt/6.12.0/mingw_64</code></pre></figure>
+<div class="table-wrap"><table><caption>查找相关变量</caption><thead><tr><th>变量</th><th>作用</th></tr></thead><tbody><tr><td>CMAKE_PREFIX_PATH</td><td>查找前缀列表，CONFIG 模式的主入口</td></tr><tr><td>&lt;包名&gt;_ROOT</td><td>单包专用根路径，如 BOOST_ROOT、Qt6_ROOT</td></tr><tr><td>&lt;包名&gt;_DIR</td><td>直接指向 Config.cmake 所在目录（缓存变量，找到后自动写入）</td></tr></tbody></table></div>
+<p>环境变量 <code>PATH</code>、<code>CMAKE_PREFIX_PATH</code> 也会参与搜索，这正是 “装好的库找不到” 时应依次检查的三处：<code>CMAKE_PREFIX_PATH</code> → <code>&lt;包&gt;_ROOT</code> → <code>&lt;包&gt;_DIR</code>。</p>
+<h2 id="sec-4" class="doc-heading">四、可选依赖与组件</h2>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># REQUIRED：找不到直接报错终止配置</span>
+<span class="tok-cmdlet">find_package</span>(Threads <span class="tok-keyword">REQUIRED</span>)
+
+<span class="tok-comment"># 不带 REQUIRED：找不到返回 &lt;包&gt;_FOUND = FALSE，自行处理</span>
+<span class="tok-cmdlet">find_package</span>(OpenMP)
+<span class="tok-keyword">if</span>(OpenMP_FOUND)
+    <span class="tok-cmdlet">target_link_libraries</span>(demo <span class="tok-keyword">PRIVATE</span> <span class="tok-type">OpenMP::OpenMP_CXX</span>)
+<span class="tok-keyword">else</span>()
+    <span class="tok-cmdlet">message</span>(STATUS &quot;未检测到 OpenMP，跳过并行加速&quot;)
+<span class="tok-keyword">endif</span>()
+
+<span class="tok-comment"># 只需要库的部分组件</span>
+<span class="tok-cmdlet">find_package</span>(Qt6 <span class="tok-keyword">COMPONENTS</span> Core Gui Widgets <span class="tok-keyword">REQUIRED</span>)
+
+<span class="tok-comment"># 多种可用实现：先找 CONFIG，找不到退回 MODULE</span>
+<span class="tok-cmdlet">find_package</span>(fmt <span class="tok-keyword">CONFIG</span> QUIET)
+<span class="tok-keyword">if</span>(<span class="tok-keyword">NOT</span> fmt_FOUND)
+    <span class="tok-cmdlet">message</span>(STATUS &quot;使用自带的 fallback 实现&quot;)
+<span class="tok-keyword">endif</span>()</code></pre></figure>
+<h2 id="sec-5" class="doc-heading">五、完整可构建示例</h2>
+<p>一个链接线程库并打印硬件线程数的项目，<code>Threads</code> 在所有平台都可用：</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># CMakeLists.txt</span>
+<span class="tok-cmdlet">cmake_minimum_required</span>(<span class="tok-keyword">VERSION</span> <span class="tok-num">3.16</span>)
+<span class="tok-cmdlet">project</span>(hw-threads <span class="tok-keyword">LANGUAGES</span> <span class="tok-keyword">CXX</span>)
+
+<span class="tok-cmdlet">find_package</span>(Threads <span class="tok-keyword">REQUIRED</span>)
+
+<span class="tok-cmdlet">add_executable</span>(hw-threads src/main.cpp)
+<span class="tok-cmdlet">target_link_libraries</span>(hw-threads <span class="tok-keyword">PRIVATE</span> <span class="tok-type">Threads::Threads</span>)</code></pre></figure>
+<figure class="codeblock" data-lang="cpp"><div class="codeblock__bar"><span class="codeblock__lang">C++</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cpp"><span class="tok-comment">// src/main.cpp</span>
+<span class="tok-param">#include </span><span class="tok-type">&lt;thread&gt;</span>
+<span class="tok-param">#include </span><span class="tok-type">&lt;iostream&gt;</span>
+
+<span class="tok-keyword">int</span> <span class="tok-cmdlet">main</span>() {
+    <span class="tok-type">std</span>::<span class="tok-type">cout</span> &lt;&lt; <span class="tok-string">&quot;硬件线程数: &quot;</span> &lt;&lt; <span class="tok-type">std</span>::<span class="tok-type">thread</span>::<span class="tok-cmdlet">hardware_concurrency</span>() &lt;&lt; <span class="tok-type">std</span>::<span class="tok-type">endl</span>;
+    <span class="tok-keyword">return</span> <span class="tok-num">0</span>;
+}</code></pre></figure>
+<p>配置阶段输出会确认查找结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">-- Found Threads: TRUE
+-- Configuring done (0.4s)
+-- Generating done (0.1s)</code></pre></figure>
+<h2 id="sec-6" class="doc-heading">六、查找失败的排查步骤</h2>
+<ol><li><p>看报错里 CMake 搜索过的路径列表，确认库是否真的装在那些位置。</p></li><li><p>设置 <code>-D&lt;包&gt;_DIR=&lt;Config.cmake 所在目录&gt;</code> 直接定位。</p></li><li><p>设置 <code>-DCMAKE_FIND_DEBUG_MODE=ON</code> 重新配置，CMake 会打印每个查找步骤的详细日志（CMake 3.23+）。</p></li><li><p>确认架构匹配：64 位编译器不能链接 32 位库。</p></li><li><p>确认版本：<code>find_package(OpenCV 4.8)</code> 要求版本不低于 4.8。</p></li></ol>
+<div class="admonition admonition--warning"><div class="admonition__icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10.3 4.3 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0Z"/><path d="M12 10v4M12 17h.01"/></svg></div><div class="admonition__body"><p class="admonition__title">注意</p><p>不要用 <code>link_directories</code> 加 <code>include_directories</code> 手拼第三方库路径，这种写法绕过了依赖管理，换台机器就崩。优先 <code>find_package</code> + 导入目标；确实没有 Config 的库，再用 <code>find_library</code> / <code>find_path</code> 手动查找后封装成本项目的导入目标。</p></div></div>
+<h2 id="sec-7" class="doc-heading">七、练习任务</h2>
+<p>任务 1：链接线程库并打印线程数</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">find_package</span>(Threads <span class="tok-keyword">REQUIRED</span>)
+<span class="tok-cmdlet">target_link_libraries</span>(demo <span class="tok-keyword">PRIVATE</span> <span class="tok-type">Threads::Threads</span>)</code></pre></figure>
+<figure class="codeblock" data-lang="cpp"><div class="codeblock__bar"><span class="codeblock__lang">C++</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cpp"><span class="tok-comment">// main.cpp</span>
+<span class="tok-param">#include </span><span class="tok-type">&lt;thread&gt;</span>
+<span class="tok-param">#include </span><span class="tok-type">&lt;iostream&gt;</span>
+<span class="tok-keyword">int</span> <span class="tok-cmdlet">main</span>() {
+    <span class="tok-type">std</span>::<span class="tok-type">cout</span> &lt;&lt; <span class="tok-type">std</span>::<span class="tok-type">thread</span>::<span class="tok-cmdlet">hardware_concurrency</span>() &lt;&lt; <span class="tok-string">&quot; 条硬件线程&quot;</span> &lt;&lt; <span class="tok-type">std</span>::<span class="tok-type">endl</span>;
+}</code></pre></figure>
+<p>任务 2：可选依赖探测</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">find_package</span>(OpenMP QUIET)
+<span class="tok-keyword">if</span>(OpenMP_FOUND)
+    <span class="tok-cmdlet">message</span>(STATUS &quot;OpenMP 可用&quot;)
+<span class="tok-keyword">endif</span>()</code></pre></figure>
+<p>任务 3：用 <code>CMAKE_FIND_DEBUG_MODE</code> 观察一次真实查找过程</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">set</span>(<span class="tok-param">CMAKE_FIND_DEBUG_MODE</span> <span class="tok-keyword">ON</span>)
+<span class="tok-cmdlet">find_package</span>(ZLIB)
+<span class="tok-cmdlet">set</span>(<span class="tok-param">CMAKE_FIND_DEBUG_MODE</span> <span class="tok-keyword">OFF</span>)</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="build-config.html"><span class="pager-dir">← 上一章</span><span class="pager-title">CMake 编译与构建配置</span></a><a class="pager-link pager-link--next" href="install-export.html"><span class="pager-dir">下一章 →</span><span class="pager-title">CMake 安装与导出</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 CMake 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、两种查找模式</a><a class="toc-link toc-link--h2" href="#sec-2">二、使用导入目标</a><a class="toc-link toc-link--h2" href="#sec-3">三、查找路径</a><a class="toc-link toc-link--h2" href="#sec-4">四、可选依赖与组件</a><a class="toc-link toc-link--h2" href="#sec-5">五、完整可构建示例</a><a class="toc-link toc-link--h2" href="#sec-6">六、查找失败的排查步骤</a><a class="toc-link toc-link--h2" href="#sec-7">七、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

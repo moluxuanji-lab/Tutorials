@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python Lambda 表达式 · Python</title>
+<meta name="description" content="掌握 lambda 的语法与适用边界，理解它与 def 的差异，学会在 sorted、map、filter、reduce 中正确使用，并避开闭包晚绑定陷阱。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="lambda" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link is-active" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>进阶</span></nav><h1 class="doc-title">Python Lambda 表达式</h1><p class="doc-lead">掌握 lambda 的语法与适用边界，理解它与 def 的差异，学会在 sorted、map、filter、reduce 中正确使用，并避开闭包晚绑定陷阱。</p><div class="doc-meta"><span>第 21 章</span><span class="doc-meta__dot"></span><span>约 21 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p><code>lambda</code> 是 Python 中用来创建匿名函数的表达式。它借用了函数式编程的写法，把“参数”和“返回值”压缩在一行里，适合作为参数传给那些需要一个短小函数的接口，例如排序键、映射规则和过滤条件。</p>
+<p>本章先说明 <code>lambda</code> 的语法结构，再与 <code>def</code> 做对比，随后依次演示它在 <code>sorted()</code>、<code>map()</code>、<code>filter()</code>、<code>reduce()</code> 中的常见用法，最后讨论闭包晚绑定、函数字典以及不该使用 <code>lambda</code> 的场景。</p>
+<h2 id="sec-1" class="doc-heading">一、lambda 语法</h2>
+<p><code>lambda</code> 的写法是 <code>lambda 参数列表: 表达式</code>。冒号前面是参数，规则与 <code>def</code> 的参数列表一致，支持位置参数、默认值和关键字参数；冒号后面只能是一个表达式，表达式的结果就是函数返回值，不需要写 <code>return</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">add <span class="tok-op">=</span> <span class="tok-keyword">lambda</span> x, y: x <span class="tok-op">+</span> y
+square <span class="tok-op">=</span> <span class="tok-keyword">lambda</span> x: x <span class="tok-op">*</span> x
+greet <span class="tok-op">=</span> <span class="tok-keyword">lambda</span> name, greeting<span class="tok-op">=</span><span class="tok-string">&quot;你好&quot;</span>: <span class="tok-string">f&quot;{greeting}，{name}！&quot;</span>
+pair <span class="tok-op">=</span> <span class="tok-keyword">lambda</span> x: (x, x <span class="tok-op">*</span> <span class="tok-num">2</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;3 + 5 =&quot;</span>, <span class="tok-cmdlet">add</span>(<span class="tok-num">3</span>, <span class="tok-num">5</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;7 的平方 =&quot;</span>, <span class="tok-cmdlet">square</span>(<span class="tok-num">7</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">greet</span>(<span class="tok-string">&quot;小明&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">greet</span>(<span class="tok-string">&quot;小红&quot;</span>, <span class="tok-string">&quot;晚上好&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;成对：&quot;</span>, <span class="tok-cmdlet">pair</span>(<span class="tok-num">4</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">3 + 5 = 8
+7 的平方 = 49
+你好，小明！
+晚上好，小红！
+成对： (4, 8)</code></pre></figure>
+<p><code>lambda</code> 的函数体不能包含语句，像赋值、循环、<code>try</code> 这样的结构都写不进去。需要多步计算时，只能在表达式内部调用其他函数，或者改用 <code>def</code> 定义普通函数。</p>
+<h2 id="sec-2" class="doc-heading">二、与 def 的对比</h2>
+<p><code>lambda</code> 和 <code>def</code> 创建的都是函数对象，调用方式、参数规则完全一致。区别在于 <code>def</code> 会把函数绑定到一个名字上，还能写文档字符串和多行语句；<code>lambda</code> 只是一个表达式，返回的函数默认名为 <code>&lt;lambda&gt;</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">add_def</span>(x, y):
+    <span class="tok-string">&quot;&quot;&quot;返回两个数之和。&quot;&quot;&quot;</span>
+    <span class="tok-keyword">return</span> x <span class="tok-op">+</span> y
+
+add_lambda <span class="tok-op">=</span> <span class="tok-keyword">lambda</span> x, y: x <span class="tok-op">+</span> y
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;结果一致：&quot;</span>, <span class="tok-cmdlet">add_def</span>(<span class="tok-num">2</span>, <span class="tok-num">3</span>) <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-cmdlet">add_lambda</span>(<span class="tok-num">2</span>, <span class="tok-num">3</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;def 的函数名：&quot;</span>, add_def.__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;lambda 的函数名：&quot;</span>, add_lambda.__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;def 的文档：&quot;</span>, add_def.__doc__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;lambda 的文档：&quot;</span>, add_lambda.__doc__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类型：&quot;</span>, <span class="tok-type">type</span>(add_lambda).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">结果一致： True
+def 的函数名： add_def
+lambda 的函数名： &lt;lambda&gt;
+def 的文档： 返回两个数之和。
+lambda 的文档： None
+类型： function</code></pre></figure>
+<p>两者并不是互相替代的关系。<code>lambda</code> 的价值在于“用完即弃”，不需要为了一个临时规则去占用一个名字；一旦这段逻辑需要复用、需要注释、需要出现在报错信息里，<code>def</code> 就是更合适的选择。</p>
+<h2 id="sec-3" class="doc-heading">三、与 sorted 配合</h2>
+<p><code>sorted()</code> 的 <code>key</code> 参数接收一个函数，用来把每个元素转换成排序依据。<code>lambda</code> 最适合写这种一次性的键函数，尤其是需要同时考虑多个字段的时候。</p>
+<p>下面的例子先按分数从高到低排列，分数相同时再按姓名升序排列。键写成元组 <code>(-score, name)</code>，负号负责把默认的升序变成降序：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">records <span class="tok-op">=</span> [
+    (<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-num">92</span>),
+    (<span class="tok-string">&quot;小红&quot;</span>, <span class="tok-num">85</span>),
+    (<span class="tok-string">&quot;小刚&quot;</span>, <span class="tok-num">92</span>),
+    (<span class="tok-string">&quot;小丽&quot;</span>, <span class="tok-num">78</span>),
+]
+
+by_score <span class="tok-op">=</span> <span class="tok-type">sorted</span>(records, key<span class="tok-op">=</span><span class="tok-keyword">lambda</span> item: (<span class="tok-op">-</span>item[<span class="tok-num">1</span>], item[<span class="tok-num">0</span>]))
+<span class="tok-keyword">for</span> name, score <span class="tok-keyword">in</span> by_score:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{name}：{score}&quot;</span>)
+
+words <span class="tok-op">=</span> [<span class="tok-string">&quot;banana&quot;</span>, <span class="tok-string">&quot;fig&quot;</span>, <span class="tok-string">&quot;cherry&quot;</span>, <span class="tok-string">&quot;apple&quot;</span>]
+by_length <span class="tok-op">=</span> <span class="tok-type">sorted</span>(words, key<span class="tok-op">=</span><span class="tok-keyword">lambda</span> word: (<span class="tok-type">len</span>(word), word))
+<span class="tok-type">print</span>(by_length)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">小刚：92
+小明：92
+小红：85
+小丽：78
+['fig', 'apple', 'banana', 'cherry']</code></pre></figure>
+<p>排序是稳定的：当键完全相同时，<code>sorted()</code> 会保留元素原来的相对顺序。把多个条件拼成元组，比写一个复杂的比较函数更直观，也不容易在升降序上出错。</p>
+<h2 id="sec-4" class="doc-heading">四、与 map、filter 配合</h2>
+<p><code>map()</code> 对可迭代对象中的每个元素应用同一个函数，返回惰性迭代器。传入 <code>lambda</code> 可以省去为简单变换单独定义函数：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">numbers <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>]
+squares <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">map</span>(<span class="tok-keyword">lambda</span> n: n <span class="tok-op">*</span> n, numbers))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平方：&quot;</span>, squares)
+
+words <span class="tok-op">=</span> [<span class="tok-string">&quot;python&quot;</span>, <span class="tok-string">&quot;go&quot;</span>, <span class="tok-string">&quot;rust&quot;</span>]
+upper <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">map</span>(<span class="tok-keyword">lambda</span> word: word.<span class="tok-cmdlet">upper</span>(), words))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;大写：&quot;</span>, upper)
+
+sums <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">map</span>(<span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">+</span> b, [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>], [<span class="tok-num">10</span>, <span class="tok-num">20</span>, <span class="tok-num">30</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;对应相加：&quot;</span>, sums)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">平方： [1, 4, 9, 16, 25]
+大写： ['PYTHON', 'GO', 'RUST']
+对应相加： [11, 22, 33]</code></pre></figure>
+<p><code>map()</code> 可以同时接收多个可迭代对象，函数需要提供对应数量的参数，长度不一致时以最短的那个为准。<code>map()</code> 返回的是迭代器而不是列表，需要列表时要显式套一层 <code>list()</code>。</p>
+<p><code>filter()</code> 用函数判断每个元素是否保留，返回的同样是惰性迭代器。函数返回真值时元素被保留，返回假值时被丢弃：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">numbers <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">range</span>(<span class="tok-num">1</span>, <span class="tok-num">11</span>))
+evens <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">filter</span>(<span class="tok-keyword">lambda</span> n: n <span class="tok-op">%</span> <span class="tok-num">2</span> <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span>, numbers))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;偶数：&quot;</span>, evens)
+
+words <span class="tok-op">=</span> [<span class="tok-string">&quot;apple&quot;</span>, <span class="tok-string">&quot;fig&quot;</span>, <span class="tok-string">&quot;banana&quot;</span>, <span class="tok-string">&quot;kiwi&quot;</span>, <span class="tok-string">&quot;cherry&quot;</span>]
+long_words <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">filter</span>(<span class="tok-keyword">lambda</span> word: <span class="tok-type">len</span>(word) <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">5</span>, words))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;长单词：&quot;</span>, long_words)
+
+mixed <span class="tok-op">=</span> [<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-string">&quot;&quot;</span>, <span class="tok-string">&quot;python&quot;</span>, [], [<span class="tok-num">0</span>], <span class="tok-keyword">None</span>]
+truthy <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">filter</span>(<span class="tok-keyword">lambda</span> item: <span class="tok-type">bool</span>(item), mixed))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;真值元素：&quot;</span>, truthy)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">偶数： [2, 4, 6, 8, 10]
+长单词： ['apple', 'banana', 'cherry']
+真值元素： [1, 'python', [0]]</code></pre></figure>
+<p><code>filter()</code> 只负责筛选，不负责变换。既要筛选又要变换时，可以串联 <code>filter()</code> 与 <code>map()</code>，也可以直接用生成器表达式，后者通常更好读。</p>
+<h2 id="sec-5" class="doc-heading">五、与 reduce 配合</h2>
+<p><code>reduce()</code> 位于 <code>functools</code> 模块，它把函数不断应用到“累计值”和“下一个元素”上，最终把整个序列压缩成一个结果。<code>lambda</code> 写这种二元合并规则非常紧凑：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> functools <span class="tok-keyword">import</span> reduce
+
+numbers <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;求和：&quot;</span>, <span class="tok-cmdlet">reduce</span>(<span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">+</span> b, numbers))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;求积：&quot;</span>, <span class="tok-cmdlet">reduce</span>(<span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">*</span> b, numbers, <span class="tok-num">1</span>))
+
+words <span class="tok-op">=</span> [<span class="tok-string">&quot;Python&quot;</span>, <span class="tok-string">&quot; &quot;</span>, <span class="tok-string">&quot;is&quot;</span>, <span class="tok-string">&quot; &quot;</span>, <span class="tok-string">&quot;fun&quot;</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;拼接：&quot;</span>, <span class="tok-cmdlet">reduce</span>(<span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">+</span> b, words, <span class="tok-string">&quot;&quot;</span>))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最大值：&quot;</span>, <span class="tok-cmdlet">reduce</span>(<span class="tok-keyword">lambda</span> a, b: a <span class="tok-keyword">if</span> a <span class="tok-op">&gt;</span> b <span class="tok-keyword">else</span> b, [<span class="tok-num">3</span>, <span class="tok-num">9</span>, <span class="tok-num">2</span>, <span class="tok-num">7</span>]))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">求和： 15
+求积： 120
+拼接： Python is fun
+最大值： 9</code></pre></figure>
+<p>第三个参数是初始值。省略初始值时，<code>reduce()</code> 会把序列的第一个元素当作累计值，因此空序列会抛出 <code>TypeError</code>；提供初始值后，空序列也能安全返回初始值。求和、求积、求最值这类操作在标准库里已有 <code>sum()</code>、<code>max()</code>、<code>math.prod()</code> 等现成函数，<code>reduce()</code> 更适合表达自定义的合并逻辑。</p>
+<h2 id="sec-6" class="doc-heading">六、作为参数传递</h2>
+<p><code>lambda</code> 最常见的角色是“回调”：调用方只关心“这里需要一个函数”，不关心它的名字。把 <code>lambda</code> 直接写在实参位置上，阅读时不需要跳到别处找定义：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">apply_twice</span>(func, value):
+    <span class="tok-keyword">return</span> <span class="tok-cmdlet">func</span>(<span class="tok-cmdlet">func</span>(value))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;加三次：&quot;</span>, <span class="tok-cmdlet">apply_twice</span>(<span class="tok-keyword">lambda</span> n: n <span class="tok-op">+</span> <span class="tok-num">3</span>, <span class="tok-num">10</span>))
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">make_rule</span>(threshold):
+    <span class="tok-keyword">return</span> <span class="tok-keyword">lambda</span> score: score <span class="tok-op">&gt;</span><span class="tok-op">=</span> threshold
+
+pass_line <span class="tok-op">=</span> <span class="tok-cmdlet">make_rule</span>(<span class="tok-num">60</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;58 及格：&quot;</span>, <span class="tok-cmdlet">pass_line</span>(<span class="tok-num">58</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;60 及格：&quot;</span>, <span class="tok-cmdlet">pass_line</span>(<span class="tok-num">60</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;92 及格：&quot;</span>, <span class="tok-cmdlet">pass_line</span>(<span class="tok-num">92</span>))
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">sort_by</span>(key_func, data):
+    <span class="tok-keyword">return</span> <span class="tok-type">sorted</span>(data, key<span class="tok-op">=</span>key_func)
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">sort_by</span>(<span class="tok-keyword">lambda</span> word: <span class="tok-type">len</span>(word), [<span class="tok-string">&quot;banana&quot;</span>, <span class="tok-string">&quot;fig&quot;</span>, <span class="tok-string">&quot;apple&quot;</span>]))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">加三次： 16
+58 及格： False
+60 及格： True
+92 及格： True
+['fig', 'apple', 'banana']</code></pre></figure>
+<p><code>apply_twice()</code> 接收函数作为参数，说明函数在 Python 里是普通对象，可以赋值、传递和返回。<code>make_rule()</code> 返回的 <code>lambda</code> 记住了创建时的 <code>threshold</code>，这就是闭包。</p>
+<h2 id="sec-7" class="doc-heading">七、闭包与晚绑定陷阱</h2>
+<p>闭包捕获的是变量本身，而不是变量在某一时刻的值。在循环或推导式里创建的多个 <code>lambda</code>，如果直接引用循环变量，它们看到的是循环结束后的最终值，这就是“晚绑定”：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">funcs <span class="tok-op">=</span> [<span class="tok-keyword">lambda</span>: i <span class="tok-keyword">for</span> i <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">3</span>)]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;晚绑定：&quot;</span>, [<span class="tok-cmdlet">func</span>() <span class="tok-keyword">for</span> func <span class="tok-keyword">in</span> funcs])
+
+fixed <span class="tok-op">=</span> [<span class="tok-keyword">lambda</span> i<span class="tok-op">=</span>i: i <span class="tok-keyword">for</span> i <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">3</span>)]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;默认参数固定：&quot;</span>, [<span class="tok-cmdlet">func</span>() <span class="tok-keyword">for</span> func <span class="tok-keyword">in</span> fixed])
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">make_multipliers</span>():
+    result <span class="tok-op">=</span> []
+    <span class="tok-keyword">for</span> factor <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">1</span>, <span class="tok-num">4</span>):
+        result.<span class="tok-cmdlet">append</span>(<span class="tok-keyword">lambda</span> value, factor<span class="tok-op">=</span>factor: value <span class="tok-op">*</span> factor)
+    <span class="tok-keyword">return</span> result
+
+multipliers <span class="tok-op">=</span> <span class="tok-cmdlet">make_multipliers</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;工厂函数：&quot;</span>, [<span class="tok-cmdlet">func</span>(<span class="tok-num">10</span>) <span class="tok-keyword">for</span> func <span class="tok-keyword">in</span> multipliers])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">晚绑定： [2, 2, 2]
+默认参数固定： [0, 1, 2]
+工厂函数： [10, 20, 30]</code></pre></figure>
+<p>第一种写法里，三个 <code>lambda</code> 共用同一个 <code>i</code>，调用时循环早已结束，<code>i</code> 停留在 2。把 <code>i</code> 写成默认参数 <code>i=i</code>，可以在创建函数的那一刻把当前值绑定到参数上，从而得到 0、1、2。同样的思路也适用于 <code>for</code> 循环中的工厂函数。</p>
+<h2 id="sec-8" class="doc-heading">八、字典中存放函数</h2>
+<p>函数可以作为字典的值，用字符串或枚举做键，就能把“分支选择”改写成“查表”。这种写法比一长串 <code>if</code> / <code>elif</code> 更容易扩展，也便于把命令名直接暴露给调用方：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">operations <span class="tok-op">=</span> {
+    <span class="tok-string">&quot;加&quot;</span>: <span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">+</span> b,
+    <span class="tok-string">&quot;减&quot;</span>: <span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">-</span> b,
+    <span class="tok-string">&quot;乘&quot;</span>: <span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">*</span> b,
+    <span class="tok-string">&quot;除&quot;</span>: <span class="tok-keyword">lambda</span> a, b: a <span class="tok-op">/</span> b,
+}
+
+<span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> [<span class="tok-string">&quot;加&quot;</span>, <span class="tok-string">&quot;减&quot;</span>, <span class="tok-string">&quot;乘&quot;</span>, <span class="tok-string">&quot;除&quot;</span>]:
+    <span class="tok-type">print</span>(name, operations[name](<span class="tok-num">8</span>, <span class="tok-num">2</span>))
+
+unknown <span class="tok-op">=</span> operations.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;幂&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;未知操作：&quot;</span>, unknown)
+
+choice <span class="tok-op">=</span> <span class="tok-string">&quot;乘&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;选择 {choice}：&quot;</span>, operations[choice](<span class="tok-num">6</span>, <span class="tok-num">7</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">加 10
+减 6
+乘 16
+除 4.0
+未知操作： None
+选择 乘： 42</code></pre></figure>
+<p>用 <code>operations[name]</code> 取值时，未知的键会抛出 <code>KeyError</code>；用 <code>get()</code> 则可以拿到 <code>None</code> 或指定的默认函数。字典里的函数和普通函数没有区别，同样可以带参数、返回值，也可以替换成 <code>def</code> 定义的具名函数。</p>
+<h2 id="sec-9" class="doc-heading">九、何时不该用 lambda</h2>
+<p><code>lambda</code> 的限制很明确：只能写一个表达式，不能写注释，报错时函数名只显示 <code>&lt;lambda&gt;</code>，堆栈信息也不如具名函数直观。逻辑稍微复杂一点，就应该改用 <code>def</code>。</p>
+<p>下面用同一个排序任务对比两种写法。<code>lambda</code> 版本把所有规则挤在一行里，命名函数版本则可以写文档字符串、拆分步骤，还能被其他代码复用：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">students <span class="tok-op">=</span> [
+    {<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小明&quot;</span>, <span class="tok-string">&quot;score&quot;</span>: <span class="tok-num">92</span>, <span class="tok-string">&quot;age&quot;</span>: <span class="tok-num">18</span>},
+    {<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小红&quot;</span>, <span class="tok-string">&quot;score&quot;</span>: <span class="tok-num">92</span>, <span class="tok-string">&quot;age&quot;</span>: <span class="tok-num">17</span>},
+    {<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小刚&quot;</span>, <span class="tok-string">&quot;score&quot;</span>: <span class="tok-num">85</span>, <span class="tok-string">&quot;age&quot;</span>: <span class="tok-num">19</span>},
+]
+
+by_lambda <span class="tok-op">=</span> <span class="tok-type">sorted</span>(students, key<span class="tok-op">=</span><span class="tok-keyword">lambda</span> s: (<span class="tok-op">-</span>s[<span class="tok-string">&quot;score&quot;</span>], s[<span class="tok-string">&quot;age&quot;</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;lambda 排序：&quot;</span>, [s[<span class="tok-string">&quot;name&quot;</span>] <span class="tok-keyword">for</span> s <span class="tok-keyword">in</span> by_lambda])
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">student_sort_key</span>(student):
+    <span class="tok-keyword">return</span> (<span class="tok-op">-</span>student[<span class="tok-string">&quot;score&quot;</span>], student[<span class="tok-string">&quot;age&quot;</span>])
+
+by_def <span class="tok-op">=</span> <span class="tok-type">sorted</span>(students, key<span class="tok-op">=</span>student_sort_key)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;命名函数排序：&quot;</span>, [s[<span class="tok-string">&quot;name&quot;</span>] <span class="tok-keyword">for</span> s <span class="tok-keyword">in</span> by_def])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;结果一致：&quot;</span>, by_lambda <span class="tok-op">=</span><span class="tok-op">=</span> by_def)
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">describe</span>(student):
+    <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{student['name']}，{student['score']} 分，{student['age']} 岁&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">describe</span>(students[<span class="tok-num">0</span>]))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">lambda 排序： ['小红', '小明', '小刚']
+命名函数排序： ['小红', '小明', '小刚']
+结果一致： True
+小明，92 分，18 岁</code></pre></figure>
+<p>按照 PEP 8 的建议，不要把 <code>lambda</code> 赋值给变量再当普通函数使用，那种场景应该直接写 <code>def</code>。<code>lambda</code> 适合出现在实参位置上，长度以一眼能读完为准；需要嵌套、需要条件分支、需要调试信息时，都应该回到 <code>def</code>。</p>
+<h2 id="sec-10" class="doc-heading">十、练习任务</h2>
+<p>任务 1：按单词长度降序排列，长度相同时按字母升序排列。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">words <span class="tok-op">=</span> [<span class="tok-string">&quot;banana&quot;</span>, <span class="tok-string">&quot;kiwi&quot;</span>, <span class="tok-string">&quot;apple&quot;</span>, <span class="tok-string">&quot;fig&quot;</span>, <span class="tok-string">&quot;cherry&quot;</span>]
+result <span class="tok-op">=</span> <span class="tok-type">sorted</span>(words, key<span class="tok-op">=</span><span class="tok-keyword">lambda</span> word: (<span class="tok-op">-</span><span class="tok-type">len</span>(word), word))
+<span class="tok-type">print</span>(result)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">['banana', 'cherry', 'apple', 'kiwi', 'fig']</code></pre></figure>
+<p>任务 2：先用 <code>filter()</code> 保留及格分数，再用 <code>map()</code> 把分数转换成等级。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">scores <span class="tok-op">=</span> [<span class="tok-num">92</span>, <span class="tok-num">58</span>, <span class="tok-num">77</span>, <span class="tok-num">45</span>, <span class="tok-num">88</span>, <span class="tok-num">61</span>]
+passed <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">filter</span>(<span class="tok-keyword">lambda</span> score: score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">60</span>, scores))
+grades <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">map</span>(<span class="tok-keyword">lambda</span> score: <span class="tok-string">&quot;优秀&quot;</span> <span class="tok-keyword">if</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">90</span> <span class="tok-keyword">else</span> <span class="tok-string">&quot;通过&quot;</span>, passed))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;及格分数：&quot;</span>, passed)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;等级：&quot;</span>, grades)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">及格分数： [92, 77, 88, 61]
+等级： ['优秀', '通过', '通过', '通过']</code></pre></figure>
+<p>任务 3：用 <code>reduce()</code> 求一组数字中的最大值，并把三个字母拼接成字符串。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> functools <span class="tok-keyword">import</span> reduce
+
+numbers <span class="tok-op">=</span> [<span class="tok-num">23</span>, <span class="tok-num">7</span>, <span class="tok-num">91</span>, <span class="tok-num">45</span>, <span class="tok-num">68</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最大值：&quot;</span>, <span class="tok-cmdlet">reduce</span>(<span class="tok-keyword">lambda</span> a, b: a <span class="tok-keyword">if</span> a <span class="tok-op">&gt;</span> b <span class="tok-keyword">else</span> b, numbers))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;拼接：&quot;</span>, <span class="tok-cmdlet">reduce</span>(<span class="tok-keyword">lambda</span> a, b: <span class="tok-string">f&quot;{a}-{b}&quot;</span>, [<span class="tok-string">&quot;A&quot;</span>, <span class="tok-string">&quot;B&quot;</span>, <span class="tok-string">&quot;C&quot;</span>]))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">最大值： 91
+拼接： A-B-C</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="functions.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 函数</span></a><a class="pager-link pager-link--next" href="iterators.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 迭代器与生成器</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、lambda 语法</a><a class="toc-link toc-link--h2" href="#sec-2">二、与 def 的对比</a><a class="toc-link toc-link--h2" href="#sec-3">三、与 sorted 配合</a><a class="toc-link toc-link--h2" href="#sec-4">四、与 map、filter 配合</a><a class="toc-link toc-link--h2" href="#sec-5">五、与 reduce 配合</a><a class="toc-link toc-link--h2" href="#sec-6">六、作为参数传递</a><a class="toc-link toc-link--h2" href="#sec-7">七、闭包与晚绑定陷阱</a><a class="toc-link toc-link--h2" href="#sec-8">八、字典中存放函数</a><a class="toc-link toc-link--h2" href="#sec-9">九、何时不该用 lambda</a><a class="toc-link toc-link--h2" href="#sec-10">十、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

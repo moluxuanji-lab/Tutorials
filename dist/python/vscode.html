@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VS Code 配置 Python · Python</title>
+<meta name="description" content="在 VS Code 中安装 Python 扩展、选择解释器、运行与调试脚本，配置 launch.json、black 与 ruff，并用 Jupyter 逐格执行代码。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="vscode" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link is-active" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>入门</span></nav><h1 class="doc-title">VS Code 配置 Python</h1><p class="doc-lead">在 VS Code 中安装 Python 扩展、选择解释器、运行与调试脚本，配置 launch.json、black 与 ruff，并用 Jupyter 逐格执行代码。</p><div class="doc-meta"><span>第 04 章</span><span class="doc-meta__dot"></span><span>约 15 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>VS Code 是免费、跨平台的编辑器，装上 Python 扩展之后，代码补全、跳转、调试、格式化和笔记本执行都能在同一个窗口里完成。它的项目级配置放在根目录的 <code>.vscode</code> 文件夹中，可以随代码一起提交，团队里每个人打开项目就得到一致的环境。</p>
+<h2 id="sec-1" class="doc-heading">一、安装 Python 扩展</h2>
+<p>在扩展面板（<code>Ctrl + Shift + X</code>）搜索 <code>Python</code>，安装 Microsoft 官方发布的那一个。它会自动带上 <code>Pylance</code>（语言服务）和 <code>Python Debugger</code>（调试器）两个依赖扩展，不需要单独安装。</p>
+<p>命令行里也可以直接装，适合写进新机器的初始化脚本：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">code <span class="tok-param">--install-extension</span> ms<span class="tok-param">-python</span>.python
+code <span class="tok-param">--install-extension</span> ms<span class="tok-param">-python</span>.black<span class="tok-param">-formatter</span>
+code <span class="tok-param">--install-extension</span> charliermarsh.ruff</code></pre></figure>
+<p>确认装好了哪些扩展：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">code <span class="tok-param">--list-extensions</span></code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">charliermarsh.ruff
+ms-python.black-formatter
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-pylance</code></pre></figure>
+<p>如果终端里提示找不到 <code>code</code> 命令，在命令面板执行 <code>Shell Command: Install 'code' command in PATH</code>（macOS 与 Linux 上是这个名字），Windows 安装时勾选“添加到 PATH”即可。</p>
+<p>扩展只提供编辑器能力，解释器仍然要用系统里装好的那一份，所以先确认终端中 <code>python --version</code> 有输出，再回到编辑器里配置。</p>
+<h2 id="sec-2" class="doc-heading">二、选择解释器</h2>
+<p>一个工作区用哪个 Python，由解释器设置决定。命令面板执行 <code>Python: Select Interpreter</code>，列表里会列出：</p>
+<ul><li><p>虚拟环境（项目下的 <code>.venv</code>、<code>env</code>、<code>venv</code> 目录）</p></li><li><p>conda 环境</p></li><li><p>全局安装的解释器</p></li><li><p>通过 <code>pyenv</code> 管理的版本</p></li></ul>
+<p>选中之后，VS Code 会把路径写进工作区设置 <code>.vscode/settings.json</code>：</p>
+<figure class="codeblock" data-lang="json"><div class="codeblock__bar"><span class="codeblock__lang">JSON</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-json">{
+  <span class="tok-param">&quot;python.defaultInterpreterPath&quot;</span>: <span class="tok-string">&quot;.venv/bin/python&quot;</span>,
+  <span class="tok-param">&quot;python.terminal.activateEnvironment&quot;</span>: <span class="tok-keyword">true</span>,
+  <span class="tok-param">&quot;python.analysis.typeCheckingMode&quot;</span>: <span class="tok-string">&quot;basic&quot;</span>,
+  <span class="tok-param">&quot;python.analysis.autoImportCompletions&quot;</span>: <span class="tok-keyword">true</span>
+}</code></pre></figure>
+<p>Windows 上把路径换成 <code>.venv/Scripts/python.exe</code>。状态栏左下角会显示当前解释器的版本号，点一下就能快速切换；切换后新开的终端会自动激活对应的环境，不再需要手动执行 <code>activate</code>。</p>
+<p>依赖装在哪个环境，决定了代码能不能跑起来。可以在编辑器内置终端里核对：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">python <span class="tok-param">-c</span> <span class="tok-string">&quot;import sys; print(sys.prefix)&quot;</span>
+python <span class="tok-param">-m</span> pip list</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">C:\Users\demo\myproject\.venv
+Package    Version
+---------- -------
+pip        24.2
+requests   2.32.3</code></pre></figure>
+<p><code>sys.prefix</code> 指向虚拟环境目录，就说明当前终端确实在用项目自己的解释器。</p>
+<h2 id="sec-3" class="doc-heading">三、运行与调试</h2>
+<p>运行一个脚本有三种方式：</p>
+<ul><li><p>点击编辑器右上角的三角形按钮，等同于 <code>Run Python File</code></p></li><li><p>在编辑区右键选择 <code>Run Python File in Terminal</code></p></li><li><p>在终端里手动执行命令</p></li></ul>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">python hello.py</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Hello, VS Code!</code></pre></figure>
+<p>调试才是 VS Code 的强项。在行号左侧点一下设置断点（出现红点），按 <code>F5</code> 启动调试，代码会在断点处暂停：左侧可以查看局部变量、调用栈和监视表达式，<code>F10</code> 单步跳过，<code>F11</code> 单步进入，<code>Shift + F5</code> 结束调试。</p>
+<p>下面这段代码适合练习断点，在 <code>total += n</code> 那一行下断点，反复按 <code>F10</code> 观察 <code>total</code> 与 <code>n</code> 的变化：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">sum_even</span>(limit):
+    total <span class="tok-op">=</span> <span class="tok-num">0</span>
+    <span class="tok-keyword">for</span> n <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">1</span>, limit <span class="tok-op">+</span> <span class="tok-num">1</span>):
+        <span class="tok-keyword">if</span> n <span class="tok-op">%</span> <span class="tok-num">2</span> <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span>:
+            total <span class="tok-op">+</span><span class="tok-op">=</span> n
+    <span class="tok-keyword">return</span> total
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;1 到 10 的偶数和：&quot;</span>, <span class="tok-cmdlet">sum_even</span>(<span class="tok-num">10</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">1 到 10 的偶数和： 30</code></pre></figure>
+<p>调试时如果断点显示为灰色空心圆，通常是解释器没选对，或者运行的入口文件和断点不在同一个进程里。</p>
+<h2 id="sec-4" class="doc-heading">四、launch.json 配置</h2>
+<p>第一次按 <code>F5</code> 时，如果没有调试配置，VS Code 会询问类型，选择 <code>Python File</code> 就会自动生成 <code>.vscode/launch.json</code>。需要固定参数、环境变量时，直接编辑这个文件：</p>
+<figure class="codeblock" data-lang="json"><div class="codeblock__bar"><span class="codeblock__lang">JSON</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-json">{
+  <span class="tok-param">&quot;version&quot;</span>: <span class="tok-string">&quot;0.2.0&quot;</span>,
+  <span class="tok-param">&quot;configurations&quot;</span>: [
+    {
+      <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;Python: 当前文件&quot;</span>,
+      <span class="tok-param">&quot;type&quot;</span>: <span class="tok-string">&quot;debugpy&quot;</span>,
+      <span class="tok-param">&quot;request&quot;</span>: <span class="tok-string">&quot;launch&quot;</span>,
+      <span class="tok-param">&quot;program&quot;</span>: <span class="tok-string">&quot;<span class="tok-var">${file}</span>&quot;</span>,
+      <span class="tok-param">&quot;console&quot;</span>: <span class="tok-string">&quot;integratedTerminal&quot;</span>,
+      <span class="tok-param">&quot;cwd&quot;</span>: <span class="tok-string">&quot;<span class="tok-var">${workspaceFolder}</span>&quot;</span>,
+      <span class="tok-param">&quot;justMyCode&quot;</span>: <span class="tok-keyword">true</span>
+    },
+    {
+      <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;Python: 带参数运行&quot;</span>,
+      <span class="tok-param">&quot;type&quot;</span>: <span class="tok-string">&quot;debugpy&quot;</span>,
+      <span class="tok-param">&quot;request&quot;</span>: <span class="tok-string">&quot;launch&quot;</span>,
+      <span class="tok-param">&quot;program&quot;</span>: <span class="tok-string">&quot;<span class="tok-var">${workspaceFolder}</span>/main.py&quot;</span>,
+      <span class="tok-param">&quot;args&quot;</span>: [<span class="tok-string">&quot;--verbose&quot;</span>, <span class="tok-string">&quot;--limit&quot;</span>, <span class="tok-string">&quot;10&quot;</span>],
+      <span class="tok-param">&quot;env&quot;</span>: {
+        <span class="tok-param">&quot;APP_ENV&quot;</span>: <span class="tok-string">&quot;dev&quot;</span>
+      },
+      <span class="tok-param">&quot;console&quot;</span>: <span class="tok-string">&quot;integratedTerminal&quot;</span>
+    }
+  ]
+}</code></pre></figure>
+<p><code>type</code> 在旧版扩展里写作 <code>python</code>，新版调试器统一为 <code>debugpy</code>；<code>${file}</code> 表示当前打开的文件，<code>${workspaceFolder}</code> 表示项目根目录。<code>args</code> 里的每一项对应 <code>sys.argv</code> 的一个参数，<code>env</code> 用来注入环境变量，<code>justMyCode</code> 设为 <code>true</code> 可以避免单步时跳进标准库。</p>
+<p><code>args</code> 最终会变成命令行参数，用 <code>argparse</code> 接收时最好显式声明类型和默认值：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> argparse
+<span class="tok-keyword">import</span> sys
+
+sys.argv <span class="tok-op">=</span> [<span class="tok-string">&quot;main.py&quot;</span>, <span class="tok-string">&quot;--verbose&quot;</span>, <span class="tok-string">&quot;--limit&quot;</span>, <span class="tok-string">&quot;10&quot;</span>]
+
+parser <span class="tok-op">=</span> argparse.<span class="tok-cmdlet">ArgumentParser</span>()
+parser.<span class="tok-cmdlet">add_argument</span>(<span class="tok-string">&quot;--verbose&quot;</span>, action<span class="tok-op">=</span><span class="tok-string">&quot;store_true&quot;</span>)
+parser.<span class="tok-cmdlet">add_argument</span>(<span class="tok-string">&quot;--limit&quot;</span>, <span class="tok-type">type</span><span class="tok-op">=</span><span class="tok-type">int</span>, default<span class="tok-op">=</span><span class="tok-num">5</span>)
+options <span class="tok-op">=</span> parser.<span class="tok-cmdlet">parse_args</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;verbose =&quot;</span>, options.verbose)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;limit =&quot;</span>, options.limit)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">verbose = True
+limit = 10</code></pre></figure>
+<p><code>store_true</code> 表示这个开关不带值，出现即为真；<code>type=int</code> 会把字符串自动转换成整数，省去手动 <code>int()</code>。</p>
+<h2 id="sec-5" class="doc-heading">五、格式化：black 与 ruff</h2>
+<p>格式化工具解决缩进、引号、换行这类没有争议的风格问题，让评审时不再讨论排版。社区的主流组合是 black 负责格式化，ruff 负责 lint 和 import 排序：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">python <span class="tok-param">-m</span> pip <span class="tok-keyword">install</span> black ruff
+black .
+ruff check .
+ruff check <span class="tok-param">--fix</span> .
+ruff format .</code></pre></figure>
+<p>把这些动作挂到保存上，就不用每次手动执行：</p>
+<figure class="codeblock" data-lang="json"><div class="codeblock__bar"><span class="codeblock__lang">JSON</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-json">{
+  <span class="tok-param">&quot;[python]&quot;</span>: {
+    <span class="tok-param">&quot;editor.defaultFormatter&quot;</span>: <span class="tok-string">&quot;ms-python.black-formatter&quot;</span>,
+    <span class="tok-param">&quot;editor.formatOnSave&quot;</span>: <span class="tok-keyword">true</span>,
+    <span class="tok-param">&quot;editor.codeActionsOnSave&quot;</span>: {
+      <span class="tok-param">&quot;source.organizeImports&quot;</span>: <span class="tok-string">&quot;explicit&quot;</span>
+    }
+  },
+  <span class="tok-param">&quot;black-formatter.args&quot;</span>: [<span class="tok-string">&quot;--line-length&quot;</span>, <span class="tok-string">&quot;100&quot;</span>],
+  <span class="tok-param">&quot;ruff.lineLength&quot;</span>: <span class="tok-num">100</span>
+}</code></pre></figure>
+<p><code>editor.defaultFormatter</code> 填的是扩展 ID：black 是 <code>ms-python.black-formatter</code>，ruff 是 <code>charliermarsh.ruff</code>，换成 ruff 做格式化时把这一行改掉即可。行长度要和其他配置保持一致，black 默认 88，这里改成 100 之后，<code>pyproject.toml</code> 里的 <code>line-length</code> 也要同步，否则保存时会被反复改写。</p>
+<h2 id="sec-6" class="doc-heading">六、Jupyter Notebook</h2>
+<p>VS Code 可以直接打开 <code>.ipynb</code> 文件，也可以用 <code># %%</code> 把普通 <code>.py</code> 文件切成单元格。逐格执行时变量保留在同一个内核里，适合做数据探索和教学演示。</p>
+<p>内核由 <code>jupyter</code> 与 <code>ipykernel</code> 提供，装进项目自己的虚拟环境：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">python <span class="tok-param">-m</span> pip <span class="tok-keyword">install</span> jupyter ipykernel
+python <span class="tok-param">-m</span> ipykernel <span class="tok-keyword">install</span> <span class="tok-param">--user</span> <span class="tok-param">--name</span> myenv <span class="tok-param">--display-name</span> <span class="tok-string">&quot;Python (.venv)&quot;</span></code></pre></figure>
+<p>打开笔记本后，右上角选择内核（Kernel），单元格上方会出现 <code>Run Cell</code>、<code>Run Below</code> 等按钮。单元格之间的变量是共享的，下面三段代码放在同一个笔记本里会依次拿到前一格的结果：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">numbers <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>]
+squares <span class="tok-op">=</span> [n <span class="tok-op">*</span> n <span class="tok-keyword">for</span> n <span class="tok-keyword">in</span> numbers]
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平方：&quot;</span>, squares)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总和：&quot;</span>, <span class="tok-type">sum</span>(squares))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">平方： [1, 4, 9, 16]
+总和： 30</code></pre></figure>
+<p>笔记本里不建议存放需要长时间运行的任务，内核一旦断开，内存中的变量会全部丢失，重要结果要及时写入文件。</p>
+<h2 id="sec-7" class="doc-heading">七、常用快捷键</h2>
+<div class="table-wrap"><table><thead><tr><th>快捷键</th><th>作用</th></tr></thead><tbody><tr><td><code>Ctrl + Shift + P</code></td><td>打开命令面板，所有 Python 命令都在这里</td></tr><tr><td><code>Ctrl + Shift + X</code></td><td>打开扩展面板</td></tr><tr><td><code>F5</code></td><td>启动调试，调试中表示继续运行</td></tr><tr><td><code>F9</code></td><td>在当前行切换断点</td></tr><tr><td><code>F10</code></td><td>单步跳过，不进入函数内部</td></tr><tr><td><code>F11</code></td><td>单步进入函数内部</td></tr><tr><td><code>Shift + F5</code></td><td>停止调试</td></tr><tr><td><code>Shift + Alt + F</code></td><td>格式化当前文件</td></tr><tr><td><code>F12</code></td><td>跳转到定义</td></tr><tr><td><code>Shift + F12</code></td><td>查找所有引用</td></tr></tbody></table></div>
+<p>快捷键在不同系统上略有差异，macOS 上把 <code>Ctrl</code> 换成 <code>Cmd</code>、<code>Alt</code> 换成 <code>Option</code>。记不住也没关系，命令面板里输入命令名同样能执行。</p>
+<h2 id="sec-8" class="doc-heading">练习任务</h2>
+<p>任务 1：写一个带累加过程的函数，在 <code>total += value</code> 处下断点，单步观察每轮的总和。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">running_total</span>(values):
+    total <span class="tok-op">=</span> <span class="tok-num">0</span>
+    <span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> values:
+        total <span class="tok-op">+</span><span class="tok-op">=</span> value
+        <span class="tok-type">print</span>(<span class="tok-string">f&quot;加上 {value} 后，total = {total}&quot;</span>)
+    <span class="tok-keyword">return</span> total
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最终结果：&quot;</span>, <span class="tok-cmdlet">running_total</span>([<span class="tok-num">5</span>, <span class="tok-num">10</span>, <span class="tok-num">15</span>]))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">加上 5 后，total = 5
+加上 10 后，total = 15
+加上 15 后，total = 30
+最终结果： 30</code></pre></figure>
+<p>任务 2：black 默认行长 88，写脚本统计各文件超出该长度的行数，用来决定是否需要调整 <code>line-length</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">files <span class="tok-op">=</span> {
+    <span class="tok-string">&quot;main.py&quot;</span>: [<span class="tok-num">72</span>, <span class="tok-num">88</span>, <span class="tok-num">95</span>],
+    <span class="tok-string">&quot;utils.py&quot;</span>: [<span class="tok-num">60</span>, <span class="tok-num">64</span>, <span class="tok-num">80</span>],
+    <span class="tok-string">&quot;train.py&quot;</span>: [<span class="tok-num">120</span>, <span class="tok-num">76</span>, <span class="tok-num">88</span>],
+}
+
+limit <span class="tok-op">=</span> <span class="tok-num">88</span>
+
+<span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(files):
+    lengths <span class="tok-op">=</span> files[name]
+    over <span class="tok-op">=</span> [length <span class="tok-keyword">for</span> length <span class="tok-keyword">in</span> lengths <span class="tok-keyword">if</span> length <span class="tok-op">&gt;</span> limit]
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{name:10} 共 {len(lengths)} 行，超长 {len(over)} 行&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">main.py    共 3 行，超长 1 行
+train.py   共 3 行，超长 1 行
+utils.py   共 3 行，超长 0 行</code></pre></figure>
+<h2 id="sec-9" class="doc-heading">相关资源</h2>
+<ul><li><p>官方文档：<a href="https://code.visualstudio.com/docs/python/python-tutorial" target="_blank" rel="noopener">Python in Visual Studio Code</a></p></li><li><p>调试配置：<a href="https://code.visualstudio.com/docs/python/debugging" target="_blank" rel="noopener">Debugging configurations</a></p></li><li><p>格式化与 lint：<a href="https://code.visualstudio.com/docs/python/formatting" target="_blank" rel="noopener">Formatting and linting</a></p></li><li><p>Jupyter 支持：<a href="https://code.visualstudio.com/docs/datascience/jupyter-notebooks" target="_blank" rel="noopener">Jupyter Notebooks in VS Code</a></p></li></ul></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="install.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 环境搭建</span></a><a class="pager-link pager-link--next" href="syntax.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 基础语法</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、安装 Python 扩展</a><a class="toc-link toc-link--h2" href="#sec-2">二、选择解释器</a><a class="toc-link toc-link--h2" href="#sec-3">三、运行与调试</a><a class="toc-link toc-link--h2" href="#sec-4">四、launch.json 配置</a><a class="toc-link toc-link--h2" href="#sec-5">五、格式化：black 与 ruff</a><a class="toc-link toc-link--h2" href="#sec-6">六、Jupyter Notebook</a><a class="toc-link toc-link--h2" href="#sec-7">七、常用快捷键</a><a class="toc-link toc-link--h2" href="#sec-8">练习任务</a><a class="toc-link toc-link--h2" href="#sec-9">相关资源</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

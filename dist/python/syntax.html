@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 基础语法 · Python</title>
+<meta name="description" content="掌握标识符命名、保留字、行与缩进、多行语句、字符串引号、注释、print 输出、import 导入以及变量赋值与链式赋值的写法。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="syntax" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link is-active" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>入门</span></nav><h1 class="doc-title">Python 基础语法</h1><p class="doc-lead">掌握标识符命名、保留字、行与缩进、多行语句、字符串引号、注释、print 输出、import 导入以及变量赋值与链式赋值的写法。</p><div class="doc-meta"><span>第 05 章</span><span class="doc-meta__dot"></span><span>约 24 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>语法是写程序时最先要跨过的一道门槛。Python 的语法规则不多，但每一条都直接决定代码能不能运行：名字怎么起、什么时候必须换行、缩进几个空格、字符串用哪种引号、模块怎么导入。这一章把这些基础规则集中讲清楚，并给出可以直接运行的示例。</p>
+<h2 id="sec-1" class="doc-heading">一、标识符命名规则</h2>
+<p>标识符就是给变量、函数、类、模块等起的名字。Python 对标识符的硬性要求只有几条：</p>
+<ul><li><p>只能由字母、数字和下划线组成，其中“字母”包括中文等 Unicode 字母。</p></li><li><p>不能以数字开头，<code>2user</code>、<code>3d_model</code> 都不合法。</p></li><li><p>区分大小写，<code>name</code>、<code>Name</code>、<code>NAME</code> 是三个不同的名字。</p></li><li><p>不能与 Python 保留字相同，也不能包含空格、连字符等符号。</p></li><li><p>长度没有限制，但名字应当能说明用途，不要用 <code>a</code>、<code>b</code>、<code>tmp</code> 敷衍。</p></li></ul>
+<p><code>str.isidentifier()</code> 可以判断一个字符串是否符合标识符的构成规则，<code>keyword.iskeyword()</code> 则用来排除保留字。两者需要配合使用，因为 <code>class</code> 这类保留字同样能让 <code>isidentifier()</code> 返回真。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> keyword
+
+candidates <span class="tok-op">=</span> [
+    <span class="tok-string">&quot;name&quot;</span>,
+    <span class="tok-string">&quot;_count&quot;</span>,
+    <span class="tok-string">&quot;user2&quot;</span>,
+    <span class="tok-string">&quot;2user&quot;</span>,
+    <span class="tok-string">&quot;my-name&quot;</span>,
+    <span class="tok-string">&quot;class&quot;</span>,
+    <span class="tok-string">&quot;中文变量&quot;</span>,
+    <span class="tok-string">&quot;total_price&quot;</span>,
+    <span class="tok-string">&quot;__init__&quot;</span>,
+    <span class="tok-string">&quot;with space&quot;</span>,
+]
+
+<span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> candidates:
+    <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> name.<span class="tok-cmdlet">isidentifier</span>():
+        result <span class="tok-op">=</span> <span class="tok-string">&quot;非法：含非法字符或以数字开头&quot;</span>
+    <span class="tok-keyword">elif</span> keyword.<span class="tok-cmdlet">iskeyword</span>(name):
+        result <span class="tok-op">=</span> <span class="tok-string">&quot;非法：是保留字&quot;</span>
+    <span class="tok-keyword">else</span>:
+        result <span class="tok-op">=</span> <span class="tok-string">&quot;合法&quot;</span>
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{name!r}：{result}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">'name'：合法
+'_count'：合法
+'user2'：合法
+'2user'：非法：含非法字符或以数字开头
+'my-name'：非法：含非法字符或以数字开头
+'class'：非法：是保留字
+'中文变量'：合法
+'total_price'：合法
+'__init__'：合法
+'with space'：非法：含非法字符或以数字开头</code></pre></figure>
+<p>中文可以作为标识符，是因为 Python 3 的标识符遵循 Unicode 规则。不过在团队协作中，除非项目本身就以中文命名，否则更常见的做法仍然是用英文单词加下划线。</p>
+<h3 id="sec-2" class="doc-heading">常见命名约定</h3>
+<p>Python 社区遵循 PEP 8 的命名习惯，不同对象使用不同风格：</p>
+<div class="table-wrap"><table><thead><tr><th>风格</th><th>示例</th><th>适用对象</th></tr></thead><tbody><tr><td>小写下划线</td><td><code>user_name</code>、<code>total_price</code></td><td>变量、函数、模块</td></tr><tr><td>大驼峰</td><td><code>UserName</code>、<code>HttpClient</code></td><td>类名</td></tr><tr><td>全大写</td><td><code>MAX_SIZE</code>、<code>DEFAULT_TIMEOUT</code></td><td>模块级常量</td></tr><tr><td>单下划线开头</td><td><code>_cache</code></td><td>内部使用，提示不要外部导入</td></tr><tr><td>双下划线开头</td><td><code>__secret</code></td><td>触发名称改写，避免子类冲突</td></tr><tr><td>双下划线包围</td><td><code>__init__</code>、<code>__doc__</code></td><td>解释器约定的特殊方法或属性</td></tr></tbody></table></div>
+<p>这些只是约定，不遵守也不会报错，但统一风格能让他人更快读懂代码。</p>
+<h2 id="sec-3" class="doc-heading">二、Python 保留字</h2>
+<p>保留字（也叫关键字）是语言本身占用的单词，不能拿来当作标识符。Python 3.13 一共有 35 个保留字，可以按用途分成几组：</p>
+<h3 id="sec-4" class="doc-heading">保留字分组</h3>
+<div class="table-wrap"><table><thead><tr><th>类别</th><th>保留字</th><th>用途</th></tr></thead><tbody><tr><td>常量</td><td><code>False</code>、<code>None</code>、<code>True</code></td><td>布尔值与空值</td></tr><tr><td>逻辑运算</td><td><code>and</code>、<code>or</code>、<code>not</code></td><td>组合或取反条件</td></tr><tr><td>条件分支</td><td><code>if</code>、<code>elif</code>、<code>else</code></td><td>按条件选择执行路径</td></tr><tr><td>循环控制</td><td><code>for</code>、<code>while</code>、<code>break</code>、<code>continue</code></td><td>遍历、循环与提前退出</td></tr><tr><td>异常处理</td><td><code>try</code>、<code>except</code>、<code>finally</code>、<code>raise</code>、<code>assert</code></td><td>捕获、清理与主动抛出异常</td></tr><tr><td>函数与类</td><td><code>def</code>、<code>return</code>、<code>lambda</code>、<code>class</code>、<code>yield</code></td><td>定义函数、类与生成器</td></tr><tr><td>模块导入</td><td><code>import</code>、<code>from</code>、<code>as</code></td><td>导入模块与起别名</td></tr><tr><td>作用域</td><td><code>global</code>、<code>nonlocal</code></td><td>在函数内声明外层变量</td></tr><tr><td>上下文管理</td><td><code>with</code></td><td>自动管理资源释放</td></tr><tr><td>删除与占位</td><td><code>del</code>、<code>pass</code></td><td>删除引用与占位</td></tr><tr><td>成员与身份</td><td><code>in</code>、<code>is</code></td><td>判断成员关系与对象身份</td></tr><tr><td>异步编程</td><td><code>async</code>、<code>await</code></td><td>定义与等待协程</td></tr></tbody></table></div>
+<p>除了这些固定保留字，<code>match</code>、<code>case</code>、<code>type</code>、<code>_</code> 属于软关键字：它们只在特定语法位置被当作关键字，平时仍可作为变量名。可以用 <code>keyword.issoftkeyword()</code> 判断。</p>
+<h3 id="sec-5" class="doc-heading">在代码中查看</h3>
+<p><code>keyword.kwlist</code> 保存了全部保留字。下面的代码按首字母分组打印，方便快速浏览：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> keyword
+
+groups <span class="tok-op">=</span> {}
+<span class="tok-keyword">for</span> word <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(keyword.kwlist):
+    groups.<span class="tok-cmdlet">setdefault</span>(word[<span class="tok-num">0</span>].<span class="tok-cmdlet">lower</span>(), []).<span class="tok-cmdlet">append</span>(word)
+
+<span class="tok-keyword">for</span> letter <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(groups):
+    <span class="tok-type">print</span>(letter.<span class="tok-cmdlet">upper</span>() <span class="tok-op">+</span> <span class="tok-string">&quot;:&quot;</span>, <span class="tok-string">&quot;, &quot;</span>.<span class="tok-cmdlet">join</span>(groups[letter]))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;保留字总数：&quot;</span>, <span class="tok-type">len</span>(keyword.kwlist))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">A: and, as, assert, async, await
+B: break
+C: class, continue
+D: def, del
+E: elif, else, except
+F: False, finally, for, from
+G: global
+I: if, import, in, is
+L: lambda
+N: None, nonlocal, not
+O: or
+P: pass
+R: raise, return
+T: True, try
+W: while, with
+Y: yield
+保留字总数： 35</code></pre></figure>
+<p>保留字不能用作变量名、函数名或类名。写代码时如果拿不准某个词能不能用，直接调用 <code>keyword.iskeyword()</code> 判断即可。</p>
+<h2 id="sec-6" class="doc-heading">三、行与缩进</h2>
+<p>Python 用换行表示一条语句结束，不像 C、Java 那样需要在行尾写分号。同一行写多条语句可以用分号分隔，例如 <code>a = 1; b = 2</code>，但这种写法可读性差，不推荐。</p>
+<p>代码块则完全依靠缩进划分。<code>if</code>、<code>for</code>、<code>while</code>、<code>def</code>、<code>class</code>、<code>try</code> 等语句以冒号结尾，下一行必须缩进，通常使用 4 个空格。同一个代码块内的语句必须保持相同的缩进量，多一个或少一个空格都会报错。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">classify</span>(score):
+    <span class="tok-keyword">if</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">90</span>:
+        level <span class="tok-op">=</span> <span class="tok-string">&quot;优秀&quot;</span>
+    <span class="tok-keyword">elif</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">60</span>:
+        level <span class="tok-op">=</span> <span class="tok-string">&quot;及格&quot;</span>
+    <span class="tok-keyword">else</span>:
+        level <span class="tok-op">=</span> <span class="tok-string">&quot;不及格&quot;</span>
+    <span class="tok-keyword">return</span> level
+
+<span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> [<span class="tok-num">95</span>, <span class="tok-num">72</span>, <span class="tok-num">48</span>]:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{value} 分：{classify(value)}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">95 分：优秀
+72 分：及格
+48 分：不及格</code></pre></figure>
+<p>缩进不只是排版，它是语法的一部分。空行会被忽略，所以可以在函数之间、逻辑段落之间留空行提升可读性，但空行不能改变缩进层级。</p>
+<div class="admonition admonition--tip"><div class="admonition__icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z"/></svg></div><div class="admonition__body"><p class="admonition__title">提示</p><p>在编辑器里把 Tab 自动展开成 4 个空格，可以避免绝大多数“看起来对齐、实际不一致”的缩进问题。</p></div></div>
+<h2 id="sec-7" class="doc-heading">四、多行语句</h2>
+<p>一条语句太长时，有两种换行方式。</p>
+<p>第一种是在行尾加反斜杠 <code>\</code>，表示下一行继续当前语句。反斜杠后面不能再写注释，也不能有空格。</p>
+<p>第二种是使用圆括号、方括号或花括号。只要表达式还处在未闭合的括号中，Python 就允许自由换行，这也是 PEP 8 更推荐的方式。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">total <span class="tok-op">=</span> <span class="tok-num">1</span> <span class="tok-op">+</span> <span class="tok-num">2</span> <span class="tok-op">+</span> <span class="tok-num">3</span> \
+        <span class="tok-op">+</span> <span class="tok-num">4</span> <span class="tok-op">+</span> <span class="tok-num">5</span>
+
+numbers <span class="tok-op">=</span> [
+    <span class="tok-num">10</span>,
+    <span class="tok-num">20</span>,
+    <span class="tok-num">30</span>,
+]
+
+result <span class="tok-op">=</span> (
+    numbers[<span class="tok-num">0</span>]
+    <span class="tok-op">+</span> numbers[<span class="tok-num">1</span>]
+    <span class="tok-op">+</span> numbers[<span class="tok-num">2</span>]
+)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;total =&quot;</span>, total)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;result =&quot;</span>, result)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;sum =&quot;</span>, <span class="tok-type">sum</span>(numbers))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">total = 15
+result = 60
+sum = 60</code></pre></figure>
+<p>列表、字典、函数参数列表都可以直接跨行书写。括号内的换行不需要反斜杠，缩进也只影响可读性，不影响语义。</p>
+<h2 id="sec-8" class="doc-heading">五、字符串引号</h2>
+<p>Python 的字符串可以用单引号或双引号包裹，两者完全等价。选择哪一种，通常取决于字符串内容里出现了哪种引号：内容里有双引号就用单引号包裹，内容里有单引号就用双引号包裹，这样可以少写转义。</p>
+<p>如果内容里两种引号都有，可以用反斜杠转义，或者在字符串前加 <code>r</code> 写成原始字符串。原始字符串中的反斜杠不再表示转义，适合书写 Windows 路径和正则表达式。</p>
+<p>三个连续的单引号或双引号可以创建多行字符串，换行会原样保留。函数或模块开头的三引号字符串还会被当作文档字符串。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">single <span class="tok-op">=</span> <span class="tok-string">'Python'</span>
+double <span class="tok-op">=</span> <span class="tok-string">&quot;Python&quot;</span>
+quote <span class="tok-op">=</span> <span class="tok-string">'他说：&quot;你好&quot;'</span>
+apostrophe <span class="tok-op">=</span> <span class="tok-string">&quot;It's easy&quot;</span>
+escaped <span class="tok-op">=</span> <span class="tok-string">'It\'s easy'</span>
+path <span class="tok-op">=</span> <span class="tok-string">r&quot;C:\Users\python&quot;</span>
+multiline <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;&quot;第一行</span>
+<span class="tok-string">第二行&quot;&quot;&quot;</span>
+
+<span class="tok-type">print</span>(single, double)
+<span class="tok-type">print</span>(quote)
+<span class="tok-type">print</span>(apostrophe)
+<span class="tok-type">print</span>(escaped)
+<span class="tok-type">print</span>(path)
+<span class="tok-type">print</span>(multiline)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;多行字符串长度：&quot;</span>, <span class="tok-type">len</span>(multiline))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Python Python
+他说：&quot;你好&quot;
+It's easy
+It's easy
+C:\Users\python
+第一行
+第二行
+多行字符串长度： 7</code></pre></figure>
+<p><code>multiline</code> 的内容是“第一行”加一个 <code>\n</code> 再加“第二行”，一共 7 个字符：六个汉字加一个换行符。注意三引号字符串里的缩进也会成为内容的一部分，写多行文本时不要把代码缩进带进去。</p>
+<h2 id="sec-9" class="doc-heading">六、注释</h2>
+<p>注释用来解释代码意图，解释器会直接忽略。Python 只有一种注释符号：<code>#</code>。从 <code>#</code> 开始到行尾的内容都是注释，可以单独占一行，也可以写在语句末尾。</p>
+<p>Python 没有专门的多行注释语法。需要写多行说明时，可以连续使用多行 <code>#</code>，也可以使用三引号字符串。后者在函数、类、模块开头会被解释器保存为文档字符串，可以通过 <code>__doc__</code> 读取，因此更适合写接口说明，而不是随手注释掉一段代码。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+
+<span class="tok-comment"># 单行注释：计算圆的面积</span>
+radius <span class="tok-op">=</span> <span class="tok-num">3</span>
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">circle_area</span>(r):
+    <span class="tok-string">&quot;&quot;&quot;返回圆的面积，保留两位小数。&quot;&quot;&quot;</span>
+    <span class="tok-keyword">return</span> <span class="tok-type">round</span>(math.pi <span class="tok-op">*</span> r <span class="tok-op">*</span> r, <span class="tok-num">2</span>)
+
+area <span class="tok-op">=</span> <span class="tok-cmdlet">circle_area</span>(radius)  <span class="tok-comment"># 行尾注释</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;半径：&quot;</span>, radius)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;面积：&quot;</span>, area)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;函数说明：&quot;</span>, circle_area.__doc__)
+
+<span class="tok-comment"># 连续的多行注释，通常每行都以 # 开头</span>
+<span class="tok-comment"># Python 没有专门的多行注释符号</span></code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">半径： 3
+面积： 28.27
+函数说明： 返回圆的面积，保留两位小数。</code></pre></figure>
+<p>注释应当说明“为什么这么做”，而不是重复代码已经写清楚的事情。例如 <code>radius = 3  # 把 3 赋给 radius</code> 就是没有价值的注释。</p>
+<h2 id="sec-10" class="doc-heading">七、print 输出</h2>
+<p><code>print()</code> 把内容输出到标准输出。它接受任意多个参数，默认用空格分隔，并在末尾自动换行。关键字参数 <code>sep</code> 可以改变分隔符，<code>end</code> 可以改变结尾字符。</p>
+<p>格式化输出常用三种方式：直接用逗号分隔多个值、使用 f-string、使用 <code>%</code> 占位符。f-string 在字符串前加 <code>f</code>，用花括号嵌入变量或表达式，可读性最好，是现在的主流写法。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">name <span class="tok-op">=</span> <span class="tok-string">&quot;小明&quot;</span>
+score <span class="tok-op">=</span> <span class="tok-num">92.5</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;姓名：&quot;</span>, name, <span class="tok-string">&quot;分数：&quot;</span>, score)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;姓名：&quot;</span>, name, <span class="tok-string">&quot;分数：&quot;</span>, score, sep<span class="tok-op">=</span><span class="tok-string">&quot;|&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;A&quot;</span>, <span class="tok-string">&quot;B&quot;</span>, <span class="tok-string">&quot;C&quot;</span>, sep<span class="tok-op">=</span><span class="tok-string">&quot;-&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;加载中&quot;</span>, end<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;...完成&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{name} 的分数是 {score:.1f}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;百分号格式化：%.1f&quot;</span> <span class="tok-op">%</span> score)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">姓名： 小明 分数： 92.5
+姓名：|小明|分数：|92.5
+A-B-C
+加载中...完成
+小明 的分数是 92.5
+百分号格式化：92.5</code></pre></figure>
+<p><code>print()</code> 不带参数时只输出一个换行，常用来分隔不同的输出段落。需要控制小数位数时，f-string 的 <code>:.1f</code> 和 <code>%</code> 的 <code>%.1f</code> 都表示保留一位小数。</p>
+<h2 id="sec-11" class="doc-heading">八、import 导入</h2>
+<p>标准库和第三方库的功能都放在模块里，使用前要先导入。常见的导入形式有三种：</p>
+<ul><li><p><code>import 模块名</code>：导入整个模块，通过 <code>模块名.成员</code> 访问。</p></li><li><p><code>from 模块名 import 成员</code>：只导入指定成员，之后直接使用成员名。</p></li><li><p><code>import 模块名 as 别名</code>：给模块起一个短别名，常用于 <code>numpy</code>、<code>pandas</code> 这类名字较长的库。</p></li></ul>
+<p>导入语句通常写在文件开头。不建议使用 <code>from 模块名 import *</code>，因为它会把大量名字一次性引入当前命名空间，容易和已有变量冲突，也看不出某个名字来自哪里。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+<span class="tok-keyword">from</span> math <span class="tok-keyword">import</span> sqrt, pi
+<span class="tok-keyword">import</span> statistics <span class="tok-keyword">as</span> stats
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;math.sqrt(81) =&quot;</span>, math.<span class="tok-cmdlet">sqrt</span>(<span class="tok-num">81</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;sqrt(2) =&quot;</span>, <span class="tok-type">round</span>(<span class="tok-cmdlet">sqrt</span>(<span class="tok-num">2</span>), <span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;pi =&quot;</span>, <span class="tok-type">round</span>(pi, <span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;mean =&quot;</span>, stats.<span class="tok-cmdlet">mean</span>([<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;模块名：&quot;</span>, math.__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">math.sqrt(81) = 9.0
+sqrt(2) = 1.4142
+pi = 3.1416
+mean = 2.5
+模块名： math</code></pre></figure>
+<p>同一个模块被多次导入时，解释器只会执行一次模块代码，后续导入直接复用缓存。因此把导入语句放在文件顶部不会带来重复加载的开销。</p>
+<h2 id="sec-12" class="doc-heading">九、缩进错误演示</h2>
+<p>缩进错误在编写阶段就会被解释器发现，程序根本不会开始执行。最常见的两种是 <code>IndentationError</code> 和 <code>TabError</code>：前者表示缩进层级不对，后者表示同一份代码里混用了制表符和空格。</p>
+<p>为了在教程里演示错误又不让脚本真的语法错误退出，可以把待检查的代码写成字符串，交给 <code>compile()</code> 或 <code>exec()</code> 执行，再用 <code>except</code> 捕获异常。这样脚本本身始终是合法代码，捕获后打印信息即可正常结束。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">cases <span class="tok-op">=</span> [
+    (<span class="tok-string">&quot;缩进不匹配&quot;</span>, <span class="tok-string">&quot;value = 10\n    print(value)&quot;</span>),
+    (<span class="tok-string">&quot;制表符与空格混用&quot;</span>, <span class="tok-string">&quot;if True:\n\tprint('tab')\n        print('space')&quot;</span>),
+]
+
+<span class="tok-keyword">for</span> label, source <span class="tok-keyword">in</span> cases:
+    <span class="tok-keyword">try</span>:
+        <span class="tok-type">exec</span>(<span class="tok-type">compile</span>(source, <span class="tok-string">&quot;&lt;demo&gt;&quot;</span>, <span class="tok-string">&quot;exec&quot;</span>))
+    <span class="tok-keyword">except</span> IndentationError <span class="tok-keyword">as</span> error:
+        <span class="tok-type">print</span>(<span class="tok-string">f&quot;{label}：{type(error).__name__}&quot;</span>)
+        <span class="tok-type">print</span>(<span class="tok-string">f&quot;  第 {error.lineno} 行：{error.msg}&quot;</span>)
+
+fixed <span class="tok-op">=</span> <span class="tok-string">&quot;if True:\n    print('修正后可以正常运行')\n&quot;</span>
+<span class="tok-type">exec</span>(fixed)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">缩进不匹配：IndentationError
+  第 2 行：unexpected indent
+制表符与空格混用：TabError
+  第 3 行：inconsistent use of tabs and spaces in indentation
+修正后可以正常运行</code></pre></figure>
+<p><code>TabError</code> 是 <code>IndentationError</code> 的子类，所以一个 <code>except IndentationError</code> 就能同时捕获两者。实际开发中遇到这类错误，先检查报错行及其上一行的缩进，再把全文件的 Tab 统一替换成 4 个空格。</p>
+<h2 id="sec-13" class="doc-heading">十、变量赋值与链式赋值</h2>
+<p>Python 的赋值是把名字绑定到对象上，而不是把值复制进变量。<code>x = 10</code> 让名字 <code>x</code> 指向整数对象 <code>10</code>；之后再写 <code>x = 20</code>，只是让 <code>x</code> 改指向另一个对象，原来的 <code>10</code> 不受影响。</p>
+<p>链式赋值 <code>a = b = c = 0</code> 让三个名字同时指向同一个对象。对整数、字符串、元组这类不可变对象，之后重新赋值不会互相影响；但对列表这类可变对象，通过一个名字修改内容，其他名字看到的也会随之改变。</p>
+<p>多重赋值 <code>x, y = y, x</code> 会先计算右边，再依次绑定左边的名字，因此可以一步完成交换，不需要临时变量。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">x <span class="tok-op">=</span> <span class="tok-num">10</span>
+y <span class="tok-op">=</span> <span class="tok-num">20</span>
+
+x, y <span class="tok-op">=</span> y, x
+<span class="tok-type">print</span>(<span class="tok-string">&quot;交换后：x =&quot;</span>, x, <span class="tok-string">&quot;y =&quot;</span>, y)
+
+a <span class="tok-op">=</span> b <span class="tok-op">=</span> c <span class="tok-op">=</span> <span class="tok-num">0</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;链式赋值：&quot;</span>, a, b, c)
+
+a <span class="tok-op">=</span> <span class="tok-num">1</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;单独修改 a：&quot;</span>, a, b, c)
+
+first, second <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;序列解包：&quot;</span>, first, second)
+
+left <span class="tok-op">=</span> right <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>]
+left.<span class="tok-cmdlet">append</span>(<span class="tok-num">3</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;共享引用：left =&quot;</span>, left, <span class="tok-string">&quot;right =&quot;</span>, right)
+
+count <span class="tok-op">=</span> <span class="tok-num">5</span>
+count <span class="tok-op">+</span><span class="tok-op">=</span> <span class="tok-num">2</span>
+count <span class="tok-op">*</span><span class="tok-op">=</span> <span class="tok-num">3</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;增量赋值：&quot;</span>, count)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">交换后：x = 20 y = 10
+链式赋值： 0 0 0
+单独修改 a： 1 0 0
+序列解包： 1 2
+共享引用：left = [1, 2, 3] right = [1, 2, 3]
+增量赋值： 21</code></pre></figure>
+<p>链式赋值适合给多个计数器设同一个初始值，但不要用它初始化可变对象。<code>left = right = []</code> 看似得到两个空列表，实际只有一个列表被两个名字共享，后续修改很容易互相干扰。需要独立对象时，分别写 <code>left = []</code> 和 <code>right = []</code>。</p>
+<h2 id="sec-14" class="doc-heading">十一、练习任务</h2>
+<p>任务 1：写一个函数检查一批名字是否为合法标识符，并把“含非法字符”和“是保留字”两种情况区分开。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> keyword
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">check_name</span>(name):
+    <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> name.<span class="tok-cmdlet">isidentifier</span>():
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;非法：含非法字符或以数字开头&quot;</span>
+    <span class="tok-keyword">if</span> keyword.<span class="tok-cmdlet">iskeyword</span>(name):
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;非法：Python 保留字&quot;</span>
+    <span class="tok-keyword">return</span> <span class="tok-string">&quot;合法&quot;</span>
+
+<span class="tok-keyword">for</span> candidate <span class="tok-keyword">in</span> [<span class="tok-string">&quot;user_name&quot;</span>, <span class="tok-string">&quot;2fast&quot;</span>, <span class="tok-string">&quot;for&quot;</span>, <span class="tok-string">&quot;数据1&quot;</span>, <span class="tok-string">&quot;data-set&quot;</span>]:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{candidate}：{check_name(candidate)}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">user_name：合法
+2fast：非法：含非法字符或以数字开头
+for：非法：Python 保留字
+数据1：合法
+data-set：非法：含非法字符或以数字开头</code></pre></figure>
+<p>任务 2：用多行语句计算总分和平均分，再用 <code>print()</code> 的 <code>sep</code> 参数输出一张对齐的成绩单。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">scores <span class="tok-op">=</span> {
+    <span class="tok-string">&quot;语文&quot;</span>: <span class="tok-num">88</span>,
+    <span class="tok-string">&quot;数学&quot;</span>: <span class="tok-num">95</span>,
+    <span class="tok-string">&quot;英语&quot;</span>: <span class="tok-num">79</span>,
+}
+
+total <span class="tok-op">=</span> (
+    scores[<span class="tok-string">&quot;语文&quot;</span>]
+    <span class="tok-op">+</span> scores[<span class="tok-string">&quot;数学&quot;</span>]
+    <span class="tok-op">+</span> scores[<span class="tok-string">&quot;英语&quot;</span>]
+)
+average <span class="tok-op">=</span> <span class="tok-type">round</span>(total <span class="tok-op">/</span> <span class="tok-type">len</span>(scores), <span class="tok-num">2</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;科目&quot;</span>, <span class="tok-string">&quot;分数&quot;</span>, sep<span class="tok-op">=</span><span class="tok-string">&quot; | &quot;</span>)
+<span class="tok-keyword">for</span> subject, score <span class="tok-keyword">in</span> scores.<span class="tok-cmdlet">items</span>():
+    <span class="tok-type">print</span>(subject, score, sep<span class="tok-op">=</span><span class="tok-string">&quot; | &quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总分&quot;</span>, total, sep<span class="tok-op">=</span><span class="tok-string">&quot; | &quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平均分&quot;</span>, average, sep<span class="tok-op">=</span><span class="tok-string">&quot; | &quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">科目 | 分数
+语文 | 88
+数学 | 95
+英语 | 79
+总分 | 262
+平均分 | 87.33</code></pre></figure>
+<p>任务 3：仿照第九节，自己构造一段缩进错误的字符串，用 <code>exec()</code> 配合 <code>except IndentationError</code> 捕获，打印错误类型和行号；再把缩进改正确，确认修正后的代码可以正常执行。</p></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="vscode.html"><span class="pager-dir">← 上一章</span><span class="pager-title">VS Code 配置 Python</span></a><a class="pager-link pager-link--next" href="basic-types.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 基本数据类型</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、标识符命名规则</a><a class="toc-link toc-link--h3" href="#sec-2">常见命名约定</a><a class="toc-link toc-link--h2" href="#sec-3">二、Python 保留字</a><a class="toc-link toc-link--h3" href="#sec-4">保留字分组</a><a class="toc-link toc-link--h3" href="#sec-5">在代码中查看</a><a class="toc-link toc-link--h2" href="#sec-6">三、行与缩进</a><a class="toc-link toc-link--h2" href="#sec-7">四、多行语句</a><a class="toc-link toc-link--h2" href="#sec-8">五、字符串引号</a><a class="toc-link toc-link--h2" href="#sec-9">六、注释</a><a class="toc-link toc-link--h2" href="#sec-10">七、print 输出</a><a class="toc-link toc-link--h2" href="#sec-11">八、import 导入</a><a class="toc-link toc-link--h2" href="#sec-12">九、缩进错误演示</a><a class="toc-link toc-link--h2" href="#sec-13">十、变量赋值与链式赋值</a><a class="toc-link toc-link--h2" href="#sec-14">十一、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python XML 解析 · Python</title>
+<meta name="description" content="理解 XML 的结构与常见解析模型，使用 ElementTree 解析、查找、修改和生成 XML，了解 SAX 事件驱动解析、DOM 树模型以及处理不可信 XML 时的安全注意事项。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="xml" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link is-active" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python XML 解析</h1><p class="doc-lead">理解 XML 的结构与常见解析模型，使用 ElementTree 解析、查找、修改和生成 XML，了解 SAX 事件驱动解析、DOM 树模型以及处理不可信 XML 时的安全注意事项。</p><div class="doc-meta"><span>第 40 章</span><span class="doc-meta__dot"></span><span>约 25 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>XML（eXtensible Markup Language，可扩展标记语言）用标签描述数据的结构，既能表达层级关系，又能携带属性，长期用于配置文件、数据交换和文档格式。Python 标准库自带多种 XML 解析方式，其中最常用的是 <code>xml.etree.ElementTree</code>。</p>
+<h2 id="sec-1" class="doc-heading">一、XML 的基本结构</h2>
+<p>一个 XML 文档由声明、元素、属性和文本组成。元素可以嵌套，形成一棵树；每个文档只有一个根元素：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;collection shelf=&quot;New Arrivals&quot;&gt;
+  &lt;movie title=&quot;Enemy Behind&quot;&gt;
+    &lt;type&gt;War, Thriller&lt;/type&gt;
+    &lt;year&gt;2003&lt;/year&gt;
+  &lt;/movie&gt;
+&lt;/collection&gt;</code></pre></figure>
+<p><code>collection</code> 是根元素，<code>shelf</code> 是它的属性；<code>movie</code> 是子元素，<code>title</code> 是 <code>movie</code> 的属性；<code>&lt;type&gt;</code> 与 <code>&lt;year&gt;</code> 之间的文字是文本内容。属性适合放简短的标识信息，需要表达结构化内容时应当使用子元素。</p>
+<h2 id="sec-2" class="doc-heading">二、Python 的三种解析方式</h2>
+<p>Python 处理 XML 有三条常见路线：</p>
+<div class="table-wrap"><table><thead><tr><th>方式</th><th>模型</th><th>适用场景</th></tr></thead><tbody><tr><td>ElementTree</td><td>轻量树模型</td><td>读取配置、提取字段、生成 XML，绝大多数场景首选</td></tr><tr><td>SAX</td><td>事件驱动</td><td>超大型文件，边读边处理，不需要把整棵树放进内存</td></tr><tr><td>DOM</td><td>完整树模型</td><td>需要随机访问、修改节点，或沿用 W3C DOM 的习惯</td></tr></tbody></table></div>
+<p><code>ElementTree</code> 位于标准库 <code>xml.etree</code> 中，接口简洁、性能好，本章以它为主线。SAX 与 DOM 分别位于 <code>xml.sax</code> 和 <code>xml.dom.minidom</code>。</p>
+<p>本章使用下面这份 <code>movies.xml</code> 作为示例数据。示例按顺序运行，第一段代码会在当前目录创建 <code>movies.xml</code>，后续示例与练习都读取这个文件；读完后可以手动删除：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+MOVIES <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;&quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tok-string">&lt;collection shelf=&quot;New Arrivals&quot;&gt;</span>
+<span class="tok-string">  &lt;movie title=&quot;Enemy Behind&quot;&gt;</span>
+<span class="tok-string">    &lt;type&gt;War, Thriller&lt;/type&gt;</span>
+<span class="tok-string">    &lt;format&gt;DVD&lt;/format&gt;</span>
+<span class="tok-string">    &lt;year&gt;2003&lt;/year&gt;</span>
+<span class="tok-string">    &lt;rating&gt;PG&lt;/rating&gt;</span>
+<span class="tok-string">    &lt;stars&gt;10&lt;/stars&gt;</span>
+<span class="tok-string">    &lt;description&gt;Talk about a US-Japan war&lt;/description&gt;</span>
+<span class="tok-string">  &lt;/movie&gt;</span>
+<span class="tok-string">  &lt;movie title=&quot;Transformers&quot;&gt;</span>
+<span class="tok-string">    &lt;type&gt;Anime, Science Fiction&lt;/type&gt;</span>
+<span class="tok-string">    &lt;format&gt;DVD&lt;/format&gt;</span>
+<span class="tok-string">    &lt;year&gt;1989&lt;/year&gt;</span>
+<span class="tok-string">    &lt;rating&gt;R&lt;/rating&gt;</span>
+<span class="tok-string">    &lt;stars&gt;8&lt;/stars&gt;</span>
+<span class="tok-string">    &lt;description&gt;A scientific fiction&lt;/description&gt;</span>
+<span class="tok-string">  &lt;/movie&gt;</span>
+<span class="tok-string">  &lt;movie title=&quot;Trigun&quot;&gt;</span>
+<span class="tok-string">    &lt;type&gt;Anime, Action&lt;/type&gt;</span>
+<span class="tok-string">    &lt;format&gt;DVD&lt;/format&gt;</span>
+<span class="tok-string">    &lt;episodes&gt;4&lt;/episodes&gt;</span>
+<span class="tok-string">    &lt;rating&gt;PG&lt;/rating&gt;</span>
+<span class="tok-string">    &lt;stars&gt;10&lt;/stars&gt;</span>
+<span class="tok-string">    &lt;description&gt;Vash the Stampede!&lt;/description&gt;</span>
+<span class="tok-string">  &lt;/movie&gt;</span>
+<span class="tok-string">  &lt;movie title=&quot;Ishtar&quot;&gt;</span>
+<span class="tok-string">    &lt;type&gt;Comedy&lt;/type&gt;</span>
+<span class="tok-string">    &lt;format&gt;VHS&lt;/format&gt;</span>
+<span class="tok-string">    &lt;rating&gt;PG&lt;/rating&gt;</span>
+<span class="tok-string">    &lt;stars&gt;2&lt;/stars&gt;</span>
+<span class="tok-string">    &lt;description&gt;Viewable boredom&lt;/description&gt;</span>
+<span class="tok-string">  &lt;/movie&gt;</span>
+<span class="tok-string">&lt;/collection&gt;</span>
+<span class="tok-string">&quot;&quot;&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(<span class="tok-string">&quot;movies.xml&quot;</span>, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(MOVIES)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;示例文件： movies.xml&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;字节数：&quot;</span>, os.path.<span class="tok-cmdlet">getsize</span>(<span class="tok-string">&quot;movies.xml&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">示例文件： movies.xml
+字节数： 962</code></pre></figure>
+<h2 id="sec-3" class="doc-heading">三、用 ElementTree 解析</h2>
+<p><code>ET.parse()</code> 从文件读取并返回 <code>ElementTree</code> 对象，<code>getroot()</code> 取得根元素。<code>ET.fromstring()</code> 则直接解析字符串，适合处理网络响应或配置片段：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+tree <span class="tok-op">=</span> ET.<span class="tok-cmdlet">parse</span>(<span class="tok-string">&quot;movies.xml&quot;</span>)
+root <span class="tok-op">=</span> tree.<span class="tok-cmdlet">getroot</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;根元素：&quot;</span>, root.tag)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;根属性：&quot;</span>, root.attrib)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;子元素数量：&quot;</span>, <span class="tok-type">len</span>(root))
+
+<span class="tok-keyword">for</span> movie <span class="tok-keyword">in</span> root:
+    <span class="tok-type">print</span>(movie.tag, movie.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;title&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">根元素： collection
+根属性： {'shelf': 'New Arrivals'}
+子元素数量： 4
+movie Enemy Behind
+movie Transformers
+movie Trigun
+movie Ishtar</code></pre></figure>
+<p><code>tag</code> 是元素名，<code>attrib</code> 是属性字典，<code>text</code> 是元素自身的文本。直接迭代元素会得到全部直接子元素，不包含更深层的后代。</p>
+<h2 id="sec-4" class="doc-heading">四、查找元素：find、findall 与 findtext</h2>
+<p><code>find()</code> 返回第一个匹配的子元素，<code>findall()</code> 返回所有匹配项，<code>findtext()</code> 直接取文本。路径写法支持 <code>./</code>、<code>.//</code> 和属性筛选：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+root <span class="tok-op">=</span> ET.<span class="tok-cmdlet">parse</span>(<span class="tok-string">&quot;movies.xml&quot;</span>).<span class="tok-cmdlet">getroot</span>()
+
+first <span class="tok-op">=</span> root.<span class="tok-cmdlet">find</span>(<span class="tok-string">&quot;movie&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第一部：&quot;</span>, first.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;title&quot;</span>))
+
+titles <span class="tok-op">=</span> [movie.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;title&quot;</span>) <span class="tok-keyword">for</span> movie <span class="tok-keyword">in</span> root.<span class="tok-cmdlet">findall</span>(<span class="tok-string">&quot;movie&quot;</span>)]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全部标题：&quot;</span>, titles)
+
+target <span class="tok-op">=</span> root.<span class="tok-cmdlet">find</span>(<span class="tok-string">&quot;./movie[@title='Transformers']&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;年份：&quot;</span>, target.<span class="tok-cmdlet">findtext</span>(<span class="tok-string">&quot;year&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;评分：&quot;</span>, target.<span class="tok-cmdlet">findtext</span>(<span class="tok-string">&quot;rating&quot;</span>))
+
+missing <span class="tok-op">=</span> root.<span class="tok-cmdlet">find</span>(<span class="tok-string">&quot;./movie[@title='Trigun']/year&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;Trigun 的 year：&quot;</span>, missing)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">第一部： Enemy Behind
+全部标题： ['Enemy Behind', 'Transformers', 'Trigun', 'Ishtar']
+年份： 1989
+评分： R
+Trigun 的 year： None</code></pre></figure>
+<p><code>find()</code> 找不到时返回 <code>None</code>，<code>findtext()</code> 找不到时返回默认值 <code>None</code>。直接对 <code>None</code> 调用 <code>.text</code> 会触发 <code>AttributeError</code>，因此读取可选字段时应当先判断或传入默认值。<code>Trigun</code> 没有 <code>year</code> 元素，正好展示了这种情况。</p>
+<p><code>.//</code> 表示递归查找任意层级的后代：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+root <span class="tok-op">=</span> ET.<span class="tok-cmdlet">parse</span>(<span class="tok-string">&quot;movies.xml&quot;</span>).<span class="tok-cmdlet">getroot</span>()
+
+years <span class="tok-op">=</span> [node.text <span class="tok-keyword">for</span> node <span class="tok-keyword">in</span> root.<span class="tok-cmdlet">findall</span>(<span class="tok-string">&quot;.//year&quot;</span>)]
+stars <span class="tok-op">=</span> [<span class="tok-type">int</span>(node.text) <span class="tok-keyword">for</span> node <span class="tok-keyword">in</span> root.<span class="tok-cmdlet">findall</span>(<span class="tok-string">&quot;.//stars&quot;</span>)]
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;所有年份：&quot;</span>, years)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;星级总数：&quot;</span>, <span class="tok-type">sum</span>(stars))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;星级平均：&quot;</span>, <span class="tok-type">sum</span>(stars) <span class="tok-op">/</span> <span class="tok-type">len</span>(stars))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">所有年份： ['2003', '1989']
+星级总数： 30
+星级平均： 7.5</code></pre></figure>
+<p><code>findall()</code> 返回列表，<code>iter()</code> 返回迭代器，处理大文件时后者更省内存。<code>itertext()</code> 可以取出元素及其后代的所有文本，适合提取纯文本内容。</p>
+<h2 id="sec-5" class="doc-heading">五、修改节点并写回文件</h2>
+<p>解析得到的是一棵可变树：修改 <code>text</code>、<code>attrib</code>，增删子元素都会立即反映在内存中。<code>ElementTree.write()</code> 负责把树序列化回文件。下面的示例把结果写入新文件，避免影响后续练习读取的原始数据：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+tree <span class="tok-op">=</span> ET.<span class="tok-cmdlet">parse</span>(<span class="tok-string">&quot;movies.xml&quot;</span>)
+root <span class="tok-op">=</span> tree.<span class="tok-cmdlet">getroot</span>()
+
+target <span class="tok-op">=</span> root.<span class="tok-cmdlet">find</span>(<span class="tok-string">&quot;./movie[@title='Transformers']&quot;</span>)
+target.<span class="tok-type">set</span>(<span class="tok-string">&quot;checked&quot;</span>, <span class="tok-string">&quot;yes&quot;</span>)
+target.<span class="tok-cmdlet">find</span>(<span class="tok-string">&quot;rating&quot;</span>).text <span class="tok-op">=</span> <span class="tok-string">&quot;PG-13&quot;</span>
+target.<span class="tok-cmdlet">find</span>(<span class="tok-string">&quot;description&quot;</span>).text <span class="tok-op">=</span> <span class="tok-string">&quot;A science fiction classic&quot;</span>
+
+tree.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;movies_updated.xml&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, xml_declaration<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+
+reloaded <span class="tok-op">=</span> ET.<span class="tok-cmdlet">parse</span>(<span class="tok-string">&quot;movies_updated.xml&quot;</span>).<span class="tok-cmdlet">getroot</span>()
+node <span class="tok-op">=</span> reloaded.<span class="tok-cmdlet">find</span>(<span class="tok-string">&quot;./movie[@title='Transformers']&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;属性：&quot;</span>, node.attrib)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;评分：&quot;</span>, node.<span class="tok-cmdlet">findtext</span>(<span class="tok-string">&quot;rating&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;简介：&quot;</span>, node.<span class="tok-cmdlet">findtext</span>(<span class="tok-string">&quot;description&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">属性： {'title': 'Transformers', 'checked': 'yes'}
+评分： PG-13
+简介： A science fiction classic</code></pre></figure>
+<p><code>encoding=&quot;utf-8&quot;</code> 与 <code>xml_declaration=True</code> 一起使用，会在文件头写入正确的 XML 声明。省略编码时，<code>write()</code> 默认使用 US-ASCII，中文内容可能被转义或报错。</p>
+<h2 id="sec-6" class="doc-heading">六、从零构建 XML</h2>
+<p><code>ET.Element()</code> 创建元素，<code>ET.SubElement()</code> 创建子元素，<code>ET.tostring()</code> 把树转成字符串。构建时先搭骨架，再补文本和属性，比手写字符串更安全：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+catalog <span class="tok-op">=</span> ET.<span class="tok-cmdlet">Element</span>(<span class="tok-string">&quot;catalog&quot;</span>, {<span class="tok-string">&quot;updated&quot;</span>: <span class="tok-string">&quot;2026-01-01&quot;</span>})
+
+books <span class="tok-op">=</span> [
+    {<span class="tok-string">&quot;id&quot;</span>: <span class="tok-string">&quot;1&quot;</span>, <span class="tok-string">&quot;title&quot;</span>: <span class="tok-string">&quot;Python 教程&quot;</span>, <span class="tok-string">&quot;price&quot;</span>: <span class="tok-num">59.0</span>},
+    {<span class="tok-string">&quot;id&quot;</span>: <span class="tok-string">&quot;2&quot;</span>, <span class="tok-string">&quot;title&quot;</span>: <span class="tok-string">&quot;算法导论&quot;</span>, <span class="tok-string">&quot;price&quot;</span>: <span class="tok-num">128.0</span>},
+]
+
+<span class="tok-keyword">for</span> item <span class="tok-keyword">in</span> books:
+    book <span class="tok-op">=</span> ET.<span class="tok-cmdlet">SubElement</span>(catalog, <span class="tok-string">&quot;book&quot;</span>, {<span class="tok-string">&quot;id&quot;</span>: item[<span class="tok-string">&quot;id&quot;</span>]})
+    ET.<span class="tok-cmdlet">SubElement</span>(book, <span class="tok-string">&quot;title&quot;</span>).text <span class="tok-op">=</span> item[<span class="tok-string">&quot;title&quot;</span>]
+    ET.<span class="tok-cmdlet">SubElement</span>(book, <span class="tok-string">&quot;price&quot;</span>).text <span class="tok-op">=</span> <span class="tok-string">f&quot;{item['price']:.1f}&quot;</span>
+
+<span class="tok-type">print</span>(ET.<span class="tok-cmdlet">tostring</span>(catalog, encoding<span class="tok-op">=</span><span class="tok-string">&quot;unicode&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">&lt;catalog updated=&quot;2026-01-01&quot;&gt;&lt;book id=&quot;1&quot;&gt;&lt;title&gt;Python 教程&lt;/title&gt;&lt;price&gt;59.0&lt;/price&gt;&lt;/book&gt;&lt;book id=&quot;2&quot;&gt;&lt;title&gt;算法导论&lt;/title&gt;&lt;price&gt;128.0&lt;/price&gt;&lt;/book&gt;&lt;/catalog&gt;</code></pre></figure>
+<p><code>ET.indent()</code> 可以为树补上缩进，让输出更易读。<code>ET.tostring()</code> 不会自动转义已经正确构造的文本，但会转义 <code>&lt;</code>、<code>&gt;</code>、<code>&amp;</code> 等特殊字符，这正是用 API 构建而不是拼接字符串的价值。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+root <span class="tok-op">=</span> ET.<span class="tok-cmdlet">Element</span>(<span class="tok-string">&quot;note&quot;</span>)
+ET.<span class="tok-cmdlet">SubElement</span>(root, <span class="tok-string">&quot;text&quot;</span>).text <span class="tok-op">=</span> <span class="tok-string">&quot;1 &lt; 2 &amp; 3 &gt; 2&quot;</span>
+ET.<span class="tok-cmdlet">indent</span>(root, space<span class="tok-op">=</span><span class="tok-string">&quot;  &quot;</span>)
+
+<span class="tok-type">print</span>(ET.<span class="tok-cmdlet">tostring</span>(root, encoding<span class="tok-op">=</span><span class="tok-string">&quot;unicode&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">&lt;note&gt;
+  &lt;text&gt;1 &amp;lt; 2 &amp;amp; 3 &amp;gt; 2&lt;/text&gt;
+&lt;/note&gt;</code></pre></figure>
+<h2 id="sec-7" class="doc-heading">七、命名空间</h2>
+<p>XML 命名空间用 <code>xmlns</code> 声明，用来区分不同来源的同名标签。ElementTree 会把命名空间展开成 <code>{URI}标签名</code> 的形式，查找时也必须写完整：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;&quot;&lt;root xmlns:h=&quot;http://example.com/html&quot;&gt;</span>
+<span class="tok-string">  &lt;h:item id=&quot;1&quot;&gt;第一项&lt;/h:item&gt;</span>
+<span class="tok-string">  &lt;h:item id=&quot;2&quot;&gt;第二项&lt;/h:item&gt;</span>
+<span class="tok-string">&lt;/root&gt;&quot;&quot;&quot;</span>
+
+root <span class="tok-op">=</span> ET.<span class="tok-cmdlet">fromstring</span>(text)
+<span class="tok-keyword">for</span> item <span class="tok-keyword">in</span> root:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;标签：&quot;</span>, item.tag)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;内容：&quot;</span>, item.text, <span class="tok-string">&quot;编号：&quot;</span>, item.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;id&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">标签： {http://example.com/html}item
+内容： 第一项 编号： 1
+标签： {http://example.com/html}item
+内容： 第二项 编号： 2</code></pre></figure>
+<p>查找时可以用 <code>findall(&quot;{http://example.com/html}item&quot;)</code>，也可以把前缀映射传给 <code>findall(&quot;h:item&quot;, namespaces={&quot;h&quot;: &quot;http://example.com/html&quot;})</code>。生成 XML 时，用 <code>ET.register_namespace(&quot;h&quot;, uri)</code> 可以避免序列化出 <code>ns0</code> 这样的自动前缀。</p>
+<h2 id="sec-8" class="doc-heading">八、SAX：事件驱动解析</h2>
+<p>SAX 不构建整棵树，而是在遇到开始标签、结束标签、文本时触发回调。它适合几百 MB 以上的文件：内存占用与文件大小无关，但只能顺序读取，无法回头修改。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.sax
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">MovieHandler</span>(xml.sax.ContentHandler):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>):
+        <span class="tok-var">self</span>.titles <span class="tok-op">=</span> []
+        <span class="tok-var">self</span>.current <span class="tok-op">=</span> <span class="tok-keyword">None</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">startElement</span>(<span class="tok-var">self</span>, name, attrs):
+        <span class="tok-keyword">if</span> name <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-string">&quot;movie&quot;</span>:
+            <span class="tok-var">self</span>.titles.<span class="tok-cmdlet">append</span>(attrs.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;title&quot;</span>))
+        <span class="tok-var">self</span>.current <span class="tok-op">=</span> name
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">characters</span>(<span class="tok-var">self</span>, content):
+        <span class="tok-keyword">if</span> <span class="tok-var">self</span>.current <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-string">&quot;year&quot;</span> <span class="tok-keyword">and</span> content.<span class="tok-cmdlet">strip</span>():
+            <span class="tok-type">print</span>(<span class="tok-string">&quot;年份文本：&quot;</span>, content.<span class="tok-cmdlet">strip</span>())
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">endElement</span>(<span class="tok-var">self</span>, name):
+        <span class="tok-var">self</span>.current <span class="tok-op">=</span> <span class="tok-keyword">None</span>
+
+handler <span class="tok-op">=</span> <span class="tok-cmdlet">MovieHandler</span>()
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(<span class="tok-string">&quot;movies.xml&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    content <span class="tok-op">=</span> file.<span class="tok-cmdlet">read</span>()
+xml.sax.<span class="tok-cmdlet">parseString</span>(content.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>), handler)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;电影标题：&quot;</span>, handler.titles)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">年份文本： 2003
+年份文本： 1989
+电影标题： ['Enemy Behind', 'Transformers', 'Trigun', 'Ishtar']</code></pre></figure>
+<p><code>characters()</code> 可能被分多次调用，同一段文本不保证一次给全。需要拼接文本时，应当在 <code>startElement</code> 中清空缓冲区，在 <code>characters</code> 中追加，在 <code>endElement</code> 中统一处理。</p>
+<h2 id="sec-9" class="doc-heading">九、DOM：把文档变成对象树</h2>
+<p><code>xml.dom.minidom</code> 实现了 W3C DOM 的一小部分接口，提供 <code>getElementsByTagName()</code>、<code>childNodes</code>、<code>getAttribute()</code> 等方法。它把整个文档读进内存，使用方便，但比 ElementTree 更重：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> xml.dom <span class="tok-keyword">import</span> minidom
+
+document <span class="tok-op">=</span> minidom.<span class="tok-cmdlet">parse</span>(<span class="tok-string">&quot;movies.xml&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;根元素：&quot;</span>, document.documentElement.tagName)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;电影数量：&quot;</span>, <span class="tok-type">len</span>(document.<span class="tok-cmdlet">getElementsByTagName</span>(<span class="tok-string">&quot;movie&quot;</span>)))
+
+<span class="tok-keyword">for</span> node <span class="tok-keyword">in</span> document.<span class="tok-cmdlet">getElementsByTagName</span>(<span class="tok-string">&quot;movie&quot;</span>):
+    title <span class="tok-op">=</span> node.<span class="tok-cmdlet">getAttribute</span>(<span class="tok-string">&quot;title&quot;</span>)
+    year <span class="tok-op">=</span> node.<span class="tok-cmdlet">getElementsByTagName</span>(<span class="tok-string">&quot;year&quot;</span>)
+    value <span class="tok-op">=</span> year[<span class="tok-num">0</span>].firstChild.data <span class="tok-keyword">if</span> year <span class="tok-keyword">else</span> <span class="tok-string">&quot;未知&quot;</span>
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{title}：{value}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">根元素： collection
+电影数量： 4
+Enemy Behind：2003
+Transformers：1989
+Trigun：未知
+Ishtar：未知</code></pre></figure>
+<p>DOM 的强项是随机访问和修改，例如删除节点、替换属性、调整顺序。若只是读取几个字段，ElementTree 更轻便，代码也更短。</p>
+<h2 id="sec-10" class="doc-heading">十、安全提醒</h2>
+<p>XML 支持实体定义，恶意文档可以借助实体递归展开耗尽内存（常被称为“十亿笑声”攻击），也可能读取本地文件（XXE）。<code>xml.etree.ElementTree</code> 在较新版本中默认禁止外部实体，但面对来源不可控的 XML，仍应使用 <code>defusedxml</code> 这类专门加固的库，或者改用 JSON 等更简单的格式。</p>
+<p>处理上传文件时还要限制大小，并在解析前做格式校验。不要把解析异常直接回显给用户，错误信息里可能包含服务器路径。</p>
+<h2 id="sec-11" class="doc-heading">十一、练习任务</h2>
+<p>任务 1：统计每部电影的名字与星级，并计算平均星级。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+root <span class="tok-op">=</span> ET.<span class="tok-cmdlet">parse</span>(<span class="tok-string">&quot;movies.xml&quot;</span>).<span class="tok-cmdlet">getroot</span>()
+total <span class="tok-op">=</span> <span class="tok-num">0</span>
+<span class="tok-keyword">for</span> movie <span class="tok-keyword">in</span> root.<span class="tok-cmdlet">findall</span>(<span class="tok-string">&quot;movie&quot;</span>):
+    stars <span class="tok-op">=</span> <span class="tok-type">int</span>(movie.<span class="tok-cmdlet">findtext</span>(<span class="tok-string">&quot;stars&quot;</span>, <span class="tok-string">&quot;0&quot;</span>))
+    total <span class="tok-op">+</span><span class="tok-op">=</span> stars
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{movie.get('title')}: {stars} 星&quot;</span>)
+
+count <span class="tok-op">=</span> <span class="tok-type">len</span>(root.<span class="tok-cmdlet">findall</span>(<span class="tok-string">&quot;movie&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平均星级：&quot;</span>, total <span class="tok-op">/</span> count)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Enemy Behind: 10 星
+Transformers: 8 星
+Trigun: 10 星
+Ishtar: 2 星
+平均星级： 7.5</code></pre></figure>
+<p>任务 2：筛出 2000 年之后（含 2000 年）的电影，输出标题与年份。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+root <span class="tok-op">=</span> ET.<span class="tok-cmdlet">parse</span>(<span class="tok-string">&quot;movies.xml&quot;</span>).<span class="tok-cmdlet">getroot</span>()
+<span class="tok-keyword">for</span> movie <span class="tok-keyword">in</span> root.<span class="tok-cmdlet">findall</span>(<span class="tok-string">&quot;movie&quot;</span>):
+    year <span class="tok-op">=</span> movie.<span class="tok-cmdlet">findtext</span>(<span class="tok-string">&quot;year&quot;</span>)
+    <span class="tok-keyword">if</span> year <span class="tok-keyword">and</span> <span class="tok-type">int</span>(year) <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">2000</span>:
+        <span class="tok-type">print</span>(movie.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;title&quot;</span>), year)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Enemy Behind 2003</code></pre></figure>
+<p>任务 3：把电影列表转换成字典，方便按标题查询年份和评分。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> xml.etree.ElementTree <span class="tok-keyword">as</span> ET
+
+root <span class="tok-op">=</span> ET.<span class="tok-cmdlet">parse</span>(<span class="tok-string">&quot;movies.xml&quot;</span>).<span class="tok-cmdlet">getroot</span>()
+movies <span class="tok-op">=</span> {
+    movie.<span class="tok-cmdlet">get</span>(<span class="tok-string">&quot;title&quot;</span>): {
+        <span class="tok-string">&quot;year&quot;</span>: movie.<span class="tok-cmdlet">findtext</span>(<span class="tok-string">&quot;year&quot;</span>, <span class="tok-string">&quot;未知&quot;</span>),
+        <span class="tok-string">&quot;rating&quot;</span>: movie.<span class="tok-cmdlet">findtext</span>(<span class="tok-string">&quot;rating&quot;</span>, <span class="tok-string">&quot;未分级&quot;</span>),
+    }
+    <span class="tok-keyword">for</span> movie <span class="tok-keyword">in</span> root.<span class="tok-cmdlet">findall</span>(<span class="tok-string">&quot;movie&quot;</span>)
+}
+
+<span class="tok-type">print</span>(movies[<span class="tok-string">&quot;Transformers&quot;</span>])
+<span class="tok-type">print</span>(movies[<span class="tok-string">&quot;Trigun&quot;</span>])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">{'year': '1989', 'rating': 'R'}
+{'year': '未知', 'rating': 'PG'}</code></pre></figure>
+<p>ElementTree 覆盖了大多数日常需求。下一章介绍 urllib，用它抓取网页、构造查询参数并处理 HTTP 错误。</p></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="mysql.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 连接 MySQL</span></a><a class="pager-link pager-link--next" href="urllib.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python urllib</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、XML 的基本结构</a><a class="toc-link toc-link--h2" href="#sec-2">二、Python 的三种解析方式</a><a class="toc-link toc-link--h2" href="#sec-3">三、用 ElementTree 解析</a><a class="toc-link toc-link--h2" href="#sec-4">四、查找元素：find、findall 与 findtext</a><a class="toc-link toc-link--h2" href="#sec-5">五、修改节点并写回文件</a><a class="toc-link toc-link--h2" href="#sec-6">六、从零构建 XML</a><a class="toc-link toc-link--h2" href="#sec-7">七、命名空间</a><a class="toc-link toc-link--h2" href="#sec-8">八、SAX：事件驱动解析</a><a class="toc-link toc-link--h2" href="#sec-9">九、DOM：把文档变成对象树</a><a class="toc-link toc-link--h2" href="#sec-10">十、安全提醒</a><a class="toc-link toc-link--h2" href="#sec-11">十一、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

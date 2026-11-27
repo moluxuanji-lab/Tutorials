@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 元组 · Python</title>
+<meta name="description" content="掌握元组的创建、不可变性、索引切片、解包与星号解包，理解它与列表的取舍，并会用 namedtuple 与元组键组织数据。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="tuples" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link is-active" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>核心语法</span></nav><h1 class="doc-title">Python 元组</h1><p class="doc-lead">掌握元组的创建、不可变性、索引切片、解包与星号解包，理解它与列表的取舍，并会用 namedtuple 与元组键组织数据。</p><div class="doc-meta"><span>第 13 章</span><span class="doc-meta__dot"></span><span>约 20 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>元组（tuple）是不可变的有序序列，用圆括号书写，元素之间用逗号分隔。它和列表长得很像，但一旦创建就不能增删改，因此占用更少内存、可以作为字典的键，也更适合表达“一条固定结构的数据”，例如坐标、日期、数据库的一行记录。</p>
+<p>这一章从创建讲起，依次覆盖不可变性、切片、解包、拼接、类型转换，最后落到 <code>namedtuple</code> 和元组作为字典键这两个实际用法。</p>
+<h2 id="sec-1" class="doc-heading">一、创建元组</h2>
+<p>圆括号不是关键，逗号才是。<code>(42)</code> 只是一个加了括号的整数，<code>(42,)</code> 才是单元素元组。省略括号时，只要用逗号分隔，Python 也会自动打包成元组：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">point <span class="tok-op">=</span> (<span class="tok-num">3</span>, <span class="tok-num">5</span>)
+single <span class="tok-op">=</span> (<span class="tok-num">42</span>,)
+no_parens <span class="tok-op">=</span> <span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>
+empty <span class="tok-op">=</span> ()
+nested <span class="tok-op">=</span> (<span class="tok-num">1</span>, (<span class="tok-num">2</span>, <span class="tok-num">3</span>))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;坐标：&quot;</span>, point)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;单元素：&quot;</span>, single, <span class="tok-string">&quot;，类型：&quot;</span>, <span class="tok-type">type</span>(single).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;省略括号：&quot;</span>, no_parens, <span class="tok-string">&quot;，类型：&quot;</span>, <span class="tok-type">type</span>(no_parens).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;空元组：&quot;</span>, empty, <span class="tok-string">&quot;，长度：&quot;</span>, <span class="tok-type">len</span>(empty))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;嵌套：&quot;</span>, nested)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;加了括号的整数：&quot;</span>, (<span class="tok-num">42</span>), <span class="tok-string">&quot;，类型：&quot;</span>, <span class="tok-type">type</span>((<span class="tok-num">42</span>)).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">坐标： (3, 5)
+单元素： (42,) ，类型： tuple
+省略括号： (1, 2, 3) ，类型： tuple
+空元组： () ，长度： 0
+嵌套： (1, (2, 3))
+加了括号的整数： 42 ，类型： int</code></pre></figure>
+<p>空元组只能写成 <code>()</code>，因为没有元素时逗号无处可放。想要“只有一个元素的元组”却漏掉逗号，是初学者最常见的错误，<code>len()</code> 和遍历的结果会立刻暴露问题。</p>
+<h2 id="sec-2" class="doc-heading">二、不可变性</h2>
+<p>元组创建后不能替换元素，也不能追加或删除。任何试图修改的操作都会抛出异常，而不是悄悄失效：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">point <span class="tok-op">=</span> (<span class="tok-num">3</span>, <span class="tok-num">5</span>)
+
+<span class="tok-keyword">try</span>:
+    point[<span class="tok-num">0</span>] <span class="tok-op">=</span> <span class="tok-num">10</span>
+<span class="tok-keyword">except</span> <span class="tok-type">TypeError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;替换元素失败：捕获到 TypeError&quot;</span>)
+
+<span class="tok-keyword">try</span>:
+    point.<span class="tok-cmdlet">append</span>(<span class="tok-num">7</span>)
+<span class="tok-keyword">except</span> <span class="tok-type">AttributeError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;追加元素失败：捕获到 AttributeError&quot;</span>)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-keyword">del</span> point[<span class="tok-num">1</span>]
+<span class="tok-keyword">except</span> <span class="tok-type">TypeError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;删除元素失败：捕获到 TypeError&quot;</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;原元组保持不变：&quot;</span>, point)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">替换元素失败：捕获到 TypeError
+追加元素失败：捕获到 AttributeError
+删除元素失败：捕获到 TypeError
+原元组保持不变： (3, 5)</code></pre></figure>
+<p>不可变是浅层的：如果元组里装的是列表，列表本身仍然可以修改。所以“元组可以作为字典的键”这个结论有前提——它包含的所有元素也都必须可哈希。</p>
+<h2 id="sec-3" class="doc-heading">三、索引与切片</h2>
+<p>元组支持与列表、字符串一致的索引和切片规则：下标从 0 开始，负数表示从末尾倒数，切片 <code>[start:stop:step]</code> 左闭右开，越界切片返回空元组而不是报错：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">letters <span class="tok-op">=</span> (<span class="tok-string">&quot;a&quot;</span>, <span class="tok-string">&quot;b&quot;</span>, <span class="tok-string">&quot;c&quot;</span>, <span class="tok-string">&quot;d&quot;</span>, <span class="tok-string">&quot;e&quot;</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第一个：&quot;</span>, letters[<span class="tok-num">0</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最后一个：&quot;</span>, letters[<span class="tok-op">-</span><span class="tok-num">1</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;前三个：&quot;</span>, letters[:<span class="tok-num">3</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;从第 2 个到末尾：&quot;</span>, letters[<span class="tok-num">2</span>:])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;步长为 2：&quot;</span>, letters[::<span class="tok-num">2</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;反转：&quot;</span>, letters[::<span class="tok-op">-</span><span class="tok-num">1</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;越界切片：&quot;</span>, letters[<span class="tok-num">10</span>:])
+
+<span class="tok-keyword">try</span>:
+    letters[<span class="tok-num">10</span>]
+<span class="tok-keyword">except</span> <span class="tok-type">IndexError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;越界下标：捕获到 IndexError&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">第一个： a
+最后一个： e
+前三个： ('a', 'b', 'c')
+从第 2 个到末尾： ('c', 'd', 'e')
+步长为 2： ('a', 'c', 'e')
+反转： ('e', 'd', 'c', 'b', 'a')
+越界切片： ()
+越界下标：捕获到 IndexError</code></pre></figure>
+<p>切片返回的是新元组，原元组不受影响。用 <code>[::-1]</code> 反转序列是 Python 的惯用写法，列表和字符串同样适用。</p>
+<h2 id="sec-4" class="doc-heading">四、解包</h2>
+<p>把元组的元素一次性赋给多个变量，叫做解包。变量个数必须与元素个数一致，否则抛出 <code>ValueError</code>。函数返回多个值时，本质上返回的就是一个元组：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">point <span class="tok-op">=</span> (<span class="tok-num">3</span>, <span class="tok-num">5</span>)
+x, y <span class="tok-op">=</span> point
+<span class="tok-type">print</span>(<span class="tok-string">&quot;x =&quot;</span>, x, <span class="tok-string">&quot;，y =&quot;</span>, y)
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">min_max</span>(numbers):
+    <span class="tok-keyword">return</span> <span class="tok-type">min</span>(numbers), <span class="tok-type">max</span>(numbers)
+
+low, high <span class="tok-op">=</span> <span class="tok-cmdlet">min_max</span>([<span class="tok-num">7</span>, <span class="tok-num">2</span>, <span class="tok-num">9</span>, <span class="tok-num">4</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最小值：&quot;</span>, low, <span class="tok-string">&quot;，最大值：&quot;</span>, high)
+
+a, b <span class="tok-op">=</span> <span class="tok-num">1</span>, <span class="tok-num">2</span>
+a, b <span class="tok-op">=</span> b, a
+<span class="tok-type">print</span>(<span class="tok-string">&quot;交换后：a =&quot;</span>, a, <span class="tok-string">&quot;，b =&quot;</span>, b)
+
+<span class="tok-keyword">try</span>:
+    p, q, r <span class="tok-op">=</span> point
+<span class="tok-keyword">except</span> <span class="tok-type">ValueError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;元素个数不匹配：捕获到 ValueError&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">x = 3 ，y = 5
+最小值： 2 ，最大值： 9
+交换后：a = 2 ，b = 1
+元素个数不匹配：捕获到 ValueError</code></pre></figure>
+<p><code>a, b = b, a</code> 之所以能交换，是因为赋值号右边先被打包成一个元组 <code>(b, a)</code>，再解包给左边。不需要临时变量，也不用担心覆盖。</p>
+<h2 id="sec-5" class="doc-heading">五、星号解包</h2>
+<p>在变量名前加 <code>*</code>，可以让它接收“剩下的所有元素”，结果是一个列表。同一个赋值里最多只能有一个带星号的目标，它也不必放在末尾：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">numbers <span class="tok-op">=</span> (<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>)
+
+first, <span class="tok-op">*</span>middle, last <span class="tok-op">=</span> numbers
+<span class="tok-type">print</span>(<span class="tok-string">&quot;first =&quot;</span>, first)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;middle =&quot;</span>, middle)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;last =&quot;</span>, last)
+
+head, <span class="tok-op">*</span>tail <span class="tok-op">=</span> numbers
+<span class="tok-type">print</span>(<span class="tok-string">&quot;head =&quot;</span>, head, <span class="tok-string">&quot;，tail =&quot;</span>, tail)
+
+<span class="tok-op">*</span>init, final <span class="tok-op">=</span> numbers
+<span class="tok-type">print</span>(<span class="tok-string">&quot;init =&quot;</span>, init, <span class="tok-string">&quot;，final =&quot;</span>, final)
+
+<span class="tok-type">print</span>(<span class="tok-op">*</span>numbers, sep<span class="tok-op">=</span><span class="tok-string">&quot;-&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">first = 1
+middle = [2, 3, 4]
+last = 5
+head = 1 ，tail = [2, 3, 4, 5]
+init = [1, 2, 3, 4] ，final = 5
+1-2-3-4-5</code></pre></figure>
+<p><code>print(*numbers, sep=&quot;-&quot;)</code> 把元组拆成五个位置参数，<code>sep</code> 决定分隔符。调用函数时用 <code>*</code> 展开序列，也是同一种语法。</p>
+<h2 id="sec-6" class="doc-heading">六、拼接与重复</h2>
+<p><code>+</code> 把两个元组连接成新元组，<code>*</code> 按次数重复。两者都不修改原对象，这与列表的 <code>append()</code>、<code>extend()</code> 有本质区别：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">left <span class="tok-op">=</span> (<span class="tok-num">1</span>, <span class="tok-num">2</span>)
+right <span class="tok-op">=</span> (<span class="tok-num">3</span>, <span class="tok-num">4</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;拼接：&quot;</span>, left <span class="tok-op">+</span> right)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;重复：&quot;</span>, left <span class="tok-op">*</span> <span class="tok-num">3</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;与空元组相加：&quot;</span>, left <span class="tok-op">+</span> ())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;原元组不变：&quot;</span>, left)
+
+combined <span class="tok-op">=</span> left <span class="tok-op">+</span> right <span class="tok-op">+</span> (<span class="tok-num">5</span>,)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;链式拼接：&quot;</span>, combined)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是否包含 3：&quot;</span>, <span class="tok-num">3</span> <span class="tok-keyword">in</span> combined)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;3 第一次出现的下标：&quot;</span>, combined.<span class="tok-cmdlet">index</span>(<span class="tok-num">3</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">拼接： (1, 2, 3, 4)
+重复： (1, 2, 1, 2, 1, 2)
+与空元组相加： (1, 2)
+原元组不变： (1, 2)
+链式拼接： (1, 2, 3, 4, 5)
+是否包含 3： True
+3 第一次出现的下标： 2</code></pre></figure>
+<p><code>+</code> 只能连接两个元组，写 <code>(1, 2) + [3]</code> 会抛出 <code>TypeError</code>。需要把列表内容并进来时，先转成元组再相加。</p>
+<h2 id="sec-7" class="doc-heading">七、tuple() 转换</h2>
+<p><code>tuple()</code> 接受任意可迭代对象，把其中的元素依次放进新元组。字符串、列表、<code>range</code>、集合、字典的键都可以直接转换：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-type">print</span>(<span class="tok-string">&quot;字符串：&quot;</span>, <span class="tok-type">tuple</span>(<span class="tok-string">&quot;abc&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;列表：&quot;</span>, <span class="tok-type">tuple</span>([<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;range：&quot;</span>, <span class="tok-type">tuple</span>(<span class="tok-type">range</span>(<span class="tok-num">5</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;字典的键：&quot;</span>, <span class="tok-type">tuple</span>({<span class="tok-string">&quot;a&quot;</span>: <span class="tok-num">1</span>, <span class="tok-string">&quot;b&quot;</span>: <span class="tok-num">2</span>}))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;字典的值：&quot;</span>, <span class="tok-type">tuple</span>({<span class="tok-string">&quot;a&quot;</span>: <span class="tok-num">1</span>, <span class="tok-string">&quot;b&quot;</span>: <span class="tok-num">2</span>}.<span class="tok-cmdlet">values</span>()))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;排序后的集合：&quot;</span>, <span class="tok-type">tuple</span>(<span class="tok-type">sorted</span>({<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>})))
+
+items <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]
+converted <span class="tok-op">=</span> <span class="tok-type">tuple</span>(items)
+items.<span class="tok-cmdlet">append</span>(<span class="tok-num">4</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;转换后互不影响：&quot;</span>, converted, items)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">字符串： ('a', 'b', 'c')
+列表： (1, 2, 3)
+range： (0, 1, 2, 3, 4)
+字典的键： ('a', 'b')
+字典的值： (1, 2)
+排序后的集合： (1, 2, 3)
+转换后互不影响： (1, 2, 3) [1, 2, 3, 4]</code></pre></figure>
+<p><code>tuple()</code> 只做浅拷贝，元素本身还是原来那些对象。集合直接转换顺序不确定，先 <code>sorted()</code> 再转换才能得到稳定结果。</p>
+<h2 id="sec-8" class="doc-heading">八、元组与列表的取舍</h2>
+<p>两者的接口高度重合，真正的区别在可变性和可哈希性上：</p>
+<div class="table-wrap"><table><thead><tr><th>对比项</th><th>元组 tuple</th><th>列表 list</th></tr></thead><tbody><tr><td>定义方式</td><td><code>(1, 2, 3)</code>，单元素必须写 <code>(1,)</code></td><td><code>[1, 2, 3]</code>，单元素直接写 <code>[1]</code></td></tr><tr><td>可变性</td><td>不可变，创建后不能增删改</td><td>可变，支持 <code>append()</code>、<code>pop()</code>、排序</td></tr><tr><td>可哈希</td><td>元素都可哈希时可以作为字典的键或集合元素</td><td>永远不可哈希，不能作为字典的键</td></tr><tr><td>内存占用</td><td>更小，同样元素数量下比列表省内存</td><td>较大，需要预留追加空间</td></tr><tr><td>性能</td><td>创建和遍历略快</td><td>按需增长，追加元素更方便</td></tr><tr><td>语义</td><td>一条固定结构的记录，元素位置有意义</td><td>一组同类元素的集合，长度可变</td></tr><tr><td>典型场景</td><td>坐标、日期、函数多返回值、字典键</td><td>待处理的数据集合、需要原地修改的队列</td></tr></tbody></table></div>
+<p>最直接的差异体现在能否哈希，下面的代码把两者放在一起对比：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">record <span class="tok-op">=</span> (<span class="tok-num">1</span>, <span class="tok-num">2</span>)
+collection <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>]
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;元组作为键：&quot;</span>, {record: <span class="tok-string">&quot;坐标&quot;</span>})
+
+<span class="tok-keyword">try</span>:
+    mapping <span class="tok-op">=</span> {collection: <span class="tok-string">&quot;列表&quot;</span>}
+<span class="tok-keyword">except</span> <span class="tok-type">TypeError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;列表作为键：捕获到 TypeError&quot;</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;元组的哈希值可用：&quot;</span>, <span class="tok-type">isinstance</span>(<span class="tok-type">hash</span>(record), <span class="tok-type">int</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;列表没有 hash 可用：&quot;</span>)
+<span class="tok-keyword">try</span>:
+    <span class="tok-type">hash</span>(collection)
+<span class="tok-keyword">except</span> <span class="tok-type">TypeError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;捕获到 TypeError&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">元组作为键： {(1, 2): '坐标'}
+列表作为键：捕获到 TypeError
+元组的哈希值可用： True
+列表没有 hash 可用：
+捕获到 TypeError</code></pre></figure>
+<p>选择的原则很简单：数据一旦确定就不该再变，用元组；需要不断增删改，用列表。把元组当作“只读列表”只是它的一面，它更重要的角色是不可变的记录。</p>
+<h2 id="sec-9" class="doc-heading">九、namedtuple</h2>
+<p><code>collections.namedtuple</code> 生成一种带字段名的元组子类。它既有属性访问的可读性，又保留了元组的不可变性和低开销：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> collections <span class="tok-keyword">import</span> namedtuple
+
+Point <span class="tok-op">=</span> <span class="tok-cmdlet">namedtuple</span>(<span class="tok-string">&quot;Point&quot;</span>, [<span class="tok-string">&quot;x&quot;</span>, <span class="tok-string">&quot;y&quot;</span>])
+p <span class="tok-op">=</span> <span class="tok-cmdlet">Point</span>(<span class="tok-num">3</span>, <span class="tok-num">5</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;打印：&quot;</span>, p)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;按字段访问：x =&quot;</span>, p.x, <span class="tok-string">&quot;，y =&quot;</span>, p.y)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;按下标访问：&quot;</span>, p[<span class="tok-num">0</span>], p[<span class="tok-num">1</span>])
+
+x, y <span class="tok-op">=</span> p
+<span class="tok-type">print</span>(<span class="tok-string">&quot;解包：&quot;</span>, x, y)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;转为字典：&quot;</span>, p.<span class="tok-cmdlet">_asdict</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;替换字段：&quot;</span>, p.<span class="tok-cmdlet">_replace</span>(x<span class="tok-op">=</span><span class="tok-num">10</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;仍是元组：&quot;</span>, <span class="tok-type">isinstance</span>(p, <span class="tok-type">tuple</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">打印： Point(x=3, y=5)
+按字段访问：x = 3 ，y = 5
+按下标访问： 3 5
+解包： 3 5
+转为字典： {'x': 3, 'y': 5}
+替换字段： Point(x=10, y=5)
+仍是元组： True</code></pre></figure>
+<p><code>_replace()</code> 返回一个新对象，原对象不变，这正好符合元组不可变的语义。字段名不能以数字开头，也不能与关键字重名，否则生成类时就会报错。</p>
+<h2 id="sec-10" class="doc-heading">十、作为字典键</h2>
+<p>元组最常见的“高级”用法是当字典的键。因为坐标、日期、复合主键这类数据天然是多字段的，用元组做键比把字段拼成字符串更清晰：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">locations <span class="tok-op">=</span> {
+    (<span class="tok-num">39</span>, <span class="tok-num">116</span>): <span class="tok-string">&quot;北京&quot;</span>,
+    (<span class="tok-num">31</span>, <span class="tok-num">121</span>): <span class="tok-string">&quot;上海&quot;</span>,
+    (<span class="tok-num">22</span>, <span class="tok-num">114</span>): <span class="tok-string">&quot;深圳&quot;</span>,
+}
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;(31, 121) 对应的城市：&quot;</span>, locations[(<span class="tok-num">31</span>, <span class="tok-num">121</span>)])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是否存在 (39, 116)：&quot;</span>, (<span class="tok-num">39</span>, <span class="tok-num">116</span>) <span class="tok-keyword">in</span> locations)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;键的数量：&quot;</span>, <span class="tok-type">len</span>(locations))
+
+<span class="tok-keyword">for</span> coordinate <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(locations):
+    <span class="tok-type">print</span>(coordinate, <span class="tok-string">&quot;-&gt;&quot;</span>, locations[coordinate])
+
+grid <span class="tok-op">=</span> {(<span class="tok-num">0</span>, <span class="tok-num">0</span>): <span class="tok-string">&quot;起点&quot;</span>, (<span class="tok-num">1</span>, <span class="tok-num">2</span>): <span class="tok-string">&quot;宝藏&quot;</span>}
+grid[(<span class="tok-num">2</span>, <span class="tok-num">3</span>)] <span class="tok-op">=</span> <span class="tok-string">&quot;营地&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;添加后的地图：&quot;</span>, grid)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">(31, 121) 对应的城市： 上海
+是否存在 (39, 116)： True
+键的数量： 3
+(22, 114) -&gt; 深圳
+(31, 121) -&gt; 上海
+(39, 116) -&gt; 北京
+添加后的地图： {(0, 0): '起点', (1, 2): '宝藏', (2, 3): '营地'}</code></pre></figure>
+<p>元组的比较是按元素逐个进行的，所以对坐标排序会先比第一个分量、再比第二个分量。如果元组里含有列表这类不可哈希的元素，它同样不能作为键。</p>
+<h2 id="sec-11" class="doc-heading">练习任务</h2>
+<p>任务 1：给定若干个点，按它们到原点的距离平方升序排列，并输出坐标。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">points <span class="tok-op">=</span> [(<span class="tok-num">3</span>, <span class="tok-num">4</span>), (<span class="tok-num">1</span>, <span class="tok-num">1</span>), (<span class="tok-num">0</span>, <span class="tok-num">2</span>)]
+
+ranked <span class="tok-op">=</span> <span class="tok-type">sorted</span>((x <span class="tok-op">*</span> x <span class="tok-op">+</span> y <span class="tok-op">*</span> y, (x, y)) <span class="tok-keyword">for</span> x, y <span class="tok-keyword">in</span> points)
+<span class="tok-keyword">for</span> distance, point <span class="tok-keyword">in</span> ranked:
+    <span class="tok-type">print</span>(point, <span class="tok-string">&quot;到原点的距离平方：&quot;</span>, distance)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">(1, 1) 到原点的距离平方： 2
+(0, 2) 到原点的距离平方： 4
+(3, 4) 到原点的距离平方： 25</code></pre></figure>
+<p>任务 2：用 <code>namedtuple</code> 表示员工记录，把原始行数据转换成对象，并统计总薪资。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> collections <span class="tok-keyword">import</span> namedtuple
+
+Employee <span class="tok-op">=</span> <span class="tok-cmdlet">namedtuple</span>(<span class="tok-string">&quot;Employee&quot;</span>, [<span class="tok-string">&quot;name&quot;</span>, <span class="tok-string">&quot;dept&quot;</span>, <span class="tok-string">&quot;salary&quot;</span>])
+rows <span class="tok-op">=</span> [
+    (<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-string">&quot;研发&quot;</span>, <span class="tok-num">18000</span>),
+    (<span class="tok-string">&quot;小红&quot;</span>, <span class="tok-string">&quot;研发&quot;</span>, <span class="tok-num">21000</span>),
+    (<span class="tok-string">&quot;小刚&quot;</span>, <span class="tok-string">&quot;市场&quot;</span>, <span class="tok-num">15000</span>),
+]
+
+staff <span class="tok-op">=</span> [<span class="tok-cmdlet">Employee</span>(<span class="tok-op">*</span>row) <span class="tok-keyword">for</span> row <span class="tok-keyword">in</span> rows]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总薪资：&quot;</span>, <span class="tok-type">sum</span>(person.salary <span class="tok-keyword">for</span> person <span class="tok-keyword">in</span> staff))
+<span class="tok-keyword">for</span> person <span class="tok-keyword">in</span> staff:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{person.name}（{person.dept}）：{person.salary}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">总薪资： 54000
+小明（研发）：18000
+小红（研发）：21000
+小刚（市场）：15000</code></pre></figure>
+<p>任务 3：把一组分数用星号解包成首场、中间场次和末场，并计算中间场次的平均分。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">scores <span class="tok-op">=</span> (<span class="tok-num">88</span>, <span class="tok-num">92</span>, <span class="tok-num">79</span>, <span class="tok-num">95</span>, <span class="tok-num">85</span>)
+
+first, <span class="tok-op">*</span>middle, last <span class="tok-op">=</span> scores
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第一场：&quot;</span>, first)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最后一场：&quot;</span>, last)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;中间场次：&quot;</span>, middle)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;中间平均分：&quot;</span>, <span class="tok-type">round</span>(<span class="tok-type">sum</span>(middle) <span class="tok-op">/</span> <span class="tok-type">len</span>(middle), <span class="tok-num">2</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">第一场： 88
+最后一场： 85
+中间场次： [92, 79, 95]
+中间平均分： 88.67</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="lists.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 列表</span></a><a class="pager-link pager-link--next" href="dict.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 字典</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、创建元组</a><a class="toc-link toc-link--h2" href="#sec-2">二、不可变性</a><a class="toc-link toc-link--h2" href="#sec-3">三、索引与切片</a><a class="toc-link toc-link--h2" href="#sec-4">四、解包</a><a class="toc-link toc-link--h2" href="#sec-5">五、星号解包</a><a class="toc-link toc-link--h2" href="#sec-6">六、拼接与重复</a><a class="toc-link toc-link--h2" href="#sec-7">七、tuple() 转换</a><a class="toc-link toc-link--h2" href="#sec-8">八、元组与列表的取舍</a><a class="toc-link toc-link--h2" href="#sec-9">九、namedtuple</a><a class="toc-link toc-link--h2" href="#sec-10">十、作为字典键</a><a class="toc-link toc-link--h2" href="#sec-11">练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

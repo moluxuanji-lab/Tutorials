@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python JSON · Python</title>
+<meta name="description" content="掌握 json 模块的 dumps、loads、dump、load 四个入口，理解类型映射、格式化参数与 object_hook、default 两个钩子，避开中文转义、元组退化、键类型变化等常见坑。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="json" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link is-active" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python JSON</h1><p class="doc-lead">掌握 json 模块的 dumps、loads、dump、load 四个入口，理解类型映射、格式化参数与 object_hook、default 两个钩子，避开中文转义、元组退化、键类型变化等常见坑。</p><div class="doc-meta"><span>第 34 章</span><span class="doc-meta__dot"></span><span>约 30 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>JSON（JavaScript Object Notation）是一种轻量的数据交换格式，用花括号表示对象、方括号表示数组，值只能是字符串、数字、布尔值、<code>null</code> 以及这两种容器。它语法简单、跨语言、可读性好，HTTP 接口、配置文件、日志投递几乎都用它传递数据。</p>
+<p>Python 标准库的 <code>json</code> 模块负责在这套格式与 Python 对象之间来回转换：<code>dumps()</code> 把对象变成字符串，<code>loads()</code> 把字符串变回对象，<code>dump()</code> 与 <code>load()</code> 则直接读写文件。这一章从类型映射讲起，依次介绍四个入口、格式化参数、异常定位与两个钩子函数，最后总结几个容易踩的坑。</p>
+<h2 id="sec-1" class="doc-heading">一、JSON 与 Python 的类型映射</h2>
+<p>JSON 的类型比 Python 少得多，往返转换时并不是一一对应：</p>
+<div class="table-wrap"><table><thead><tr><th>JSON 类型</th><th>Python 类型</th><th>说明</th></tr></thead><tbody><tr><td><code>object</code></td><td><code>dict</code></td><td>键必须是字符串，嵌套对象转成嵌套字典</td></tr><tr><td><code>array</code></td><td><code>list</code></td><td>元素类型可以不同，转成列表</td></tr><tr><td><code>string</code></td><td><code>str</code></td><td>始终是 Unicode 文本</td></tr><tr><td><code>number</code></td><td><code>int</code> 或 <code>float</code></td><td>没有整数与浮点之分，解析时按有无小数点判断</td></tr><tr><td><code>true</code> / <code>false</code></td><td><code>True</code> / <code>False</code></td><td>对应 Python 的布尔值</td></tr><tr><td><code>null</code></td><td><code>None</code></td><td>表示空值</td></tr></tbody></table></div>
+<p>映射是单向有损的：<code>tuple</code>、<code>set</code>、<code>bytes</code>、<code>datetime</code> 这些类型在 JSON 里没有对应表示，<code>dumps()</code> 遇到它们会直接报 <code>TypeError</code>；反过来，JSON 里的对象解析出来永远是 <code>dict</code>，不会还原成原来的自定义类。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+data <span class="tok-op">=</span> {
+    <span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小明&quot;</span>,
+    <span class="tok-string">&quot;age&quot;</span>: <span class="tok-num">18</span>,
+    <span class="tok-string">&quot;score&quot;</span>: <span class="tok-num">92.5</span>,
+    <span class="tok-string">&quot;active&quot;</span>: <span class="tok-keyword">True</span>,
+    <span class="tok-string">&quot;tags&quot;</span>: [<span class="tok-string">&quot;python&quot;</span>, <span class="tok-string">&quot;json&quot;</span>],
+    <span class="tok-string">&quot;address&quot;</span>: <span class="tok-keyword">None</span>,
+}
+
+<span class="tok-type">print</span>(json.<span class="tok-cmdlet">dumps</span>(data, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>, sort_keys<span class="tok-op">=</span><span class="tok-keyword">True</span>, indent<span class="tok-op">=</span><span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;标签类型：&quot;</span>, <span class="tok-type">type</span>(data[<span class="tok-string">&quot;tags&quot;</span>]).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;空值类型：&quot;</span>, <span class="tok-type">type</span>(data[<span class="tok-string">&quot;address&quot;</span>]).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">{
+  &quot;active&quot;: true,
+  &quot;address&quot;: null,
+  &quot;age&quot;: 18,
+  &quot;name&quot;: &quot;小明&quot;,
+  &quot;score&quot;: 92.5,
+  &quot;tags&quot;: [
+    &quot;python&quot;,
+    &quot;json&quot;
+  ]
+}
+标签类型： list
+空值类型： NoneType</code></pre></figure>
+<p><code>True</code> 变成 <code>true</code>、<code>None</code> 变成 <code>null</code>、字符串加上了双引号，这些都是 JSON 与 Python 字面量的差异。<code>sort_keys=True</code> 让键按字母序输出，<code>indent=2</code> 让每层缩进两个空格，<code>ensure_ascii=False</code> 则保证中文原样输出而不是变成 <code>\uXXXX</code>。</p>
+<h2 id="sec-2" class="doc-heading">二、dumps：把对象序列化成字符串</h2>
+<p><code>json.dumps()</code> 的返回值是 <code>str</code>，可以直接写进日志、放进 HTTP 响应或存进数据库。它对基础类型的处理规则很固定，记住下面这张对照就能预判输出。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+values <span class="tok-op">=</span> [<span class="tok-num">42</span>, <span class="tok-num">3.5</span>, <span class="tok-string">&quot;文本&quot;</span>, <span class="tok-keyword">True</span>, <span class="tok-keyword">False</span>, <span class="tok-keyword">None</span>, [<span class="tok-num">1</span>, <span class="tok-num">2</span>], {<span class="tok-string">&quot;k&quot;</span>: <span class="tok-string">&quot;v&quot;</span>}]
+
+<span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> values:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{type(value).__name__:8} -&gt; {json.dumps(value, ensure_ascii=False)}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">int      -&gt; 42
+float    -&gt; 3.5
+str      -&gt; &quot;文本&quot;
+bool     -&gt; true
+bool     -&gt; false
+NoneType -&gt; null
+list     -&gt; [1, 2]
+dict     -&gt; {&quot;k&quot;: &quot;v&quot;}</code></pre></figure>
+<p><code>bool</code> 是 <code>int</code> 的子类，但 <code>json</code> 会先判断布尔值，输出 <code>true</code> 而不是 <code>1</code>。<code>float</code> 的 <code>3.5</code> 原样保留，整数与浮点在 JSON 里没有类型标记，解析端只能靠有没有小数点来区分。默认分隔符是 <code>,</code> 加一个空格和 <code>:</code> 加一个空格，想压缩体积可以改 <code>separators</code>。</p>
+<h2 id="sec-3" class="doc-heading">三、loads：把字符串还原成对象</h2>
+<p><code>json.loads()</code> 接受 <code>str</code>、<code>bytes</code> 或 <code>bytearray</code>，返回对应的 Python 对象。JSON 里的对象解析成 <code>dict</code>，数组解析成 <code>list</code>，<code>true</code>/<code>false</code>/<code>null</code> 分别变成 <code>True</code>/<code>False</code>/<code>None</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+text <span class="tok-op">=</span> <span class="tok-string">'{&quot;name&quot;: &quot;小明&quot;, &quot;age&quot;: 18, &quot;score&quot;: 92.5, &quot;vip&quot;: true, &quot;tags&quot;: [&quot;a&quot;, &quot;b&quot;], &quot;note&quot;: null}'</span>
+data <span class="tok-op">=</span> json.<span class="tok-cmdlet">loads</span>(text)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;整体类型：&quot;</span>, <span class="tok-type">type</span>(data).__name__)
+<span class="tok-keyword">for</span> key <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(data):
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{key}: {data[key]!r}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;布尔类型：&quot;</span>, <span class="tok-type">type</span>(data[<span class="tok-string">&quot;vip&quot;</span>]).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">整体类型： dict
+age: 18
+name: '小明'
+note: None
+score: 92.5
+tags: ['a', 'b']
+vip: True
+布尔类型： bool</code></pre></figure>
+<p>用 <code>!r</code>（即 <code>repr()</code>）打印可以看清类型：字符串带引号、<code>None</code> 显示为 <code>None</code>、列表保留方括号。实际业务里更常见的是取出某个字段直接用，例如 <code>data[&quot;tags&quot;][0]</code>，缺字段时会抛 <code>KeyError</code>，所以读外部数据前最好用 <code>data.get(&quot;tags&quot;, [])</code> 兜底。</p>
+<h2 id="sec-4" class="doc-heading">四、格式化输出：ensure_ascii、indent、sort_keys、separators</h2>
+<p>四个参数决定了输出的可读性与体积，它们可以任意组合：</p>
+<ul><li><p><code>ensure_ascii=False</code>：中文等非 ASCII 字符原样输出，默认值 <code>True</code> 会转成 <code>\uXXXX</code> 转义。</p></li><li><p><code>indent</code>：缩进空格数，设为 <code>None</code>（默认）时输出单行，设为数字时按层级换行缩进。</p></li><li><p><code>sort_keys=True</code>：键按字典序排序，便于对比两次输出的差异。</p></li><li><p><code>separators=(item, key)</code>：自定义元素之间与键值之间的分隔符，压缩传输时常用 <code>(&quot;,&quot;, &quot;:&quot;)</code>。</p></li></ul>
+<h3 id="sec-5" class="doc-heading">ensure_ascii 与 indent</h3>
+<p>默认的 ASCII 转义让中文变成一串 <code>\u</code> 编码，人能读但很难核对；调试和写配置文件时几乎总要关掉它。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+data <span class="tok-op">=</span> {<span class="tok-string">&quot;city&quot;</span>: <span class="tok-string">&quot;上海&quot;</span>, <span class="tok-string">&quot;temp&quot;</span>: <span class="tok-num">23</span>, <span class="tok-string">&quot;weather&quot;</span>: <span class="tok-string">&quot;多云&quot;</span>}
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;默认输出：&quot;</span>, json.<span class="tok-cmdlet">dumps</span>(data))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;关闭 ASCII 转义：&quot;</span>, json.<span class="tok-cmdlet">dumps</span>(data, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;indent=2：&quot;</span>)
+<span class="tok-type">print</span>(json.<span class="tok-cmdlet">dumps</span>(data, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>, indent<span class="tok-op">=</span><span class="tok-num">2</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">默认输出： {&quot;city&quot;: &quot;\u4e0a\u6d77&quot;, &quot;temp&quot;: 23, &quot;weather&quot;: &quot;\u591a\u4e91&quot;}
+关闭 ASCII 转义： {&quot;city&quot;: &quot;上海&quot;, &quot;temp&quot;: 23, &quot;weather&quot;: &quot;多云&quot;}
+indent=2：
+{
+  &quot;city&quot;: &quot;上海&quot;,
+  &quot;temp&quot;: 23,
+  &quot;weather&quot;: &quot;多云&quot;
+}</code></pre></figure>
+<p><code>\u4e0a\u6d77</code> 是“上海”两个字的 Unicode 码位，<code>ensure_ascii=False</code> 只是让输出保留原字符，文件写入时仍要自己指定 <code>encoding=&quot;utf-8&quot;</code>，否则在默认编码不是 UTF-8 的机器上可能报错。<code>indent</code> 除了数字还可以传字符串，例如 <code>indent=&quot;\t&quot;</code> 用制表符缩进。</p>
+<h3 id="sec-6" class="doc-heading">sort_keys 与 separators</h3>
+<p>排序让输出稳定，紧凑分隔符则能省下不少字节。两者同时使用时，先排序再拼接，结果完全可复现。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+data <span class="tok-op">=</span> {<span class="tok-string">&quot;b&quot;</span>: <span class="tok-num">2</span>, <span class="tok-string">&quot;a&quot;</span>: <span class="tok-num">1</span>, <span class="tok-string">&quot;c&quot;</span>: [<span class="tok-num">3</span>, <span class="tok-num">4</span>]}
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;默认：&quot;</span>, json.<span class="tok-cmdlet">dumps</span>(data))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;排序：&quot;</span>, json.<span class="tok-cmdlet">dumps</span>(data, sort_keys<span class="tok-op">=</span><span class="tok-keyword">True</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;紧凑：&quot;</span>, json.<span class="tok-cmdlet">dumps</span>(data, separators<span class="tok-op">=</span>(<span class="tok-string">&quot;,&quot;</span>, <span class="tok-string">&quot;:&quot;</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;排序并紧凑：&quot;</span>, json.<span class="tok-cmdlet">dumps</span>(data, sort_keys<span class="tok-op">=</span><span class="tok-keyword">True</span>, separators<span class="tok-op">=</span>(<span class="tok-string">&quot;,&quot;</span>, <span class="tok-string">&quot;:&quot;</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;长度：&quot;</span>, <span class="tok-type">len</span>(json.<span class="tok-cmdlet">dumps</span>(data)), <span class="tok-string">&quot;-&gt;&quot;</span>, <span class="tok-type">len</span>(json.<span class="tok-cmdlet">dumps</span>(data, separators<span class="tok-op">=</span>(<span class="tok-string">&quot;,&quot;</span>, <span class="tok-string">&quot;:&quot;</span>))))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">默认： {&quot;b&quot;: 2, &quot;a&quot;: 1, &quot;c&quot;: [3, 4]}
+排序： {&quot;a&quot;: 1, &quot;b&quot;: 2, &quot;c&quot;: [3, 4]}
+紧凑： {&quot;b&quot;:2,&quot;a&quot;:1,&quot;c&quot;:[3,4]}
+排序并紧凑： {&quot;a&quot;:1,&quot;b&quot;:2,&quot;c&quot;:[3,4]}
+长度： 29 -&gt; 23</code></pre></figure>
+<p>同样的数据，紧凑写法少了 6 个字节，键越多、层级越深，差距越明显。接口返回大量数据时压缩收益可观，但日志和配置文件仍建议保留缩进，可读性比几个字节重要得多。</p>
+<h2 id="sec-7" class="doc-heading">五、dump 与 load：直接读写文件</h2>
+<p>每次都先 <code>dumps()</code> 再 <code>write()</code> 很啰嗦，<code>json.dump()</code> 与 <code>json.load()</code> 把这两步合并了：前者把对象写进文件对象，后者从文件对象读出对象。注意它们操作的是文件对象，不是文件名，所以要自己 <code>open()</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;profile.json&quot;</span>
+data <span class="tok-op">=</span> {<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小明&quot;</span>, <span class="tok-string">&quot;skills&quot;</span>: [<span class="tok-string">&quot;Python&quot;</span>, <span class="tok-string">&quot;正则&quot;</span>], <span class="tok-string">&quot;level&quot;</span>: <span class="tok-num">3</span>}
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    json.<span class="tok-cmdlet">dump</span>(data, file, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>, indent<span class="tok-op">=</span><span class="tok-num">2</span>)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    <span class="tok-type">print</span>(file.<span class="tok-cmdlet">read</span>())
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    loaded <span class="tok-op">=</span> json.<span class="tok-cmdlet">load</span>(file)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;读回类型：&quot;</span>, <span class="tok-type">type</span>(loaded).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;技能：&quot;</span>, loaded[<span class="tok-string">&quot;skills&quot;</span>])
+
+os.<span class="tok-cmdlet">remove</span>(path)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;文件已清理：&quot;</span>, <span class="tok-keyword">not</span> os.path.<span class="tok-cmdlet">exists</span>(path))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">{
+  &quot;name&quot;: &quot;小明&quot;,
+  &quot;skills&quot;: [
+    &quot;Python&quot;,
+    &quot;正则&quot;
+  ],
+  &quot;level&quot;: 3
+}
+读回类型： dict
+技能： ['Python', '正则']
+文件已清理： True</code></pre></figure>
+<p>示例在同一个代码块里完成写入、读取和删除，避免给工作目录留下垃圾文件。<code>json.dump()</code> 不会自动换行结尾，需要的话可以写完再补一个 <code>file.write(&quot;\n&quot;)</code>；读取时文件指针在开头，读一次就到末尾，想再读必须重新 <code>open()</code>。</p>
+<h2 id="sec-8" class="doc-heading">六、嵌套结构与遍历</h2>
+<p>真实数据往往是多层嵌套：对象里放数组，数组里再放对象。解析后就是一个普通的 <code>dict</code> 与 <code>list</code> 的组合，用下标和循环逐层深入即可，不需要任何特殊 API。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+payload <span class="tok-op">=</span> {
+    <span class="tok-string">&quot;order&quot;</span>: <span class="tok-string">&quot;A1024&quot;</span>,
+    <span class="tok-string">&quot;customer&quot;</span>: {<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小明&quot;</span>, <span class="tok-string">&quot;vip&quot;</span>: <span class="tok-keyword">True</span>},
+    <span class="tok-string">&quot;items&quot;</span>: [
+        {<span class="tok-string">&quot;sku&quot;</span>: <span class="tok-string">&quot;P1&quot;</span>, <span class="tok-string">&quot;qty&quot;</span>: <span class="tok-num">2</span>, <span class="tok-string">&quot;price&quot;</span>: <span class="tok-num">19.9</span>},
+        {<span class="tok-string">&quot;sku&quot;</span>: <span class="tok-string">&quot;P2&quot;</span>, <span class="tok-string">&quot;qty&quot;</span>: <span class="tok-num">1</span>, <span class="tok-string">&quot;price&quot;</span>: <span class="tok-num">99.0</span>},
+    ],
+}
+
+text <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>(payload, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>, indent<span class="tok-op">=</span><span class="tok-num">2</span>, sort_keys<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+<span class="tok-type">print</span>(text)
+
+total <span class="tok-op">=</span> <span class="tok-type">sum</span>(item[<span class="tok-string">&quot;qty&quot;</span>] <span class="tok-op">*</span> item[<span class="tok-string">&quot;price&quot;</span>] <span class="tok-keyword">for</span> item <span class="tok-keyword">in</span> payload[<span class="tok-string">&quot;items&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总价：&quot;</span>, <span class="tok-type">round</span>(total, <span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第二项编号：&quot;</span>, payload[<span class="tok-string">&quot;items&quot;</span>][<span class="tok-num">1</span>][<span class="tok-string">&quot;sku&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;反序列化后 VIP：&quot;</span>, json.<span class="tok-cmdlet">loads</span>(text)[<span class="tok-string">&quot;customer&quot;</span>][<span class="tok-string">&quot;vip&quot;</span>])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">{
+  &quot;customer&quot;: {
+    &quot;name&quot;: &quot;小明&quot;,
+    &quot;vip&quot;: true
+  },
+  &quot;items&quot;: [
+    {
+      &quot;price&quot;: 19.9,
+      &quot;qty&quot;: 2,
+      &quot;sku&quot;: &quot;P1&quot;
+    },
+    {
+      &quot;price&quot;: 99.0,
+      &quot;qty&quot;: 1,
+      &quot;sku&quot;: &quot;P2&quot;
+    }
+  ],
+  &quot;order&quot;: &quot;A1024&quot;
+}
+总价： 138.8
+第二项编号： P2
+反序列化后 VIP： True</code></pre></figure>
+<p><code>sort_keys=True</code> 会递归作用于每一层的对象，所以 <code>items</code> 里每个元素的键也按字母序排列，这种输出在代码评审和测试快照里非常好对比。遍历嵌套结构时，<code>for item in payload[&quot;items&quot;]</code> 拿到的是字典，取字段仍要用 <code>item[&quot;price&quot;]</code>；如果某一层可能缺失，用 <code>payload.get(&quot;items&quot;, [])</code> 更安全。</p>
+<h2 id="sec-9" class="doc-heading">七、JSONDecodeError：解析失败的定位</h2>
+<p><code>json.loads()</code> 遇到不合法的文本会抛 <code>json.JSONDecodeError</code>，它是 <code>ValueError</code> 的子类。异常对象带有 <code>msg</code>、<code>lineno</code>、<code>colno</code>、<code>pos</code> 四个属性，能直接指出出错的位置和原因。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+samples <span class="tok-op">=</span> [<span class="tok-string">'{&quot;a&quot;: 1'</span>, <span class="tok-string">&quot;{'a': 1}&quot;</span>, <span class="tok-string">'{&quot;a&quot;: 1,}'</span>]
+
+<span class="tok-keyword">for</span> text <span class="tok-keyword">in</span> samples:
+    <span class="tok-keyword">try</span>:
+        json.<span class="tok-cmdlet">loads</span>(text)
+    <span class="tok-keyword">except</span> json.JSONDecodeError <span class="tok-keyword">as</span> exc:
+        <span class="tok-type">print</span>(<span class="tok-string">f&quot;{text} -&gt; 第 {exc.lineno} 行第 {exc.colno} 列：{exc.msg}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">{&quot;a&quot;: 1 -&gt; 第 1 行第 8 列：Expecting ',' delimiter
+{'a': 1} -&gt; 第 1 行第 2 列：Expecting property name enclosed in double quotes
+{&quot;a&quot;: 1,} -&gt; 第 1 行第 8 列：Illegal trailing comma before end of object</code></pre></figure>
+<p>三种错误的成因各不相同：第一段缺少右花括号，解析到末尾仍期待一个 <code>,</code> 或 <code>}</code>；第二段用了单引号，JSON 只认双引号；第三段多了个尾逗号，右花括号前不允许再有逗号，解释器直接点名 <code>Illegal trailing comma before end of object</code>。<code>lineno</code> 和 <code>colno</code> 都从 1 开始计数，多行文本里能快速定位到出错行，这对排查几 MB 的配置文件尤其有用。</p>
+<h2 id="sec-10" class="doc-heading">八、object_hook：自定义解码</h2>
+<p><code>loads()</code> 的 <code>object_hook</code> 参数接受一个函数，每个 JSON 对象解析成字典后都会先交给它，返回值取代原字典进入结果。利用这个钩子可以在反序列化时顺手把日期字符串转成 <code>date</code> 对象。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> date
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">decode_order</span>(obj):
+    <span class="tok-keyword">if</span> <span class="tok-string">&quot;date&quot;</span> <span class="tok-keyword">in</span> obj:
+        obj[<span class="tok-string">&quot;date&quot;</span>] <span class="tok-op">=</span> date.<span class="tok-cmdlet">fromisoformat</span>(obj[<span class="tok-string">&quot;date&quot;</span>])
+    <span class="tok-keyword">return</span> obj
+
+text <span class="tok-op">=</span> <span class="tok-string">'{&quot;order&quot;: &quot;A1024&quot;, &quot;date&quot;: &quot;2026-11-27&quot;, &quot;items&quot;: [{&quot;qty&quot;: 2}]}'</span>
+data <span class="tok-op">=</span> json.<span class="tok-cmdlet">loads</span>(text, object_hook<span class="tok-op">=</span>decode_order)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;订单：&quot;</span>, data[<span class="tok-string">&quot;order&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;日期对象：&quot;</span>, data[<span class="tok-string">&quot;date&quot;</span>], <span class="tok-type">type</span>(data[<span class="tok-string">&quot;date&quot;</span>]).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;年份：&quot;</span>, data[<span class="tok-string">&quot;date&quot;</span>].year)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;子对象也被处理：&quot;</span>, <span class="tok-type">type</span>(data[<span class="tok-string">&quot;items&quot;</span>][<span class="tok-num">0</span>]).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">订单： A1024
+日期对象： 2026-11-27 date
+年份： 2026
+子对象也被处理： dict</code></pre></figure>
+<p>钩子是从内向外调用的：先处理 <code>items</code> 里的子对象，再处理最外层，所以每一个层级的字典都会经过 <code>decode_order</code>。判断条件用 <code>in</code> 检查键是否存在，不要假设所有对象都带 <code>date</code> 字段。如果想把 JSON 对象直接还原成自定义类，可以在钩子里按某个标记键分派，例如看到 <code>&quot;__type__&quot;: &quot;user&quot;</code> 就构造 <code>User(**obj)</code>。</p>
+<h2 id="sec-11" class="doc-heading">九、default：自定义编码</h2>
+<p>反过来，<code>dumps()</code> 遇到不认识的类型会调用 <code>default</code> 函数，只要它返回一个可序列化的对象，序列化就能继续；如果仍然无法处理，再抛 <code>TypeError</code>。这是把 <code>Decimal</code>、<code>set</code>、<code>datetime</code> 写进 JSON 的标准做法。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">from</span> decimal <span class="tok-keyword">import</span> Decimal
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">encode_extra</span>(obj):
+    <span class="tok-keyword">if</span> <span class="tok-type">isinstance</span>(obj, Decimal):
+        <span class="tok-keyword">return</span> <span class="tok-type">str</span>(obj)
+    <span class="tok-keyword">if</span> <span class="tok-type">isinstance</span>(obj, <span class="tok-type">set</span>):
+        <span class="tok-keyword">return</span> <span class="tok-type">sorted</span>(obj)
+    <span class="tok-keyword">raise</span> <span class="tok-type">TypeError</span>(<span class="tok-string">f&quot;无法序列化 {type(obj).__name__}&quot;</span>)
+
+data <span class="tok-op">=</span> {<span class="tok-string">&quot;price&quot;</span>: <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;19.90&quot;</span>), <span class="tok-string">&quot;tags&quot;</span>: {<span class="tok-string">&quot;b&quot;</span>, <span class="tok-string">&quot;a&quot;</span>}}
+<span class="tok-type">print</span>(json.<span class="tok-cmdlet">dumps</span>(data, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>, default<span class="tok-op">=</span>encode_extra, sort_keys<span class="tok-op">=</span><span class="tok-keyword">True</span>))
+
+<span class="tok-keyword">try</span>:
+    json.<span class="tok-cmdlet">dumps</span>({<span class="tok-string">&quot;when&quot;</span>: <span class="tok-type">object</span>()}, default<span class="tok-op">=</span>encode_extra)
+<span class="tok-keyword">except</span> <span class="tok-type">TypeError</span> <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;捕获 TypeError：&quot;</span>, exc)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">{&quot;price&quot;: &quot;19.90&quot;, &quot;tags&quot;: [&quot;a&quot;, &quot;b&quot;]}
+捕获 TypeError： 无法序列化 object</code></pre></figure>
+<p><code>default</code> 只对无法直接序列化的值触发，<code>dict</code>、<code>list</code>、<code>str</code> 这些原生类型不会走到这里。集合本身无序，示例里先 <code>sorted()</code> 再返回，保证每次输出一致。金额用 <code>str</code> 而不是 <code>float</code> 返回，可以避免 <code>19.90</code> 变成 <code>19.9</code> 这类精度与格式损失。</p>
+<h2 id="sec-12" class="doc-heading">十、常见坑</h2>
+<p>JSON 的规则比 Python 严格，跨语言传输时最容易在这几处翻车：</p>
+<div class="table-wrap"><table><thead><tr><th>现象</th><th>原因</th><th>对策</th></tr></thead><tbody><tr><td>元组往返后变成列表</td><td>JSON 没有元组类型，<code>dumps()</code> 把 <code>tuple</code> 当数组处理</td><td>接收端按列表处理，或在钩子里转回元组</td></tr><tr><td>整数键变成字符串键</td><td>JSON 对象的键只能是字符串</td><td>统一用字符串键，取值时不要用整数下标</td></tr><tr><td><code>datetime</code> 直接报错</td><td>JSON 没有日期类型</td><td>先 <code>isoformat()</code>，或用 <code>default</code> 钩子</td></tr><tr><td>中文变成 <code>\uXXXX</code></td><td><code>ensure_ascii</code> 默认为 <code>True</code></td><td>传 <code>ensure_ascii=False</code> 并用 UTF-8 写文件</td></tr><tr><td>单引号字典解析失败</td><td>JSON 只接受双引号字符串</td><td>用 <code>dumps()</code> 生成，不要手写拼接</td></tr><tr><td>浮点数末尾多出小数</td><td>二进制浮点无法精确表示十进制小数</td><td>金额改用 <code>Decimal</code> 加字符串传输</td></tr><tr><td><code>NaN</code>、<code>Infinity</code> 能写出</td><td>它们是 Python 扩展，不属于标准 JSON</td><td>开启 <code>allow_nan=False</code> 让非法值立刻报错</td></tr></tbody></table></div>
+<p>前三条是类型层面的损失，后几条是格式层面的误用。下面这段代码把常见现象集中演示一遍：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;元组变列表：&quot;</span>, json.<span class="tok-cmdlet">loads</span>(json.<span class="tok-cmdlet">dumps</span>((<span class="tok-num">1</span>, <span class="tok-num">2</span>))))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;整数键变字符串：&quot;</span>, json.<span class="tok-cmdlet">loads</span>(json.<span class="tok-cmdlet">dumps</span>({<span class="tok-num">1</span>: <span class="tok-string">&quot;a&quot;</span>, <span class="tok-num">2</span>: <span class="tok-string">&quot;b&quot;</span>})))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;往返类型：&quot;</span>, <span class="tok-type">type</span>(json.<span class="tok-cmdlet">loads</span>(json.<span class="tok-cmdlet">dumps</span>((<span class="tok-num">1</span>, <span class="tok-num">2</span>)))).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;浮点误差：&quot;</span>, json.<span class="tok-cmdlet">dumps</span>(<span class="tok-num">0.1</span> <span class="tok-op">+</span> <span class="tok-num">0.2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;NaN 被接受：&quot;</span>, json.<span class="tok-cmdlet">dumps</span>(<span class="tok-type">float</span>(<span class="tok-string">&quot;nan&quot;</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;重复键只留最后一个：&quot;</span>, json.<span class="tok-cmdlet">loads</span>(<span class="tok-string">'{&quot;a&quot;: 1, &quot;a&quot;: 2}'</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">元组变列表： [1, 2]
+整数键变字符串： {'1': 'a', '2': 'b'}
+往返类型： list
+浮点误差： 0.30000000000000004
+NaN 被接受： NaN
+重复键只留最后一个： {'a': 2}</code></pre></figure>
+<p><code>json.dumps()</code> 默认允许 <code>NaN</code> 与 <code>Infinity</code>，但标准 JSON 并不认这两个字面量，其他语言的解析器可能直接报错，对接外部系统时应该传 <code>allow_nan=False</code>。重复键在解析时不会报错，后出现的值覆盖先前的值，这类问题只能靠生成端保证键唯一。</p>
+<h2 id="sec-13" class="doc-heading">十一、练习任务</h2>
+<p>任务 1：解析一段接口响应，统计用户数量、平均年龄、VIP 名单和标签总数。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+raw <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;&quot;</span>
+<span class="tok-string">{</span>
+<span class="tok-string">  &quot;code&quot;: 0,</span>
+<span class="tok-string">  &quot;data&quot;: {</span>
+<span class="tok-string">    &quot;users&quot;: [</span>
+<span class="tok-string">      {&quot;name&quot;: &quot;小明&quot;, &quot;age&quot;: 18, &quot;tags&quot;: [&quot;vip&quot;, &quot;new&quot;]},</span>
+<span class="tok-string">      {&quot;name&quot;: &quot;小红&quot;, &quot;age&quot;: 22, &quot;tags&quot;: [&quot;vip&quot;]},</span>
+<span class="tok-string">      {&quot;name&quot;: &quot;小刚&quot;, &quot;age&quot;: 17, &quot;tags&quot;: []}</span>
+<span class="tok-string">    ]</span>
+<span class="tok-string">  }</span>
+<span class="tok-string">}</span>
+<span class="tok-string">&quot;&quot;&quot;</span>
+
+payload <span class="tok-op">=</span> json.<span class="tok-cmdlet">loads</span>(raw)
+users <span class="tok-op">=</span> payload[<span class="tok-string">&quot;data&quot;</span>][<span class="tok-string">&quot;users&quot;</span>]
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;用户数：&quot;</span>, <span class="tok-type">len</span>(users))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平均年龄：&quot;</span>, <span class="tok-type">round</span>(<span class="tok-type">sum</span>(user[<span class="tok-string">&quot;age&quot;</span>] <span class="tok-keyword">for</span> user <span class="tok-keyword">in</span> users) <span class="tok-op">/</span> <span class="tok-type">len</span>(users), <span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;VIP 名单：&quot;</span>, <span class="tok-type">sorted</span>(user[<span class="tok-string">&quot;name&quot;</span>] <span class="tok-keyword">for</span> user <span class="tok-keyword">in</span> users <span class="tok-keyword">if</span> <span class="tok-string">&quot;vip&quot;</span> <span class="tok-keyword">in</span> user[<span class="tok-string">&quot;tags&quot;</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;标签总数：&quot;</span>, <span class="tok-type">sum</span>(<span class="tok-type">len</span>(user[<span class="tok-string">&quot;tags&quot;</span>]) <span class="tok-keyword">for</span> user <span class="tok-keyword">in</span> users))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">用户数： 3
+平均年龄： 19.0
+VIP 名单： ['小明', '小红']
+标签总数： 3</code></pre></figure>
+<p>任务 2：把配置字典写成带缩进、键已排序的 JSON 文本，再读回来验证与原数据一致。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+config <span class="tok-op">=</span> {
+    <span class="tok-string">&quot;server&quot;</span>: {<span class="tok-string">&quot;host&quot;</span>: <span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-string">&quot;port&quot;</span>: <span class="tok-num">8080</span>},
+    <span class="tok-string">&quot;features&quot;</span>: [<span class="tok-string">&quot;search&quot;</span>, <span class="tok-string">&quot;export&quot;</span>],
+    <span class="tok-string">&quot;debug&quot;</span>: <span class="tok-keyword">False</span>,
+}
+
+text <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>(config, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>, indent<span class="tok-op">=</span><span class="tok-num">4</span>, sort_keys<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+<span class="tok-type">print</span>(text)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;行数：&quot;</span>, <span class="tok-type">len</span>(text.<span class="tok-cmdlet">splitlines</span>()))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;往返一致：&quot;</span>, json.<span class="tok-cmdlet">loads</span>(text) <span class="tok-op">=</span><span class="tok-op">=</span> config)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">{
+    &quot;debug&quot;: false,
+    &quot;features&quot;: [
+        &quot;search&quot;,
+        &quot;export&quot;
+    ],
+    &quot;server&quot;: {
+        &quot;host&quot;: &quot;127.0.0.1&quot;,
+        &quot;port&quot;: 8080
+    }
+}
+行数： 11
+往返一致： True</code></pre></figure>
+<p>任务 3：把多层嵌套的对象拍平成 <code>a.b.c = 值</code> 形式的行，值本身仍用 JSON 表示。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+
+data <span class="tok-op">=</span> {<span class="tok-string">&quot;a&quot;</span>: <span class="tok-num">1</span>, <span class="tok-string">&quot;b&quot;</span>: {<span class="tok-string">&quot;c&quot;</span>: <span class="tok-num">2</span>, <span class="tok-string">&quot;d&quot;</span>: [<span class="tok-num">3</span>, <span class="tok-num">4</span>]}, <span class="tok-string">&quot;e&quot;</span>: {<span class="tok-string">&quot;f&quot;</span>: {<span class="tok-string">&quot;g&quot;</span>: <span class="tok-num">5</span>}}}
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">flatten</span>(obj, prefix<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>):
+    items <span class="tok-op">=</span> []
+    <span class="tok-keyword">for</span> key <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(obj):
+        value <span class="tok-op">=</span> obj[key]
+        path <span class="tok-op">=</span> <span class="tok-string">f&quot;{prefix}.{key}&quot;</span> <span class="tok-keyword">if</span> prefix <span class="tok-keyword">else</span> key
+        <span class="tok-keyword">if</span> <span class="tok-type">isinstance</span>(value, <span class="tok-type">dict</span>):
+            items.<span class="tok-cmdlet">extend</span>(<span class="tok-cmdlet">flatten</span>(value, path))
+        <span class="tok-keyword">else</span>:
+            items.<span class="tok-cmdlet">append</span>((path, value))
+    <span class="tok-keyword">return</span> items
+
+<span class="tok-keyword">for</span> path, value <span class="tok-keyword">in</span> <span class="tok-cmdlet">flatten</span>(data):
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{path} = {json.dumps(value, ensure_ascii=False)}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">a = 1
+b.c = 2
+b.d = [3, 4]
+e.f.g = 5</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="regex.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 正则表达式</span></a><a class="pager-link pager-link--next" href="datetime.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 日期和时间</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、JSON 与 Python 的类型映射</a><a class="toc-link toc-link--h2" href="#sec-2">二、dumps：把对象序列化成字符串</a><a class="toc-link toc-link--h2" href="#sec-3">三、loads：把字符串还原成对象</a><a class="toc-link toc-link--h2" href="#sec-4">四、格式化输出：ensure_ascii、indent、sort_keys、separators</a><a class="toc-link toc-link--h3" href="#sec-5">ensure_ascii 与 indent</a><a class="toc-link toc-link--h3" href="#sec-6">sort_keys 与 separators</a><a class="toc-link toc-link--h2" href="#sec-7">五、dump 与 load：直接读写文件</a><a class="toc-link toc-link--h2" href="#sec-8">六、嵌套结构与遍历</a><a class="toc-link toc-link--h2" href="#sec-9">七、JSONDecodeError：解析失败的定位</a><a class="toc-link toc-link--h2" href="#sec-10">八、object_hook：自定义解码</a><a class="toc-link toc-link--h2" href="#sec-11">九、default：自定义编码</a><a class="toc-link toc-link--h2" href="#sec-12">十、常见坑</a><a class="toc-link toc-link--h2" href="#sec-13">十一、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

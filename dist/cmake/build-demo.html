@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CMake 构建实例 · CMake</title>
+<meta name="description" content="从零开始完整构建一个“静态库 + 可执行程序”的项目，覆盖配置、编译、运行、清理全过程。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="build-demo" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">CM</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#064f8c,#23d18b)">CM</span><span class="side-course__meta"><span class="side-course__name">CMake</span><span class="side-course__desc">16 章 · 入门 → 工程化</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">CMake 教程</span></a></li><li><a class="side-link" href="install-setup.html"><span class="side-num">02</span><span class="side-text">CMake 安装与配置</span></a></li><li><a class="side-link" href="basic.html"><span class="side-num">03</span><span class="side-text">CMake 基础</span></a></li><li><a class="side-link" href="build-flow.html"><span class="side-num">04</span><span class="side-text">CMake 构建流程</span></a></li><li><a class="side-link is-active" href="build-demo.html"><span class="side-num">05</span><span class="side-text">CMake 构建实例</span></a></li></ul></div><div class="side-group"><p class="side-label">核心概念</p><ul class="side-list"><li><a class="side-link" href="syntax.html"><span class="side-num">06</span><span class="side-text">CMake 语法基础</span></a></li><li><a class="side-link" href="variables.html"><span class="side-num">07</span><span class="side-text">CMake 变量与缓存</span></a></li><li><a class="side-link" href="targets.html"><span class="side-num">08</span><span class="side-text">CMake 目标与依赖</span></a></li><li><a class="side-link" href="build-config.html"><span class="side-num">09</span><span class="side-text">CMake 编译与构建配置</span></a></li><li><a class="side-link" href="find-packages.html"><span class="side-num">10</span><span class="side-text">CMake 查找库与包</span></a></li></ul></div><div class="side-group"><p class="side-label">工程化</p><ul class="side-list"><li><a class="side-link" href="install-export.html"><span class="side-num">11</span><span class="side-text">CMake 安装与导出</span></a></li><li><a class="side-link" href="custom-commands.html"><span class="side-num">12</span><span class="side-text">CMake 自定义命令与目标</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">13</span><span class="side-text">CMake 自定义模块与脚本</span></a></li><li><a class="side-link" href="presets.html"><span class="side-num">14</span><span class="side-text">CMake 预设与工作流</span></a></li><li><a class="side-link" href="testing.html"><span class="side-num">15</span><span class="side-text">CMake 测试与打包</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">16</span><span class="side-text">CMake 实战练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../python/index.html"><span class="side-num">PY</span><span class="side-text">Python</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">CMake</a><span>/</span><span>入门</span></nav><h1 class="doc-title">CMake 构建实例</h1><p class="doc-lead">从零开始完整构建一个“静态库 + 可执行程序”的项目，覆盖配置、编译、运行、清理全过程。</p><div class="doc-meta"><span>第 05 章</span><span class="doc-meta__dot"></span><span>约 9 分钟</span><span class="doc-meta__dot"></span><span>共 16 章</span></div><div class="doc-body">
+<p>本章把前面学到的命令串起来，从零构建一个带静态库的完整项目。例子虽小，但目录结构、命令与输出都和真实项目一致，可以直接照着做。</p>
+<h2 id="sec-1" class="doc-heading">一、项目准备</h2>
+<h3 id="sec-2" class="doc-heading">项目结构</h3>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">demo-app/
+├── CMakeLists.txt
+├── include/
+│   └── math/
+│       └── math.h
+└── src/
+    ├── math.cpp
+    └── main.cpp</code></pre></figure>
+<p>职责划分：<code>math</code> 库提供 <code>add</code> 函数，<code>main.cpp</code> 调用它。头文件单独放在 <code>include</code> 目录，源文件放在 <code>src</code> 目录，这是 CMake 项目的常见布局。</p>
+<h3 id="sec-3" class="doc-heading">CMakeLists.txt 配置文件</h3>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># CMakeLists.txt</span>
+<span class="tok-cmdlet">cmake_minimum_required</span>(<span class="tok-keyword">VERSION</span> <span class="tok-num">3.16</span>)
+<span class="tok-cmdlet">project</span>(demo_app <span class="tok-keyword">VERSION</span> <span class="tok-num">1.0.0</span> <span class="tok-keyword">LANGUAGES</span> <span class="tok-keyword">CXX</span>)
+
+<span class="tok-cmdlet">add_library</span>(math <span class="tok-keyword">STATIC</span> src/math.cpp)
+<span class="tok-cmdlet">target_include_directories</span>(math <span class="tok-keyword">PUBLIC</span> <span class="tok-var">${CMAKE_CURRENT_SOURCE_DIR}</span>/include)
+
+<span class="tok-cmdlet">add_executable</span>(demo_app src/main.cpp)
+<span class="tok-cmdlet">target_link_libraries</span>(demo_app <span class="tok-keyword">PRIVATE</span> math)</code></pre></figure>
+<p>六行配置完成了四件事：声明项目、定义静态库 <code>math</code>、向外暴露头文件目录、把可执行程序链接到库上。</p>
+<h2 id="sec-4" class="doc-heading">二、源代码文件</h2>
+<figure class="codeblock" data-lang="cpp"><div class="codeblock__bar"><span class="codeblock__lang">C++</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cpp"><span class="tok-comment">// include/math/math.h</span>
+<span class="tok-param">#pragma</span> once
+
+<span class="tok-keyword">int</span> <span class="tok-cmdlet">add</span>(<span class="tok-keyword">int</span> a, <span class="tok-keyword">int</span> b);</code></pre></figure>
+<figure class="codeblock" data-lang="cpp"><div class="codeblock__bar"><span class="codeblock__lang">C++</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cpp"><span class="tok-comment">// src/math.cpp</span>
+<span class="tok-param">#include </span><span class="tok-string">&quot;math/math.h&quot;</span>
+
+<span class="tok-keyword">int</span> <span class="tok-cmdlet">add</span>(<span class="tok-keyword">int</span> a, <span class="tok-keyword">int</span> b) { <span class="tok-keyword">return</span> a + b; }</code></pre></figure>
+<figure class="codeblock" data-lang="cpp"><div class="codeblock__bar"><span class="codeblock__lang">C++</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cpp"><span class="tok-comment">// src/main.cpp</span>
+<span class="tok-param">#include </span><span class="tok-string">&quot;math/math.h&quot;</span>
+<span class="tok-param">#include </span><span class="tok-type">&lt;iostream&gt;</span>
+
+<span class="tok-keyword">int</span> <span class="tok-cmdlet">main</span>() {
+    <span class="tok-type">std</span>::<span class="tok-type">cout</span> &lt;&lt; <span class="tok-string">&quot;2 + 3 = &quot;</span> &lt;&lt; <span class="tok-cmdlet">add</span>(<span class="tok-num">2</span>, <span class="tok-num">3</span>) &lt;&lt; <span class="tok-type">std</span>::<span class="tok-type">endl</span>;
+    <span class="tok-keyword">return</span> <span class="tok-num">0</span>;
+}</code></pre></figure>
+<h2 id="sec-5" class="doc-heading">三、构建步骤详解</h2>
+<h3 id="sec-6" class="doc-heading">创建 CMakeLists.txt 文件</h3>
+<p>按上面的结构建立目录与文件。Windows 可用资源管理器创建，Linux/macOS：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">mkdir <span class="tok-param">-p</span> demo<span class="tok-param">-app</span>/include/math demo<span class="tok-param">-app</span>/src
+cd demo<span class="tok-param">-app</span>
+<span class="tok-comment"># 按上文内容创建 CMakeLists.txt 与三个源文件</span></code></pre></figure>
+<h3 id="sec-7" class="doc-heading">创建构建目录</h3>
+<p>在项目根目录下创建独立的构建目录：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">mkdir build</code></pre></figure>
+<h3 id="sec-8" class="doc-heading">配置项目</h3>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">cmake <span class="tok-param">-S</span> . <span class="tok-param">-B</span> build <span class="tok-param">-G</span> Ninja</code></pre></figure>
+<p>输出结果类似如下：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">-- The CXX compiler identification is GNU 15.1.0
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: .../g++.exe - skipped
+-- Detecting CXX compile features - done
+-- Detecting CXX compile ABI features - done
+-- Configuring done (0.8s)
+-- Generating done (0.1s)
+-- Build files have been written to: .../demo-app/build</code></pre></figure>
+<p>这一步 CMake 完成了三件事：探测编译器、解析 <code>CMakeLists.txt</code> 中的目标定义、生成构建文件。若输出以 <code>-- Configuring incomplete</code> 结尾，按提示修复 <code>CMakeLists.txt</code> 后重试。</p>
+<h3 id="sec-9" class="doc-heading">编译项目</h3>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">cmake <span class="tok-param">--build</span> build</code></pre></figure>
+<p>输出结果类似如下：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">[1/4] Building CXX object CMakeFiles/math.dir/src/math.cpp.obj
+[2/4] Linking CXX static library libmath.a
+[3/4] Building CXX object CMakeFiles/demo_app.dir/src/main.cpp.obj
+[4/4] Linking CXX executable demo_app.exe</code></pre></figure>
+<p>可以看到构建顺序由 CMake 自动推导：先编 <code>math</code> 库，再编译并链接 <code>demo_app</code>。修改 <code>main.cpp</code> 后再次执行同一条命令，只会重新编译受影响的文件。</p>
+<h3 id="sec-10" class="doc-heading">运行可执行文件</h3>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">./build/demo_app.exe      <span class="tok-comment"># Linux/macOS：./build/demo_app</span></code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">2 + 3 = 5</code></pre></figure>
+<h3 id="sec-11" class="doc-heading">清理构建文件</h3>
+<p>两种清理方式：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash"><span class="tok-comment"># 方式一：清理编译产物，保留配置缓存</span>
+cmake <span class="tok-param">--build</span> build <span class="tok-param">--target</span> clean
+
+<span class="tok-comment"># 方式二：彻底删除整个构建目录</span>
+rm <span class="tok-param">-rf</span> build</code></pre></figure>
+<p>清理后重新构建，只需再执行一遍 “配置 + 构建” 两条命令。</p>
+<h2 id="sec-12" class="doc-heading">四、完整命令流程回顾</h2>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash"><span class="tok-comment"># 一次性走完：配置 → 构建 → 运行</span>
+cmake <span class="tok-param">-S</span> . <span class="tok-param">-B</span> build <span class="tok-param">-G</span> Ninja
+cmake <span class="tok-param">--build</span> build
+./build/demo_app.exe
+
+<span class="tok-comment"># 指定构建类型重新配置（单配置生成器）</span>
+cmake <span class="tok-param">-S</span> . <span class="tok-param">-B</span> build <span class="tok-param">-DCMAKE_BUILD_TYPE</span>=Release
+cmake <span class="tok-param">--build</span> build</code></pre></figure>
+<h2 id="sec-13" class="doc-heading">五、注意事项</h2>
+<ul><li><p>所有命令都在项目根目录执行；<code>-S .</code> 表示当前目录是源码根目录。</p></li><li><p>配置阶段报错时优先看 <strong>第一段</strong> 错误信息，后面的报错通常是连锁反应。</p></li><li><p>换了编译器或生成器，务必换新的构建目录。</p></li><li><p><code>project(demo_app VERSION 1.0.0)</code> 记录的版本号可通过 <code>${PROJECT_VERSION}</code> 在代码和打包配置中使用，建议从一开始就写上。</p></li></ul>
+<h2 id="sec-14" class="doc-heading">六、练习任务</h2>
+<p>任务 1：把 <code>math</code> 改成动态库，重新配置后观察产物与运行结果的变化。</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">add_library</span>(math <span class="tok-keyword">SHARED</span> src/math.cpp)</code></pre></figure>
+<p>任务 2：增加一个只包含编译要求的 INTERFACE 库，把公共编译定义挂在它上面。</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">add_library</span>(project_options <span class="tok-keyword">INTERFACE</span>)
+<span class="tok-cmdlet">target_compile_features</span>(project_options <span class="tok-keyword">INTERFACE</span> cxx_std_17)
+<span class="tok-cmdlet">target_link_libraries</span>(demo_app <span class="tok-keyword">PRIVATE</span> project_options)</code></pre></figure>
+<p>任务 3：补上安装规则，把可执行文件安装到 <code>bin</code>、静态库到 <code>lib</code>、头文件到 <code>include</code>。</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">include</span>(GNUInstallDirs)
+<span class="tok-cmdlet">install</span>(<span class="tok-keyword">TARGETS</span> demo_app math
+    <span class="tok-keyword">RUNTIME</span> <span class="tok-keyword">DESTINATION</span> <span class="tok-var">${CMAKE_INSTALL_BINDIR}</span>
+    ARCHIVE <span class="tok-keyword">DESTINATION</span> <span class="tok-var">${CMAKE_INSTALL_LIBDIR}</span>)
+<span class="tok-cmdlet">install</span>(<span class="tok-keyword">DIRECTORY</span> include/ <span class="tok-keyword">DESTINATION</span> <span class="tok-var">${CMAKE_INSTALL_INCLUDEDIR}</span>)</code></pre></figure>
+<p>任务 4：只构建 <code>demo_app</code> 目标，并开启 4 个并行任务。</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">cmake <span class="tok-param">--build</span> build <span class="tok-param">--target</span> demo_app <span class="tok-param">-j</span> 4</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="build-flow.html"><span class="pager-dir">← 上一章</span><span class="pager-title">CMake 构建流程</span></a><a class="pager-link pager-link--next" href="syntax.html"><span class="pager-dir">下一章 →</span><span class="pager-title">CMake 语法基础</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 CMake 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、项目准备</a><a class="toc-link toc-link--h3" href="#sec-2">项目结构</a><a class="toc-link toc-link--h3" href="#sec-3">CMakeLists.txt 配置文件</a><a class="toc-link toc-link--h2" href="#sec-4">二、源代码文件</a><a class="toc-link toc-link--h2" href="#sec-5">三、构建步骤详解</a><a class="toc-link toc-link--h3" href="#sec-6">创建 CMakeLists.txt 文件</a><a class="toc-link toc-link--h3" href="#sec-7">创建构建目录</a><a class="toc-link toc-link--h3" href="#sec-8">配置项目</a><a class="toc-link toc-link--h3" href="#sec-9">编译项目</a><a class="toc-link toc-link--h3" href="#sec-10">运行可执行文件</a><a class="toc-link toc-link--h3" href="#sec-11">清理构建文件</a><a class="toc-link toc-link--h2" href="#sec-12">四、完整命令流程回顾</a><a class="toc-link toc-link--h2" href="#sec-13">五、注意事项</a><a class="toc-link toc-link--h2" href="#sec-14">六、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

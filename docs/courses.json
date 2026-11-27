@@ -27,6 +27,50 @@
         "badgeV": "动词-名词",
         "codeFoot": "对象管道已就绪"
       }
+    },
+    {
+      "slug": "python",
+      "title": "Python",
+      "subtitle": "从入门到实战",
+      "mark": "PY",
+      "tech": "Python 3.13",
+      "level": "入门 → 进阶",
+      "groups": ["入门", "核心语法", "进阶", "标准库与实战"],
+      "description": "从基础语法、内置数据结构到函数、类、标准库与网络请求，用 44 章可运行示例带你系统掌握 Python 3。",
+      "cover": { "from": "#3776ab", "to": "#ffd43b" },
+      "hero": {
+        "title": "从零开始掌握 Python",
+        "accent": "掌握 Python",
+        "lead": "从基础语法、内置数据结构到函数、类、标准库与网络请求，44 个章节、400+ 段可运行示例，带你系统掌握 Python 3。",
+        "codeTitle": "python — Python 3.13",
+        "codeLang": "python",
+        "code": "# 统计一段文本中的词频\ntext = \"to be or not to be that is the question\"\ncounts = {}\nfor word in text.split():\n    counts[word] = counts.get(word, 0) + 1\n\nfor word, n in sorted(counts.items(), key=lambda kv: -kv[1])[:3]:\n    print(f\"{word}: {n}\")",
+        "badgeK": "缩进",
+        "badgeV": "4 个空格",
+        "codeFoot": "解释器已就绪"
+      }
+    },
+    {
+      "slug": "cmake",
+      "title": "CMake",
+      "subtitle": "跨平台构建系统",
+      "mark": "CM",
+      "tech": "CMake 4.x",
+      "level": "入门 → 工程化",
+      "groups": ["入门", "核心概念", "工程化"],
+      "description": "从第一个 CMakeLists.txt 到多目标、依赖查找、安装导出、预设与测试，用 16 章可运行示例带你系统掌握 Modern CMake。",
+      "cover": { "from": "#064f8c", "to": "#23d18b" },
+      "hero": {
+        "title": "从零开始掌握 CMake",
+        "accent": "掌握 CMake",
+        "lead": "从基础语法、目标与依赖到安装导出、预设与测试，16 个章节、200+ 段可运行示例，带你系统掌握现代 CMake。",
+        "codeTitle": "CMakeLists.txt",
+        "codeLang": "cmake",
+        "code": "cmake_minimum_required(VERSION 3.16)\nproject(demo LANGUAGES CXX)\n\nadd_library(math STATIC src/math.cpp)\ntarget_include_directories(math PUBLIC include)\n\nadd_executable(app src/main.cpp)\ntarget_link_libraries(app PRIVATE math)",
+        "badgeK": "构建目录",
+        "badgeV": "out-of-source",
+        "codeFoot": "配置完成"
+      }
     }
   ],
   "upcoming": [

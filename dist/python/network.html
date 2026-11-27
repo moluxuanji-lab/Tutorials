@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 网络编程 · Python</title>
+<meta name="description" content="从 TCP/IP 基础出发，掌握 socket 的 TCP 服务端与客户端、UDP 通信、超时控制、HTTP 请求响应以及常见的网络错误处理。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="network" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link is-active" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python 网络编程</h1><p class="doc-lead">从 TCP/IP 基础出发，掌握 socket 的 TCP 服务端与客户端、UDP 通信、超时控制、HTTP 请求响应以及常见的网络错误处理。</p><div class="doc-meta"><span>第 37 章</span><span class="doc-meta__dot"></span><span>约 33 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>网络编程的本质，是让两个进程按照约定的协议交换字节。Python 标准库把操作系统提供的套接字接口封装在 <code>socket</code> 模块里，不需要安装第三方包就能完成 TCP、UDP 和 HTTP 的基础通信。本章先用 <code>ipaddress</code> 认识地址与网段，再逐步搭建 TCP 服务端、客户端和 UDP 通道，最后在一个只绑定 <code>127.0.0.1</code> 的本地回环服务上完成真实对话。</p>
+<p>所有示例都只使用回环地址 <code>127.0.0.1</code>，不会访问外部网络；服务端端口统一写成 <code>0</code>，由操作系统自动分配，因此不会和本机已占用的端口冲突。示例中也不会打印临时端口号，输出在每台机器上都一致。</p>
+<h2 id="sec-1" class="doc-heading">一、TCP/IP 基础</h2>
+<p>TCP/IP 把网络通信拆成四层：链路层负责同一网段内的帧传输，网络层用 IP 地址定位主机，传输层用端口区分进程，应用层则是 HTTP、SMTP 这类具体协议。写代码时最常打交道的是网络层和传输层：IP 地址找到机器，端口找到机器上的某个服务。</p>
+<p>IPv4 地址是 32 位整数，通常写成点分十进制；<code>127.0.0.1</code> 是回环地址，数据不会离开本机。端口号是 16 位整数，取值范围 <code>0</code> 到 <code>65535</code>，其中 <code>0</code> 表示“请操作系统分配一个空闲端口”，<code>1</code> 到 <code>1023</code> 是系统保留端口，普通程序应使用 <code>1024</code> 以上的端口。</p>
+<p><code>ipaddress</code> 模块可以完成地址校验和网段计算：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> ipaddress
+
+address <span class="tok-op">=</span> ipaddress.<span class="tok-cmdlet">ip_address</span>(<span class="tok-string">&quot;127.0.0.1&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;版本：&quot;</span>, address.version)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是回环地址：&quot;</span>, address.is_loopback)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是私有地址：&quot;</span>, address.is_private)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是保留地址：&quot;</span>, address.is_reserved)
+
+network <span class="tok-op">=</span> ipaddress.<span class="tok-cmdlet">ip_network</span>(<span class="tok-string">&quot;192.168.1.0/24&quot;</span>, strict<span class="tok-op">=</span><span class="tok-keyword">False</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;网段地址：&quot;</span>, network.network_address)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;广播地址：&quot;</span>, network.broadcast_address)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;可用主机数：&quot;</span>, network.num_addresses <span class="tok-op">-</span> <span class="tok-num">2</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">版本： 4
+是回环地址： True
+是私有地址： True
+是保留地址： False
+网段地址： 192.168.1.0
+广播地址： 192.168.1.255
+可用主机数： 254</code></pre></figure>
+<p><code>is_private</code> 对 <code>127.0.0.1</code> 返回 <code>True</code>，因为回环网段也属于特殊用途地址；<code>is_reserved</code> 则只针对保留给实验用途的地址段。<code>ip_network(..., strict=False)</code> 允许传入带主机位的网段，自动把它规范成网络地址。</p>
+<p>传输层最常用的是 TCP 和 UDP，两者的取舍如下：</p>
+<div class="table-wrap"><table><thead><tr><th>特性</th><th>TCP</th><th>UDP</th></tr></thead><tbody><tr><td>连接方式</td><td>面向连接，先握手再传输</td><td>无连接，直接发送数据报</td></tr><tr><td>可靠性</td><td>确认与重传，保证顺序</td><td>不保证到达与顺序</td></tr><tr><td>数据形式</td><td>连续的字节流</td><td>独立的数据报</td></tr><tr><td>典型协议</td><td>HTTP、SMTP、SSH</td><td>DNS、DHCP、视频通话</td></tr></tbody></table></div>
+<p>TCP 的“面向连接”意味着通信前要完成三次握手，通信结束后要四次挥手；这些细节由操作系统处理，应用层看到的是 <code>connect()</code>、<code>send()</code>、<code>recv()</code> 这样的接口。UDP 则把每个数据报单独发送，开销小，但可靠性要由应用自己保证。</p>
+<h2 id="sec-2" class="doc-heading">二、socket 对象</h2>
+<p><code>socket.socket()</code> 创建一个套接字，两个最常用的参数是地址族和套接字类型。<code>AF_INET</code> 表示 IPv4，<code>SOCK_STREAM</code> 表示 TCP 字节流，<code>SOCK_DGRAM</code> 表示 UDP 数据报。套接字使用完必须关闭，否则文件描述符会泄漏；本章统一用 <code>close()</code> 或 <code>with</code> 语句释放。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+
+tcp <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+udp <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_DGRAM)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;TCP：&quot;</span>, tcp.family.name, tcp.<span class="tok-type">type</span>.name, tcp.proto)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;UDP：&quot;</span>, udp.family.name, udp.<span class="tok-type">type</span>.name, udp.proto)
+
+tcp.<span class="tok-cmdlet">close</span>()
+udp.<span class="tok-cmdlet">close</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">TCP： AF_INET SOCK_STREAM 0
+UDP： AF_INET SOCK_DGRAM 0</code></pre></figure>
+<p><code>family.name</code> 与 <code>type.name</code> 把枚举值还原成可读的名字，<code>proto</code> 为 <code>0</code> 表示使用该套接字类型的默认协议。实际项目中更常见的写法是直接传常量，需要判断类型时再读这两个属性。</p>
+<h2 id="sec-3" class="doc-heading">三、TCP 服务端：bind、listen、accept</h2>
+<p>TCP 服务端的工作顺序是固定的：创建套接字、<code>bind()</code> 绑定地址和端口、<code>listen()</code> 进入监听状态、循环调用 <code>accept()</code> 等待客户端。<code>accept()</code> 会阻塞，直到有客户端完成三次握手，返回一个<strong>新的</strong>已连接套接字和客户端地址；原来的监听套接字继续负责接收后续连接。</p>
+<p>下面的例子把端口写成 <code>0</code>，再通过 <code>getsockname()</code> 确认系统已经分配了一个合法端口：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+
+server <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+server.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>))
+server.<span class="tok-cmdlet">listen</span>(<span class="tok-num">1</span>)
+
+host, port <span class="tok-op">=</span> server.<span class="tok-cmdlet">getsockname</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;绑定地址：&quot;</span>, host)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;端口自动分配：&quot;</span>, port <span class="tok-op">&gt;</span> <span class="tok-num">0</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;套接字已打开：&quot;</span>, server.<span class="tok-cmdlet">fileno</span>() <span class="tok-op">!</span><span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">1</span>)
+
+server.<span class="tok-cmdlet">close</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">绑定地址： 127.0.0.1
+端口自动分配： True
+套接字已打开： True</code></pre></figure>
+<p><code>listen(1)</code> 的参数是等待队列长度，表示最多允许一个尚未被 <code>accept()</code> 取走的连接排队。队列满之后新的连接会被拒绝或忽略，因此高并发服务通常会把队列设得更大，并及时把 <code>accept()</code> 放到循环里。</p>
+<h2 id="sec-4" class="doc-heading">四、TCP 客户端与一次完整对话</h2>
+<p>客户端用 <code>connect()</code> 发起连接，连接建立后双方都能用 <code>send()</code> / <code>sendall()</code> 发送、用 <code>recv()</code> 接收。<code>sendall()</code> 会循环发送直到所有字节写完，比 <code>send()</code> 更适合发送完整消息。下面的例子在后台线程里启动服务端，主线程作为客户端，在 <code>127.0.0.1</code> 上完成一次问答：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+<span class="tok-keyword">import</span> threading
+
+result <span class="tok-op">=</span> {}
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">serve</span>(server):
+    conn, _ <span class="tok-op">=</span> server.<span class="tok-cmdlet">accept</span>()
+    <span class="tok-keyword">with</span> conn:
+        data <span class="tok-op">=</span> conn.<span class="tok-cmdlet">recv</span>(<span class="tok-num">1024</span>)
+        result[<span class="tok-string">&quot;request&quot;</span>] <span class="tok-op">=</span> data.<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+        conn.<span class="tok-cmdlet">sendall</span>(<span class="tok-string">&quot;你好，客户端&quot;</span>.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+
+server <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+server.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>))
+server.<span class="tok-cmdlet">listen</span>(<span class="tok-num">1</span>)
+port <span class="tok-op">=</span> server.<span class="tok-cmdlet">getsockname</span>()[<span class="tok-num">1</span>]
+
+worker <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>serve, args<span class="tok-op">=</span>(server,), daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+worker.<span class="tok-cmdlet">start</span>()
+
+<span class="tok-keyword">with</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM) <span class="tok-keyword">as</span> client:
+    client.<span class="tok-cmdlet">settimeout</span>(<span class="tok-num">5</span>)
+    client.<span class="tok-cmdlet">connect</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, port))
+    client.<span class="tok-cmdlet">sendall</span>(<span class="tok-string">&quot;你好，服务端&quot;</span>.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+    reply <span class="tok-op">=</span> client.<span class="tok-cmdlet">recv</span>(<span class="tok-num">1024</span>).<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+
+worker.<span class="tok-cmdlet">join</span>()
+server.<span class="tok-cmdlet">close</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;服务端收到：&quot;</span>, result[<span class="tok-string">&quot;request&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;客户端收到：&quot;</span>, reply)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">服务端收到： 你好，服务端
+客户端收到： 你好，客户端</code></pre></figure>
+<p>服务端把结果写进 <code>result</code> 字典而不是直接在子线程里打印，主线程执行 <code>join()</code> 之后再统一输出，这样两行结果的顺序不会受线程调度影响。<code>with conn</code> 负责在对话结束后关闭已连接套接字，监听套接字则由 <code>server.close()</code> 显式释放。</p>
+<h2 id="sec-5" class="doc-heading">五、TCP 数据边界与 sendall</h2>
+<p>TCP 提供的是字节流，不保留“消息边界”：一次 <code>sendall()</code> 发出的内容，对端可能分多次 <code>recv()</code> 收到，也可能两次发送被合并成一次读取。因此应用层必须自己定义边界，常见做法是“一行一条消息”或“长度前缀 + 正文”。下面的例子用换行符分帧，服务端用 <code>makefile()</code> 包装成可按行读取的文件对象：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+<span class="tok-keyword">import</span> threading
+
+received <span class="tok-op">=</span> []
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">serve</span>(server):
+    conn, _ <span class="tok-op">=</span> server.<span class="tok-cmdlet">accept</span>()
+    <span class="tok-keyword">with</span> conn:
+        stream <span class="tok-op">=</span> conn.<span class="tok-cmdlet">makefile</span>(<span class="tok-string">&quot;rb&quot;</span>)
+        <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">2</span>):
+            line <span class="tok-op">=</span> stream.<span class="tok-cmdlet">readline</span>().<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>).<span class="tok-cmdlet">rstrip</span>(<span class="tok-string">&quot;\n&quot;</span>)
+            received.<span class="tok-cmdlet">append</span>(line)
+        conn.<span class="tok-cmdlet">sendall</span>(<span class="tok-string">b&quot;ACK\n&quot;</span>)
+
+server <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+server.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>))
+server.<span class="tok-cmdlet">listen</span>(<span class="tok-num">1</span>)
+port <span class="tok-op">=</span> server.<span class="tok-cmdlet">getsockname</span>()[<span class="tok-num">1</span>]
+
+worker <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>serve, args<span class="tok-op">=</span>(server,), daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+worker.<span class="tok-cmdlet">start</span>()
+
+<span class="tok-keyword">with</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM) <span class="tok-keyword">as</span> client:
+    client.<span class="tok-cmdlet">settimeout</span>(<span class="tok-num">5</span>)
+    client.<span class="tok-cmdlet">connect</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, port))
+    client.<span class="tok-cmdlet">sendall</span>(<span class="tok-string">b&quot;first\nsecond\n&quot;</span>)
+    reply <span class="tok-op">=</span> client.<span class="tok-cmdlet">recv</span>(<span class="tok-num">16</span>).<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>).<span class="tok-cmdlet">strip</span>()
+
+worker.<span class="tok-cmdlet">join</span>()
+server.<span class="tok-cmdlet">close</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;服务端逐行收到：&quot;</span>, received)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;客户端收到：&quot;</span>, reply)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">服务端逐行收到： ['first', 'second']
+客户端收到： ACK</code></pre></figure>
+<p><code>makefile(&quot;rb&quot;)</code> 返回一个带缓冲的文件对象，<code>readline()</code> 会一直读到换行符为止，即使底层分多次 <code>recv()</code> 也能正确拼出完整一行。发送方必须保证每条消息以换行结尾，否则接收方会一直等待后续字节。</p>
+<h2 id="sec-6" class="doc-heading">六、UDP：sendto 与 recvfrom</h2>
+<p>UDP 不需要建立连接，每个数据报都自带目标地址。客户端用 <code>sendto()</code> 发送，服务端用 <code>recvfrom()</code> 接收并拿到发送方地址，再用 <code>sendto()</code> 回复。UDP 不保证到达、不保证顺序，也不做重传，适合对实时性要求高、能容忍少量丢包的场景：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+
+server <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_DGRAM)
+server.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>))
+server.<span class="tok-cmdlet">settimeout</span>(<span class="tok-num">5</span>)
+port <span class="tok-op">=</span> server.<span class="tok-cmdlet">getsockname</span>()[<span class="tok-num">1</span>]
+
+client <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_DGRAM)
+client.<span class="tok-cmdlet">settimeout</span>(<span class="tok-num">5</span>)
+
+client.<span class="tok-cmdlet">sendto</span>(<span class="tok-string">b&quot;ping&quot;</span>, (<span class="tok-string">&quot;127.0.0.1&quot;</span>, port))
+data, addr <span class="tok-op">=</span> server.<span class="tok-cmdlet">recvfrom</span>(<span class="tok-num">1024</span>)
+server.<span class="tok-cmdlet">sendto</span>(data.<span class="tok-cmdlet">upper</span>(), addr)
+reply, _ <span class="tok-op">=</span> client.<span class="tok-cmdlet">recvfrom</span>(<span class="tok-num">1024</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;服务端收到：&quot;</span>, data.<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;客户端收到：&quot;</span>, reply.<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+
+server.<span class="tok-cmdlet">close</span>()
+client.<span class="tok-cmdlet">close</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">服务端收到： ping
+客户端收到： PING</code></pre></figure>
+<p><code>recvfrom()</code> 返回的第二个值是发送方的 <code>(host, port)</code>，服务端直接把它传给 <code>sendto()</code> 就能把回复发回原地址，不需要事先知道客户端绑定的是哪个端口。<code>data.upper()</code> 作用于 <code>bytes</code>，只转换 ASCII 字母，因此 <code>ping</code> 变成 <code>PING</code>。</p>
+<h2 id="sec-7" class="doc-heading">七、超时控制</h2>
+<p>网络操作默认可能无限阻塞。<code>settimeout()</code> 为套接字设置超时秒数，超时后抛出 <code>socket.timeout</code>（它是 <code>TimeoutError</code> 的别名）。服务端可以用它避免 <code>accept()</code> 一直挂起，客户端也应在 <code>connect()</code>、<code>recv()</code> 上设置合理上限：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+
+server <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+server.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>))
+server.<span class="tok-cmdlet">listen</span>(<span class="tok-num">1</span>)
+server.<span class="tok-cmdlet">settimeout</span>(<span class="tok-num">0.2</span>)
+
+timed_out <span class="tok-op">=</span> <span class="tok-keyword">False</span>
+<span class="tok-keyword">try</span>:
+    server.<span class="tok-cmdlet">accept</span>()
+<span class="tok-keyword">except</span> socket.timeout:
+    timed_out <span class="tok-op">=</span> <span class="tok-keyword">True</span>
+<span class="tok-keyword">finally</span>:
+    server.<span class="tok-cmdlet">close</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;accept 超时：&quot;</span>, timed_out)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">accept 超时： True</code></pre></figure>
+<p>超时不是错误，而是“在指定时间内没有等到事件”的信号。捕获之后可以继续循环、记录日志或退出，关键是要有明确的处理分支，不要让异常直接冒到最外层。生产环境的超时值通常设置为几秒到几十秒，既不能太短导致频繁误判，也不能太长让故障线程长期占用资源。</p>
+<h2 id="sec-8" class="doc-heading">八、HTTP 简介</h2>
+<p>HTTP 是建立在 TCP 之上的文本协议：客户端发送“请求行 + 请求头 + 空行 + 请求体”，服务端返回“状态行 + 响应头 + 空行 + 响应体”。请求行包含方法、路径和协议版本，状态行包含三位状态码和原因短语。<code>urllib.parse</code> 可以拆解 URL，<code>http.HTTPStatus</code> 提供了状态码的常量与英文描述：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> http <span class="tok-keyword">import</span> HTTPStatus
+<span class="tok-keyword">from</span> urllib.parse <span class="tok-keyword">import</span> parse_qs, urlsplit
+
+url <span class="tok-op">=</span> <span class="tok-string">&quot;http://127.0.0.1:8080/docs/python/network.rst?chapter=network&amp;lang=zh#top&quot;</span>
+parts <span class="tok-op">=</span> <span class="tok-cmdlet">urlsplit</span>(url)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;协议：&quot;</span>, parts.scheme)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;主机：&quot;</span>, parts.hostname)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;端口：&quot;</span>, parts.port)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;路径：&quot;</span>, parts.path)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;查询参数：&quot;</span>, <span class="tok-type">sorted</span>(<span class="tok-cmdlet">parse_qs</span>(parts.query).<span class="tok-cmdlet">items</span>()))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;片段：&quot;</span>, parts.fragment)
+
+<span class="tok-keyword">for</span> status <span class="tok-keyword">in</span> (HTTPStatus.OK, HTTPStatus.NOT_FOUND, HTTPStatus.INTERNAL_SERVER_ERROR):
+    <span class="tok-type">print</span>(status.value, status.phrase)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">协议： http
+主机： 127.0.0.1
+端口： 8080
+路径： /docs/python/network.rst
+查询参数： [('chapter', ['network']), ('lang', ['zh'])]
+片段： top
+200 OK
+404 Not Found
+500 Internal Server Error</code></pre></figure>
+<p><code>urlsplit()</code> 把 URL 拆成协议、主机、端口、路径、查询串和片段六部分；<code>parse_qs()</code> 再把查询串解析成字典，值统一是列表，因为同一个参数可以出现多次。<code>HTTPStatus</code> 是枚举，<code>value</code> 是数字状态码，<code>phrase</code> 是英文原因短语。</p>
+<p>真正发请求时不必手写 TCP，<code>http.client</code> 已经封装了请求构造和响应解析。下面的例子仍然在本地回环地址上启动一个极简 HTTP 服务端，收到请求后返回固定的纯文本响应：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> http.client
+<span class="tok-keyword">import</span> socket
+<span class="tok-keyword">import</span> threading
+
+body <span class="tok-op">=</span> <span class="tok-string">&quot;hello http&quot;</span>
+response <span class="tok-op">=</span> (
+    <span class="tok-string">&quot;HTTP/1.1 200 OK\r\n&quot;</span>
+    <span class="tok-string">&quot;Content-Type: text/plain; charset=utf-8\r\n&quot;</span>
+    <span class="tok-string">f&quot;Content-Length: {len(body.encode('utf-8'))}\r\n&quot;</span>
+    <span class="tok-string">&quot;Connection: close\r\n&quot;</span>
+    <span class="tok-string">&quot;\r\n&quot;</span>
+    <span class="tok-op">+</span> body
+).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>)
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">serve</span>(server):
+    conn, _ <span class="tok-op">=</span> server.<span class="tok-cmdlet">accept</span>()
+    <span class="tok-keyword">with</span> conn:
+        request <span class="tok-op">=</span> <span class="tok-string">b&quot;&quot;</span>
+        <span class="tok-keyword">while</span> <span class="tok-string">b&quot;\r\n\r\n&quot;</span> <span class="tok-keyword">not</span> <span class="tok-keyword">in</span> request:
+            chunk <span class="tok-op">=</span> conn.<span class="tok-cmdlet">recv</span>(<span class="tok-num">1024</span>)
+            <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> chunk:
+                <span class="tok-keyword">break</span>
+            request <span class="tok-op">+</span><span class="tok-op">=</span> chunk
+        conn.<span class="tok-cmdlet">sendall</span>(response)
+
+server <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+server.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>))
+server.<span class="tok-cmdlet">listen</span>(<span class="tok-num">1</span>)
+port <span class="tok-op">=</span> server.<span class="tok-cmdlet">getsockname</span>()[<span class="tok-num">1</span>]
+
+worker <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>serve, args<span class="tok-op">=</span>(server,), daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+worker.<span class="tok-cmdlet">start</span>()
+
+connection <span class="tok-op">=</span> http.client.<span class="tok-cmdlet">HTTPConnection</span>(<span class="tok-string">&quot;127.0.0.1&quot;</span>, port, timeout<span class="tok-op">=</span><span class="tok-num">5</span>)
+connection.<span class="tok-cmdlet">request</span>(<span class="tok-string">&quot;GET&quot;</span>, <span class="tok-string">&quot;/&quot;</span>)
+reply <span class="tok-op">=</span> connection.<span class="tok-cmdlet">getresponse</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;状态码：&quot;</span>, reply.status)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;原因：&quot;</span>, reply.reason)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;内容类型：&quot;</span>, reply.<span class="tok-cmdlet">getheader</span>(<span class="tok-string">&quot;Content-Type&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;正文：&quot;</span>, reply.<span class="tok-cmdlet">read</span>().<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+
+connection.<span class="tok-cmdlet">close</span>()
+worker.<span class="tok-cmdlet">join</span>()
+server.<span class="tok-cmdlet">close</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">状态码： 200
+原因： OK
+内容类型： text/plain; charset=utf-8
+正文： hello http</code></pre></figure>
+<p>服务端先循环读取，直到遇到空行 <code>\r\n\r\n</code>，表示请求头结束；这个例子不处理请求体，所以读到空行就可以回复。响应中的 <code>Content-Length</code> 必须和正文的字节数一致，客户端才能判断响应何时结束。<code>Connection: close</code> 告诉客户端本次请求结束后关闭连接。</p>
+<h2 id="sec-9" class="doc-heading">九、错误处理</h2>
+<p>网络错误几乎都以异常形式出现。<code>OSError</code> 是大多数套接字错误的基类，<code>ConnectionRefusedError</code> 表示目标端口没有服务在监听，<code>socket.gaierror</code> 表示地址或服务名解析失败，<code>socket.timeout</code> 表示操作超时。捕获异常时不要只写一个空的 <code>except</code>，至少打印异常类型或记录日志，并确保套接字在 <code>finally</code> 中关闭。</p>
+<p>端口被占用是服务端最常见的启动错误。下面的例子先绑定一个自动分配的端口，再尝试用另一个套接字绑定同一个端口：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+
+first <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+first.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>))
+port <span class="tok-op">=</span> first.<span class="tok-cmdlet">getsockname</span>()[<span class="tok-num">1</span>]
+
+second <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+<span class="tok-keyword">try</span>:
+    second.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, port))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;重复绑定： 成功&quot;</span>)
+<span class="tok-keyword">except</span> <span class="tok-type">OSError</span> <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;重复绑定失败：&quot;</span>, <span class="tok-type">type</span>(exc).__name__)
+<span class="tok-keyword">finally</span>:
+    second.<span class="tok-cmdlet">close</span>()
+    first.<span class="tok-cmdlet">close</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">重复绑定失败： OSError</code></pre></figure>
+<p><code>SO_REUSEADDR</code> 可以让服务端在重启时复用处于 <code>TIME_WAIT</code> 状态的端口，但它不应该被用来掩盖“另一个进程仍在监听”的事实。排查端口占用时，可以先确认是否有旧进程没有退出，再决定是否调整套接字选项。</p>
+<p>参数越界和服务名错误同样需要捕获。下面的例子分别触发 <code>OverflowError</code> 和 <code>socket.gaierror</code>：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+
+sock <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+<span class="tok-keyword">try</span>:
+    sock.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">70000</span>))
+<span class="tok-keyword">except</span> <span class="tok-type">OverflowError</span> <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;端口越界：&quot;</span>, <span class="tok-type">type</span>(exc).__name__)
+<span class="tok-keyword">except</span> <span class="tok-type">OSError</span> <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;绑定失败：&quot;</span>, <span class="tok-type">type</span>(exc).__name__)
+<span class="tok-keyword">finally</span>:
+    sock.<span class="tok-cmdlet">close</span>()
+
+<span class="tok-keyword">try</span>:
+    socket.<span class="tok-cmdlet">getaddrinfo</span>(<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-string">&quot;not-a-service&quot;</span>)
+<span class="tok-keyword">except</span> socket.gaierror <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;解析失败：&quot;</span>, <span class="tok-type">type</span>(exc).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">端口越界： OverflowError
+解析失败： gaierror</code></pre></figure>
+<p>端口号的合法范围是 <code>0</code> 到 <code>65535</code>，超出范围时 Python 在参数校验阶段就抛出 <code>OverflowError</code>，不会真正调用操作系统。<code>getaddrinfo()</code> 的第二个参数既可以写数字端口，也可以写服务名；服务名不在系统服务表中时抛出 <code>socket.gaierror</code>，它同时覆盖主机名解析失败的情况。</p>
+<h2 id="sec-10" class="doc-heading">十、练习任务</h2>
+<p>任务 1：查询常见服务对应的 TCP 端口。<code>socket.getservbyname()</code> 会读取系统的服务表，如果服务名不存在则抛出 <code>OSError</code>。不同系统的服务表条目并不完整，因此下面为查询失败的情况准备了内置端口作为回退：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+
+fallback <span class="tok-op">=</span> {<span class="tok-string">&quot;http&quot;</span>: <span class="tok-num">80</span>, <span class="tok-string">&quot;https&quot;</span>: <span class="tok-num">443</span>, <span class="tok-string">&quot;smtp&quot;</span>: <span class="tok-num">25</span>, <span class="tok-string">&quot;ssh&quot;</span>: <span class="tok-num">22</span>}
+<span class="tok-keyword">for</span> name, default_port <span class="tok-keyword">in</span> fallback.<span class="tok-cmdlet">items</span>():
+    <span class="tok-keyword">try</span>:
+        port <span class="tok-op">=</span> socket.<span class="tok-cmdlet">getservbyname</span>(name, <span class="tok-string">&quot;tcp&quot;</span>)
+    <span class="tok-keyword">except</span> <span class="tok-type">OSError</span>:
+        port <span class="tok-op">=</span> default_port
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{name}: {port}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">http: 80
+https: 443
+smtp: 25
+ssh: 22</code></pre></figure>
+<p>任务 2：实现一个本地回环 TCP 回声服务。客户端依次发送三行文本，服务端原样返回，双方都使用 <code>makefile()</code> 按行读写。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+<span class="tok-keyword">import</span> threading
+
+received <span class="tok-op">=</span> []
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">serve</span>(server):
+    conn, _ <span class="tok-op">=</span> server.<span class="tok-cmdlet">accept</span>()
+    <span class="tok-keyword">with</span> conn:
+        stream <span class="tok-op">=</span> conn.<span class="tok-cmdlet">makefile</span>(<span class="tok-string">&quot;rwb&quot;</span>)
+        <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">3</span>):
+            line <span class="tok-op">=</span> stream.<span class="tok-cmdlet">readline</span>()
+            received.<span class="tok-cmdlet">append</span>(line.<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>).<span class="tok-cmdlet">rstrip</span>(<span class="tok-string">&quot;\n&quot;</span>))
+            stream.<span class="tok-cmdlet">write</span>(line)
+            stream.<span class="tok-cmdlet">flush</span>()
+
+server <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_STREAM)
+server.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>))
+server.<span class="tok-cmdlet">listen</span>(<span class="tok-num">1</span>)
+port <span class="tok-op">=</span> server.<span class="tok-cmdlet">getsockname</span>()[<span class="tok-num">1</span>]
+
+worker <span class="tok-op">=</span> threading.<span class="tok-cmdlet">Thread</span>(target<span class="tok-op">=</span>serve, args<span class="tok-op">=</span>(server,), daemon<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+worker.<span class="tok-cmdlet">start</span>()
+
+<span class="tok-keyword">with</span> socket.<span class="tok-cmdlet">create_connection</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, port), timeout<span class="tok-op">=</span><span class="tok-num">5</span>) <span class="tok-keyword">as</span> client:
+    stream <span class="tok-op">=</span> client.<span class="tok-cmdlet">makefile</span>(<span class="tok-string">&quot;rwb&quot;</span>)
+    <span class="tok-keyword">for</span> text <span class="tok-keyword">in</span> [<span class="tok-string">&quot;alpha&quot;</span>, <span class="tok-string">&quot;beta&quot;</span>, <span class="tok-string">&quot;gamma&quot;</span>]:
+        stream.<span class="tok-cmdlet">write</span>((text <span class="tok-op">+</span> <span class="tok-string">&quot;\n&quot;</span>).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+        stream.<span class="tok-cmdlet">flush</span>()
+        <span class="tok-type">print</span>(<span class="tok-string">&quot;收到回声：&quot;</span>, stream.<span class="tok-cmdlet">readline</span>().<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;utf-8&quot;</span>).<span class="tok-cmdlet">rstrip</span>(<span class="tok-string">&quot;\n&quot;</span>))
+
+worker.<span class="tok-cmdlet">join</span>()
+server.<span class="tok-cmdlet">close</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;服务端处理条数：&quot;</span>, <span class="tok-type">len</span>(received))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">收到回声： alpha
+收到回声： beta
+收到回声： gamma
+服务端处理条数： 3</code></pre></figure>
+<p>任务 3：用 UDP 完成一次加法请求。客户端发送 <code>3,4</code>，服务端解析后返回 <code>7</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> socket
+
+server <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_DGRAM)
+server.<span class="tok-cmdlet">bind</span>((<span class="tok-string">&quot;127.0.0.1&quot;</span>, <span class="tok-num">0</span>))
+server.<span class="tok-cmdlet">settimeout</span>(<span class="tok-num">5</span>)
+port <span class="tok-op">=</span> server.<span class="tok-cmdlet">getsockname</span>()[<span class="tok-num">1</span>]
+
+client <span class="tok-op">=</span> socket.<span class="tok-cmdlet">socket</span>(socket.AF_INET, socket.SOCK_DGRAM)
+client.<span class="tok-cmdlet">settimeout</span>(<span class="tok-num">5</span>)
+
+client.<span class="tok-cmdlet">sendto</span>(<span class="tok-string">b&quot;3,4&quot;</span>, (<span class="tok-string">&quot;127.0.0.1&quot;</span>, port))
+data, addr <span class="tok-op">=</span> server.<span class="tok-cmdlet">recvfrom</span>(<span class="tok-num">1024</span>)
+a, b <span class="tok-op">=</span> (<span class="tok-type">int</span>(part) <span class="tok-keyword">for</span> part <span class="tok-keyword">in</span> data.<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;ascii&quot;</span>).<span class="tok-cmdlet">split</span>(<span class="tok-string">&quot;,&quot;</span>))
+server.<span class="tok-cmdlet">sendto</span>(<span class="tok-type">str</span>(a <span class="tok-op">+</span> b).<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;ascii&quot;</span>), addr)
+reply, _ <span class="tok-op">=</span> client.<span class="tok-cmdlet">recvfrom</span>(<span class="tok-num">1024</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;请求：&quot;</span>, data.<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;ascii&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;响应：&quot;</span>, reply.<span class="tok-cmdlet">decode</span>(<span class="tok-string">&quot;ascii&quot;</span>))
+
+server.<span class="tok-cmdlet">close</span>()
+client.<span class="tok-cmdlet">close</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">请求： 3,4
+响应： 7</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="threading.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 多线程</span></a><a class="pager-link pager-link--next" href="smtp.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python SMTP 发送邮件</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、TCP/IP 基础</a><a class="toc-link toc-link--h2" href="#sec-2">二、socket 对象</a><a class="toc-link toc-link--h2" href="#sec-3">三、TCP 服务端：bind、listen、accept</a><a class="toc-link toc-link--h2" href="#sec-4">四、TCP 客户端与一次完整对话</a><a class="toc-link toc-link--h2" href="#sec-5">五、TCP 数据边界与 sendall</a><a class="toc-link toc-link--h2" href="#sec-6">六、UDP：sendto 与 recvfrom</a><a class="toc-link toc-link--h2" href="#sec-7">七、超时控制</a><a class="toc-link toc-link--h2" href="#sec-8">八、HTTP 简介</a><a class="toc-link toc-link--h2" href="#sec-9">九、错误处理</a><a class="toc-link toc-link--h2" href="#sec-10">十、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

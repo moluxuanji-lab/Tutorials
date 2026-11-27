@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 面向对象 · Python</title>
+<meta name="description" content="从类与对象出发，掌握 __init__ 与 self、实例属性与类属性、方法、继承与 super()、多态、封装、property、类方法与静态方法、魔术方法、dataclass、抽象基类，以及组合优于继承的设计思路。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="classes" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link is-active" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>进阶</span></nav><h1 class="doc-title">Python 面向对象</h1><p class="doc-lead">从类与对象出发，掌握 __init__ 与 self、实例属性与类属性、方法、继承与 super()、多态、封装、property、类方法与静态方法、魔术方法、dataclass、抽象基类，以及组合优于继承的设计思路。</p><div class="doc-meta"><span>第 29 章</span><span class="doc-meta__dot"></span><span>约 44 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>面向对象是把数据和操作数据的方法组织在一起的一种编程范式。类描述一类事物共有的属性和行为，对象则是这个类在运行时的具体实例。相比把一堆函数和字典散落在模块里，面向对象让“状态”和“操作状态的动作”待在同一个地方，边界更清晰，也更容易复用和扩展。</p>
+<p>Python 的面向对象机制相当轻量：类本身就是对象，属性查找在运行时完成，封装更多依赖命名约定而不是访问修饰符。理解这些特点之后，就能写出既符合 Python 习惯、又不过度设计的代码。</p>
+<p>本章从类与对象的基本写法开始，依次介绍初始化、属性、方法、继承、多态、封装、<code>property</code>、类方法与静态方法、魔术方法、<code>dataclass</code>、抽象基类，最后讨论为什么组合往往比继承更灵活。</p>
+<h2 id="sec-1" class="doc-heading">一、类与对象</h2>
+<p>类用 <code>class</code> 关键字定义，类体里可以写属性赋值和方法定义。使用 <code>类名(参数)</code> 创建对象的过程称为实例化，得到的对象拥有类中定义的全部能力。</p>
+<p>下面定义一个表示宠物的类，并创建它的实例：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Dog:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, age):
+        <span class="tok-var">self</span>.name <span class="tok-op">=</span> name
+        <span class="tok-var">self</span>.age <span class="tok-op">=</span> age
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">bark</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{self.name} 在叫：汪！&quot;</span>
+
+
+dog <span class="tok-op">=</span> <span class="tok-cmdlet">Dog</span>(<span class="tok-string">&quot;旺财&quot;</span>, <span class="tok-num">3</span>)
+<span class="tok-type">print</span>(dog.name, dog.age)
+<span class="tok-type">print</span>(dog.<span class="tok-cmdlet">bark</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类型：&quot;</span>, <span class="tok-type">type</span>(dog).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是 Dog 实例：&quot;</span>, <span class="tok-type">isinstance</span>(dog, Dog))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">旺财 3
+旺财 在叫：汪！
+类型： Dog
+是 Dog 实例： True</code></pre></figure>
+<p><code>type()</code> 返回对象所属的类，<code>isinstance()</code> 则判断对象是否属于某个类或其子类。同一个类可以创建任意多个对象，每个对象各自保存一份实例属性，互不干扰。</p>
+<p>类是对象，这一点在 Python 里同样成立：<code>Dog</code> 本身是 <code>type</code> 的实例，可以像普通值一样赋值、放进列表，甚至动态添加属性。这种灵活性让框架和插件系统可以用很少的代码完成注册与分发。</p>
+<h2 id="sec-2" class="doc-heading">二、__init__ 与 self</h2>
+<p><code>__init__()</code> 是实例初始化方法，对象创建完成后由解释器自动调用，用来给实例属性赋初值。它不负责分配内存，也不返回对象本身，所以不应该写 <code>return</code> 返回值。</p>
+<p>方法定义中的第一个参数习惯上命名为 <code>self</code>，它代表调用该方法的实例。通过 <code>对象.方法()</code> 调用时，Python 会自动把对象作为第一个参数传进去；也可以写成 <code>类名.方法(对象)</code> 显式传入。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Counter:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, start<span class="tok-op">=</span><span class="tok-num">0</span>):
+        <span class="tok-var">self</span>.value <span class="tok-op">=</span> start
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">increment</span>(<span class="tok-var">self</span>, step<span class="tok-op">=</span><span class="tok-num">1</span>):
+        <span class="tok-var">self</span>.value <span class="tok-op">+</span><span class="tok-op">=</span> step
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.value
+
+
+first <span class="tok-op">=</span> <span class="tok-cmdlet">Counter</span>()
+second <span class="tok-op">=</span> <span class="tok-cmdlet">Counter</span>(<span class="tok-num">10</span>)
+
+<span class="tok-type">print</span>(first.<span class="tok-cmdlet">increment</span>())
+<span class="tok-type">print</span>(first.<span class="tok-cmdlet">increment</span>(<span class="tok-num">5</span>))
+<span class="tok-type">print</span>(second.<span class="tok-cmdlet">increment</span>(<span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;first.value：&quot;</span>, first.value)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;second.value：&quot;</span>, second.value)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;显式传入 self：&quot;</span>, Counter.<span class="tok-cmdlet">increment</span>(second, <span class="tok-num">1</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;两个实例相互独立：&quot;</span>, first <span class="tok-keyword">is</span> <span class="tok-keyword">not</span> second)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">1
+6
+12
+first.value： 6
+second.value： 12
+显式传入 self： 13
+两个实例相互独立： True</code></pre></figure>
+<p><code>self</code> 不是关键字，只是约定俗成的名字，改成 <code>this</code> 程序照样能跑，但会破坏所有人的阅读习惯。真正重要的是位置：它必须是实例方法的第一个参数，调用时由解释器自动绑定。</p>
+<p><code>__init__()</code> 的参数在实例化时传入，因此可以把创建对象必需的初始状态都收在这里，并顺带做校验。需要更灵活的构造方式时，通常再配合类方法提供替代构造器。</p>
+<h2 id="sec-3" class="doc-heading">三、实例属性与类属性</h2>
+<p>属性分两类：写在 <code>__init__()</code> 里、通过 <code>self.xxx</code> 赋值的是实例属性，每个对象各有一份；直接写在类体里的是类属性，所有实例共享同一份。</p>
+<p>下面的例子用类属性统计员工人数，用实例属性保存个人信息：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Employee:
+    company <span class="tok-op">=</span> <span class="tok-string">&quot;星海科技&quot;</span>
+    headcount <span class="tok-op">=</span> <span class="tok-num">0</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, salary):
+        <span class="tok-var">self</span>.name <span class="tok-op">=</span> name
+        <span class="tok-var">self</span>.salary <span class="tok-op">=</span> salary
+        Employee.headcount <span class="tok-op">+</span><span class="tok-op">=</span> <span class="tok-num">1</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">profile</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{self.name} @ {self.company}，月薪 {self.salary}&quot;</span>
+
+
+a <span class="tok-op">=</span> <span class="tok-cmdlet">Employee</span>(<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-num">12000</span>)
+b <span class="tok-op">=</span> <span class="tok-cmdlet">Employee</span>(<span class="tok-string">&quot;小红&quot;</span>, <span class="tok-num">15000</span>)
+
+<span class="tok-type">print</span>(a.<span class="tok-cmdlet">profile</span>())
+<span class="tok-type">print</span>(b.<span class="tok-cmdlet">profile</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;员工人数：&quot;</span>, Employee.headcount)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;实例属性：&quot;</span>, <span class="tok-type">sorted</span>(a.__dict__))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类中有 company：&quot;</span>, <span class="tok-string">&quot;company&quot;</span> <span class="tok-keyword">in</span> Employee.__dict__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;实例读到 company：&quot;</span>, a.company)
+
+Employee.company <span class="tok-op">=</span> <span class="tok-string">&quot;云图科技&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;修改类属性：&quot;</span>, a.<span class="tok-cmdlet">profile</span>())
+
+a.salary <span class="tok-op">=</span> <span class="tok-num">13000</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;修改实例属性：&quot;</span>, a.salary, b.salary)
+
+a.company <span class="tok-op">=</span> <span class="tok-string">&quot;自营&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;遮蔽类属性：&quot;</span>, a.company, b.company, Employee.company)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;a 的实例属性：&quot;</span>, <span class="tok-type">sorted</span>(a.__dict__))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">小明 @ 星海科技，月薪 12000
+小红 @ 星海科技，月薪 15000
+员工人数： 2
+实例属性： ['name', 'salary']
+类中有 company： True
+实例读到 company： 星海科技
+修改类属性： 小明 @ 云图科技，月薪 12000
+修改实例属性： 13000 15000
+遮蔽类属性： 自营 云图科技 云图科技
+a 的实例属性： ['company', 'name', 'salary']</code></pre></figure>
+<p><code>headcount</code> 必须写成 <code>Employee.headcount += 1</code>，如果写成 <code>self.headcount += 1</code>，第一次自增就会在实例上新建属性，类属性永远停在 0。同理，<code>a.company = &quot;自营&quot;</code> 并不会修改类属性，只是在 <code>a</code> 的实例字典里新增一个同名条目，之后 <code>a.company</code> 读到的就是实例属性。</p>
+<p>经验法则是：描述“每个对象各自不同”的数据放实例属性，描述“整类共享”的常量或计数器放类属性。可变对象（列表、字典）尽量不要直接做类属性，否则所有实例会共用同一个容器。</p>
+<h2 id="sec-4" class="doc-heading">四、方法</h2>
+<p>方法是定义在类中、第一个参数为 <code>self</code> 的函数。它可以读取和修改实例状态，也可以调用同一个对象上的其他方法。把业务规则封装在方法里，调用方只需要表达意图，不必关心里面的校验和记账细节。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> BankAccount:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, owner, balance<span class="tok-op">=</span><span class="tok-num">0</span>):
+        <span class="tok-var">self</span>.owner <span class="tok-op">=</span> owner
+        <span class="tok-var">self</span>.balance <span class="tok-op">=</span> balance
+        <span class="tok-var">self</span>.history <span class="tok-op">=</span> []
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">deposit</span>(<span class="tok-var">self</span>, amount):
+        <span class="tok-keyword">if</span> amount <span class="tok-op">&lt;</span><span class="tok-op">=</span> <span class="tok-num">0</span>:
+            <span class="tok-keyword">raise</span> <span class="tok-type">ValueError</span>(<span class="tok-string">&quot;存款金额必须为正数&quot;</span>)
+        <span class="tok-var">self</span>.balance <span class="tok-op">+</span><span class="tok-op">=</span> amount
+        <span class="tok-var">self</span>.history.<span class="tok-cmdlet">append</span>((<span class="tok-string">&quot;存入&quot;</span>, amount))
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.balance
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">withdraw</span>(<span class="tok-var">self</span>, amount):
+        <span class="tok-keyword">if</span> amount <span class="tok-op">&gt;</span> <span class="tok-var">self</span>.balance:
+            <span class="tok-keyword">raise</span> <span class="tok-type">ValueError</span>(<span class="tok-string">&quot;余额不足&quot;</span>)
+        <span class="tok-var">self</span>.balance <span class="tok-op">-</span><span class="tok-op">=</span> amount
+        <span class="tok-var">self</span>.history.<span class="tok-cmdlet">append</span>((<span class="tok-string">&quot;取出&quot;</span>, amount))
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.balance
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">statement</span>(<span class="tok-var">self</span>):
+        lines <span class="tok-op">=</span> [<span class="tok-string">f&quot;{self.owner} 的交易记录&quot;</span>]
+        <span class="tok-keyword">for</span> action, amount <span class="tok-keyword">in</span> <span class="tok-var">self</span>.history:
+            lines.<span class="tok-cmdlet">append</span>(<span class="tok-string">f&quot;  {action} {amount}&quot;</span>)
+        lines.<span class="tok-cmdlet">append</span>(<span class="tok-string">f&quot;  余额 {self.balance}&quot;</span>)
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;\n&quot;</span>.<span class="tok-cmdlet">join</span>(lines)
+
+
+account <span class="tok-op">=</span> <span class="tok-cmdlet">BankAccount</span>(<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-num">100</span>)
+account.<span class="tok-cmdlet">deposit</span>(<span class="tok-num">200</span>)
+account.<span class="tok-cmdlet">withdraw</span>(<span class="tok-num">50</span>)
+<span class="tok-type">print</span>(account.<span class="tok-cmdlet">statement</span>())
+
+<span class="tok-keyword">try</span>:
+    account.<span class="tok-cmdlet">withdraw</span>(<span class="tok-num">1000</span>)
+<span class="tok-keyword">except</span> <span class="tok-type">ValueError</span> <span class="tok-keyword">as</span> error:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;操作失败：&quot;</span>, error)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;余额仍为：&quot;</span>, account.balance)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">小明 的交易记录
+  存入 200
+  取出 50
+  余额 250
+操作失败： 余额不足
+余额仍为： 250</code></pre></figure>
+<p>方法内部用 <code>self.history</code> 访问的是当前对象自己的列表，所以两个账户的交易记录不会混在一起。校验失败时直接抛异常，而不是返回错误码，调用方可以用 <code>try</code> / <code>except</code> 统一处理，正常路径的返回值也就保持干净。</p>
+<h2 id="sec-5" class="doc-heading">五、继承与 super()</h2>
+<p>继承通过在类名后面的圆括号里写父类实现，子类自动获得父类的属性和方法，并可以重写其中一部分。<code>super()</code> 用于调用父类的实现，最常见的场景是在子类 <code>__init__()</code> 中先完成父类的初始化，再补充自己的字段。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Animal:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name):
+        <span class="tok-var">self</span>.name <span class="tok-op">=</span> name
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">speak</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;发出声音&quot;</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">introduce</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;我是 {self.name}，{self.speak()}&quot;</span>
+
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Dog</span>(Animal):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, breed):
+        <span class="tok-type">super</span>().<span class="tok-cmdlet">__init__</span>(name)
+        <span class="tok-var">self</span>.breed <span class="tok-op">=</span> breed
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">speak</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;汪汪&quot;</span>
+
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Cat</span>(Animal):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">speak</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;喵喵&quot;</span>
+
+
+<span class="tok-keyword">for</span> pet <span class="tok-keyword">in</span> [<span class="tok-cmdlet">Dog</span>(<span class="tok-string">&quot;旺财&quot;</span>, <span class="tok-string">&quot;柴犬&quot;</span>), <span class="tok-cmdlet">Cat</span>(<span class="tok-string">&quot;咪咪&quot;</span>)]:
+    <span class="tok-type">print</span>(pet.<span class="tok-cmdlet">introduce</span>())
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;Dog 的 MRO：&quot;</span>, [<span class="tok-var">cls</span>.__name__ <span class="tok-keyword">for</span> <span class="tok-var">cls</span> <span class="tok-keyword">in</span> Dog.__mro__])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;isinstance：&quot;</span>, <span class="tok-type">isinstance</span>(<span class="tok-cmdlet">Dog</span>(<span class="tok-string">&quot;阿黄&quot;</span>, <span class="tok-string">&quot;中华田园犬&quot;</span>), Animal))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">我是 旺财，汪汪
+我是 咪咪，喵喵
+Dog 的 MRO： ['Dog', 'Animal', 'object']
+isinstance： True</code></pre></figure>
+<p><code>introduce()</code> 只定义在父类里，却调用了 <code>self.speak()</code>，运行时实际执行的是子类重写后的版本。<code>Dog.__mro__</code> 展示方法解析顺序：查找一个属性时按 <code>Dog</code>、<code>Animal</code>、<code>object</code> 的顺序依次搜索，这也是多继承时决定“用哪份实现”的依据。</p>
+<p>子类不应随意修改父类的私有属性，也不要在父类构造完成前使用子类字段。需要扩展父类行为时，优先在重写的方法里调用 <code>super().方法()</code>，把公共部分留给父类。</p>
+<h2 id="sec-6" class="doc-heading">六、多态</h2>
+<p>多态指同一段调用代码可以作用于不同类型的对象，具体执行哪个实现由对象的实际类型决定。Python 不要求这些类型共享同一个父类，只要它们提供同名方法即可，这种风格常被称为“鸭子类型”。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Shape:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">area</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">raise</span> <span class="tok-type">NotImplementedError</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">describe</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{type(self).__name__} 的面积是 {self.area():.2f}&quot;</span>
+
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Rectangle</span>(Shape):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, width, height):
+        <span class="tok-var">self</span>.width <span class="tok-op">=</span> width
+        <span class="tok-var">self</span>.height <span class="tok-op">=</span> height
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">area</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.width <span class="tok-op">*</span> <span class="tok-var">self</span>.height
+
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Circle</span>(Shape):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, radius):
+        <span class="tok-var">self</span>.radius <span class="tok-op">=</span> radius
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">area</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-num">3.14159</span> <span class="tok-op">*</span> <span class="tok-var">self</span>.radius <span class="tok-op">*</span><span class="tok-op">*</span> <span class="tok-num">2</span>
+
+
+shapes <span class="tok-op">=</span> [<span class="tok-cmdlet">Rectangle</span>(<span class="tok-num">3</span>, <span class="tok-num">4</span>), <span class="tok-cmdlet">Circle</span>(<span class="tok-num">2</span>), <span class="tok-cmdlet">Rectangle</span>(<span class="tok-num">5</span>, <span class="tok-num">5</span>)]
+<span class="tok-keyword">for</span> shape <span class="tok-keyword">in</span> shapes:
+    <span class="tok-type">print</span>(shape.<span class="tok-cmdlet">describe</span>())
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总面积：&quot;</span>, <span class="tok-type">round</span>(<span class="tok-type">sum</span>(shape.<span class="tok-cmdlet">area</span>() <span class="tok-keyword">for</span> shape <span class="tok-keyword">in</span> shapes), <span class="tok-num">2</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Rectangle 的面积是 12.00
+Circle 的面积是 12.57
+Rectangle 的面积是 25.00
+总面积： 49.57</code></pre></figure>
+<p>循环里只写了 <code>shape.describe()</code>，既没有 <code>if</code> 判断类型，也不需要知道列表里装的是圆还是矩形。新增一种图形时，只要实现 <code>area()</code>，原有代码一行都不用改，这就是多态带来的可扩展性。</p>
+<p><code>describe()</code> 里使用 <code>{self.area():.2f}</code> 把结果格式化为两位小数。浮点数参与格式化时仍可能有细微误差，涉及金额等精确场景应改用 <code>decimal.Decimal</code>。</p>
+<h2 id="sec-7" class="doc-heading">七、封装与私有属性</h2>
+<p>封装的目标是隐藏内部实现，只暴露稳定的接口。Python 没有严格的访问修饰符，而是用命名约定表达意图：</p>
+<ul><li><p>单下划线开头（<code>_balance</code>）表示“内部使用”，是给阅读者的提示，解释器不会阻止访问。</p></li><li><p>双下划线开头（<code>__pin</code>）会触发名称改写，属性在类外变成 <code>_类名__pin</code>，用于避免子类意外覆盖。</p></li></ul>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Account:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, owner, balance):
+        <span class="tok-var">self</span>.owner <span class="tok-op">=</span> owner
+        <span class="tok-var">self</span>._balance <span class="tok-op">=</span> balance
+        <span class="tok-var">self</span>.__pin <span class="tok-op">=</span> <span class="tok-string">&quot;1234&quot;</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">check_pin</span>(<span class="tok-var">self</span>, pin):
+        <span class="tok-keyword">return</span> pin <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-var">self</span>.__pin
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">masked_pin</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;*&quot;</span> <span class="tok-op">*</span> <span class="tok-type">len</span>(<span class="tok-var">self</span>.__pin)
+
+
+account <span class="tok-op">=</span> <span class="tok-cmdlet">Account</span>(<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-num">500</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;公开属性：&quot;</span>, account.owner)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;约定保护属性：&quot;</span>, account._balance)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;PIN 校验：&quot;</span>, account.<span class="tok-cmdlet">check_pin</span>(<span class="tok-string">&quot;1234&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;掩码显示：&quot;</span>, account.<span class="tok-cmdlet">masked_pin</span>())
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-type">print</span>(account.__pin)
+<span class="tok-keyword">except</span> <span class="tok-type">AttributeError</span> <span class="tok-keyword">as</span> error:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;直接访问失败：&quot;</span>, <span class="tok-type">type</span>(error).__name__)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;名称改写后的键：&quot;</span>, [key <span class="tok-keyword">for</span> key <span class="tok-keyword">in</span> account.__dict__ <span class="tok-keyword">if</span> <span class="tok-string">&quot;pin&quot;</span> <span class="tok-keyword">in</span> key])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;通过改写名访问：&quot;</span>, account._Account__pin)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">公开属性： 小明
+约定保护属性： 500
+PIN 校验： True
+掩码显示： ****
+直接访问失败： AttributeError
+名称改写后的键： ['_Account__pin']
+通过改写名访问： 1234</code></pre></figure>
+<p>名称改写不是加密，知道规则的人仍然可以用 <code>_Account__pin</code> 读到它。它的真正价值在于减少命名冲突，并明确告诉使用者“不要碰这里”。对外接口应该通过方法暴露，例如上面的 <code>check_pin()</code> 和 <code>masked_pin()</code>，这样内部结构变化时调用方不受影响。</p>
+<h2 id="sec-8" class="doc-heading">八、property</h2>
+<p><code>property</code> 把方法包装成属性访问，让调用方写 <code>obj.value</code> 而不是 <code>obj.value()</code>，同时还能在赋值时执行校验。它适合“读取时需要计算”或“写入时必须检查”的字段。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Temperature:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, celsius<span class="tok-op">=</span><span class="tok-num">0</span>):
+        <span class="tok-var">self</span>.celsius <span class="tok-op">=</span> celsius
+
+    <span class="tok-param">@property</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">celsius</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>._celsius
+
+    <span class="tok-param">@celsius.setter</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">celsius</span>(<span class="tok-var">self</span>, value):
+        <span class="tok-keyword">if</span> value <span class="tok-op">&lt;</span> <span class="tok-op">-</span><span class="tok-num">273.15</span>:
+            <span class="tok-keyword">raise</span> <span class="tok-type">ValueError</span>(<span class="tok-string">&quot;温度不能低于绝对零度&quot;</span>)
+        <span class="tok-var">self</span>._celsius <span class="tok-op">=</span> value
+
+    <span class="tok-param">@property</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">fahrenheit</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>._celsius <span class="tok-op">*</span> <span class="tok-num">9</span> <span class="tok-op">/</span> <span class="tok-num">5</span> <span class="tok-op">+</span> <span class="tok-num">32</span>
+
+
+t <span class="tok-op">=</span> <span class="tok-cmdlet">Temperature</span>(<span class="tok-num">25</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;摄氏：&quot;</span>, t.celsius)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;华氏：&quot;</span>, <span class="tok-type">round</span>(t.fahrenheit, <span class="tok-num">1</span>))
+
+t.celsius <span class="tok-op">=</span> <span class="tok-num">37</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;修改后摄氏：&quot;</span>, t.celsius)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;修改后华氏：&quot;</span>, <span class="tok-type">round</span>(t.fahrenheit, <span class="tok-num">1</span>))
+
+<span class="tok-keyword">try</span>:
+    t.celsius <span class="tok-op">=</span> <span class="tok-op">-</span><span class="tok-num">300</span>
+<span class="tok-keyword">except</span> <span class="tok-type">ValueError</span> <span class="tok-keyword">as</span> error:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;赋值失败：&quot;</span>, error)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;温度保持不变：&quot;</span>, t.celsius)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;fahrenheit 是只读属性：&quot;</span>, <span class="tok-type">isinstance</span>(Temperature.fahrenheit, <span class="tok-type">property</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">摄氏： 25
+华氏： 77.0
+修改后摄氏： 37
+修改后华氏： 98.6
+赋值失败： 温度不能低于绝对零度
+温度保持不变： 37
+fahrenheit 是只读属性： True</code></pre></figure>
+<p><code>@property</code> 定义 getter，<code>@celsius.setter</code> 定义 setter。<code>fahrenheit</code> 只写了 getter，没有 setter，因此是只读的，尝试赋值会抛 <code>AttributeError</code>。真正存储数据的 <code>_celsius</code> 只作为内部字段存在，外部统一通过 <code>celsius</code> 读写，校验逻辑就永远不会被绕过。</p>
+<h2 id="sec-9" class="doc-heading">九、类方法与静态方法</h2>
+<p>除了实例方法，类还可以定义类方法和静态方法：</p>
+<div class="table-wrap"><table><thead><tr><th>类型</th><th>定义方式</th><th>第一个参数</th><th>典型用途</th></tr></thead><tbody><tr><td>实例方法</td><td><code>def method(self)</code></td><td><code>self</code></td><td>读写实例状态</td></tr><tr><td>类方法</td><td><code>@classmethod</code></td><td><code>cls</code></td><td>替代构造器、访问类状态</td></tr><tr><td>静态方法</td><td><code>@staticmethod</code></td><td>没有约定</td><td>与类相关但不需要实例的工具函数</td></tr></tbody></table></div>
+<p>类方法的 <code>cls</code> 指向调用它的类，因此可以用于实现替代构造器；静态方法既不接收实例也不接收类，本质上是挂在类命名空间里的普通函数：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Date:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, year, month, day):
+        <span class="tok-var">self</span>.year <span class="tok-op">=</span> year
+        <span class="tok-var">self</span>.month <span class="tok-op">=</span> month
+        <span class="tok-var">self</span>.day <span class="tok-op">=</span> day
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__str__</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{self.year:04d}-{self.month:02d}-{self.day:02d}&quot;</span>
+
+    <span class="tok-param">@classmethod</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">from_string</span>(<span class="tok-var">cls</span>, text):
+        year, month, day <span class="tok-op">=</span> (<span class="tok-type">int</span>(part) <span class="tok-keyword">for</span> part <span class="tok-keyword">in</span> text.<span class="tok-cmdlet">split</span>(<span class="tok-string">&quot;-&quot;</span>))
+        <span class="tok-keyword">return</span> <span class="tok-var">cls</span>(year, month, day)
+
+    <span class="tok-param">@classmethod</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">new_year</span>(<span class="tok-var">cls</span>, year):
+        <span class="tok-keyword">return</span> <span class="tok-var">cls</span>(year, <span class="tok-num">1</span>, <span class="tok-num">1</span>)
+
+    <span class="tok-param">@staticmethod</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">is_leap</span>(year):
+        <span class="tok-keyword">return</span> year <span class="tok-op">%</span> <span class="tok-num">4</span> <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span> <span class="tok-keyword">and</span> (year <span class="tok-op">%</span> <span class="tok-num">100</span> <span class="tok-op">!</span><span class="tok-op">=</span> <span class="tok-num">0</span> <span class="tok-keyword">or</span> year <span class="tok-op">%</span> <span class="tok-num">400</span> <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span>)
+
+
+d1 <span class="tok-op">=</span> Date.<span class="tok-cmdlet">from_string</span>(<span class="tok-string">&quot;2024-03-15&quot;</span>)
+d2 <span class="tok-op">=</span> Date.<span class="tok-cmdlet">new_year</span>(<span class="tok-num">2025</span>)
+<span class="tok-type">print</span>(d1)
+<span class="tok-type">print</span>(d2)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;2024 是闰年：&quot;</span>, Date.<span class="tok-cmdlet">is_leap</span>(<span class="tok-num">2024</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;1900 是闰年：&quot;</span>, Date.<span class="tok-cmdlet">is_leap</span>(<span class="tok-num">1900</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类方法返回类型：&quot;</span>, <span class="tok-type">type</span>(Date.<span class="tok-cmdlet">from_string</span>(<span class="tok-string">&quot;2030-06-01&quot;</span>)).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">2024-03-15
+2025-01-01
+2024 是闰年： True
+1900 是闰年： False
+类方法返回类型： Date</code></pre></figure>
+<p><code>from_string()</code> 使用 <code>cls(...)</code> 而不是硬编码 <code>Date(...)</code>，这样被 <code>Date</code> 的子类调用时，返回的是子类实例，扩展性更好。<code>is_leap()</code> 不需要任何实例或类状态，声明为静态方法比写成模块级函数更能说明它属于 <code>Date</code> 这个职责范围。</p>
+<h2 id="sec-10" class="doc-heading">十、魔术方法</h2>
+<p>以双下划线开头和结尾的方法称为魔术方法，它们由解释器在特定语法下自动调用。实现这些方法，可以让自定义对象像内置类型一样支持打印、求长度、比较、相加和遍历。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Playlist:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, songs):
+        <span class="tok-var">self</span>.name <span class="tok-op">=</span> name
+        <span class="tok-var">self</span>.songs <span class="tok-op">=</span> <span class="tok-type">list</span>(songs)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__str__</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;歌单《{self.name}》，共 {len(self.songs)} 首&quot;</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__repr__</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;Playlist(name={self.name!r}, songs={self.songs!r})&quot;</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__len__</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-type">len</span>(<span class="tok-var">self</span>.songs)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__eq__</span>(<span class="tok-var">self</span>, other):
+        <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> <span class="tok-type">isinstance</span>(other, Playlist):
+            <span class="tok-keyword">return</span> NotImplemented
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.songs <span class="tok-op">=</span><span class="tok-op">=</span> other.songs
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__add__</span>(<span class="tok-var">self</span>, other):
+        <span class="tok-keyword">return</span> <span class="tok-cmdlet">Playlist</span>(<span class="tok-string">f&quot;{self.name}+{other.name}&quot;</span>, <span class="tok-var">self</span>.songs <span class="tok-op">+</span> other.songs)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__iter__</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-type">iter</span>(<span class="tok-var">self</span>.songs)
+
+
+a <span class="tok-op">=</span> <span class="tok-cmdlet">Playlist</span>(<span class="tok-string">&quot;通勤&quot;</span>, [<span class="tok-string">&quot;晴天&quot;</span>, <span class="tok-string">&quot;稻香&quot;</span>])
+b <span class="tok-op">=</span> <span class="tok-cmdlet">Playlist</span>(<span class="tok-string">&quot;夜晚&quot;</span>, [<span class="tok-string">&quot;夜曲&quot;</span>])
+
+<span class="tok-type">print</span>(a)
+<span class="tok-type">print</span>(<span class="tok-type">repr</span>(b))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;歌曲数：&quot;</span>, <span class="tok-type">len</span>(a))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;内容相同则相等：&quot;</span>, a <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-cmdlet">Playlist</span>(<span class="tok-string">&quot;通勤&quot;</span>, [<span class="tok-string">&quot;晴天&quot;</span>, <span class="tok-string">&quot;稻香&quot;</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;内容不同则不等：&quot;</span>, a <span class="tok-op">=</span><span class="tok-op">=</span> b)
+
+combined <span class="tok-op">=</span> a <span class="tok-op">+</span> b
+<span class="tok-type">print</span>(combined)
+<span class="tok-keyword">for</span> song <span class="tok-keyword">in</span> combined:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;播放：&quot;</span>, song)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">歌单《通勤》，共 2 首
+Playlist(name='夜晚', songs=['夜曲'])
+歌曲数： 2
+内容相同则相等： True
+内容不同则不等： False
+歌单《通勤+夜晚》，共 3 首
+播放： 晴天
+播放： 稻香
+播放： 夜曲</code></pre></figure>
+<p><code>__str__()</code> 面向最终用户，<code>__repr__()</code> 面向开发者，后者应尽量给出可以重建对象的表达式。<code>__eq__()</code> 遇到无关类型时返回 <code>NotImplemented</code>，让 Python 有机会尝试对方的比较方法，而不是直接判定为不相等。实现了 <code>__eq__()</code> 之后，对象默认不再可哈希，如果还要放进集合或作为字典键，需要额外定义 <code>__hash__()</code>。</p>
+<h2 id="sec-11" class="doc-heading">十一、dataclass</h2>
+<p>很多类的主要工作只是保存若干字段，<code>__init__()</code>、<code>__repr__()</code>、<code>__eq__()</code> 都是重复的样板代码。标准库的 <code>dataclass</code> 装饰器可以根据字段注解自动生成这些方法：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> dataclasses <span class="tok-keyword">import</span> dataclass, field, asdict
+
+
+<span class="tok-param">@dataclass</span>
+<span class="tok-keyword">class</span> Book:
+    title: <span class="tok-type">str</span>
+    price: <span class="tok-type">float</span>
+    tags: <span class="tok-type">list</span> <span class="tok-op">=</span> <span class="tok-cmdlet">field</span>(default_factory<span class="tok-op">=</span><span class="tok-type">list</span>)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">discounted</span>(<span class="tok-var">self</span>, rate<span class="tok-op">=</span><span class="tok-num">0.9</span>):
+        <span class="tok-keyword">return</span> <span class="tok-type">round</span>(<span class="tok-var">self</span>.price <span class="tok-op">*</span> rate, <span class="tok-num">2</span>)
+
+
+<span class="tok-param">@dataclass</span>(frozen<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+<span class="tok-keyword">class</span> Point:
+    x: <span class="tok-type">int</span>
+    y: <span class="tok-type">int</span>
+
+
+book <span class="tok-op">=</span> <span class="tok-cmdlet">Book</span>(<span class="tok-string">&quot;Python 进阶&quot;</span>, <span class="tok-num">89.0</span>)
+book.tags.<span class="tok-cmdlet">append</span>(<span class="tok-string">&quot;编程&quot;</span>)
+<span class="tok-type">print</span>(book)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;打折价：&quot;</span>, book.<span class="tok-cmdlet">discounted</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;转成字典：&quot;</span>, <span class="tok-cmdlet">asdict</span>(book))
+
+other <span class="tok-op">=</span> <span class="tok-cmdlet">Book</span>(<span class="tok-string">&quot;Python 进阶&quot;</span>, <span class="tok-num">89.0</span>, [<span class="tok-string">&quot;编程&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;默认比较字段：&quot;</span>, book <span class="tok-op">=</span><span class="tok-op">=</span> other)
+
+p <span class="tok-op">=</span> <span class="tok-cmdlet">Point</span>(<span class="tok-num">1</span>, <span class="tok-num">2</span>)
+<span class="tok-type">print</span>(p)
+<span class="tok-keyword">try</span>:
+    p.x <span class="tok-op">=</span> <span class="tok-num">10</span>
+<span class="tok-keyword">except</span> <span class="tok-type">Exception</span> <span class="tok-keyword">as</span> error:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;冻结实例不可修改：&quot;</span>, <span class="tok-type">type</span>(error).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Book(title='Python 进阶', price=89.0, tags=['编程'])
+打折价： 80.1
+转成字典： {'title': 'Python 进阶', 'price': 89.0, 'tags': ['编程']}
+默认比较字段： True
+Point(x=1, y=2)
+冻结实例不可修改： FrozenInstanceError</code></pre></figure>
+<p>可变默认值必须用 <code>field(default_factory=list)</code>，直接写 <code>tags: list = []</code> 会让所有实例共享同一个列表，这与函数默认参数的陷阱是同一个原因。<code>frozen=True</code> 生成不可变实例，适合做值对象、配置项或字典的键。</p>
+<h2 id="sec-12" class="doc-heading">十二、抽象基类简介</h2>
+<p>抽象基类用于定义接口：它声明子类必须实现哪些方法，自身不能被实例化。标准库的 <code>abc</code> 模块提供 <code>ABC</code> 基类和 <code>@abstractmethod</code> 装饰器：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> abc <span class="tok-keyword">import</span> ABC, abstractmethod
+
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Storage</span>(ABC):
+    <span class="tok-param">@abstractmethod</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">save</span>(<span class="tok-var">self</span>, key, value):
+        <span class="tok-keyword">raise</span> <span class="tok-type">NotImplementedError</span>
+
+    <span class="tok-param">@abstractmethod</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">load</span>(<span class="tok-var">self</span>, key):
+        <span class="tok-keyword">raise</span> <span class="tok-type">NotImplementedError</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">describe</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{type(self).__name__} 已就绪&quot;</span>
+
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">MemoryStorage</span>(Storage):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>):
+        <span class="tok-var">self</span>.data <span class="tok-op">=</span> {}
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">save</span>(<span class="tok-var">self</span>, key, value):
+        <span class="tok-var">self</span>.data[key] <span class="tok-op">=</span> value
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">load</span>(<span class="tok-var">self</span>, key):
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.data.<span class="tok-cmdlet">get</span>(key)
+
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-cmdlet">Storage</span>()
+<span class="tok-keyword">except</span> <span class="tok-type">TypeError</span> <span class="tok-keyword">as</span> error:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;抽象类不能实例化：&quot;</span>, <span class="tok-type">type</span>(error).__name__)
+
+store <span class="tok-op">=</span> <span class="tok-cmdlet">MemoryStorage</span>()
+store.<span class="tok-cmdlet">save</span>(<span class="tok-string">&quot;name&quot;</span>, <span class="tok-string">&quot;小明&quot;</span>)
+<span class="tok-type">print</span>(store.<span class="tok-cmdlet">describe</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;读取：&quot;</span>, store.<span class="tok-cmdlet">load</span>(<span class="tok-string">&quot;name&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;缺失的键：&quot;</span>, store.<span class="tok-cmdlet">load</span>(<span class="tok-string">&quot;age&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;剩余抽象方法：&quot;</span>, MemoryStorage.__abstractmethods__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">抽象类不能实例化： TypeError
+MemoryStorage 已就绪
+读取： 小明
+缺失的键： None
+剩余抽象方法： frozenset()</code></pre></figure>
+<p>只要还有一个抽象方法没实现，子类就无法实例化，错误会在创建对象时立刻暴露，而不是等到调用某个方法才出现。抽象基类适合团队协作中约定接口，也适合配合 <code>isinstance()</code> 做基于协议的运行时检查；如果只是想让类型检查器满意，<code>typing.Protocol</code> 往往是更轻量的选择。</p>
+<h2 id="sec-13" class="doc-heading">十三、组合优于继承</h2>
+<p>继承表达“是一种”（is-a）的关系，组合表达“有一个”（has-a）的关系。现实中的对象往往由多个独立部件构成，用组合把职责拆开，比拉长继承链更容易替换和测试。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Engine:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, power):
+        <span class="tok-var">self</span>.power <span class="tok-op">=</span> power
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">start</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{self.power} 马力发动机启动&quot;</span>
+
+
+<span class="tok-keyword">class</span> Wheels:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, count):
+        <span class="tok-var">self</span>.count <span class="tok-op">=</span> count
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">roll</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{self.count} 个车轮开始转动&quot;</span>
+
+
+<span class="tok-keyword">class</span> Car:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, power, wheel_count<span class="tok-op">=</span><span class="tok-num">4</span>):
+        <span class="tok-var">self</span>.name <span class="tok-op">=</span> name
+        <span class="tok-var">self</span>.engine <span class="tok-op">=</span> <span class="tok-cmdlet">Engine</span>(power)
+        <span class="tok-var">self</span>.wheels <span class="tok-op">=</span> <span class="tok-cmdlet">Wheels</span>(wheel_count)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">start</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{self.name}：&quot;</span> <span class="tok-op">+</span> <span class="tok-var">self</span>.engine.<span class="tok-cmdlet">start</span>() <span class="tok-op">+</span> <span class="tok-string">&quot;，&quot;</span> <span class="tok-op">+</span> <span class="tok-var">self</span>.wheels.<span class="tok-cmdlet">roll</span>()
+
+
+<span class="tok-keyword">class</span> ElectricCar:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, battery):
+        <span class="tok-var">self</span>.name <span class="tok-op">=</span> name
+        <span class="tok-var">self</span>.battery <span class="tok-op">=</span> battery
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">start</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{self.name}：电池 {self.battery} kWh，电机静音启动&quot;</span>
+
+
+<span class="tok-keyword">for</span> vehicle <span class="tok-keyword">in</span> [<span class="tok-cmdlet">Car</span>(<span class="tok-string">&quot;家用轿车&quot;</span>, <span class="tok-num">150</span>), <span class="tok-cmdlet">ElectricCar</span>(<span class="tok-string">&quot;电动车&quot;</span>, <span class="tok-num">60</span>)]:
+    <span class="tok-type">print</span>(vehicle.<span class="tok-cmdlet">start</span>())
+
+car <span class="tok-op">=</span> <span class="tok-cmdlet">Car</span>(<span class="tok-string">&quot;越野车&quot;</span>, <span class="tok-num">200</span>, <span class="tok-num">4</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;发动机类型：&quot;</span>, <span class="tok-type">type</span>(car.engine).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;车轮数量：&quot;</span>, car.wheels.count)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">家用轿车：150 马力发动机启动，4 个车轮开始转动
+电动车：电池 60 kWh，电机静音启动
+发动机类型： Engine
+车轮数量： 4</code></pre></figure>
+<p>如果改用继承，<code>ElectricCar</code> 会被迫继承用不上的 <code>Engine</code>，还得重写一堆方法；而组合让 <code>Car</code> 持有一个发动机对象，替换成电动引擎时只需换掉部件，<code>Car</code> 的其余代码保持不变。判断标准很简单：子类确实是父类的一种特例时才用继承，否则优先把对方作为属性持有。</p>
+<h2 id="sec-14" class="doc-heading">十四、练习任务</h2>
+<p>任务 1：写一个商品类，用 <code>property</code> 校验价格必须大于 0，并实现 <code>__str__()</code> 与 <code>__eq__()</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Product:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, price, stock<span class="tok-op">=</span><span class="tok-num">0</span>):
+        <span class="tok-var">self</span>.name <span class="tok-op">=</span> name
+        <span class="tok-var">self</span>.price <span class="tok-op">=</span> price
+        <span class="tok-var">self</span>.stock <span class="tok-op">=</span> stock
+
+    <span class="tok-param">@property</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">price</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>._price
+
+    <span class="tok-param">@price.setter</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">price</span>(<span class="tok-var">self</span>, value):
+        <span class="tok-keyword">if</span> value <span class="tok-op">&lt;</span><span class="tok-op">=</span> <span class="tok-num">0</span>:
+            <span class="tok-keyword">raise</span> <span class="tok-type">ValueError</span>(<span class="tok-string">&quot;价格必须大于 0&quot;</span>)
+        <span class="tok-var">self</span>._price <span class="tok-op">=</span> value
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__str__</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{self.name}：{self.price} 元，库存 {self.stock}&quot;</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__eq__</span>(<span class="tok-var">self</span>, other):
+        <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> <span class="tok-type">isinstance</span>(other, Product):
+            <span class="tok-keyword">return</span> NotImplemented
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.name <span class="tok-op">=</span><span class="tok-op">=</span> other.name <span class="tok-keyword">and</span> <span class="tok-var">self</span>.price <span class="tok-op">=</span><span class="tok-op">=</span> other.price
+
+
+items <span class="tok-op">=</span> [<span class="tok-cmdlet">Product</span>(<span class="tok-string">&quot;键盘&quot;</span>, <span class="tok-num">299</span>), <span class="tok-cmdlet">Product</span>(<span class="tok-string">&quot;鼠标&quot;</span>, <span class="tok-num">129</span>, <span class="tok-num">10</span>)]
+<span class="tok-keyword">for</span> item <span class="tok-keyword">in</span> items:
+    <span class="tok-type">print</span>(item)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-cmdlet">Product</span>(<span class="tok-string">&quot;显示器&quot;</span>, <span class="tok-op">-</span><span class="tok-num">1</span>)
+<span class="tok-keyword">except</span> <span class="tok-type">ValueError</span> <span class="tok-keyword">as</span> error:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;创建失败：&quot;</span>, error)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;同名同价相等：&quot;</span>, <span class="tok-cmdlet">Product</span>(<span class="tok-string">&quot;键盘&quot;</span>, <span class="tok-num">299</span>) <span class="tok-op">=</span><span class="tok-op">=</span> items[<span class="tok-num">0</span>])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">键盘：299 元，库存 0
+鼠标：129 元，库存 10
+创建失败： 价格必须大于 0
+同名同价相等： True</code></pre></figure>
+<p>任务 2：用继承和 <code>super()</code> 实现员工、经理、实习生三类对象，并让同一段循环分别计算他们的薪资。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Employee:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, base_salary):
+        <span class="tok-var">self</span>.name <span class="tok-op">=</span> name
+        <span class="tok-var">self</span>.base_salary <span class="tok-op">=</span> base_salary
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">salary</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.base_salary
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__str__</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;{self.name}（{type(self).__name__}）：{self.salary()} 元&quot;</span>
+
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Manager</span>(Employee):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, name, base_salary, bonus):
+        <span class="tok-type">super</span>().<span class="tok-cmdlet">__init__</span>(name, base_salary)
+        <span class="tok-var">self</span>.bonus <span class="tok-op">=</span> bonus
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">salary</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.base_salary <span class="tok-op">+</span> <span class="tok-var">self</span>.bonus
+
+
+<span class="tok-keyword">class</span> <span class="tok-cmdlet">Intern</span>(Employee):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">salary</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-type">round</span>(<span class="tok-var">self</span>.base_salary <span class="tok-op">*</span> <span class="tok-num">0.8</span>)
+
+
+staff <span class="tok-op">=</span> [<span class="tok-cmdlet">Employee</span>(<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-num">8000</span>), <span class="tok-cmdlet">Manager</span>(<span class="tok-string">&quot;小红&quot;</span>, <span class="tok-num">12000</span>, <span class="tok-num">3000</span>), <span class="tok-cmdlet">Intern</span>(<span class="tok-string">&quot;小刚&quot;</span>, <span class="tok-num">5000</span>)]
+<span class="tok-keyword">for</span> person <span class="tok-keyword">in</span> staff:
+    <span class="tok-type">print</span>(person)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总支出：&quot;</span>, <span class="tok-type">sum</span>(person.<span class="tok-cmdlet">salary</span>() <span class="tok-keyword">for</span> person <span class="tok-keyword">in</span> staff))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">小明（Employee）：8000 元
+小红（Manager）：15000 元
+小刚（Intern）：4000 元
+总支出： 27000</code></pre></figure>
+<p>任务 3：用 <code>dataclass</code> 表示学生，统计平均分，并按平均分从高到低输出。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> dataclasses <span class="tok-keyword">import</span> dataclass, field
+
+
+<span class="tok-param">@dataclass</span>
+<span class="tok-keyword">class</span> Student:
+    name: <span class="tok-type">str</span>
+    scores: <span class="tok-type">list</span> <span class="tok-op">=</span> <span class="tok-cmdlet">field</span>(default_factory<span class="tok-op">=</span><span class="tok-type">list</span>)
+
+    <span class="tok-param">@property</span>
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">average</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> <span class="tok-var">self</span>.scores:
+            <span class="tok-keyword">return</span> <span class="tok-num">0.0</span>
+        <span class="tok-keyword">return</span> <span class="tok-type">round</span>(<span class="tok-type">sum</span>(<span class="tok-var">self</span>.scores) <span class="tok-op">/</span> <span class="tok-type">len</span>(<span class="tok-var">self</span>.scores), <span class="tok-num">1</span>)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__len__</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-type">len</span>(<span class="tok-var">self</span>.scores)
+
+
+students <span class="tok-op">=</span> [
+    <span class="tok-cmdlet">Student</span>(<span class="tok-string">&quot;小明&quot;</span>, [<span class="tok-num">90</span>, <span class="tok-num">85</span>, <span class="tok-num">88</span>]),
+    <span class="tok-cmdlet">Student</span>(<span class="tok-string">&quot;小红&quot;</span>, [<span class="tok-num">95</span>, <span class="tok-num">92</span>, <span class="tok-num">99</span>]),
+    <span class="tok-cmdlet">Student</span>(<span class="tok-string">&quot;小刚&quot;</span>, []),
+]
+
+<span class="tok-keyword">for</span> student <span class="tok-keyword">in</span> <span class="tok-type">sorted</span>(students, key<span class="tok-op">=</span><span class="tok-keyword">lambda</span> item: item.average, reverse<span class="tok-op">=</span><span class="tok-keyword">True</span>):
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{student.name} 平均分 {student.average}，共 {len(student)} 门&quot;</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最高平均分：&quot;</span>, <span class="tok-type">max</span>(student.average <span class="tok-keyword">for</span> student <span class="tok-keyword">in</span> students))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">小红 平均分 95.3，共 3 门
+小明 平均分 87.7，共 3 门
+小刚 平均分 0.0，共 0 门
+最高平均分： 95.3</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="errors.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 错误和异常</span></a><a class="pager-link pager-link--next" href="scope.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 命名空间和作用域</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、类与对象</a><a class="toc-link toc-link--h2" href="#sec-2">二、__init__ 与 self</a><a class="toc-link toc-link--h2" href="#sec-3">三、实例属性与类属性</a><a class="toc-link toc-link--h2" href="#sec-4">四、方法</a><a class="toc-link toc-link--h2" href="#sec-5">五、继承与 super()</a><a class="toc-link toc-link--h2" href="#sec-6">六、多态</a><a class="toc-link toc-link--h2" href="#sec-7">七、封装与私有属性</a><a class="toc-link toc-link--h2" href="#sec-8">八、property</a><a class="toc-link toc-link--h2" href="#sec-9">九、类方法与静态方法</a><a class="toc-link toc-link--h2" href="#sec-10">十、魔术方法</a><a class="toc-link toc-link--h2" href="#sec-11">十一、dataclass</a><a class="toc-link toc-link--h2" href="#sec-12">十二、抽象基类简介</a><a class="toc-link toc-link--h2" href="#sec-13">十三、组合优于继承</a><a class="toc-link toc-link--h2" href="#sec-14">十四、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

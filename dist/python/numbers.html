@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 数字 · Python</title>
+<meta name="description" content="认识 int、float、complex 三种数字类型，处理浮点精度与 decimal 精确计算，掌握 math、cmath、random 常用函数、数学常量与数字格式化。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="numbers" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link is-active" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>核心语法</span></nav><h1 class="doc-title">Python 数字</h1><p class="doc-lead">认识 int、float、complex 三种数字类型，处理浮点精度与 decimal 精确计算，掌握 math、cmath、random 常用函数、数学常量与数字格式化。</p><div class="doc-meta"><span>第 10 章</span><span class="doc-meta__dot"></span><span>约 27 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>数字是 Python 最基础的数据类型。整数没有大小上限，浮点数遵循 IEEE 754 双精度标准，复数原生支持。理解这三者的表示方式与边界，才能在处理金额、统计、仿真等场景时避开精度陷阱。</p>
+<h2 id="sec-1" class="doc-heading">一、int 整数</h2>
+<p>Python 的 <code>int</code> 是任意精度整数，只受内存限制，不会像 C 语言那样在 64 位处溢出。书写时可以用下划线分组提升可读性，也可以直接用二进制 <code>0b</code>、八进制 <code>0o</code>、十六进制 <code>0x</code> 前缀。</p>
+<p><code>bit_length()</code> 返回表示该整数所需的最少二进制位数，<code>int()</code> 负责把字符串或浮点数转换成整数，其中浮点数转换是直接截断小数部分，不进行四舍五入。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">count <span class="tok-op">=</span> <span class="tok-num">42</span>
+big <span class="tok-op">=</span> <span class="tok-num">2</span> <span class="tok-op">*</span><span class="tok-op">*</span> <span class="tok-num">100</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;十进制：&quot;</span>, <span class="tok-num">1</span>_000_000)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;二进制 0b1010 =&quot;</span>, <span class="tok-num">0</span>b1010)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;八进制 0o17 =&quot;</span>, <span class="tok-num">0</span>o17)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;十六进制 0xFF =&quot;</span>, <span class="tok-num">0</span>xFF)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;2 ** 100 =&quot;</span>, big)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;二进制位数：&quot;</span>, big.<span class="tok-cmdlet">bit_length</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;int('42') =&quot;</span>, <span class="tok-type">int</span>(<span class="tok-string">&quot;42&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;int('ff', 16) =&quot;</span>, <span class="tok-type">int</span>(<span class="tok-string">&quot;ff&quot;</span>, <span class="tok-num">16</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;int(3.99) =&quot;</span>, <span class="tok-type">int</span>(<span class="tok-num">3.99</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;int(-3.99) =&quot;</span>, <span class="tok-type">int</span>(<span class="tok-op">-</span><span class="tok-num">3.99</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;10 / 3 取整：&quot;</span>, <span class="tok-type">int</span>(<span class="tok-num">10</span> <span class="tok-op">/</span> <span class="tok-num">3</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类型：&quot;</span>, <span class="tok-type">type</span>(count).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">十进制： 1000000
+二进制 0b1010 = 10
+八进制 0o17 = 15
+十六进制 0xFF = 255
+2 ** 100 = 1267650600228229401496703205376
+二进制位数： 101
+int('42') = 42
+int('ff', 16) = 255
+int(3.99) = 3
+int(-3.99) = -3
+10 / 3 取整： 3
+类型： int</code></pre></figure>
+<p><code>int(-3.99)</code> 得到 <code>-3</code>，是朝零截断而不是向下取整；想要向下取整应当用 <code>math.floor(-3.99)</code>，结果为 <code>-4</code>。<code>int()</code> 的第二个参数指定进制，解析配置、颜色值、协议字段时会经常用到。</p>
+<h2 id="sec-2" class="doc-heading">二、float 浮点数</h2>
+<p><code>float</code> 用 64 位双精度表示，能存大约 15 到 17 位有效数字，范围约为 <code>1e-308</code> 到 <code>1e308</code>。它可以用小数点写法，也可以用科学计数法 <code>1.5e3</code>。</p>
+<p>浮点数有两个特殊值：<code>inf</code> 表示无穷大，<code>nan</code> 表示“非数”。<code>nan</code> 与任何值比较都为假，连它自己也不等于自己，所以判断 <code>nan</code> 要用 <code>math.isnan()</code>，不能写 <code>==</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">price <span class="tok-op">=</span> <span class="tok-num">19.9</span>
+ratio <span class="tok-op">=</span> <span class="tok-num">1.5e-3</span>
+whole <span class="tok-op">=</span> <span class="tok-num">7.0</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;price =&quot;</span>, price)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;ratio =&quot;</span>, ratio)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;whole =&quot;</span>, whole)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;float('3.14') =&quot;</span>, <span class="tok-type">float</span>(<span class="tok-string">&quot;3.14&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;float(7) =&quot;</span>, <span class="tok-type">float</span>(<span class="tok-num">7</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;整数值判断：&quot;</span>, whole.<span class="tok-cmdlet">is_integer</span>(), (<span class="tok-num">7.5</span>).<span class="tok-cmdlet">is_integer</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;科学计数法：&quot;</span>, <span class="tok-string">f&quot;{123456789:.3e}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;inf 大于任意大整数：&quot;</span>, <span class="tok-type">float</span>(<span class="tok-string">&quot;inf&quot;</span>) <span class="tok-op">&gt;</span> <span class="tok-num">10</span> <span class="tok-op">*</span><span class="tok-op">*</span> <span class="tok-num">100</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;nan 不等于自身：&quot;</span>, <span class="tok-type">float</span>(<span class="tok-string">&quot;nan&quot;</span>) <span class="tok-op">!</span><span class="tok-op">=</span> <span class="tok-type">float</span>(<span class="tok-string">&quot;nan&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类型：&quot;</span>, <span class="tok-type">type</span>(price).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">price = 19.9
+ratio = 0.0015
+whole = 7.0
+float('3.14') = 3.14
+float(7) = 7.0
+整数值判断： True False
+科学计数法： 1.235e+08
+inf 大于任意大整数： True
+nan 不等于自身： True
+类型： float</code></pre></figure>
+<p><code>is_integer()</code> 判断浮点数的小数部分是否为 0，常用来区分“整数值的浮点数”和真正带小数的值。需要判断一个浮点数能否安全地转成整数时，它比 <code>x % 1 == 0</code> 更直观。</p>
+<h2 id="sec-3" class="doc-heading">三、complex 复数</h2>
+<p>复数字面量在数字后加 <code>j</code>，例如 <code>3 + 4j</code>。它有两个只读属性：<code>real</code> 取实部，<code>imag</code> 取虚部。内置函数 <code>abs()</code> 返回复数的模，<code>conjugate()</code> 返回共轭复数。</p>
+<p>Python 没有单独的“虚数”类型，<code>4j</code> 本身就是一个实部为 0 的复数。复数之间可以做加减乘除和幂运算，但不能比较大小。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">a <span class="tok-op">=</span> <span class="tok-num">3</span> <span class="tok-op">+</span> <span class="tok-num">4j</span>
+b <span class="tok-op">=</span> <span class="tok-num">1</span> <span class="tok-op">-</span> <span class="tok-num">2j</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;a =&quot;</span>, a)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;b =&quot;</span>, b)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;a + b =&quot;</span>, a <span class="tok-op">+</span> b)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;a * b =&quot;</span>, a <span class="tok-op">*</span> b)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;complex(2, -3) =&quot;</span>, <span class="tok-type">complex</span>(<span class="tok-num">2</span>, <span class="tok-op">-</span><span class="tok-num">3</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;实部：&quot;</span>, a.real, <span class="tok-string">&quot;虚部：&quot;</span>, a.imag)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;共轭：&quot;</span>, a.<span class="tok-cmdlet">conjugate</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;模：&quot;</span>, <span class="tok-type">abs</span>(a))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类型：&quot;</span>, <span class="tok-type">type</span>(a).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">a = (3+4j)
+b = (1-2j)
+a + b = (4+2j)
+a * b = (11-2j)
+complex(2, -3) = (2-3j)
+实部： 3.0 虚部： 4.0
+共轭： (3-4j)
+模： 5.0
+类型： complex</code></pre></figure>
+<p>复数的实部和虚部都是 <code>float</code>，所以 <code>a.real</code> 打印出来是 <code>3.0</code> 而不是 <code>3</code>。三个复数相加时，建议用内置的 <code>sum()</code> 并显式给出初值 <code>0j</code>，否则空序列求和会得到整数 <code>0</code>。</p>
+<h2 id="sec-4" class="doc-heading">四、浮点精度与 decimal</h2>
+<p>浮点数用二进制存储小数，而 <code>0.1</code> 这样的十进制小数在二进制中是无限循环的，只能近似保存。因此 <code>0.1 + 0.2</code> 并不等于 <code>0.3</code>，而是 <code>0.30000000000000004</code>。这类误差在累加多次后会放大，金额、税率、对账场景必须避开。</p>
+<h3 id="sec-5" class="doc-heading">用 Decimal 精确计算</h3>
+<p><code>decimal</code> 模块用十进制浮点运算，精度和舍入方式都可以控制，适合财务计算。构造 <code>Decimal</code> 时务必传字符串，写成 <code>Decimal(0.1)</code> 会把浮点误差原样带进去。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> decimal <span class="tok-keyword">import</span> Decimal, ROUND_HALF_UP, getcontext
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;0.1 + 0.2 =&quot;</span>, <span class="tok-num">0.1</span> <span class="tok-op">+</span> <span class="tok-num">0.2</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是否等于 0.3：&quot;</span>, <span class="tok-num">0.1</span> <span class="tok-op">+</span> <span class="tok-num">0.2</span> <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0.3</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;round 之后：&quot;</span>, <span class="tok-type">round</span>(<span class="tok-num">0.1</span> <span class="tok-op">+</span> <span class="tok-num">0.2</span>, <span class="tok-num">2</span>))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;Decimal：&quot;</span>, <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.1&quot;</span>) <span class="tok-op">+</span> <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.2&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;Decimal 相等：&quot;</span>, <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.1&quot;</span>) <span class="tok-op">+</span> <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.2&quot;</span>) <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.3&quot;</span>))
+
+price <span class="tok-op">=</span> <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;19.99&quot;</span>)
+rate <span class="tok-op">=</span> <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.13&quot;</span>)
+tax <span class="tok-op">=</span> (price <span class="tok-op">*</span> rate).<span class="tok-cmdlet">quantize</span>(<span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.01&quot;</span>), rounding<span class="tok-op">=</span>ROUND_HALF_UP)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;税额：&quot;</span>, tax)
+
+<span class="tok-cmdlet">getcontext</span>().prec <span class="tok-op">=</span> <span class="tok-num">6</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;1 / 3 =&quot;</span>, <span class="tok-cmdlet">Decimal</span>(<span class="tok-num">1</span>) <span class="tok-op">/</span> <span class="tok-cmdlet">Decimal</span>(<span class="tok-num">3</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">0.1 + 0.2 = 0.30000000000000004
+是否等于 0.3： False
+round 之后： 0.3
+Decimal： 0.3
+Decimal 相等： True
+税额： 2.60
+1 / 3 = 0.333333</code></pre></figure>
+<p><code>quantize()</code> 负责把结果舍入到指定的小数位数，<code>ROUND_HALF_UP</code> 就是日常说的“四舍五入”。<code>getcontext().prec</code> 控制有效数字位数，默认是 28 位，示例中改成 6 位后 <code>1 / 3</code> 只保留 6 位有效数字。</p>
+<h2 id="sec-6" class="doc-heading">五、math 常用函数</h2>
+<p><code>math</code> 模块提供面向实数的数学函数，参数和返回值多数是 <code>float</code>，<code>factorial()</code>、<code>gcd()</code>、<code>comb()</code> 这类组合计数函数则返回 <code>int</code>。常用的有取整类的 <code>ceil()</code>、<code>floor()</code>、<code>trunc()</code>，以及 <code>sqrt()</code>、<code>pow()</code>、<code>log2()</code>、<code>log10()</code>、<code>hypot()</code>。</p>
+<p><code>ceil()</code> 向上取整，<code>floor()</code> 向下取整，<code>trunc()</code> 朝零截断。负数上三者的差异最明显：<code>ceil(-2.7)</code> 是 <code>-2</code>，<code>floor(-2.7)</code> 是 <code>-3</code>，<code>trunc(-2.7)</code> 是 <code>-2</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;sqrt(16) =&quot;</span>, math.<span class="tok-cmdlet">sqrt</span>(<span class="tok-num">16</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;ceil(2.1) =&quot;</span>, math.<span class="tok-cmdlet">ceil</span>(<span class="tok-num">2.1</span>), <span class="tok-string">&quot;floor(2.9) =&quot;</span>, math.<span class="tok-cmdlet">floor</span>(<span class="tok-num">2.9</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;trunc(-2.7) =&quot;</span>, math.<span class="tok-cmdlet">trunc</span>(<span class="tok-op">-</span><span class="tok-num">2.7</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;fabs(-3.5) =&quot;</span>, math.<span class="tok-cmdlet">fabs</span>(<span class="tok-op">-</span><span class="tok-num">3.5</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;pow(2, 10) =&quot;</span>, math.<span class="tok-type">pow</span>(<span class="tok-num">2</span>, <span class="tok-num">10</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;factorial(6) =&quot;</span>, math.<span class="tok-cmdlet">factorial</span>(<span class="tok-num">6</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;gcd(48, 18) =&quot;</span>, math.<span class="tok-cmdlet">gcd</span>(<span class="tok-num">48</span>, <span class="tok-num">18</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;comb(5, 2) =&quot;</span>, math.<span class="tok-cmdlet">comb</span>(<span class="tok-num">5</span>, <span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;log2(1024) =&quot;</span>, math.<span class="tok-cmdlet">log2</span>(<span class="tok-num">1024</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;log10(1000) =&quot;</span>, math.<span class="tok-cmdlet">log10</span>(<span class="tok-num">1000</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;hypot(3, 4) =&quot;</span>, math.<span class="tok-cmdlet">hypot</span>(<span class="tok-num">3</span>, <span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;isclose：&quot;</span>, math.<span class="tok-cmdlet">isclose</span>(<span class="tok-num">0.1</span> <span class="tok-op">+</span> <span class="tok-num">0.2</span>, <span class="tok-num">0.3</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;degrees(pi) =&quot;</span>, math.<span class="tok-cmdlet">degrees</span>(math.pi))
+
+<span class="tok-keyword">for</span> label, func <span class="tok-keyword">in</span> [(<span class="tok-string">&quot;sqrt(-1)&quot;</span>, <span class="tok-keyword">lambda</span>: math.<span class="tok-cmdlet">sqrt</span>(<span class="tok-op">-</span><span class="tok-num">1</span>)), (<span class="tok-string">&quot;log(0)&quot;</span>, <span class="tok-keyword">lambda</span>: math.<span class="tok-cmdlet">log</span>(<span class="tok-num">0</span>))]:
+    <span class="tok-keyword">try</span>:
+        <span class="tok-cmdlet">func</span>()
+    <span class="tok-keyword">except</span> <span class="tok-type">ValueError</span> <span class="tok-keyword">as</span> error:
+        <span class="tok-type">print</span>(<span class="tok-string">f&quot;{label} 抛出 {type(error).__name__}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">sqrt(16) = 4.0
+ceil(2.1) = 3 floor(2.9) = 2
+trunc(-2.7) = -2
+fabs(-3.5) = 3.5
+pow(2, 10) = 1024.0
+factorial(6) = 720
+gcd(48, 18) = 6
+comb(5, 2) = 10
+log2(1024) = 10.0
+log10(1000) = 3.0
+hypot(3, 4) = 5.0
+isclose： True
+degrees(pi) = 180.0
+sqrt(-1) 抛出 ValueError
+log(0) 抛出 ValueError</code></pre></figure>
+<p><code>math.pow()</code> 返回浮点数，而内置的 <code>**</code> 对整数保持整数精度，<code>2 ** 10</code> 得到 <code>1024</code>，<code>math.pow(2, 10)</code> 得到 <code>1024.0</code>。参数超出定义域时（如 <code>sqrt(-1)</code>、<code>log(0)</code>）会抛出 <code>ValueError</code>，阶乘参数为负同样如此，所以调用前要么校验参数，要么显式捕获。</p>
+<h2 id="sec-7" class="doc-heading">六、cmath 模块</h2>
+<p><code>cmath</code> 是 <code>math</code> 的复数版本，函数名基本一致，但参数和返回值都是复数。它最有用的一点是能对负数开平方：<code>math.sqrt(-1)</code> 报错，<code>cmath.sqrt(-1)</code> 返回 <code>1j</code>。</p>
+<p><code>phase()</code> 返回复数的幅角（弧度），<code>polar()</code> 一次返回模和幅角组成的元组，<code>rect()</code> 则把极坐标还原成直角坐标。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> cmath
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;sqrt(-1) =&quot;</span>, cmath.<span class="tok-cmdlet">sqrt</span>(<span class="tok-op">-</span><span class="tok-num">1</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;sqrt(-4) =&quot;</span>, cmath.<span class="tok-cmdlet">sqrt</span>(<span class="tok-op">-</span><span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;phase(-1) =&quot;</span>, <span class="tok-type">round</span>(cmath.<span class="tok-cmdlet">phase</span>(<span class="tok-op">-</span><span class="tok-num">1</span>), <span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;polar(1 + 1j) =&quot;</span>, <span class="tok-type">tuple</span>(<span class="tok-type">round</span>(v, <span class="tok-num">4</span>) <span class="tok-keyword">for</span> v <span class="tok-keyword">in</span> cmath.<span class="tok-cmdlet">polar</span>(<span class="tok-num">1</span> <span class="tok-op">+</span> <span class="tok-num">1j</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;rect(2, 0) =&quot;</span>, cmath.<span class="tok-cmdlet">rect</span>(<span class="tok-num">2</span>, <span class="tok-num">0</span>))
+
+value <span class="tok-op">=</span> cmath.<span class="tok-cmdlet">exp</span>(<span class="tok-num">1j</span> <span class="tok-op">*</span> cmath.pi)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;exp(i * pi) 实部：&quot;</span>, <span class="tok-type">round</span>(value.real, <span class="tok-num">6</span>), <span class="tok-string">&quot;虚部：&quot;</span>, <span class="tok-type">round</span>(value.imag, <span class="tok-num">6</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;cmath.pi =&quot;</span>, <span class="tok-type">round</span>(cmath.pi, <span class="tok-num">4</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">sqrt(-1) = 1j
+sqrt(-4) = 2j
+phase(-1) = 3.1416
+polar(1 + 1j) = (1.4142, 0.7854)
+rect(2, 0) = (2+0j)
+exp(i * pi) 实部： -1.0 虚部： 0.0
+cmath.pi = 3.1416</code></pre></figure>
+<p><code>cmath.exp(1j * cmath.pi)</code> 理论上是 <code>-1</code>，但浮点运算会留下 <code>1.2e-16</code> 量级的虚部，所以示例先取 <code>.real</code> 和 <code>.imag</code> 再分别四舍五入。直接用 <code>==</code> 比较这类结果是不可靠的，应该用 <code>math.isclose()</code> 或给定容差。</p>
+<h2 id="sec-8" class="doc-heading">七、random 模块</h2>
+<p><code>random</code> 生成的是伪随机数，由内部状态决定。调用 <code>random.seed()</code> 设定种子后，后续序列完全可复现，这对调试、测试和教程示例至关重要；不设种子时，解释器会用系统提供的随机源初始化，每次运行结果都不同。</p>
+<p>常用函数有：<code>randint(a, b)</code> 生成闭区间内的整数，<code>random()</code> 生成 <code>[0, 1)</code> 的浮点数，<code>uniform(a, b)</code> 生成区间内的浮点数，<code>choice()</code> 从序列中取一个元素，<code>sample()</code> 不重复抽取多个，<code>shuffle()</code> 就地打乱列表。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> random
+
+random.<span class="tok-cmdlet">seed</span>(<span class="tok-num">2024</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;随机整数：&quot;</span>, random.<span class="tok-cmdlet">randint</span>(<span class="tok-num">1</span>, <span class="tok-num">100</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;随机浮点：&quot;</span>, <span class="tok-type">round</span>(random.<span class="tok-cmdlet">random</span>(), <span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;指定范围：&quot;</span>, <span class="tok-type">round</span>(random.<span class="tok-cmdlet">uniform</span>(<span class="tok-num">1.0</span>, <span class="tok-num">5.0</span>), <span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;随机选择：&quot;</span>, random.<span class="tok-cmdlet">choice</span>([<span class="tok-string">&quot;石头&quot;</span>, <span class="tok-string">&quot;剪刀&quot;</span>, <span class="tok-string">&quot;布&quot;</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;不重复抽样：&quot;</span>, random.<span class="tok-cmdlet">sample</span>(<span class="tok-type">range</span>(<span class="tok-num">1</span>, <span class="tok-num">50</span>), <span class="tok-num">5</span>))
+
+deck <span class="tok-op">=</span> <span class="tok-type">list</span>(<span class="tok-type">range</span>(<span class="tok-num">1</span>, <span class="tok-num">11</span>))
+random.<span class="tok-cmdlet">shuffle</span>(deck)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;洗牌结果：&quot;</span>, deck)
+
+random.<span class="tok-cmdlet">seed</span>(<span class="tok-num">2024</span>)
+first <span class="tok-op">=</span> [random.<span class="tok-cmdlet">randint</span>(<span class="tok-num">1</span>, <span class="tok-num">100</span>) <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">3</span>)]
+random.<span class="tok-cmdlet">seed</span>(<span class="tok-num">2024</span>)
+second <span class="tok-op">=</span> [random.<span class="tok-cmdlet">randint</span>(<span class="tok-num">1</span>, <span class="tok-num">100</span>) <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">3</span>)]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;重新播种后一致：&quot;</span>, first <span class="tok-op">=</span><span class="tok-op">=</span> second)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">随机整数： 61
+随机浮点： 0.1817
+指定范围： 3.3134
+随机选择： 石头
+不重复抽样： [47, 27, 49, 46, 17]
+洗牌结果： [1, 7, 6, 2, 5, 10, 3, 8, 4, 9]
+重新播种后一致： True</code></pre></figure>
+<p><code>random</code> 不适合安全场景，密码、令牌、验证码应当使用 <code>secrets</code> 模块。<code>shuffle()</code> 直接修改原列表并返回 <code>None</code>，写成 <code>deck = random.shuffle(deck)</code> 会让 <code>deck</code> 变成 <code>None</code>，这是很常见的错误。</p>
+<h2 id="sec-9" class="doc-heading">八、数学常量</h2>
+<p><code>math</code> 模块提供了一组常用常量：<code>pi</code>（圆周率）、<code>e</code>（自然常数）、<code>tau</code>（等于 <code>2 * pi</code>）、<code>inf</code>（无穷大）、<code>nan</code>（非数）。<code>sys.float_info</code> 则描述了当前平台浮点类型的边界。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+<span class="tok-keyword">import</span> sys
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;math.pi =&quot;</span>, <span class="tok-string">f&quot;{math.pi:.10f}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;math.e =&quot;</span>, <span class="tok-string">f&quot;{math.e:.10f}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;math.tau =&quot;</span>, <span class="tok-string">f&quot;{math.tau:.10f}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;tau 等于 2 * pi：&quot;</span>, math.tau <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">2</span> <span class="tok-op">*</span> math.pi)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;math.inf =&quot;</span>, math.inf)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;math.nan =&quot;</span>, math.nan)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最大浮点数：&quot;</span>, sys.float_info.<span class="tok-type">max</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最小精度：&quot;</span>, sys.float_info.epsilon)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">math.pi = 3.1415926536
+math.e = 2.7182818285
+math.tau = 6.2831853072
+tau 等于 2 * pi： True
+math.inf = inf
+math.nan = nan
+最大浮点数： 1.7976931348623157e+308
+最小精度： 2.220446049250313e-16</code></pre></figure>
+<p><code>epsilon</code> 是“1.0 与比它大的最小浮点数之差”，常被用作浮点比较的容差基准。<code>tau</code> 是整圈弧度，写 <code>math.tau / 4</code> 比 <code>math.pi / 2</code> 更直观，也更不容易算错。</p>
+<h2 id="sec-10" class="doc-heading">九、数字格式化</h2>
+<p>f-string 的格式说明符写在冒号后面，语法是 <code>[[填充]对齐][符号][宽度][,][.精度][类型]</code>。对齐符号 <code>&lt;</code>、<code>&gt;</code>、<code>^</code> 分别表示左对齐、右对齐、居中，宽度不足时用填充字符补齐（默认空格）。</p>
+<p>常用的类型码：<code>d</code> 十进制整数、<code>f</code> 定点小数、<code>e</code> 科学计数法、<code>%</code> 百分比、<code>x</code> / <code>o</code> / <code>b</code> 十六进制、八进制、二进制。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">value <span class="tok-op">=</span> <span class="tok-num">1234.5678</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{value:.2f}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{value:,.2f}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{value:10.2f}|&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{value:&lt;12.2f}|&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{value:&gt;12.2f}|&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{value:^12.2f}|&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{0.256:.1%}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{1234567:.2e}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{1234567:,d}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{255:#x}&quot;</span>, <span class="tok-string">f&quot;{255:#o}&quot;</span>, <span class="tok-string">f&quot;{255:#b}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">f&quot;{42:08.2f}&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-type">format</span>(<span class="tok-num">3.14159</span>, <span class="tok-string">&quot;.3f&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">1234.57
+1,234.57
+   1234.57|
+1234.57     |
+     1234.57|
+  1234.57   |
+25.6%
+1.23e+06
+1,234,567
+0xff 0o377 0b11111111
+00042.00
+3.142</code></pre></figure>
+<p><code>.2f</code> 会做四舍五入，但底层仍是二进制浮点，遇到 <code>2.675</code> 这类无法精确表示的值时可能得到 <code>2.67</code>。金额格式化建议先用 <code>Decimal</code> 算好再输出。<code>f&quot;{255:#x}&quot;</code> 中的 <code>#</code> 保留 <code>0x</code> 前缀，去掉它就只输出 <code>ff</code>。</p>
+<h2 id="sec-11" class="doc-heading">十、练习任务</h2>
+<p>任务 1：用 <code>Decimal</code> 计算三年期存款的本息合计与利息，年利率 3.5%，结果保留两位小数。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> decimal <span class="tok-keyword">import</span> Decimal
+
+principal <span class="tok-op">=</span> <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;10000&quot;</span>)
+rate <span class="tok-op">=</span> <span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.035&quot;</span>)
+amount <span class="tok-op">=</span> principal <span class="tok-op">*</span> (<span class="tok-num">1</span> <span class="tok-op">+</span> rate) <span class="tok-op">*</span><span class="tok-op">*</span> <span class="tok-num">3</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;本息合计：&quot;</span>, amount.<span class="tok-cmdlet">quantize</span>(<span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.01&quot;</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;利息：&quot;</span>, (amount <span class="tok-op">-</span> principal).<span class="tok-cmdlet">quantize</span>(<span class="tok-cmdlet">Decimal</span>(<span class="tok-string">&quot;0.01&quot;</span>)))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">本息合计： 11087.18
+利息： 1087.18</code></pre></figure>
+<p>任务 2：已知三角形三边长 3、4、5，用 <code>math</code> 计算周长、面积和最小边对应的角度。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+
+a, b, c <span class="tok-op">=</span> <span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>
+s <span class="tok-op">=</span> (a <span class="tok-op">+</span> b <span class="tok-op">+</span> c) <span class="tok-op">/</span> <span class="tok-num">2</span>
+area <span class="tok-op">=</span> math.<span class="tok-cmdlet">sqrt</span>(s <span class="tok-op">*</span> (s <span class="tok-op">-</span> a) <span class="tok-op">*</span> (s <span class="tok-op">-</span> b) <span class="tok-op">*</span> (s <span class="tok-op">-</span> c))
+angle <span class="tok-op">=</span> math.<span class="tok-cmdlet">degrees</span>(math.<span class="tok-cmdlet">acos</span>((b <span class="tok-op">*</span> b <span class="tok-op">+</span> c <span class="tok-op">*</span> c <span class="tok-op">-</span> a <span class="tok-op">*</span> a) <span class="tok-op">/</span> (<span class="tok-num">2</span> <span class="tok-op">*</span> b <span class="tok-op">*</span> c)))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;周长：&quot;</span>, a <span class="tok-op">+</span> b <span class="tok-op">+</span> c)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;面积：&quot;</span>, <span class="tok-type">round</span>(area, <span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最小边对应的角：&quot;</span>, <span class="tok-type">round</span>(angle, <span class="tok-num">2</span>), <span class="tok-string">&quot;度&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">周长： 12
+面积： 6.0
+最小边对应的角： 36.87 度</code></pre></figure>
+<p>任务 3：固定随机种子，模拟掷 600 次骰子，统计每个点数出现的次数。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> random
+<span class="tok-keyword">from</span> collections <span class="tok-keyword">import</span> Counter
+
+random.<span class="tok-cmdlet">seed</span>(<span class="tok-num">7</span>)
+rolls <span class="tok-op">=</span> [random.<span class="tok-cmdlet">randint</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>) <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">600</span>)]
+counts <span class="tok-op">=</span> <span class="tok-cmdlet">Counter</span>(rolls)
+
+<span class="tok-keyword">for</span> face <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">1</span>, <span class="tok-num">7</span>):
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{face} 点：{counts[face]} 次&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总次数：&quot;</span>, <span class="tok-type">sum</span>(counts.<span class="tok-cmdlet">values</span>()))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">1 点：107 次
+2 点：107 次
+3 点：93 次
+4 点：99 次
+5 点：109 次
+6 点：85 次
+总次数： 600</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="operators.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 运算符</span></a><a class="pager-link pager-link--next" href="strings.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 字符串</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、int 整数</a><a class="toc-link toc-link--h2" href="#sec-2">二、float 浮点数</a><a class="toc-link toc-link--h2" href="#sec-3">三、complex 复数</a><a class="toc-link toc-link--h2" href="#sec-4">四、浮点精度与 decimal</a><a class="toc-link toc-link--h3" href="#sec-5">用 Decimal 精确计算</a><a class="toc-link toc-link--h2" href="#sec-6">五、math 常用函数</a><a class="toc-link toc-link--h2" href="#sec-7">六、cmath 模块</a><a class="toc-link toc-link--h2" href="#sec-8">七、random 模块</a><a class="toc-link toc-link--h2" href="#sec-9">八、数学常量</a><a class="toc-link toc-link--h2" href="#sec-10">九、数字格式化</a><a class="toc-link toc-link--h2" href="#sec-11">十、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

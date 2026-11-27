@@ -146,9 +146,9 @@ function searchModalHtml() {
     '<div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程">' +
     '<div class="search-field">' +
     ICON_SEARCH +
-    '<input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 Get-Process" autocomplete="off" spellcheck="false" aria-label="搜索教程">' +
+    '<input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程">' +
     '<kbd>Esc</kbd></div>' +
-    '<div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “管道” 、 “作用域” 或 “Get-Service”</span></div></div>' +
+    '<div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div>' +
     '<div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">' +
     escapeAttr(SITE.name) +
     ' ' +

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 命名空间和作用域 · Python</title>
+<meta name="description" content="理解命名空间与 LEGB 查找顺序，掌握 global 与 nonlocal、闭包、模块命名空间、dir/locals/globals、变量生命周期，以及循环变量泄漏和可变默认值这两个常见陷阱。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="scope" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link is-active" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>进阶</span></nav><h1 class="doc-title">Python 命名空间和作用域</h1><p class="doc-lead">理解命名空间与 LEGB 查找顺序，掌握 global 与 nonlocal、闭包、模块命名空间、dir/locals/globals、变量生命周期，以及循环变量泄漏和可变默认值这两个常见陷阱。</p><div class="doc-meta"><span>第 30 章</span><span class="doc-meta__dot"></span><span>约 30 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>名字是程序里最普通的元素，但“这个名字指向哪个对象”并不是一眼就能看出来的。Python 把名字存放在不同的命名空间里，查找时按固定的顺序逐层搜索；函数、类、模块各自拥有独立的命名空间，赋值语句又会改变名字的归属。很多看似诡异的行为，根源都在这里。</p>
+<p>理解作用域之后，闭包、装饰器、模块导入、全局状态这些问题都会变得清晰。本章从命名空间的本质讲起，依次介绍 LEGB 规则、<code>global</code> 与 <code>nonlocal</code>、闭包、模块命名空间、内省函数、变量生命周期，最后分析两个初学者最常踩的坑。</p>
+<h2 id="sec-1" class="doc-heading">一、命名空间</h2>
+<p>命名空间（namespace）是从名字到对象的映射，在 CPython 中就是一个字典。模块有模块的命名空间，函数调用时会创建局部命名空间，类定义和实例也各有自己的命名空间。不同命名空间里的同名变量互不影响。</p>
+<p>模块级的 <code>globals()</code> 返回当前模块的命名空间字典，函数内的 <code>locals()</code> 返回该次调用的局部名字：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">title <span class="tok-op">=</span> <span class="tok-string">&quot;命名空间&quot;</span>
+count <span class="tok-op">=</span> <span class="tok-num">3</span>
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">show</span>(namespace, label):
+    names <span class="tok-op">=</span> <span class="tok-type">sorted</span>(name <span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> namespace <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> name.<span class="tok-cmdlet">startswith</span>(<span class="tok-string">&quot;__&quot;</span>))
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{label}：{names}&quot;</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">local_demo</span>():
+    inner <span class="tok-op">=</span> <span class="tok-string">&quot;局部变量&quot;</span>
+    <span class="tok-cmdlet">show</span>(<span class="tok-type">locals</span>(), <span class="tok-string">&quot;函数内名字&quot;</span>)
+
+
+<span class="tok-cmdlet">show</span>(<span class="tok-type">globals</span>(), <span class="tok-string">&quot;模块级名字&quot;</span>)
+<span class="tok-cmdlet">local_demo</span>()</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">模块级名字：['count', 'local_demo', 'show', 'title']
+函数内名字：['inner']</code></pre></figure>
+<p>模块级命名空间里能看到 <code>title</code>、<code>count</code> 和两个函数名；进入 <code>local_demo()</code> 后，<code>locals()</code> 里只有本次调用创建的 <code>inner</code>。函数一返回，这个局部命名空间就被丢弃，里面的名字随之消失。</p>
+<p>类与实例同样各自维护一份命名空间：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">class</span> Config:
+    app_name <span class="tok-op">=</span> <span class="tok-string">&quot;demo&quot;</span>
+    version <span class="tok-op">=</span> <span class="tok-string">&quot;1.0&quot;</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>, user):
+        <span class="tok-var">self</span>.user <span class="tok-op">=</span> user
+        <span class="tok-var">self</span>.options <span class="tok-op">=</span> {}
+
+
+config <span class="tok-op">=</span> <span class="tok-cmdlet">Config</span>(<span class="tok-string">&quot;小明&quot;</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类命名空间：&quot;</span>, <span class="tok-type">sorted</span>(name <span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> <span class="tok-type">vars</span>(Config) <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> name.<span class="tok-cmdlet">startswith</span>(<span class="tok-string">&quot;__&quot;</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;实例命名空间：&quot;</span>, <span class="tok-type">sorted</span>(<span class="tok-type">vars</span>(config)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;通过实例读取类属性：&quot;</span>, config.app_name)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类命名空间里没有 user：&quot;</span>, <span class="tok-string">&quot;user&quot;</span> <span class="tok-keyword">in</span> <span class="tok-type">vars</span>(Config))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">类命名空间： ['app_name', 'version']
+实例命名空间： ['options', 'user']
+通过实例读取类属性： demo
+类命名空间里没有 user： False</code></pre></figure>
+<p><code>vars(Config)</code> 里有类属性和方法，<code>vars(config)</code> 里只有 <code>__init__()</code> 中通过 <code>self</code> 赋值的字段。读取 <code>config.app_name</code> 时，实例命名空间找不到，就继续到类命名空间里找，这条“实例优先、类兜底”的规则同样是一种作用域查找。</p>
+<h2 id="sec-2" class="doc-heading">二、LEGB 查找规则</h2>
+<p>Python 查找一个名字时，按 L、E、G、B 四个层次依次搜索，找到第一个就停止：</p>
+<div class="table-wrap"><table><thead><tr><th>层级</th><th>查找位置</th><th>例子</th></tr></thead><tbody><tr><td>L（Local）</td><td>当前函数内部的局部名字</td><td>函数参数、函数体内的赋值</td></tr><tr><td>E（Enclosing）</td><td>外层嵌套函数的局部名字</td><td>闭包捕获的变量</td></tr><tr><td>G（Global）</td><td>当前模块的全局名字</td><td>模块顶层定义的变量</td></tr><tr><td>B（Built-in）</td><td>内置命名空间</td><td><code>len</code>、<code>print</code>、<code>ValueError</code></td></tr></tbody></table></div>
+<p>内层函数可以读取外层的变量，函数内也可以使用全局变量和内置函数。但一旦在函数体内对某个名字赋值，这个名字在整个函数内都会被当作局部变量，除非显式声明 <code>global</code> 或 <code>nonlocal</code>：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">message <span class="tok-op">=</span> <span class="tok-string">&quot;全局 message&quot;</span>
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">outer</span>():
+    message <span class="tok-op">=</span> <span class="tok-string">&quot;外层 message&quot;</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">inner</span>():
+        <span class="tok-keyword">return</span> <span class="tok-string">f&quot;inner 读到：{message}&quot;</span>
+
+    <span class="tok-keyword">return</span> <span class="tok-cmdlet">inner</span>()
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">shadow_builtin</span>():
+    <span class="tok-type">len</span> <span class="tok-op">=</span> <span class="tok-num">3</span>
+    <span class="tok-keyword">return</span> <span class="tok-type">len</span>
+
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">outer</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全局 message：&quot;</span>, message)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;内置 len：&quot;</span>, <span class="tok-type">len</span>(<span class="tok-string">&quot;python&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;遮蔽内置 len：&quot;</span>, <span class="tok-cmdlet">shadow_builtin</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全局 len 未受影响：&quot;</span>, <span class="tok-type">len</span>(<span class="tok-string">&quot;abc&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">inner 读到：外层 message
+全局 message： 全局 message
+内置 len： 6
+遮蔽内置 len： 3
+全局 len 未受影响： 3</code></pre></figure>
+<p><code>inner()</code> 先在自己的局部范围找 <code>message</code>，没找到就去外层 <code>outer()</code> 的命名空间找，因此读到“外层 message”，不会继续去全局范围取同名变量。<code>shadow_builtin()</code> 里的 <code>len = 3</code> 创建了一个局部变量，在函数内部完全遮蔽了内置的 <code>len</code>，但函数返回后内置函数照常可用。</p>
+<p>更麻烦的是，函数体内只要出现赋值，这个名字在整个函数范围内都会被当作局部变量，即使赋值语句写在读取之后。编译器在编译函数体时看到 <code>total = 200</code>，就会把 <code>total</code> 标记为局部变量；执行到前面的 <code>print</code> 时局部变量尚未绑定，于是抛出 <code>UnboundLocalError</code>，而不是去读全局的 100。这是 LEGB 规则最容易让人困惑的地方，下一节会结合 <code>global</code> 一起演示。</p>
+<h2 id="sec-3" class="doc-heading">三、global 与 nonlocal</h2>
+<p><code>global</code> 声明让函数内的赋值作用于模块级名字，而不是新建局部变量。修改全局计数器是它最典型的用途。反过来，函数内只读取全局变量不需要任何声明；但一旦执行了赋值，该名字就变成局部变量，读取发生在赋值之前便会抛 <code>UnboundLocalError</code>：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">counter <span class="tok-op">=</span> <span class="tok-num">0</span>
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">increase</span>(step<span class="tok-op">=</span><span class="tok-num">1</span>):
+    <span class="tok-keyword">global</span> counter
+    counter <span class="tok-op">+</span><span class="tok-op">=</span> step
+    <span class="tok-keyword">return</span> counter
+
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">increase</span>())
+<span class="tok-type">print</span>(<span class="tok-cmdlet">increase</span>(<span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全局 counter：&quot;</span>, counter)
+
+total <span class="tok-op">=</span> <span class="tok-num">100</span>
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">broken</span>():
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;函数内部先读取：&quot;</span>, total)
+    total <span class="tok-op">=</span> <span class="tok-num">200</span>
+
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-cmdlet">broken</span>()
+<span class="tok-keyword">except</span> UnboundLocalError:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;捕获 UnboundLocalError：赋值让 total 变成局部变量&quot;</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全局 total 仍为：&quot;</span>, total)
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">fixed</span>():
+    <span class="tok-keyword">global</span> total
+    total <span class="tok-op">=</span> <span class="tok-num">200</span>
+    <span class="tok-keyword">return</span> total
+
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;修复后：&quot;</span>, <span class="tok-cmdlet">fixed</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;全局 total：&quot;</span>, total)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">1
+5
+全局 counter： 5
+捕获 UnboundLocalError：赋值让 total 变成局部变量
+全局 total 仍为： 100
+修复后： 200
+全局 total： 200</code></pre></figure>
+<p><code>global</code> 只影响赋值行为，读取全局变量本来就不需要声明。它也是一把双刃剑：函数会隐式依赖并修改外部状态，调用次数、调用顺序都会影响结果，测试和并发场景下尤其难以推理。能用参数和返回值表达的逻辑，尽量不要用全局变量。</p>
+<p><code>nonlocal</code> 用于内层函数修改外层函数的局部变量，它不会一直找到模块级：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">make_counter</span>(start<span class="tok-op">=</span><span class="tok-num">0</span>):
+    count <span class="tok-op">=</span> start
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">step</span>(amount<span class="tok-op">=</span><span class="tok-num">1</span>):
+        <span class="tok-keyword">nonlocal</span> count
+        count <span class="tok-op">+</span><span class="tok-op">=</span> amount
+        <span class="tok-keyword">return</span> count
+
+    <span class="tok-keyword">return</span> step
+
+
+counter_a <span class="tok-op">=</span> <span class="tok-cmdlet">make_counter</span>()
+counter_b <span class="tok-op">=</span> <span class="tok-cmdlet">make_counter</span>(<span class="tok-num">10</span>)
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">counter_a</span>())
+<span class="tok-type">print</span>(<span class="tok-cmdlet">counter_a</span>(<span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">counter_b</span>(<span class="tok-num">5</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;counter_a 当前值：&quot;</span>, <span class="tok-cmdlet">counter_a</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;counter_b 当前值：&quot;</span>, <span class="tok-cmdlet">counter_b</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">1
+3
+15
+counter_a 当前值： 4
+counter_b 当前值： 16</code></pre></figure>
+<p>每个 <code>make_counter()</code> 调用都会创建独立的 <code>count</code>，两个闭包各自维护自己的计数，互不干扰。如果去掉 <code>nonlocal</code>，<code>count += amount</code> 会被当成局部赋值，第一次执行就抛 <code>UnboundLocalError</code>；如果改用 <code>global</code>，两个计数器反而会共享同一个全局变量。</p>
+<h2 id="sec-4" class="doc-heading">四、闭包</h2>
+<p>闭包是“函数 + 它引用的外层变量”的组合。内层函数没有立即执行，而是被返回或保存下来，外层函数已经结束，但它捕获的变量仍然存活，供内层函数以后使用。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">make_multiplier</span>(factor):
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">multiply</span>(number):
+        <span class="tok-keyword">return</span> number <span class="tok-op">*</span> factor
+
+    <span class="tok-keyword">return</span> multiply
+
+
+double <span class="tok-op">=</span> <span class="tok-cmdlet">make_multiplier</span>(<span class="tok-num">2</span>)
+triple <span class="tok-op">=</span> <span class="tok-cmdlet">make_multiplier</span>(<span class="tok-num">3</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;double(5)：&quot;</span>, <span class="tok-cmdlet">double</span>(<span class="tok-num">5</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;triple(5)：&quot;</span>, <span class="tok-cmdlet">triple</span>(<span class="tok-num">5</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;闭包变量：&quot;</span>, double.__closure__[<span class="tok-num">0</span>].cell_contents)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;函数名：&quot;</span>, double.__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">double(5)： 10
+triple(5)： 15
+闭包变量： 2
+函数名： multiply</code></pre></figure>
+<p><code>double.__closure__</code> 保存着被捕获的变量，每个 cell 的 <code>cell_contents</code> 就是当前值。闭包让“带配置的函数”不必依赖全局变量，也不需要写一个只保存单个字段的类。</p>
+<p>闭包捕获的是变量本身，而不是创建时的快照。多个内层函数可以共享同一份外层状态：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">make_cache</span>():
+    store <span class="tok-op">=</span> {}
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">remember</span>(key, value):
+        store[key] <span class="tok-op">=</span> value
+        <span class="tok-keyword">return</span> <span class="tok-type">len</span>(store)
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">lookup</span>(key):
+        <span class="tok-keyword">return</span> store.<span class="tok-cmdlet">get</span>(key, <span class="tok-string">&quot;未找到&quot;</span>)
+
+    <span class="tok-keyword">return</span> remember, lookup
+
+
+remember, lookup <span class="tok-op">=</span> <span class="tok-cmdlet">make_cache</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;写入后条目数：&quot;</span>, <span class="tok-cmdlet">remember</span>(<span class="tok-string">&quot;a&quot;</span>, <span class="tok-num">1</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;写入后条目数：&quot;</span>, <span class="tok-cmdlet">remember</span>(<span class="tok-string">&quot;b&quot;</span>, <span class="tok-num">2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;读取 a：&quot;</span>, <span class="tok-cmdlet">lookup</span>(<span class="tok-string">&quot;a&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;读取 c：&quot;</span>, <span class="tok-cmdlet">lookup</span>(<span class="tok-string">&quot;c&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;共享同一个 store：&quot;</span>, <span class="tok-cmdlet">remember</span>(<span class="tok-string">&quot;c&quot;</span>, <span class="tok-num">3</span>), <span class="tok-cmdlet">lookup</span>(<span class="tok-string">&quot;c&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">写入后条目数： 1
+写入后条目数： 2
+读取 a： 1
+读取 c： 未找到
+共享同一个 store： 3 3</code></pre></figure>
+<p><code>remember</code> 与 <code>lookup</code> 引用的是同一个 <code>store</code> 字典，因此一个写入、另一个立刻能读到。正因为捕获的是变量而非值，循环中创建的多个闭包如果引用同一个循环变量，最终都会看到循环结束后的值，这一点在第八节会详细说明。</p>
+<h2 id="sec-5" class="doc-heading">五、模块命名空间</h2>
+<p>每个 <code>.py</code> 文件在导入后都会变成一个模块对象，模块对象有自己的命名空间字典。<code>import math</code> 只是把模块对象绑定到当前命名空间的 <code>math</code> 名字上，模块内部的函数仍然待在自己的命名空间里，通过 <code>math.sqrt</code> 这样的属性访问取得。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;pi：&quot;</span>, math.pi)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;sqrt(16)：&quot;</span>, math.<span class="tok-cmdlet">sqrt</span>(<span class="tok-num">16</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;math 命名空间包含 pi：&quot;</span>, <span class="tok-string">&quot;pi&quot;</span> <span class="tok-keyword">in</span> <span class="tok-type">vars</span>(math))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;模块名：&quot;</span>, math.__name__)
+
+<span class="tok-keyword">from</span> math <span class="tok-keyword">import</span> sqrt
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;直接导入后可用：&quot;</span>, <span class="tok-cmdlet">sqrt</span>(<span class="tok-num">25</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;sqrt 已成为全局名字：&quot;</span>, <span class="tok-string">&quot;sqrt&quot;</span> <span class="tok-keyword">in</span> <span class="tok-type">globals</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">pi： 3.141592653589793
+sqrt(16)： 4.0
+math 命名空间包含 pi： True
+模块名： math
+直接导入后可用： 5.0
+sqrt 已成为全局名字： True</code></pre></figure>
+<p><code>from math import sqrt</code> 把 <code>sqrt</code> 直接复制到当前模块的命名空间，之后可以不加前缀调用，但也更容易和本地变量重名。工程代码通常优先使用 <code>import 模块名</code>，让名字来源一目了然；确实需要简化时，再用 <code>import numpy as np</code> 这类约定俗成的别名。</p>
+<p>模块命名空间就是一个普通字典，可以用 <code>types.ModuleType</code> 手动创建：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> types
+
+module <span class="tok-op">=</span> types.<span class="tok-cmdlet">ModuleType</span>(<span class="tok-string">&quot;tools&quot;</span>)
+module.version <span class="tok-op">=</span> <span class="tok-string">&quot;1.0&quot;</span>
+module.author <span class="tok-op">=</span> <span class="tok-string">&quot;小明&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;模块名：&quot;</span>, module.__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;模块字典：&quot;</span>, <span class="tok-type">sorted</span>(name <span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> <span class="tok-type">vars</span>(module) <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> name.<span class="tok-cmdlet">startswith</span>(<span class="tok-string">&quot;__&quot;</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;读取属性：&quot;</span>, module.version)
+
+module.version <span class="tok-op">=</span> <span class="tok-string">&quot;2.0&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;修改后：&quot;</span>, <span class="tok-type">getattr</span>(module, <span class="tok-string">&quot;version&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是 ModuleType 实例：&quot;</span>, <span class="tok-type">isinstance</span>(module, types.ModuleType))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">模块名： tools
+模块字典： ['author', 'version']
+读取属性： 1.0
+修改后： 2.0
+是 ModuleType 实例： True</code></pre></figure>
+<p>给模块对象赋属性，等价于往它的命名空间字典里写键值对；访问 <code>module.version</code> 则是在这个字典里查名字。理解这一点，就能明白为什么模块级变量天然是“全局”的，也能明白动态注册插件时为什么可以直接往模块对象上挂函数。</p>
+<h2 id="sec-6" class="doc-heading">六、dir、locals 与 globals</h2>
+<p>Python 提供了几个内省函数，用来观察当前有哪些名字：</p>
+<ul><li><p><code>locals()</code> 返回当前局部命名空间的字典。</p></li><li><p><code>globals()</code> 返回当前模块全局命名空间的字典。</p></li><li><p><code>vars(obj)</code> 返回对象的 <code>__dict__</code>，对模块、类、实例都适用。</p></li><li><p><code>dir(obj)</code> 返回对象可访问名字的排序列表，包含继承来的属性，适合探索 API。</p></li></ul>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> builtins
+
+city <span class="tok-op">=</span> <span class="tok-string">&quot;上海&quot;</span>
+population <span class="tok-op">=</span> <span class="tok-num">2487</span>
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">inspect_scope</span>(extra):
+    local_value <span class="tok-op">=</span> extra <span class="tok-op">*</span> <span class="tok-num">2</span>
+    <span class="tok-keyword">return</span> <span class="tok-type">sorted</span>(<span class="tok-type">locals</span>()), local_value
+
+
+names, result <span class="tok-op">=</span> <span class="tok-cmdlet">inspect_scope</span>(<span class="tok-num">10</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;函数局部名字：&quot;</span>, names)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;计算结果：&quot;</span>, result)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;globals 包含 city：&quot;</span>, <span class="tok-string">&quot;city&quot;</span> <span class="tok-keyword">in</span> <span class="tok-type">globals</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;通过 globals 取值：&quot;</span>, <span class="tok-type">globals</span>()[<span class="tok-string">&quot;city&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;dir 包含 print：&quot;</span>, <span class="tok-string">&quot;print&quot;</span> <span class="tok-keyword">in</span> <span class="tok-type">dir</span>(builtins))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;内置名字片段：&quot;</span>, [name <span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> <span class="tok-type">dir</span>(builtins) <span class="tok-keyword">if</span> name <span class="tok-keyword">in</span> (<span class="tok-string">&quot;len&quot;</span>, <span class="tok-string">&quot;print&quot;</span>, <span class="tok-string">&quot;sum&quot;</span>)])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">函数局部名字： ['extra', 'local_value']
+计算结果： 20
+globals 包含 city： True
+通过 globals 取值： 上海
+dir 包含 print： True
+内置名字片段： ['len', 'print', 'sum']</code></pre></figure>
+<p><code>locals()</code> 在函数内部返回的是当前绑定的快照，修改它通常不会影响真正的局部变量，不应把它当作动态作用域的工具。<code>globals()</code> 返回的则是真实的模块字典，通过 <code>globals()[&quot;name&quot;] = value</code> 确实可以创建全局变量，但这种写法会让名字来源变得难以追踪，除非写框架或调试工具，否则不建议使用。</p>
+<h2 id="sec-7" class="doc-heading">七、变量生命周期</h2>
+<p>变量的生命周期取决于它所属的命名空间。函数调用开始时创建局部命名空间，调用结束时销毁；模块级名字从模块加载一直存活到解释器退出；被闭包捕获的变量则会延长到闭包本身被回收为止。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">create_message</span>():
+    text <span class="tok-op">=</span> <span class="tok-string">&quot;临时消息&quot;</span>
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;函数内部：&quot;</span>, text)
+    <span class="tok-keyword">return</span> <span class="tok-type">len</span>(text)
+
+
+length <span class="tok-op">=</span> <span class="tok-cmdlet">create_message</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;返回长度：&quot;</span>, length)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-type">print</span>(text)
+<span class="tok-keyword">except</span> <span class="tok-type">NameError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;函数结束后 text 已消失&quot;</span>)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;text 是否在全局：&quot;</span>, <span class="tok-string">&quot;text&quot;</span> <span class="tok-keyword">in</span> <span class="tok-type">globals</span>())
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">keep_reference</span>():
+    data <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]
+    <span class="tok-keyword">return</span> data
+
+
+numbers <span class="tok-op">=</span> <span class="tok-cmdlet">keep_reference</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;返回后仍然可用：&quot;</span>, numbers)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;numbers 在全局：&quot;</span>, <span class="tok-string">&quot;numbers&quot;</span> <span class="tok-keyword">in</span> <span class="tok-type">globals</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">函数内部： 临时消息
+返回长度： 4
+函数结束后 text 已消失
+text 是否在全局： False
+返回后仍然可用： [1, 2, 3]
+numbers 在全局： True</code></pre></figure>
+<p>函数返回后，局部变量 <code>text</code> 随命名空间一起消失，再访问就是 <code>NameError</code>。但如果函数把对象作为返回值交给调用方，对象本身不会消失，只是换了一个名字 <code>numbers</code> 继续被引用。Python 的垃圾回收依据是引用计数加循环检测，名字只是引用的一种，对象活多久取决于还有没有引用指向它。</p>
+<h2 id="sec-8" class="doc-heading">八、循环变量泄漏与可变默认值</h2>
+<p>Python 的 <code>for</code> 循环不会创建新的作用域，循环变量在循环结束后依然留在当前命名空间里。列表推导式则不同，它在 Python 3 中拥有自己的作用域，内部的循环变量不会泄漏到外面：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">for</span> index <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">3</span>):
+    <span class="tok-keyword">pass</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;循环结束后 index：&quot;</span>, index)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;index 仍在全局：&quot;</span>, <span class="tok-string">&quot;index&quot;</span> <span class="tok-keyword">in</span> <span class="tok-type">globals</span>())
+
+squares <span class="tok-op">=</span> [n <span class="tok-op">*</span> n <span class="tok-keyword">for</span> n <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">5</span>)]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;推导式结果：&quot;</span>, squares)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-type">print</span>(n)
+<span class="tok-keyword">except</span> <span class="tok-type">NameError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;推导式变量 n 不会泄漏&quot;</span>)
+
+value <span class="tok-op">=</span> <span class="tok-num">0</span>
+<span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">2</span>):
+    <span class="tok-keyword">pass</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;循环变量 value：&quot;</span>, value)
+
+pairs <span class="tok-op">=</span> [value <span class="tok-op">*</span> <span class="tok-num">10</span> <span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">3</span>)]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;推导式结果：&quot;</span>, pairs)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;推导式后 value 不变：&quot;</span>, value)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">循环结束后 index： 2
+index 仍在全局： True
+推导式结果： [0, 1, 4, 9, 16]
+推导式变量 n 不会泄漏
+循环变量 value： 1
+推导式结果： [0, 10, 20]
+推导式后 value 不变： 1</code></pre></figure>
+<p>循环变量泄漏本身不算错误，但会带来两个隐患：一是无意中覆盖了同名的外部变量，二是循环结束后仍然能读到一个“最后一次迭代”的值，让逻辑边界变得模糊。把循环包进函数，或者改用推导式，都能有效限制作用域。</p>
+<p>另一个更隐蔽的陷阱是可变默认参数。函数的默认值只在定义时求值一次，之后所有调用共享同一个对象：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">add_item</span>(item, bucket<span class="tok-op">=</span>[]):
+    bucket.<span class="tok-cmdlet">append</span>(item)
+    <span class="tok-keyword">return</span> bucket
+
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第一次：&quot;</span>, <span class="tok-cmdlet">add_item</span>(<span class="tok-string">&quot;a&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第二次：&quot;</span>, <span class="tok-cmdlet">add_item</span>(<span class="tok-string">&quot;b&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第三次：&quot;</span>, <span class="tok-cmdlet">add_item</span>(<span class="tok-string">&quot;c&quot;</span>))
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">add_item_safe</span>(item, bucket<span class="tok-op">=</span><span class="tok-keyword">None</span>):
+    <span class="tok-keyword">if</span> bucket <span class="tok-keyword">is</span> <span class="tok-keyword">None</span>:
+        bucket <span class="tok-op">=</span> []
+    bucket.<span class="tok-cmdlet">append</span>(item)
+    <span class="tok-keyword">return</span> bucket
+
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;修复后第一次：&quot;</span>, <span class="tok-cmdlet">add_item_safe</span>(<span class="tok-string">&quot;a&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;修复后第二次：&quot;</span>, <span class="tok-cmdlet">add_item_safe</span>(<span class="tok-string">&quot;b&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;传入已有列表：&quot;</span>, <span class="tok-cmdlet">add_item_safe</span>(<span class="tok-string">&quot;c&quot;</span>, [<span class="tok-string">&quot;x&quot;</span>]))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">第一次： ['a']
+第二次： ['a', 'b']
+第三次： ['a', 'b', 'c']
+修复后第一次： ['a']
+修复后第二次： ['b']
+传入已有列表： ['x', 'c']</code></pre></figure>
+<p><code>bucket=[]</code> 只在 <code>def</code> 执行时创建一次，之后每次省略参数都复用这个列表，元素越积越多。正确写法是用 <code>None</code> 作为哨兵，在函数体内判断并新建列表；这样既保留了“参数可省略”的便利，又不会在调用之间共享状态。同样的规则适用于字典、集合等所有可变默认值。</p>
+<h2 id="sec-9" class="doc-heading">九、练习任务</h2>
+<p>任务 1：用闭包实现一个账户，<code>deposit()</code> 与 <code>withdraw()</code> 共享余额和交易记录，<code>report()</code> 返回当前状态。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">make_account</span>(balance):
+    history <span class="tok-op">=</span> []
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">deposit</span>(amount):
+        <span class="tok-keyword">nonlocal</span> balance
+        balance <span class="tok-op">+</span><span class="tok-op">=</span> amount
+        history.<span class="tok-cmdlet">append</span>((<span class="tok-string">&quot;存入&quot;</span>, amount))
+        <span class="tok-keyword">return</span> balance
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">withdraw</span>(amount):
+        <span class="tok-keyword">nonlocal</span> balance
+        <span class="tok-keyword">if</span> amount <span class="tok-op">&gt;</span> balance:
+            <span class="tok-type">print</span>(<span class="tok-string">&quot;余额不足，操作取消&quot;</span>)
+            <span class="tok-keyword">return</span> balance
+        balance <span class="tok-op">-</span><span class="tok-op">=</span> amount
+        history.<span class="tok-cmdlet">append</span>((<span class="tok-string">&quot;取出&quot;</span>, amount))
+        <span class="tok-keyword">return</span> balance
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">report</span>():
+        <span class="tok-keyword">return</span> history, balance
+
+    <span class="tok-keyword">return</span> deposit, withdraw, report
+
+
+deposit, withdraw, report <span class="tok-op">=</span> <span class="tok-cmdlet">make_account</span>(<span class="tok-num">100</span>)
+<span class="tok-type">print</span>(<span class="tok-cmdlet">deposit</span>(<span class="tok-num">50</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">withdraw</span>(<span class="tok-num">30</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">withdraw</span>(<span class="tok-num">500</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">report</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">150
+120
+余额不足，操作取消
+120
+([('存入', 50), ('取出', 30)], 120)</code></pre></figure>
+<p>任务 2：统计全局访问次数，并观察 <code>global</code> 声明与未定义名字抛出的 <code>NameError</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">visits <span class="tok-op">=</span> <span class="tok-num">0</span>
+
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">visit</span>(name):
+    <span class="tok-keyword">global</span> visits
+    visits <span class="tok-op">+</span><span class="tok-op">=</span> <span class="tok-num">1</span>
+    <span class="tok-keyword">return</span> <span class="tok-string">f&quot;第 {visits} 位访客：{name}&quot;</span>
+
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">visit</span>(<span class="tok-string">&quot;小明&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">visit</span>(<span class="tok-string">&quot;小红&quot;</span>))
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-type">print</span>(count)
+<span class="tok-keyword">except</span> <span class="tok-type">NameError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;未定义的 count 触发 NameError&quot;</span>)
+
+<span class="tok-keyword">for</span> count <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">3</span>):
+    <span class="tok-keyword">pass</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;循环后 count 留存：&quot;</span>, count)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">第 1 位访客：小明
+第 2 位访客：小红
+未定义的 count 触发 NameError
+循环后 count 留存： 2</code></pre></figure>
+<p>任务 3：修正可变默认参数，并用默认参数固定循环中创建的闭包所引用的值。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">collect_scores</span>(subject, scores<span class="tok-op">=</span><span class="tok-keyword">None</span>):
+    <span class="tok-keyword">if</span> scores <span class="tok-keyword">is</span> <span class="tok-keyword">None</span>:
+        scores <span class="tok-op">=</span> []
+    scores.<span class="tok-cmdlet">append</span>(subject)
+    <span class="tok-keyword">return</span> scores
+
+
+<span class="tok-type">print</span>(<span class="tok-cmdlet">collect_scores</span>(<span class="tok-string">&quot;语文&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">collect_scores</span>(<span class="tok-string">&quot;数学&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-cmdlet">collect_scores</span>(<span class="tok-string">&quot;英语&quot;</span>, [<span class="tok-string">&quot;物理&quot;</span>]))
+
+functions <span class="tok-op">=</span> []
+<span class="tok-keyword">for</span> factor <span class="tok-keyword">in</span> [<span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>]:
+    functions.<span class="tok-cmdlet">append</span>(<span class="tok-keyword">lambda</span> number, factor<span class="tok-op">=</span>factor: number <span class="tok-op">*</span> factor)
+
+<span class="tok-type">print</span>([<span class="tok-cmdlet">func</span>(<span class="tok-num">10</span>) <span class="tok-keyword">for</span> func <span class="tok-keyword">in</span> functions])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;循环变量最终值：&quot;</span>, factor)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">['语文']
+['数学']
+['物理', '英语']
+[20, 30, 40]
+循环变量最终值： 4</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="classes.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 面向对象</span></a><a class="pager-link pager-link--next" href="stdlib.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 标准库概览</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、命名空间</a><a class="toc-link toc-link--h2" href="#sec-2">二、LEGB 查找规则</a><a class="toc-link toc-link--h2" href="#sec-3">三、global 与 nonlocal</a><a class="toc-link toc-link--h2" href="#sec-4">四、闭包</a><a class="toc-link toc-link--h2" href="#sec-5">五、模块命名空间</a><a class="toc-link toc-link--h2" href="#sec-6">六、dir、locals 与 globals</a><a class="toc-link toc-link--h2" href="#sec-7">七、变量生命周期</a><a class="toc-link toc-link--h2" href="#sec-8">八、循环变量泄漏与可变默认值</a><a class="toc-link toc-link--h2" href="#sec-9">九、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

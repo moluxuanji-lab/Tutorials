@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CMake 语法基础 · CMake</title>
+<meta name="description" content="命令调用、参数类型、变量引用、列表、条件、循环、函数与宏，读懂并写好 CMakeLists.txt。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="syntax" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">CM</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#064f8c,#23d18b)">CM</span><span class="side-course__meta"><span class="side-course__name">CMake</span><span class="side-course__desc">16 章 · 入门 → 工程化</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">CMake 教程</span></a></li><li><a class="side-link" href="install-setup.html"><span class="side-num">02</span><span class="side-text">CMake 安装与配置</span></a></li><li><a class="side-link" href="basic.html"><span class="side-num">03</span><span class="side-text">CMake 基础</span></a></li><li><a class="side-link" href="build-flow.html"><span class="side-num">04</span><span class="side-text">CMake 构建流程</span></a></li><li><a class="side-link" href="build-demo.html"><span class="side-num">05</span><span class="side-text">CMake 构建实例</span></a></li></ul></div><div class="side-group"><p class="side-label">核心概念</p><ul class="side-list"><li><a class="side-link is-active" href="syntax.html"><span class="side-num">06</span><span class="side-text">CMake 语法基础</span></a></li><li><a class="side-link" href="variables.html"><span class="side-num">07</span><span class="side-text">CMake 变量与缓存</span></a></li><li><a class="side-link" href="targets.html"><span class="side-num">08</span><span class="side-text">CMake 目标与依赖</span></a></li><li><a class="side-link" href="build-config.html"><span class="side-num">09</span><span class="side-text">CMake 编译与构建配置</span></a></li><li><a class="side-link" href="find-packages.html"><span class="side-num">10</span><span class="side-text">CMake 查找库与包</span></a></li></ul></div><div class="side-group"><p class="side-label">工程化</p><ul class="side-list"><li><a class="side-link" href="install-export.html"><span class="side-num">11</span><span class="side-text">CMake 安装与导出</span></a></li><li><a class="side-link" href="custom-commands.html"><span class="side-num">12</span><span class="side-text">CMake 自定义命令与目标</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">13</span><span class="side-text">CMake 自定义模块与脚本</span></a></li><li><a class="side-link" href="presets.html"><span class="side-num">14</span><span class="side-text">CMake 预设与工作流</span></a></li><li><a class="side-link" href="testing.html"><span class="side-num">15</span><span class="side-text">CMake 测试与打包</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">16</span><span class="side-text">CMake 实战练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../python/index.html"><span class="side-num">PY</span><span class="side-text">Python</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">CMake</a><span>/</span><span>核心概念</span></nav><h1 class="doc-title">CMake 语法基础</h1><p class="doc-lead">命令调用、参数类型、变量引用、列表、条件、循环、函数与宏，读懂并写好 CMakeLists.txt。</p><div class="doc-meta"><span>第 06 章</span><span class="doc-meta__dot"></span><span>约 10 分钟</span><span class="doc-meta__dot"></span><span>共 16 章</span></div><div class="doc-body">
+<p>CMakeLists.txt 由一条条命令组成，语法接近 Shell 又有自己的约定。本章把语言层面的规则一次讲清，让你能读懂任何开源项目的 CMakeLists.txt。</p>
+<h2 id="sec-1" class="doc-heading">一、命令调用</h2>
+<p>命令是 CMake 语言的基本单元，形式为 <code>命令名(参数...)</code>：</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># 参数之间用空格分隔</span>
+<span class="tok-cmdlet">add_executable</span>(demo src/main.cpp src/util.cpp)
+
+<span class="tok-comment"># 一条命令可以跨多行，括号闭合才算结束</span>
+<span class="tok-cmdlet">target_link_libraries</span>(demo
+    <span class="tok-keyword">PRIVATE</span>
+        math
+        <span class="tok-type">Threads::Threads</span>
+)</code></pre></figure>
+<p>命令名不区分大小写（<code>SET</code> 与 <code>set</code> 等价），但社区惯例统一使用小写。</p>
+<h2 id="sec-2" class="doc-heading">二、注释</h2>
+<p><code>#</code> 到行尾是行注释；较长的说明块可以使用括号注释：</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># 行注释：说明这一条命令的用途</span>
+<span class="tok-cmdlet">set</span>(<span class="tok-param">BUILD_TESTS</span> <span class="tok-keyword">ON</span>)
+
+<span class="tok-comment">#[[ 括号注释</span>
+   可以跨越多行，
+   内部的 <span class="tok-comment"># 也不会提前结束注释 ]]</span></code></pre></figure>
+<h2 id="sec-3" class="doc-heading">三、参数类型</h2>
+<div class="table-wrap"><table><thead><tr><th>类型</th><th>写法</th><th>说明</th></tr></thead><tbody><tr><td>不带引号</td><td>set(V demo)</td><td>以空格分词；内容会被当作变量展开</td></tr><tr><td>带引号</td><td>set(V \demo\)</td><td>整体为一个参数；推荐对含空格、路径的值使用</td></tr><tr><td>方括号</td><td>set(V [[raw text]])</td><td>原样保留，不展开转义，适合正则、JSON 片段</td></tr></tbody></table></div>
+<p>带引号与不带引号的展开行为不同：</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">set</span>(NAME world)
+<span class="tok-cmdlet">message</span>(&quot;hello <span class="tok-var">${NAME}</span>&quot;)   <span class="tok-comment"># 输出 hello world</span>
+<span class="tok-cmdlet">message</span>(hello <span class="tok-var">${NAME}</span>)     <span class="tok-comment"># 输出 helloworld（多个参数直接拼接）</span>
+
+<span class="tok-cmdlet">set</span>(LIST a b c)
+<span class="tok-cmdlet">message</span>(&quot;count: <span class="tok-var">${LIST}</span>&quot;)  <span class="tok-comment"># 输出 count:a;b;c（带引号保持一个参数）</span>
+<span class="tok-cmdlet">message</span>(count: <span class="tok-var">${LIST}</span>)    <span class="tok-comment"># 展开 3 个参数，直接拼接为 count:abc</span></code></pre></figure>
+<div class="admonition admonition--note"><div class="admonition__icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></div><div class="admonition__body"><p class="admonition__title">说明</p><p>路径类、字符串类参数务必加引号，否则 Windows 路径中的反斜杠和空格会引起解析问题。</p></div></div>
+<h2 id="sec-4" class="doc-heading">四、变量引用与转义</h2>
+<p><code>${VAR}</code> 引用变量，<code>$ENV{VAR}</code> 引用环境变量。未定义变量展开为空字符串且默认不报警告。</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">set</span>(<span class="tok-param">COMPILER_FLAGS</span> &quot;-Wall&quot;)
+<span class="tok-cmdlet">message</span>(STATUS &quot;flags = <span class="tok-var">${COMPILER_FLAGS}</span>&quot;)</code></pre></figure>
+<p>字符串中需要输出字面 <code>${}</code> 时用 <code>\${}</code> 转义：</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">message</span>(STATUS &quot;引用变量的写法是 \<span class="tok-var">${VAR}</span>&quot;)</code></pre></figure>
+<h2 id="sec-5" class="doc-heading">五、列表</h2>
+<p>CMake 没有独立的数组类型，列表就是 <strong>以分号分隔的字符串</strong>：</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">set</span>(SOURCES src/main.cpp src/math.cpp)
+<span class="tok-cmdlet">list</span>(LENGTH SOURCES len)          <span class="tok-comment"># 2</span>
+<span class="tok-cmdlet">list</span>(GET SOURCES <span class="tok-num">0</span> first)         <span class="tok-comment"># src/main.cpp</span>
+<span class="tok-cmdlet">list</span>(APPEND SOURCES src/util.cpp) <span class="tok-comment"># 追加元素</span>
+
+<span class="tok-keyword">foreach</span>(src IN LISTS SOURCES)
+    <span class="tok-cmdlet">message</span>(STATUS &quot;源文件: <span class="tok-var">${src}</span>&quot;)
+<span class="tok-keyword">endforeach</span>()</code></pre></figure>
+<p>遍历推荐 <code>foreach(... IN LISTS ...)</code>，它按元素迭代，不会受分号展开影响。</p>
+<h2 id="sec-6" class="doc-heading">六、条件判断</h2>
+<h3 id="sec-7" class="doc-heading">if / elseif / else</h3>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-keyword">if</span>(<span class="tok-param">CMAKE_BUILD_TYPE</span> <span class="tok-keyword">STREQUAL</span> &quot;Debug&quot;)
+    <span class="tok-cmdlet">message</span>(STATUS &quot;调试构建&quot;)
+<span class="tok-keyword">elseif</span>(<span class="tok-param">WIN32</span>)
+    <span class="tok-cmdlet">message</span>(STATUS &quot;Windows 平台&quot;)
+<span class="tok-keyword">else</span>()
+    <span class="tok-cmdlet">message</span>(STATUS &quot;其他&quot;)
+<span class="tok-keyword">endif</span>()</code></pre></figure>
+<p>常用条件运算：</p>
+<div class="table-wrap"><table><thead><tr><th>运算</th><th>写法</th><th>说明</th></tr></thead><tbody><tr><td>相等</td><td>if(VAR STREQUAL \值\)</td><td>字符串比较，区分大小写</td></tr><tr><td>数值比较</td><td>if(N LESS 10)</td><td>LESS / GREATER / EQUAL</td></tr><tr><td>版本比较</td><td>if(V VERSION_LESS 3.20)</td><td>按版本号逐段比较</td></tr><tr><td>布尔</td><td>if(VAR)</td><td>ON/1/TRUE/Y 等为真；OFF/0/空为假</td></tr><tr><td>未定义</td><td>if(NOT DEFINED VAR)</td><td>判断变量是否已定义</td></tr><tr><td>存在性</td><td>if(EXISTS ${p})</td><td>文件或目录是否存在</td></tr><tr><td>正则</td><td>if(V MATCHES \^CMake\)</td><td>匹配正则表达式</td></tr><tr><td>列表包含</td><td>if(x IN LIST SOURCES)</td><td>元素是否在列表中</td></tr></tbody></table></div>
+<p>条件中直接写变量名（不带 <code>${}</code>）是 CMake 的特例，<code>if(MSVC)</code> 判断的就是名为 <code>MSVC</code> 的变量。</p>
+<h2 id="sec-8" class="doc-heading">七、循环</h2>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">set</span>(i <span class="tok-num">0</span>)
+<span class="tok-keyword">while</span>(i <span class="tok-keyword">LESS</span> <span class="tok-num">3</span>)
+    <span class="tok-cmdlet">math</span>(EXPR i &quot;<span class="tok-var">${i}</span> + 1&quot;)
+<span class="tok-keyword">endwhile</span>()
+
+<span class="tok-keyword">foreach</span>(n RANGE <span class="tok-num">1</span> <span class="tok-num">5</span>)
+    <span class="tok-cmdlet">message</span>(STATUS &quot;n = <span class="tok-var">${n}</span>&quot;)
+<span class="tok-keyword">endforeach</span>()</code></pre></figure>
+<p><code>foreach</code> 支持的迭代形式：</p>
+<div class="table-wrap"><table><thead><tr><th>形式</th><th>示例</th></tr></thead><tbody><tr><td>枚举值</td><td>foreach(x a b c)</td></tr><tr><td>范围</td><td>foreach(n RANGE 0 10 2)</td></tr><tr><td>列表变量</td><td>foreach(src IN LISTS SOURCES)</td></tr><tr><td>多项遍历</td><td>foreach(name ver IN ZIP_LISTS names versions)</td></tr></tbody></table></div>
+<p><code>break()</code> 与 <code>continue()</code> 在两种循环中都可以使用。</p>
+<h2 id="sec-9" class="doc-heading">八、函数与宏</h2>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># 定义：参数按位置传入，${name} 之外还有 ${ARGC}、${ARGV}、${ARGN}</span>
+<span class="tok-keyword">function</span>(add_demo_target name)
+    <span class="tok-cmdlet">add_executable</span>(<span class="tok-var">${name}</span> <span class="tok-var">${ARGN}</span>)
+    <span class="tok-cmdlet">message</span>(STATUS &quot;已添加目标 <span class="tok-var">${name}</span>，源文件: <span class="tok-var">${ARGN}</span>&quot;)
+<span class="tok-keyword">endfunction</span>()
+
+<span class="tok-comment"># 调用与普通命令相同</span>
+<span class="tok-cmdlet">add_demo_target</span>(hello src/main.cpp)</code></pre></figure>
+<p>函数与宏的区别：</p>
+<div class="table-wrap"><table><thead><tr><th>特性</th><th>function</th><th>macro</th></tr></thead><tbody><tr><td>作用域</td><td>独立作用域，内部 set 不影响外部</td><td>文本替换，直接操作调用者作用域</td></tr><tr><td>回溯报错</td><td>报错位置指向函数内部</td><td>报错位置指向调用处</td></tr><tr><td>推荐度</td><td>推荐</td><td>仅用于生成重复代码片段</td></tr></tbody></table></div>
+<p>函数内要向外部输出变量时使用 <code>set(VAR value PARENT_SCOPE)</code>。</p>
+<h2 id="sec-10" class="doc-heading">九、作用域</h2>
+<ul><li><p><strong>目录作用域</strong>：每个 <code>CMakeLists.txt</code> 及 <code>add_subdirectory</code> 进入的子目录都有独立变量空间，子目录继承父目录变量的副本。</p></li><li><p><strong>函数作用域</strong>：<code>function</code> 内的新变量都是局部的。</p></li><li><p><strong>缓存作用域</strong>：<code>CACHE</code> 变量全局唯一，写入 <code>CMakeCache.txt</code>。</p></li></ul>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-cmdlet">set</span>(top &quot;parent&quot;)
+<span class="tok-keyword">function</span>(show)
+    <span class="tok-cmdlet">set</span>(top &quot;inside&quot;)          <span class="tok-comment"># 只在函数内生效</span>
+    <span class="tok-cmdlet">message</span>(STATUS &quot;函数内: <span class="tok-var">${top}</span>&quot;)
+<span class="tok-keyword">endfunction</span>()
+<span class="tok-cmdlet">show</span>()
+<span class="tok-cmdlet">message</span>(STATUS &quot;函数外: <span class="tok-var">${top}</span>&quot;)   <span class="tok-comment"># 仍是 parent</span></code></pre></figure>
+<h2 id="sec-11" class="doc-heading">十、练习任务</h2>
+<p>任务 1：写一个脚本验证列表操作</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># list-demo.cmake —— 使用 cmake -P list-demo.cmake 运行</span>
+<span class="tok-cmdlet">set</span>(items alpha beta gamma)
+<span class="tok-cmdlet">list</span>(APPEND items delta)
+<span class="tok-cmdlet">list</span>(<span class="tok-param">REMOVE_ITEM</span> items beta)
+<span class="tok-keyword">foreach</span>(x IN LISTS items)
+    <span class="tok-cmdlet">message</span>(STATUS &quot;item = <span class="tok-var">${x}</span>&quot;)
+<span class="tok-keyword">endforeach</span>()</code></pre></figure>
+<p>任务 2：用函数封装一个打印目标信息的命令</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-keyword">function</span>(log_target name)
+    <span class="tok-keyword">if</span>(<span class="tok-keyword">TARGET</span> <span class="tok-var">${name}</span>)
+        <span class="tok-cmdlet">message</span>(STATUS &quot;目标 <span class="tok-var">${name}</span> 已定义&quot;)
+    <span class="tok-keyword">else</span>()
+        <span class="tok-cmdlet">message</span>(WARNING &quot;目标 <span class="tok-var">${name}</span> 不存在&quot;)
+    <span class="tok-keyword">endif</span>()
+<span class="tok-keyword">endfunction</span>()</code></pre></figure>
+<p>任务 3：判断构建类型并输出对应信息</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-keyword">if</span>(<span class="tok-param">CMAKE_BUILD_TYPE</span> <span class="tok-keyword">MATCHES</span> &quot;Debug&quot;)
+    <span class="tok-cmdlet">message</span>(STATUS &quot;当前是调试模式&quot;)
+<span class="tok-keyword">else</span>()
+    <span class="tok-cmdlet">message</span>(STATUS &quot;当前是 <span class="tok-var">${CMAKE_BUILD_TYPE}</span> 模式&quot;)
+<span class="tok-keyword">endif</span>()</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="build-demo.html"><span class="pager-dir">← 上一章</span><span class="pager-title">CMake 构建实例</span></a><a class="pager-link pager-link--next" href="variables.html"><span class="pager-dir">下一章 →</span><span class="pager-title">CMake 变量与缓存</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 CMake 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、命令调用</a><a class="toc-link toc-link--h2" href="#sec-2">二、注释</a><a class="toc-link toc-link--h2" href="#sec-3">三、参数类型</a><a class="toc-link toc-link--h2" href="#sec-4">四、变量引用与转义</a><a class="toc-link toc-link--h2" href="#sec-5">五、列表</a><a class="toc-link toc-link--h2" href="#sec-6">六、条件判断</a><a class="toc-link toc-link--h3" href="#sec-7">if / elseif / else</a><a class="toc-link toc-link--h2" href="#sec-8">七、循环</a><a class="toc-link toc-link--h2" href="#sec-9">八、函数与宏</a><a class="toc-link toc-link--h2" href="#sec-10">九、作用域</a><a class="toc-link toc-link--h2" href="#sec-11">十、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

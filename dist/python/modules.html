@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 模块 · Python</title>
+<meta name="description" content="掌握 import、from import、as 别名、自定义模块、sys.path、__name__ 主程序入口、包与 __init__.py、dir() 以及模块缓存的工作方式。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="modules" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link is-active" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>进阶</span></nav><h1 class="doc-title">Python 模块</h1><p class="doc-lead">掌握 import、from import、as 别名、自定义模块、sys.path、__name__ 主程序入口、包与 __init__.py、dir() 以及模块缓存的工作方式。</p><div class="doc-meta"><span>第 24 章</span><span class="doc-meta__dot"></span><span>约 33 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>模块是 Python 组织代码的基本单位。一个 <code>.py</code> 文件就是一个模块，模块里可以定义函数、类和变量；包则是包含 <code>__init__.py</code> 的目录，用来把多个模块按层级组织起来。标准库和第三方库正是靠这套机制拼接成庞大的生态。</p>
+<p>本章从最基本的 <code>import</code> 写法开始，依次介绍导入形式、自定义模块、搜索路径、主程序入口、包、<code>dir()</code>、常用标准模块，最后解释模块缓存为什么会让“改了文件却不生效”。示例中创建的临时模块都会在同一个代码块内清理，块与块之间互不影响。</p>
+<h2 id="sec-1" class="doc-heading">一、import 语句</h2>
+<p><code>import</code> 把整个模块加载进来，并绑定到同名变量上。调用模块里的函数时必须带上模块名前缀，这样能一眼看出函数来自哪里，也避免不同模块的同名函数互相覆盖。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+<span class="tok-keyword">import</span> statistics
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;圆周率：&quot;</span>, math.pi)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平方根：&quot;</span>, math.<span class="tok-cmdlet">sqrt</span>(<span class="tok-num">144</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;向上取整：&quot;</span>, math.<span class="tok-cmdlet">ceil</span>(<span class="tok-num">3.2</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平均值：&quot;</span>, statistics.<span class="tok-cmdlet">mean</span>([<span class="tok-num">2</span>, <span class="tok-num">4</span>, <span class="tok-num">6</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;类型：&quot;</span>, <span class="tok-type">type</span>(math).__name__)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;模块名：&quot;</span>, math.__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">圆周率： 3.141592653589793
+平方根： 12.0
+向上取整： 4
+平均值： 4
+类型： module
+模块名： math</code></pre></figure>
+<p><code>import</code> 得到的是一个模块对象，函数和常量都是它的属性，所以写作 <code>math.sqrt</code>。模块的 <code>__name__</code> 属性就是它的名字，<code>type(math).__name__</code> 则说明模块对象的类型是 <code>module</code>。</p>
+<p>Python 允许一行导入多个模块，例如 <code>import math, statistics</code>，但分成两行更符合 PEP 8 的建议。导入顺序通常按“标准库、第三方库、本地模块”分组，每组之间空一行。</p>
+<p>几种导入形式的对比如下：</p>
+<div class="table-wrap"><table><thead><tr><th>写法</th><th>含义</th><th>调用方式</th></tr></thead><tbody><tr><td><code>import math</code></td><td>导入整个模块</td><td><code>math.sqrt(9)</code></td></tr><tr><td><code>import math as m</code></td><td>导入模块并起别名</td><td><code>m.sqrt(9)</code></td></tr><tr><td><code>from math import sqrt</code></td><td>只导入指定名字</td><td><code>sqrt(9)</code></td></tr><tr><td><code>from math import sqrt as s</code></td><td>导入名字并起别名</td><td><code>s(9)</code></td></tr><tr><td><code>from math import *</code></td><td>导入全部公开名字</td><td><code>sqrt(9)</code></td></tr></tbody></table></div>
+<h2 id="sec-2" class="doc-heading">二、from ... import</h2>
+<p><code>from module import name</code> 只把指定的名字绑定到当前命名空间，调用时不需要前缀。名字少、使用频繁时可以少写很多字符，但名字的来源会变得不那么直观。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> math <span class="tok-keyword">import</span> sqrt, factorial
+<span class="tok-keyword">from</span> statistics <span class="tok-keyword">import</span> mean
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;sqrt(81)：&quot;</span>, <span class="tok-cmdlet">sqrt</span>(<span class="tok-num">81</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;5!：&quot;</span>, <span class="tok-cmdlet">factorial</span>(<span class="tok-num">5</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平均分：&quot;</span>, <span class="tok-cmdlet">mean</span>([<span class="tok-num">80</span>, <span class="tok-num">90</span>, <span class="tok-num">100</span>]))
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-type">print</span>(pi)
+<span class="tok-keyword">except</span> <span class="tok-type">NameError</span> <span class="tok-keyword">as</span> error:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;未导入的名字：&quot;</span>, <span class="tok-type">type</span>(error).__name__, <span class="tok-string">&quot;-&quot;</span>, error)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">sqrt(81)： 9.0
+5!： 120
+平均分： 90
+未导入的名字： NameError - name 'pi' is not defined</code></pre></figure>
+<p>只导入 <code>sqrt</code> 和 <code>factorial</code>，并不意味着 <code>math</code> 里的其他名字也可用，<code>pi</code> 没有导入，访问时直接抛出 <code>NameError</code>。需要哪些名字就写哪些名字，比 <code>from math import *</code> 更可控。</p>
+<p>星号导入会把模块里所有不以单下划线开头的名字都塞进当前命名空间，容易覆盖同名变量，也让静态检查工具难以判断名字来源。除了交互式试验，正式代码应避免这种写法。</p>
+<h2 id="sec-3" class="doc-heading">三、as 别名</h2>
+<p><code>as</code> 给模块或导入的名字起一个别名。常见用途有三种：缩短过长的模块名、避免与已有变量冲突、在切换实现时保持调用代码不变。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> datetime <span class="tok-keyword">as</span> dt
+<span class="tok-keyword">from</span> math <span class="tok-keyword">import</span> factorial <span class="tok-keyword">as</span> fact
+
+today <span class="tok-op">=</span> dt.<span class="tok-cmdlet">date</span>(<span class="tok-num">2024</span>, <span class="tok-num">5</span>, <span class="tok-num">1</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;日期：&quot;</span>, today.<span class="tok-cmdlet">isoformat</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;星期：&quot;</span>, today.<span class="tok-cmdlet">weekday</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;6 的阶乘：&quot;</span>, <span class="tok-cmdlet">fact</span>(<span class="tok-num">6</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;模块真名：&quot;</span>, dt.__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">日期： 2024-05-01
+星期： 2
+6 的阶乘： 720
+模块真名： datetime</code></pre></figure>
+<p><code>dt.date</code> 比 <code>datetime.date</code> 少写四个字符，在频繁使用日期类型的文件里很实用。<code>today.weekday()</code> 返回 0 到 6，周一是 0，所以 2024 年 5 月 1 日（周三）返回 2。</p>
+<p>别名只影响当前文件的绑定名字，模块自身的 <code>__name__</code> 仍然是 <code>datetime</code>。第三方库常约定俗成的别名，例如 <code>import numpy as np</code>、<code>import pandas as pd</code>，阅读代码时应当尊重这些惯例。</p>
+<h2 id="sec-4" class="doc-heading">四、自定义模块</h2>
+<p>任何 <code>.py</code> 文件都可以被导入，文件名去掉扩展名就是模块名。下面在代码块内先写出 <code>helper.py</code>，再导入它、调用其中的函数，最后删除文件，保证示例自包含。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+<span class="tok-keyword">import</span> shutil
+
+source <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;&quot;def shout(text):</span>
+<span class="tok-string">    return text.upper() + &quot;!&quot;</span>
+
+
+<span class="tok-string">def word_count(text):</span>
+<span class="tok-string">    return len(text.split())</span>
+
+
+<span class="tok-string">VERSION = &quot;1.0&quot;</span>
+<span class="tok-string">&quot;&quot;&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(<span class="tok-string">&quot;helper.py&quot;</span>, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(source)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-keyword">import</span> helper
+
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;模块版本：&quot;</span>, helper.VERSION)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;shout：&quot;</span>, helper.<span class="tok-cmdlet">shout</span>(<span class="tok-string">&quot;hello&quot;</span>))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;单词数：&quot;</span>, helper.<span class="tok-cmdlet">word_count</span>(<span class="tok-string">&quot;python is fun&quot;</span>))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;模块文件：&quot;</span>, os.path.<span class="tok-cmdlet">basename</span>(helper.__file__))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;模块名：&quot;</span>, helper.__name__)
+<span class="tok-keyword">finally</span>:
+    <span class="tok-keyword">if</span> os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;helper.py&quot;</span>):
+        os.<span class="tok-cmdlet">remove</span>(<span class="tok-string">&quot;helper.py&quot;</span>)
+    shutil.<span class="tok-cmdlet">rmtree</span>(<span class="tok-string">&quot;__pycache__&quot;</span>, ignore_errors<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;清理完成：&quot;</span>, <span class="tok-keyword">not</span> os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;helper.py&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">模块版本： 1.0
+shout： HELLO!
+单词数： 3
+模块文件： helper.py
+模块名： helper
+清理完成： True</code></pre></figure>
+<p><code>import helper</code> 会在当前目录查找 <code>helper.py</code>，执行其中的顶层代码，然后把模块对象绑定到 <code>helper</code>。<code>helper.__file__</code> 指向源文件路径，<code>helper.__name__</code> 是模块名。</p>
+<p>导入时模块顶层的语句会真正执行，因此模块里不要放耗时或有副作用的操作。只把函数、类、常量放在顶层，把测试和演示代码放进 <code>if __name__ == &quot;__main__&quot;:</code> 分支，下一节会详细说明。</p>
+<p><code>__pycache__</code> 是 Python 自动生成的字节码缓存目录，删除它不影响功能，只是下次导入需要重新编译。</p>
+<h2 id="sec-5" class="doc-heading">五、sys.path 与模块搜索路径</h2>
+<p><code>import</code> 并不是在当前目录里盲目查找，而是按 <code>sys.path</code> 列表中的目录顺序搜索。列表的第一项通常是脚本所在目录，后面依次是 <code>PYTHONPATH</code>、标准库目录和第三方包的安装目录。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+<span class="tok-keyword">import</span> shutil
+<span class="tok-keyword">import</span> sys
+
+folder <span class="tok-op">=</span> <span class="tok-string">&quot;mylib&quot;</span>
+os.<span class="tok-cmdlet">makedirs</span>(folder, exist_ok<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(os.path.<span class="tok-cmdlet">join</span>(folder, <span class="tok-string">&quot;greeter.py&quot;</span>), <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(<span class="tok-string">'def hello(name):\n    return f&quot;你好，{name}！&quot;\n'</span>)
+
+script_dir <span class="tok-op">=</span> os.path.<span class="tok-cmdlet">dirname</span>(os.path.<span class="tok-cmdlet">abspath</span>(__file__))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;脚本目录在搜索路径中：&quot;</span>, script_dir <span class="tok-keyword">in</span> [os.path.<span class="tok-cmdlet">abspath</span>(p) <span class="tok-keyword">for</span> p <span class="tok-keyword">in</span> sys.path])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;mylib 已在路径中：&quot;</span>, folder <span class="tok-keyword">in</span> sys.path)
+
+target <span class="tok-op">=</span> os.path.<span class="tok-cmdlet">abspath</span>(folder)
+sys.path.<span class="tok-cmdlet">insert</span>(<span class="tok-num">0</span>, target)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;加入后 mylib 在路径中：&quot;</span>, target <span class="tok-keyword">in</span> sys.path)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-keyword">import</span> greeter
+
+    <span class="tok-type">print</span>(greeter.<span class="tok-cmdlet">hello</span>(<span class="tok-string">&quot;小明&quot;</span>))
+<span class="tok-keyword">finally</span>:
+    <span class="tok-keyword">if</span> target <span class="tok-keyword">in</span> sys.path:
+        sys.path.<span class="tok-cmdlet">remove</span>(target)
+    shutil.<span class="tok-cmdlet">rmtree</span>(folder, ignore_errors<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;清理完成：&quot;</span>, <span class="tok-keyword">not</span> os.path.<span class="tok-cmdlet">exists</span>(folder))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">脚本目录在搜索路径中： True
+mylib 已在路径中： False
+加入后 mylib 在路径中： True
+你好，小明！
+清理完成： True</code></pre></figure>
+<p><code>sys.path</code> 里的条目是目录而不是文件，而且通常是绝对路径，所以相对目录名 <code>mylib</code> 不会直接命中。调用 <code>os.path.abspath()</code> 转成绝对路径后插入列表头部，<code>import greeter</code> 就能在 <code>mylib</code> 目录里找到 <code>greeter.py</code>。</p>
+<p>临时修改 <code>sys.path</code> 只对当前进程有效，脚本退出后自动恢复。正式项目更推荐把包安装到虚拟环境，或者用 <code>pip install -e .</code> 做可编辑安装，而不是在代码里手动拼接路径。</p>
+<h2 id="sec-6" class="doc-heading">六、__name__ 与主程序入口</h2>
+<p>每个模块都有 <code>__name__</code> 属性。直接运行文件时，它的值是 <code>&quot;__main__&quot;</code>；被其他模块导入时，它的值是模块名。利用这一点，可以让同一个文件既能当脚本执行，又能被安全导入。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+<span class="tok-keyword">import</span> runpy
+<span class="tok-keyword">import</span> shutil
+<span class="tok-keyword">import</span> sys
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;直接运行时的 __name__：&quot;</span>, __name__)
+
+source <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;&quot;def main():</span>
+<span class="tok-string">    print(&quot;执行主程序逻辑&quot;)</span>
+
+
+<span class="tok-string">if __name__ == &quot;__main__&quot;:</span>
+<span class="tok-string">    main()</span>
+<span class="tok-string">else:</span>
+<span class="tok-string">    print(&quot;被当作模块导入&quot;)</span>
+<span class="tok-string">&quot;&quot;&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(<span class="tok-string">&quot;main_demo.py&quot;</span>, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(source)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-keyword">import</span> main_demo
+
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;导入后的模块名：&quot;</span>, main_demo.__name__)
+    runpy.<span class="tok-cmdlet">run_path</span>(<span class="tok-string">&quot;main_demo.py&quot;</span>, run_name<span class="tok-op">=</span><span class="tok-string">&quot;__main__&quot;</span>)
+<span class="tok-keyword">finally</span>:
+    <span class="tok-keyword">if</span> <span class="tok-string">&quot;main_demo&quot;</span> <span class="tok-keyword">in</span> sys.modules:
+        <span class="tok-keyword">del</span> sys.modules[<span class="tok-string">&quot;main_demo&quot;</span>]
+    <span class="tok-keyword">if</span> os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;main_demo.py&quot;</span>):
+        os.<span class="tok-cmdlet">remove</span>(<span class="tok-string">&quot;main_demo.py&quot;</span>)
+    shutil.<span class="tok-cmdlet">rmtree</span>(<span class="tok-string">&quot;__pycache__&quot;</span>, ignore_errors<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;清理完成：&quot;</span>, <span class="tok-keyword">not</span> os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;main_demo.py&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">直接运行时的 __name__： __main__
+被当作模块导入
+导入后的模块名： main_demo
+执行主程序逻辑
+清理完成： True</code></pre></figure>
+<p>示例文件自身被当作脚本运行，所以第一行输出 <code>__main__</code>。<code>main_demo.py</code> 被导入时走 <code>else</code> 分支，只打印“被当作模块导入”；<code>runpy.run_path(..., run_name=&quot;__main__&quot;)</code> 模拟了“直接运行该文件”的场景，于是进入 <code>if</code> 分支执行 <code>main()</code>。</p>
+<p>真实项目里不需要 <code>runpy</code>，直接在命令行输入 <code>python main_demo.py</code> 即可。主程序入口的价值在于：测试代码不会在别人 <code>import</code> 你的模块时被意外执行。</p>
+<h2 id="sec-7" class="doc-heading">七、包与 __init__.py</h2>
+<p>包是带层级的模块集合，本质是包含 <code>__init__.py</code> 的目录。导入包里的模块时用点号分隔，例如 <code>import shapes.area</code>；<code>area</code> 的完整模块名就是 <code>shapes.area</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+<span class="tok-keyword">import</span> shutil
+
+package <span class="tok-op">=</span> <span class="tok-string">&quot;shapes&quot;</span>
+os.<span class="tok-cmdlet">makedirs</span>(package, exist_ok<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(os.path.<span class="tok-cmdlet">join</span>(package, <span class="tok-string">&quot;__init__.py&quot;</span>), <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(<span class="tok-string">'&quot;&quot;&quot;图形计算包。&quot;&quot;&quot;\n\nNAME = &quot;shapes&quot;\n'</span>)
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(os.path.<span class="tok-cmdlet">join</span>(package, <span class="tok-string">&quot;area.py&quot;</span>), <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(
+        <span class="tok-string">&quot;def square(side):\n&quot;</span>
+        <span class="tok-string">&quot;    return side * side\n&quot;</span>
+        <span class="tok-string">&quot;\n&quot;</span>
+        <span class="tok-string">&quot;def circle(radius):\n&quot;</span>
+        <span class="tok-string">&quot;    return round(3.14159 * radius * radius, 2)\n&quot;</span>
+    )
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-keyword">import</span> shapes
+    <span class="tok-keyword">from</span> shapes <span class="tok-keyword">import</span> area
+
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;包名：&quot;</span>, shapes.NAME)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;正方形面积：&quot;</span>, area.<span class="tok-cmdlet">square</span>(<span class="tok-num">4</span>))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;圆面积：&quot;</span>, area.<span class="tok-cmdlet">circle</span>(<span class="tok-num">2</span>))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;包文件：&quot;</span>, os.path.<span class="tok-cmdlet">basename</span>(shapes.__file__))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;模块名：&quot;</span>, area.__name__)
+<span class="tok-keyword">finally</span>:
+    shutil.<span class="tok-cmdlet">rmtree</span>(package, ignore_errors<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;清理完成：&quot;</span>, <span class="tok-keyword">not</span> os.path.<span class="tok-cmdlet">exists</span>(package))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">包名： shapes
+正方形面积： 16
+圆面积： 12.57
+包文件： __init__.py
+模块名： shapes.area
+清理完成： True</code></pre></figure>
+<p>导入包时，<code>__init__.py</code> 会先被执行，里面定义的 <code>NAME</code> 直接成为包的属性。<code>from shapes import area</code> 导入子模块；也可以写 <code>import shapes.area</code>，之后通过 <code>shapes.area.square()</code> 调用。</p>
+<p><code>__init__.py</code> 可以是空文件，它的存在让目录成为常规包；也可以在里面对外暴露常用接口，例如 <code>from .area import square</code>，让调用方写 <code>shapes.square()</code>。Python 3 还支持不带 <code>__init__.py</code> 的命名空间包，但常规项目仍建议显式创建它，结构更清晰。</p>
+<h2 id="sec-8" class="doc-heading">八、dir() 函数</h2>
+<p><code>dir()</code> 返回对象可用名字的排序列表。传入模块时列出模块的公开接口，传入实例时列出属性和方法。它适合在交互式环境里快速探索一个不熟悉的模块。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+
+names <span class="tok-op">=</span> [name <span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> <span class="tok-type">dir</span>(math) <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> name.<span class="tok-cmdlet">startswith</span>(<span class="tok-string">&quot;_&quot;</span>)]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;包含 sqrt：&quot;</span>, <span class="tok-string">&quot;sqrt&quot;</span> <span class="tok-keyword">in</span> names)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;包含 pi：&quot;</span>, <span class="tok-string">&quot;pi&quot;</span> <span class="tok-keyword">in</span> names)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;前五个：&quot;</span>, <span class="tok-type">sorted</span>(names)[:<span class="tok-num">5</span>])
+
+
+<span class="tok-keyword">class</span> Demo:
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">__init__</span>(<span class="tok-var">self</span>):
+        <span class="tok-var">self</span>.value <span class="tok-op">=</span> <span class="tok-num">1</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-cmdlet">run</span>(<span class="tok-var">self</span>):
+        <span class="tok-keyword">return</span> <span class="tok-var">self</span>.value
+
+
+demo <span class="tok-op">=</span> <span class="tok-cmdlet">Demo</span>()
+public <span class="tok-op">=</span> <span class="tok-type">sorted</span>(name <span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> <span class="tok-type">dir</span>(demo) <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> name.<span class="tok-cmdlet">startswith</span>(<span class="tok-string">&quot;_&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;实例公开属性：&quot;</span>, public)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">包含 sqrt： True
+包含 pi： True
+前五个： ['acos', 'acosh', 'asin', 'asinh', 'atan']
+实例公开属性： ['run', 'value']</code></pre></figure>
+<p><code>dir()</code> 的结果包含双下划线开头的特殊名字，例如 <code>__name__</code>、<code>__doc__</code>，筛选时通常把它们过滤掉。<code>dir(demo)</code> 同时列出类方法和实例属性，<code>run</code> 来自类，<code>value</code> 来自 <code>__init__</code> 中的赋值。</p>
+<p><code>dir()</code> 只列出名字，不告诉你类型和用法。配合 <code>help()</code> 或 <code>inspect</code> 模块，才能看到函数签名和文档字符串。</p>
+<h2 id="sec-9" class="doc-heading">九、常用标准模块</h2>
+<p>标准库覆盖了日常开发的大部分基础能力，下面这些模块几乎每个项目都会用到：</p>
+<ul><li><p><code>math</code>：平方根、三角函数、对数、常量 <code>pi</code> 与 <code>e</code>。</p></li><li><p><code>statistics</code>：均值、中位数、众数、标准差等统计函数。</p></li><li><p><code>random</code>：随机数生成，正式实验应固定种子以便复现。</p></li><li><p><code>datetime</code>：日期、时间、时间差与格式化。</p></li><li><p><code>json</code>：JSON 文本与 Python 对象互相转换。</p></li><li><p><code>os</code> 与 <code>sys</code>：文件路径、环境变量、解释器信息。</p></li><li><p><code>pathlib</code>：面向对象的路径操作，比字符串拼接更安全。</p></li><li><p><code>collections</code>：<code>deque</code>、<code>Counter</code>、<code>defaultdict</code> 等专用容器。</p></li><li><p><code>re</code>：正则表达式匹配与替换。</p></li><li><p><code>itertools</code>：排列、组合、分组等迭代工具。</p></li></ul>
+<h3 id="sec-10" class="doc-heading">math 与 statistics</h3>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+<span class="tok-keyword">import</span> statistics
+<span class="tok-keyword">from</span> random <span class="tok-keyword">import</span> Random
+
+data <span class="tok-op">=</span> [<span class="tok-num">12</span>, <span class="tok-num">7</span>, <span class="tok-num">9</span>, <span class="tok-num">15</span>, <span class="tok-num">7</span>, <span class="tok-num">11</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;math.sqrt(2)：&quot;</span>, <span class="tok-type">round</span>(math.<span class="tok-cmdlet">sqrt</span>(<span class="tok-num">2</span>), <span class="tok-num">4</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;statistics.mean：&quot;</span>, statistics.<span class="tok-cmdlet">mean</span>(data))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;statistics.median：&quot;</span>, statistics.<span class="tok-cmdlet">median</span>(data))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;statistics.mode：&quot;</span>, statistics.<span class="tok-cmdlet">mode</span>(data))
+
+rng <span class="tok-op">=</span> <span class="tok-cmdlet">Random</span>(<span class="tok-num">42</span>)
+picked <span class="tok-op">=</span> [rng.<span class="tok-cmdlet">randint</span>(<span class="tok-num">1</span>, <span class="tok-num">10</span>) <span class="tok-keyword">for</span> _ <span class="tok-keyword">in</span> <span class="tok-type">range</span>(<span class="tok-num">5</span>)]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;固定种子随机数：&quot;</span>, picked)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">math.sqrt(2)： 1.4142
+statistics.mean： 10.166666666666666
+statistics.median： 10.0
+statistics.mode： 7
+固定种子随机数： [2, 1, 5, 4, 4]</code></pre></figure>
+<p><code>statistics.mode()</code> 返回出现次数最多的值 7；数据里有两个 7，其余各一个，所以结果唯一。<code>median()</code> 先排序再取中间两个数的平均值，得到 10.0。</p>
+<p><code>Random(42)</code> 创建独立的随机数生成器，固定种子后每次运行都得到同一串结果，适合写测试和教程。它不会影响全局的 <code>random</code> 模块状态；真实抽奖、抽样场景不应固定种子。</p>
+<h3 id="sec-11" class="doc-heading">datetime 与 json</h3>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> json
+<span class="tok-keyword">import</span> os
+<span class="tok-keyword">from</span> datetime <span class="tok-keyword">import</span> date, timedelta
+
+day <span class="tok-op">=</span> <span class="tok-cmdlet">date</span>(<span class="tok-num">2024</span>, <span class="tok-num">5</span>, <span class="tok-num">1</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;日期：&quot;</span>, day.<span class="tok-cmdlet">isoformat</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;100 天后：&quot;</span>, (day <span class="tok-op">+</span> <span class="tok-cmdlet">timedelta</span>(days<span class="tok-op">=</span><span class="tok-num">100</span>)).<span class="tok-cmdlet">isoformat</span>())
+
+payload <span class="tok-op">=</span> {<span class="tok-string">&quot;name&quot;</span>: <span class="tok-string">&quot;小明&quot;</span>, <span class="tok-string">&quot;tags&quot;</span>: [<span class="tok-string">&quot;python&quot;</span>, <span class="tok-string">&quot;json&quot;</span>], <span class="tok-string">&quot;active&quot;</span>: <span class="tok-keyword">True</span>}
+text <span class="tok-op">=</span> json.<span class="tok-cmdlet">dumps</span>(payload, ensure_ascii<span class="tok-op">=</span><span class="tok-keyword">False</span>, sort_keys<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;JSON：&quot;</span>, text)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;解析后的标签：&quot;</span>, json.<span class="tok-cmdlet">loads</span>(text)[<span class="tok-string">&quot;tags&quot;</span>])
+
+path <span class="tok-op">=</span> os.path.<span class="tok-cmdlet">join</span>(<span class="tok-string">&quot;docs&quot;</span>, <span class="tok-string">&quot;python&quot;</span>, <span class="tok-string">&quot;modules.rst&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;文件名：&quot;</span>, os.path.<span class="tok-cmdlet">basename</span>(path))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;扩展名：&quot;</span>, os.path.<span class="tok-cmdlet">splitext</span>(path)[<span class="tok-num">1</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;统一斜杠：&quot;</span>, path.<span class="tok-cmdlet">replace</span>(os.sep, <span class="tok-string">&quot;/&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">日期： 2024-05-01
+100 天后： 2024-08-09
+JSON： {&quot;active&quot;: true, &quot;name&quot;: &quot;小明&quot;, &quot;tags&quot;: [&quot;python&quot;, &quot;json&quot;]}
+解析后的标签： ['python', 'json']
+文件名： modules.rst
+扩展名： .rst
+统一斜杠： docs/python/modules.rst</code></pre></figure>
+<p><code>date + timedelta</code> 返回新的日期对象，原对象不变。<code>json.dumps()</code> 的 <code>ensure_ascii=False</code> 让中文按原样输出，<code>sort_keys=True</code> 固定键的顺序，方便比对结果。<code>os.path.join</code> 会按平台使用分隔符，展示时统一替换成斜杠即可跨平台。</p>
+<h2 id="sec-12" class="doc-heading">十、模块缓存</h2>
+<p>Python 把已导入的模块保存在 <code>sys.modules</code> 字典里。第二次 <code>import</code> 同一个名字时，解释器直接返回缓存中的模块对象，不会重新执行文件，这也是大型项目导入速度不会随重复导入线性变慢的原因。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> importlib
+<span class="tok-keyword">import</span> os
+<span class="tok-keyword">import</span> shutil
+<span class="tok-keyword">import</span> sys
+
+source <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;&quot;print(&quot;模块加载中&quot;)</span>
+<span class="tok-string">VALUE = 1</span>
+<span class="tok-string">&quot;&quot;&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(<span class="tok-string">&quot;cache_demo.py&quot;</span>, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(source)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-keyword">import</span> cache_demo
+
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;第一次导入 VALUE：&quot;</span>, cache_demo.VALUE)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;已在 sys.modules：&quot;</span>, <span class="tok-string">&quot;cache_demo&quot;</span> <span class="tok-keyword">in</span> sys.modules)
+
+    <span class="tok-keyword">import</span> cache_demo <span class="tok-keyword">as</span> again
+
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;第二次导入同一对象：&quot;</span>, again <span class="tok-keyword">is</span> cache_demo)
+
+    <span class="tok-keyword">with</span> <span class="tok-type">open</span>(<span class="tok-string">&quot;cache_demo.py&quot;</span>, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+        file.<span class="tok-cmdlet">write</span>(<span class="tok-string">'print(&quot;模块重新加载&quot;)\nVALUE = 2\n'</span>)
+
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;修改文件后 VALUE：&quot;</span>, cache_demo.VALUE)
+    importlib.<span class="tok-cmdlet">reload</span>(cache_demo)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;reload 后 VALUE：&quot;</span>, cache_demo.VALUE)
+<span class="tok-keyword">finally</span>:
+    <span class="tok-keyword">if</span> <span class="tok-string">&quot;cache_demo&quot;</span> <span class="tok-keyword">in</span> sys.modules:
+        <span class="tok-keyword">del</span> sys.modules[<span class="tok-string">&quot;cache_demo&quot;</span>]
+    <span class="tok-keyword">if</span> os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;cache_demo.py&quot;</span>):
+        os.<span class="tok-cmdlet">remove</span>(<span class="tok-string">&quot;cache_demo.py&quot;</span>)
+    shutil.<span class="tok-cmdlet">rmtree</span>(<span class="tok-string">&quot;__pycache__&quot;</span>, ignore_errors<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;清理完成：&quot;</span>, <span class="tok-keyword">not</span> os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;cache_demo.py&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">模块加载中
+第一次导入 VALUE： 1
+已在 sys.modules： True
+第二次导入同一对象： True
+修改文件后 VALUE： 1
+模块重新加载
+reload 后 VALUE： 2
+清理完成： True</code></pre></figure>
+<p>“模块加载中”只打印一次，说明第二次 <code>import</code> 直接复用了缓存。修改源文件后，已经导入的模块对象仍然是旧代码，<code>VALUE</code> 依旧是 1；<code>importlib.reload()</code> 才会重新执行模块顶层代码，把 <code>VALUE</code> 更新为 2。</p>
+<p>交互式调试时可以借助 <code>reload()</code> 快速验证修改，但正在运行的服务不会因为源文件变化而自动生效，必须重启进程。需要热更新时应使用专门的框架，而不是依赖 <code>reload()</code>。</p>
+<h2 id="sec-13" class="doc-heading">练习任务</h2>
+<p>任务 1：编写一个统计工具模块，提供平均值和最大值函数，在主程序中导入并使用，结束后清理生成的模块文件。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+<span class="tok-keyword">import</span> shutil
+
+source <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;&quot;def average(values):</span>
+<span class="tok-string">    return sum(values) / len(values)</span>
+
+
+<span class="tok-string">def maximum(values):</span>
+<span class="tok-string">    return max(values)</span>
+<span class="tok-string">&quot;&quot;&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(<span class="tok-string">&quot;stats_tools.py&quot;</span>, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> file:
+    file.<span class="tok-cmdlet">write</span>(source)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-keyword">from</span> stats_tools <span class="tok-keyword">import</span> average, maximum
+
+    scores <span class="tok-op">=</span> [<span class="tok-num">88</span>, <span class="tok-num">92</span>, <span class="tok-num">76</span>, <span class="tok-num">95</span>]
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;平均分：&quot;</span>, <span class="tok-cmdlet">average</span>(scores))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;最高分：&quot;</span>, <span class="tok-cmdlet">maximum</span>(scores))
+<span class="tok-keyword">finally</span>:
+    <span class="tok-keyword">if</span> os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;stats_tools.py&quot;</span>):
+        os.<span class="tok-cmdlet">remove</span>(<span class="tok-string">&quot;stats_tools.py&quot;</span>)
+    shutil.<span class="tok-cmdlet">rmtree</span>(<span class="tok-string">&quot;__pycache__&quot;</span>, ignore_errors<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;清理完成：&quot;</span>, <span class="tok-keyword">not</span> os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;stats_tools.py&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">平均分： 87.75
+最高分： 95
+清理完成： True</code></pre></figure>
+<p>模块名由文件名决定，<code>stats_tools.py</code> 对应 <code>import stats_tools</code>。只导入需要的两个函数，调用时不用写模块前缀；文件删除后模块仍留在 <code>sys.modules</code> 中，但进程结束后一切归零。</p>
+<p>任务 2：用 <code>dir()</code> 找出 <code>math</code> 中所有公开的可调用对象，并确认 <code>pi</code> 不是函数。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> math
+
+callables <span class="tok-op">=</span> <span class="tok-type">sorted</span>(
+    name
+    <span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> <span class="tok-type">dir</span>(math)
+    <span class="tok-keyword">if</span> <span class="tok-keyword">not</span> name.<span class="tok-cmdlet">startswith</span>(<span class="tok-string">&quot;_&quot;</span>) <span class="tok-keyword">and</span> <span class="tok-type">callable</span>(<span class="tok-type">getattr</span>(math, name))
+)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;sqrt 是函数：&quot;</span>, <span class="tok-string">&quot;sqrt&quot;</span> <span class="tok-keyword">in</span> callables)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;pi 是函数：&quot;</span>, <span class="tok-string">&quot;pi&quot;</span> <span class="tok-keyword">in</span> callables)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;前五个函数：&quot;</span>, callables[:<span class="tok-num">5</span>])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">sqrt 是函数： True
+pi 是函数： False
+前五个函数： ['acos', 'acosh', 'asin', 'asinh', 'atan']</code></pre></figure>
+<p><code>getattr(math, name)</code> 取出名字对应的对象，<code>callable()</code> 判断它能否被调用。<code>pi</code> 是浮点常量，不在结果里；<code>sqrt</code>、<code>acos</code> 等函数则会被保留。先过滤下划线开头的名字，再排序输出，结果稳定且便于阅读。</p></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="data-structures.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 数据结构</span></a><a class="pager-link pager-link--next" href="io.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 输入输出</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、import 语句</a><a class="toc-link toc-link--h2" href="#sec-2">二、from ... import</a><a class="toc-link toc-link--h2" href="#sec-3">三、as 别名</a><a class="toc-link toc-link--h2" href="#sec-4">四、自定义模块</a><a class="toc-link toc-link--h2" href="#sec-5">五、sys.path 与模块搜索路径</a><a class="toc-link toc-link--h2" href="#sec-6">六、__name__ 与主程序入口</a><a class="toc-link toc-link--h2" href="#sec-7">七、包与 __init__.py</a><a class="toc-link toc-link--h2" href="#sec-8">八、dir() 函数</a><a class="toc-link toc-link--h2" href="#sec-9">九、常用标准模块</a><a class="toc-link toc-link--h3" href="#sec-10">math 与 statistics</a><a class="toc-link toc-link--h3" href="#sec-11">datetime 与 json</a><a class="toc-link toc-link--h2" href="#sec-12">十、模块缓存</a><a class="toc-link toc-link--h2" href="#sec-13">练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

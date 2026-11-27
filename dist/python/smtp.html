@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python SMTP 发送邮件 · Python</title>
+<meta name="description" content="理解 SMTP 会话流程，掌握 smtplib 的 SMTP 与 SMTP_SSL、login、starttls、sendmail、send_message，以及用 email.mime 构造纯文本、HTML 和带附件邮件的完整方法。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="smtp" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link is-active" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>标准库与实战</span></nav><h1 class="doc-title">Python SMTP 发送邮件</h1><p class="doc-lead">理解 SMTP 会话流程，掌握 smtplib 的 SMTP 与 SMTP_SSL、login、starttls、sendmail、send_message，以及用 email.mime 构造纯文本、HTML 和带附件邮件的完整方法。</p><div class="doc-meta"><span>第 38 章</span><span class="doc-meta__dot"></span><span>约 40 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>邮件是网络应用里最常见的外部通知渠道之一。Python 标准库提供了两层支持：<code>smtplib</code> 负责与 SMTP 服务器对话，<code>email</code> 包负责构造和解析符合 MIME 规范的邮件内容。把两者组合起来，几十行代码就能完成“登录邮箱、填写主题、添加附件、发送给多个收件人”的流程。</p>
+<p>本章的示例只构造邮件并打印 <code>as_string()</code>，不会真的建立 SMTP 连接，也不会发送任何邮件。真正发送的调用放在注释或函数定义里，读者可以安全地逐段运行；需要接入真实邮箱时，再替换服务器地址、账号和授权码。</p>
+<h2 id="sec-1" class="doc-heading">一、SMTP 工作流程</h2>
+<p>SMTP（Simple Mail Transfer Protocol）是发信方与邮件服务器之间的文本协议。一次典型会话包含建立连接、握手、加密、认证、声明信封、传输正文和退出等阶段。服务器用三位数字响应码表示结果，<code>2xx</code> 表示成功，<code>3xx</code> 表示需要继续输入，<code>4xx</code> 表示临时失败，<code>5xx</code> 表示永久失败。</p>
+<div class="table-wrap"><table><thead><tr><th>阶段</th><th>客户端命令</th><th>典型响应</th><th>作用</th></tr></thead><tbody><tr><td>建立连接</td><td>无</td><td>220 ...</td><td>服务器就绪</td></tr><tr><td>握手</td><td>EHLO</td><td>250 ...</td><td>声明客户端身份并协商扩展</td></tr><tr><td>加密</td><td>STARTTLS</td><td>220 ...</td><td>把明文连接升级为 TLS</td></tr><tr><td>认证</td><td>AUTH LOGIN</td><td>334 / 235</td><td>提交账号与授权码</td></tr><tr><td>信封</td><td>MAIL FROM</td><td>250 ...</td><td>声明发件人地址</td></tr><tr><td>收件人</td><td>RCPT TO</td><td>250 ...</td><td>声明收件人，可重复多次</td></tr><tr><td>正文</td><td>DATA</td><td>354 ...</td><td>发送头部和正文，以单独一行句点结束</td></tr><tr><td>退出</td><td>QUIT</td><td>221 ...</td><td>结束会话</td></tr></tbody></table></div>
+<p>下面把一次会话的双方输出按顺序打印出来，帮助建立直观印象：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">steps <span class="tok-op">=</span> [
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;220 smtp.example.com ESMTP ready&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;EHLO client.example.com&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;250-smtp.example.com&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;250 AUTH LOGIN PLAIN&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;STARTTLS&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;220 Ready to start TLS&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;AUTH LOGIN&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;334 VXNlcm5hbWU6&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;c2VuZGVyQGV4YW1wbGUuY29t&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;334 UGFzc3dvcmQ6&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;5o6I5p2D56CB&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;235 Authentication successful&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;MAIL FROM:&lt;sender@example.com&gt;&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;250 OK&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;RCPT TO:&lt;receiver@example.com&gt;&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;250 OK&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;DATA&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;Subject: hello&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;From: sender@example.com&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;To: receiver@example.com&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;Hello from Python&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;.&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;250 Queued&quot;</span>),
+    (<span class="tok-string">&quot;C&quot;</span>, <span class="tok-string">&quot;QUIT&quot;</span>),
+    (<span class="tok-string">&quot;S&quot;</span>, <span class="tok-string">&quot;221 Bye&quot;</span>),
+]
+
+<span class="tok-keyword">for</span> side, line <span class="tok-keyword">in</span> steps:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{side}: {line if line else '&lt;空行&gt;'}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">S: 220 smtp.example.com ESMTP ready
+C: EHLO client.example.com
+S: 250-smtp.example.com
+S: 250 AUTH LOGIN PLAIN
+C: STARTTLS
+S: 220 Ready to start TLS
+C: AUTH LOGIN
+S: 334 VXNlcm5hbWU6
+C: c2VuZGVyQGV4YW1wbGUuY29t
+S: 334 UGFzc3dvcmQ6
+C: 5o6I5p2D56CB
+S: 235 Authentication successful
+C: MAIL FROM:&lt;sender@example.com&gt;
+S: 250 OK
+C: RCPT TO:&lt;receiver@example.com&gt;
+S: 250 OK
+C: DATA
+S: 354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;
+C: Subject: hello
+C: From: sender@example.com
+C: To: receiver@example.com
+C: &lt;空行&gt;
+C: Hello from Python
+C: .
+S: 250 Queued
+C: QUIT
+S: 221 Bye</code></pre></figure>
+<p><code>EHLO</code> 之后服务器会列出自己支持的扩展，<code>AUTH LOGIN</code> 只是其中一种认证方式，很多服务商也支持 <code>AUTH PLAIN</code> 或 OAuth2。<code>MAIL FROM</code> 和 <code>RCPT TO</code> 构成信封，决定邮件实际投递到哪些地址；<code>DATA</code> 之后的头部和正文才是收件人看到的内容。正文以单独一行 <code>.</code> 结束，如果正文本身有以句点开头的行，客户端需要做点填充（dot-stuffing）。</p>
+<h2 id="sec-2" class="doc-heading">二、smtplib 模块概览</h2>
+<p><code>smtplib</code> 提供两个核心类：<code>SMTP</code> 用于普通连接或 STARTTLS 升级，<code>SMTP_SSL</code> 从连接建立时就使用 TLS。两者的默认端口不同，<code>SMTP</code> 是 <code>25</code>，<code>SMTP_SSL</code> 是 <code>465</code>；使用 STARTTLS 时通常连接 <code>587</code> 端口，再调用 <code>starttls()</code> 升级。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> smtplib
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;SMTP 默认端口：&quot;</span>, smtplib.SMTP_PORT)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;SMTP_SSL 默认端口：&quot;</span>, smtplib.SMTP_SSL_PORT)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;SMTP 类可用：&quot;</span>, <span class="tok-type">hasattr</span>(smtplib, <span class="tok-string">&quot;SMTP&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;SMTP_SSL 类可用：&quot;</span>, <span class="tok-type">hasattr</span>(smtplib, <span class="tok-string">&quot;SMTP_SSL&quot;</span>))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">SMTP 默认端口： 25
+SMTP_SSL 默认端口： 465
+SMTP 类可用： True
+SMTP_SSL 类可用： True</code></pre></figure>
+<p><code>smtplib</code> 的常用方法都挂在 <code>SMTP</code> 类上，<code>SMTP_SSL</code> 继承自它，因此登录、发信、退出的用法完全一致，区别只在连接阶段是否加密：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> smtplib
+
+<span class="tok-keyword">for</span> name <span class="tok-keyword">in</span> [<span class="tok-string">&quot;connect&quot;</span>, <span class="tok-string">&quot;login&quot;</span>, <span class="tok-string">&quot;starttls&quot;</span>, <span class="tok-string">&quot;sendmail&quot;</span>, <span class="tok-string">&quot;send_message&quot;</span>, <span class="tok-string">&quot;quit&quot;</span>]:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;SMTP.{name}：&quot;</span>, <span class="tok-type">hasattr</span>(smtplib.SMTP, name))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;SMTP_SSL 继承 SMTP：&quot;</span>, <span class="tok-type">issubclass</span>(smtplib.SMTP_SSL, smtplib.SMTP))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">SMTP.connect： True
+SMTP.login： True
+SMTP.starttls： True
+SMTP.sendmail： True
+SMTP.send_message： True
+SMTP.quit： True
+SMTP_SSL 继承 SMTP： True</code></pre></figure>
+<p>两个类都支持上下文管理器和 <code>timeout</code> 参数。把超时设置为十秒左右，可以避免网络异常时程序长时间卡住；连接对象退出 <code>with</code> 块时会自动调用 <code>quit()</code>，即使中途抛出异常也能尽量正常关闭会话。</p>
+<h2 id="sec-3" class="doc-heading">三、构造纯文本邮件</h2>
+<p><code>email.mime.text.MIMEText</code> 用于构造纯文本或 HTML 正文。第一个参数是正文，第二个参数是子类型 <code>plain</code> 或 <code>html</code>，第三个参数是字符编码。设置 <code>From</code>、<code>To</code>、<code>Subject</code> 之后，<code>as_string()</code> 会生成完整的 MIME 文本，可以直接交给 <code>sendmail()</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> email.header <span class="tok-keyword">import</span> Header
+<span class="tok-keyword">from</span> email.mime.text <span class="tok-keyword">import</span> MIMEText
+
+message <span class="tok-op">=</span> <span class="tok-cmdlet">MIMEText</span>(<span class="tok-string">&quot;你好，这是一封纯文本测试邮件。&quot;</span>, <span class="tok-string">&quot;plain&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+message[<span class="tok-string">&quot;From&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;sender@example.com&quot;</span>
+message[<span class="tok-string">&quot;To&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;receiver@example.com&quot;</span>
+message[<span class="tok-string">&quot;Subject&quot;</span>] <span class="tok-op">=</span> <span class="tok-cmdlet">Header</span>(<span class="tok-string">&quot;纯文本邮件&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+
+<span class="tok-type">print</span>(message.<span class="tok-cmdlet">as_string</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Content-Type: text/plain; charset=&quot;utf-8&quot;
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+From: sender@example.com
+To: receiver@example.com
+Subject: =?utf-8?b?57qv5paH5pys6YKu5Lu2?=
+
+5L2g5aW977yM6L+Z5piv5LiA5bCB57qv5paH5pys5rWL6K+V6YKu5Lu244CC</code></pre></figure>
+<p><code>Content-Type</code> 声明正文是 UTF-8 纯文本，<code>Content-Transfer-Encoding: base64</code> 表示正文经过 base64 编码，这样即使邮件服务器只支持 7 位 ASCII 也不会破坏中文。头部与正文之间必须有一个空行，缺少这个空行，客户端会把正文当成头部的一部分。</p>
+<h2 id="sec-4" class="doc-heading">四、构造 HTML 邮件</h2>
+<p>把 <code>MIMEText</code> 的第二个参数改成 <code>html</code>，正文就会以 <code>text/html</code> 类型发送。HTML 正文同样会用 base64 传输，客户端收到后按 <code>charset</code> 解码并渲染。复杂的 HTML 邮件通常还会搭配纯文本备选正文，用 <code>MIMEMultipart(&quot;alternative&quot;)</code> 组合，让不支持 HTML 的客户端也能阅读。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> email.header <span class="tok-keyword">import</span> Header
+<span class="tok-keyword">from</span> email.mime.text <span class="tok-keyword">import</span> MIMEText
+
+html <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;&quot;\</span>
+<span class="tok-string">&lt;html&gt;</span>
+<span class="tok-string">  &lt;body&gt;</span>
+<span class="tok-string">    &lt;h1&gt;你好&lt;/h1&gt;</span>
+<span class="tok-string">    &lt;p&gt;这是一封 &lt;strong&gt;HTML&lt;/strong&gt; 邮件。&lt;/p&gt;</span>
+<span class="tok-string">  &lt;/body&gt;</span>
+<span class="tok-string">&lt;/html&gt;</span>
+<span class="tok-string">&quot;&quot;&quot;</span>
+
+message <span class="tok-op">=</span> <span class="tok-cmdlet">MIMEText</span>(html, <span class="tok-string">&quot;html&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+message[<span class="tok-string">&quot;From&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;sender@example.com&quot;</span>
+message[<span class="tok-string">&quot;To&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;receiver@example.com&quot;</span>
+message[<span class="tok-string">&quot;Subject&quot;</span>] <span class="tok-op">=</span> <span class="tok-cmdlet">Header</span>(<span class="tok-string">&quot;HTML 邮件&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+
+<span class="tok-type">print</span>(message.<span class="tok-cmdlet">as_string</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Content-Type: text/html; charset=&quot;utf-8&quot;
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+From: sender@example.com
+To: receiver@example.com
+Subject: =?utf-8?b?SFRNTCDpgq7ku7Y=?=
+
+PGh0bWw+CiAgPGJvZHk+CiAgICA8aDE+5L2g5aW9PC9oMT4KICAgIDxwPui/meaYr+S4gOWwgSA8
+c3Ryb25nPkhUTUw8L3N0cm9uZz4g6YKu5Lu244CCPC9wPgogIDwvYm9keT4KPC9odG1sPgo=</code></pre></figure>
+<p>HTML 邮件里的图片、样式表和链接通常指向外部地址，很多客户端默认会拦截远程图片，因此重要信息不要只放在图片里。正文中的中文会先按 UTF-8 编码，再做 base64 换行，所以 <code>as_string()</code> 里看到的是一串不可读的字符。</p>
+<h2 id="sec-5" class="doc-heading">五、添加附件</h2>
+<p>带附件的邮件要用 <code>MIMEMultipart</code> 作为容器，先附加正文，再附加若干 <code>MIMEBase</code> 对象。附件内容通常按 base64 编码，<code>Content-Disposition</code> 里的 <code>filename</code> 告诉客户端保存成什么名字。<code>MIMEMultipart()</code> 默认会随机生成 boundary，为了让示例输出稳定，这里显式传入固定的 <code>boundary</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> email <span class="tok-keyword">import</span> encoders
+<span class="tok-keyword">from</span> email.header <span class="tok-keyword">import</span> Header
+<span class="tok-keyword">from</span> email.mime.base <span class="tok-keyword">import</span> MIMEBase
+<span class="tok-keyword">from</span> email.mime.multipart <span class="tok-keyword">import</span> MIMEMultipart
+<span class="tok-keyword">from</span> email.mime.text <span class="tok-keyword">import</span> MIMEText
+
+message <span class="tok-op">=</span> <span class="tok-cmdlet">MIMEMultipart</span>(boundary<span class="tok-op">=</span><span class="tok-string">&quot;demo-boundary&quot;</span>)
+message[<span class="tok-string">&quot;From&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;sender@example.com&quot;</span>
+message[<span class="tok-string">&quot;To&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;receiver@example.com&quot;</span>
+message[<span class="tok-string">&quot;Subject&quot;</span>] <span class="tok-op">=</span> <span class="tok-cmdlet">Header</span>(<span class="tok-string">&quot;带附件的邮件&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+message.<span class="tok-cmdlet">attach</span>(<span class="tok-cmdlet">MIMEText</span>(<span class="tok-string">&quot;正文见附件。&quot;</span>, <span class="tok-string">&quot;plain&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>))
+
+attachment <span class="tok-op">=</span> <span class="tok-cmdlet">MIMEBase</span>(<span class="tok-string">&quot;application&quot;</span>, <span class="tok-string">&quot;octet-stream&quot;</span>)
+attachment.<span class="tok-cmdlet">set_payload</span>(<span class="tok-string">&quot;demo attachment content&quot;</span>.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+encoders.<span class="tok-cmdlet">encode_base64</span>(attachment)
+attachment.<span class="tok-cmdlet">add_header</span>(<span class="tok-string">&quot;Content-Disposition&quot;</span>, <span class="tok-string">&quot;attachment&quot;</span>, filename<span class="tok-op">=</span><span class="tok-string">&quot;demo.txt&quot;</span>)
+message.<span class="tok-cmdlet">attach</span>(attachment)
+
+<span class="tok-type">print</span>(message.<span class="tok-cmdlet">as_string</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Content-Type: multipart/mixed; boundary=&quot;demo-boundary&quot;
+MIME-Version: 1.0
+From: sender@example.com
+To: receiver@example.com
+Subject: =?utf-8?b?5bim6ZmE5Lu255qE6YKu5Lu2?=
+
+--demo-boundary
+Content-Type: text/plain; charset=&quot;utf-8&quot;
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+5q2j5paH6KeB6ZmE5Lu244CC
+
+--demo-boundary
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=&quot;demo.txt&quot;
+
+ZGVtbyBhdHRhY2htZW50IGNvbnRlbnQ=
+
+--demo-boundary--</code></pre></figure>
+<p>boundary 是一串不会出现在各部分内容里的分隔标记，客户端靠它把多部分邮件拆开。示例固定写 <code>demo-boundary</code> 只是为了让输出可复现；真实场景应让 <code>MIMEMultipart()</code> 自动生成随机 boundary，避免正文恰好包含分隔符而导致邮件结构被破坏。</p>
+<h2 id="sec-6" class="doc-heading">六、头部编码</h2>
+<p>邮件头部按 RFC 2047 规定只能包含 ASCII 字符，中文主题、中文发件人姓名必须编码成 <code>=?utf-8?b?...?=</code> 形式。<code>email.header.Header</code> 负责编码，<code>decode_header()</code> 负责把收到的编码串还原成文本，<code>formataddr()</code> 与 <code>parseaddr()</code> 则在“姓名 + 地址”和完整地址字符串之间转换。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> email.header <span class="tok-keyword">import</span> Header, decode_header
+<span class="tok-keyword">from</span> email.utils <span class="tok-keyword">import</span> formataddr, parseaddr
+
+subject <span class="tok-op">=</span> <span class="tok-cmdlet">Header</span>(<span class="tok-string">&quot;周报：网络与邮件&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+encoded <span class="tok-op">=</span> subject.<span class="tok-cmdlet">encode</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;编码后的主题：&quot;</span>, encoded)
+
+value, charset <span class="tok-op">=</span> <span class="tok-cmdlet">decode_header</span>(encoded)[<span class="tok-num">0</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;解码结果：&quot;</span>, value.<span class="tok-cmdlet">decode</span>(charset))
+
+name, address <span class="tok-op">=</span> <span class="tok-cmdlet">parseaddr</span>(<span class="tok-string">&quot;张三 &lt;zhangsan@example.com&gt;&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;解析姓名：&quot;</span>, name)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;解析地址：&quot;</span>, address)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;格式化地址：&quot;</span>, <span class="tok-cmdlet">formataddr</span>((name, address)))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">编码后的主题： =?utf-8?b?5ZGo5oql77ya572R57uc5LiO6YKu5Lu2?=
+解码结果： 周报：网络与邮件
+解析姓名： 张三
+解析地址： zhangsan@example.com
+格式化地址： =?utf-8?b?5byg5LiJ?= &lt;zhangsan@example.com&gt;</code></pre></figure>
+<p><code>B</code> 表示 base64，<code>Q</code> 表示 quoted-printable；Python 默认使用 <code>B</code>，因为它在处理中文时更紧凑。<code>parseaddr()</code> 能正确拆出未编码的中文姓名，如果地址里已经是编码后的头部，需要先用 <code>decode_header()</code> 解码再展示。</p>
+<h2 id="sec-7" class="doc-heading">七、服务商与端口</h2>
+<p>不同邮箱服务商的 SMTP 地址、端口和加密方式略有差异。下表列出常见配置，实际使用时以服务商最新文档为准；大多数服务商要求开启 SMTP 服务并使用“授权码”而不是登录密码。</p>
+<div class="table-wrap"><table><thead><tr><th>服务商</th><th>SMTP 服务器</th><th>端口</th><th>加密方式</th><th>备注</th></tr></thead><tbody><tr><td>QQ 邮箱</td><td>smtp.qq.com</td><td>465</td><td>SSL</td><td>需在设置中开启 SMTP 并使用授权码</td></tr><tr><td>163 邮箱</td><td>smtp.163.com</td><td>465</td><td>SSL</td><td>需开启 SMTP 并使用授权码</td></tr><tr><td>Gmail</td><td>smtp.gmail.com</td><td>587</td><td>STARTTLS</td><td>需开启两步验证并生成应用专用密码</td></tr><tr><td>Outlook</td><td>smtp.office365.com</td><td>587</td><td>STARTTLS</td><td>部分账号要求 OAuth2 授权</td></tr></tbody></table></div>
+<p>把这些配置写成列表，按固定顺序打印：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">providers <span class="tok-op">=</span> [
+    (<span class="tok-string">&quot;QQ 邮箱&quot;</span>, <span class="tok-string">&quot;smtp.qq.com&quot;</span>, <span class="tok-num">465</span>, <span class="tok-string">&quot;SSL&quot;</span>),
+    (<span class="tok-string">&quot;163 邮箱&quot;</span>, <span class="tok-string">&quot;smtp.163.com&quot;</span>, <span class="tok-num">465</span>, <span class="tok-string">&quot;SSL&quot;</span>),
+    (<span class="tok-string">&quot;Gmail&quot;</span>, <span class="tok-string">&quot;smtp.gmail.com&quot;</span>, <span class="tok-num">587</span>, <span class="tok-string">&quot;STARTTLS&quot;</span>),
+    (<span class="tok-string">&quot;Outlook&quot;</span>, <span class="tok-string">&quot;smtp.office365.com&quot;</span>, <span class="tok-num">587</span>, <span class="tok-string">&quot;STARTTLS&quot;</span>),
+]
+
+<span class="tok-keyword">for</span> name, host, port, security <span class="tok-keyword">in</span> providers:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{name}: {host}:{port} ({security})&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">QQ 邮箱: smtp.qq.com:465 (SSL)
+163 邮箱: smtp.163.com:465 (SSL)
+Gmail: smtp.gmail.com:587 (STARTTLS)
+Outlook: smtp.office365.com:587 (STARTTLS)</code></pre></figure>
+<p>选择 SSL 还是 STARTTLS，取决于服务商开放的端口：<code>465</code> 通常要求一连接就加密，<code>587</code> 通常要求先明文连接再执行 <code>STARTTLS</code>。不要在代码里硬编码邮箱密码，授权码应通过环境变量或配置文件注入，并且不要提交到版本库。</p>
+<h2 id="sec-8" class="doc-heading">八、发送接口：SMTP、SMTP_SSL 与 send_message</h2>
+<p><code>smtplib.SMTP</code> 支持上下文管理器，进入时连接服务器，退出时自动发送 <code>QUIT</code>。常见组合有两种：<code>SMTP_SSL</code> 直接加密连接 <code>465</code> 端口；<code>SMTP</code> 先连 <code>587</code> 端口，调用 <code>ehlo()</code> 和 <code>starttls()</code> 升级后再 <code>login()</code>。认证成功后，<code>sendmail()</code> 接收字符串消息，<code>send_message()</code> 接收 <code>EmailMessage</code> 对象并自动从 <code>To</code>、<code>Cc</code>、<code>Bcc</code> 中提取收件人。</p>
+<p>下面的代码只定义发送函数，不执行任何网络调用；取消注释即可用于真实环境：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> smtplib
+<span class="tok-keyword">from</span> email.message <span class="tok-keyword">import</span> EmailMessage
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">build_message</span>():
+    message <span class="tok-op">=</span> <span class="tok-cmdlet">EmailMessage</span>()
+    message[<span class="tok-string">&quot;From&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;sender@example.com&quot;</span>
+    message[<span class="tok-string">&quot;To&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;receiver@example.com&quot;</span>
+    message[<span class="tok-string">&quot;Subject&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;测试邮件&quot;</span>
+    message.<span class="tok-cmdlet">set_content</span>(<span class="tok-string">&quot;这是一封不会真正发送的邮件。&quot;</span>)
+    <span class="tok-keyword">return</span> message
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">send_via_ssl</span>(message):
+    <span class="tok-comment"># 示例不联网，真正发送时取消下面三行的注释</span>
+    <span class="tok-comment"># with smtplib.SMTP_SSL(&quot;smtp.example.com&quot;, 465, timeout=10) as smtp:</span>
+    <span class="tok-comment">#     smtp.login(&quot;sender@example.com&quot;, &quot;授权码&quot;)</span>
+    <span class="tok-comment">#     smtp.send_message(message)</span>
+    <span class="tok-keyword">return</span> <span class="tok-string">&quot;SMTP_SSL / login / send_message&quot;</span>
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">send_via_starttls</span>(message):
+    <span class="tok-comment"># with smtplib.SMTP(&quot;smtp.example.com&quot;, 587, timeout=10) as smtp:</span>
+    <span class="tok-comment">#     smtp.ehlo()</span>
+    <span class="tok-comment">#     smtp.starttls()</span>
+    <span class="tok-comment">#     smtp.login(&quot;sender@example.com&quot;, &quot;授权码&quot;)</span>
+    <span class="tok-comment">#     smtp.sendmail(&quot;sender@example.com&quot;, [&quot;receiver@example.com&quot;], message.as_string())</span>
+    <span class="tok-keyword">return</span> <span class="tok-string">&quot;SMTP / starttls / login / sendmail&quot;</span>
+
+message <span class="tok-op">=</span> <span class="tok-cmdlet">build_message</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;主题：&quot;</span>, message[<span class="tok-string">&quot;Subject&quot;</span>])
+<span class="tok-type">print</span>(<span class="tok-string">&quot;正文：&quot;</span>, message.<span class="tok-cmdlet">get_content</span>().<span class="tok-cmdlet">strip</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;方式一：&quot;</span>, <span class="tok-cmdlet">send_via_ssl</span>(message))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;方式二：&quot;</span>, <span class="tok-cmdlet">send_via_starttls</span>(message))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">主题： 测试邮件
+正文： 这是一封不会真正发送的邮件。
+方式一： SMTP_SSL / login / send_message
+方式二： SMTP / starttls / login / sendmail</code></pre></figure>
+<p><code>sendmail()</code> 的第二个参数必须是收件人列表，返回值是“被拒绝的收件人”字典，空字典表示全部接受；<code>send_message()</code> 会读取邮件头里的 <code>To</code>、<code>Cc</code>、<code>Bcc</code>，并在发送前删除 <code>Bcc</code> 头，避免密送地址泄露。两种接口都可能抛出 <code>SMTPException</code>，真实代码应把它们放进 <code>try</code> 块并设置超时。</p>
+<div class="table-wrap"><table><thead><tr><th>接口</th><th>消息参数</th><th>收件人来源</th><th>适用场景</th></tr></thead><tbody><tr><td>sendmail()</td><td>字符串</td><td>调用时显式传入列表</td><td>已有完整 MIME 文本或需要精确控制信封</td></tr><tr><td>send_message()</td><td>EmailMessage 对象</td><td>自动读取 To、Cc、Bcc</td><td>推荐，代码更短且不易漏掉抄送</td></tr></tbody></table></div>
+<p><code>send_message()</code> 的便利之处在于收件人可以直接写在邮件头里。下面的例子用 <code>EmailMessage</code> 设置 <code>To</code>、<code>Cc</code>、<code>Bcc</code>，再手动收集全部收件人：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> email.message <span class="tok-keyword">import</span> EmailMessage
+
+message <span class="tok-op">=</span> <span class="tok-cmdlet">EmailMessage</span>()
+message[<span class="tok-string">&quot;From&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;sender@example.com&quot;</span>
+message[<span class="tok-string">&quot;To&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;alice@example.com, bob@example.com&quot;</span>
+message[<span class="tok-string">&quot;Cc&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;carol@example.com&quot;</span>
+message[<span class="tok-string">&quot;Bcc&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;dave@example.com&quot;</span>
+
+recipients <span class="tok-op">=</span> []
+<span class="tok-keyword">for</span> field <span class="tok-keyword">in</span> (<span class="tok-string">&quot;To&quot;</span>, <span class="tok-string">&quot;Cc&quot;</span>, <span class="tok-string">&quot;Bcc&quot;</span>):
+    <span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> message.<span class="tok-cmdlet">get_all</span>(field, []):
+        recipients.<span class="tok-cmdlet">extend</span>(part.<span class="tok-cmdlet">strip</span>() <span class="tok-keyword">for</span> part <span class="tok-keyword">in</span> value.<span class="tok-cmdlet">split</span>(<span class="tok-string">&quot;,&quot;</span>))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;收件人数量：&quot;</span>, <span class="tok-type">len</span>(recipients))
+<span class="tok-keyword">for</span> address <span class="tok-keyword">in</span> recipients:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;收件人：&quot;</span>, address)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">收件人数量： 4
+收件人： alice@example.com
+收件人： bob@example.com
+收件人： carol@example.com
+收件人： dave@example.com</code></pre></figure>
+<p>手动收集收件人时要把 <code>To</code>、<code>Cc</code>、<code>Bcc</code> 都算进去，否则密送对象收不到邮件。如果直接调用 <code>send_message()</code>，这些工作由标准库完成，但调用者仍需保证 <code>From</code> 已经设置，否则 <code>send_message()</code> 会抛出 <code>ValueError</code>。</p>
+<h2 id="sec-9" class="doc-heading">九、错误处理</h2>
+<p><code>smtplib</code> 的异常都继承自 <code>SMTPException</code>。<code>SMTPAuthenticationError</code> 表示账号或授权码错误，<code>SMTPRecipientsRefused</code> 表示所有收件人都被拒绝，<code>SMTPServerDisconnected</code> 表示连接被服务器关闭，<code>SMTPConnectError</code> 表示连接阶段失败。捕获异常后应给出可操作的提示，但不要把密码写进日志。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> smtplib
+
+<span class="tok-keyword">def</span> <span class="tok-cmdlet">explain</span>(error):
+    <span class="tok-keyword">if</span> <span class="tok-type">isinstance</span>(error, smtplib.SMTPAuthenticationError):
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;认证失败，请检查账号和授权码&quot;</span>
+    <span class="tok-keyword">if</span> <span class="tok-type">isinstance</span>(error, smtplib.SMTPRecipientsRefused):
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;所有收件人都被拒绝&quot;</span>
+    <span class="tok-keyword">if</span> <span class="tok-type">isinstance</span>(error, smtplib.SMTPServerDisconnected):
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;服务器意外断开&quot;</span>
+    <span class="tok-keyword">if</span> <span class="tok-type">isinstance</span>(error, smtplib.SMTPException):
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;其他 SMTP 错误&quot;</span>
+    <span class="tok-keyword">return</span> <span class="tok-string">&quot;未知错误&quot;</span>
+
+errors <span class="tok-op">=</span> [
+    smtplib.<span class="tok-cmdlet">SMTPAuthenticationError</span>(<span class="tok-num">535</span>, <span class="tok-string">b&quot;authentication failed&quot;</span>),
+    smtplib.<span class="tok-cmdlet">SMTPRecipientsRefused</span>({<span class="tok-string">&quot;receiver@example.com&quot;</span>: (<span class="tok-num">550</span>, <span class="tok-string">b&quot;mailbox unavailable&quot;</span>)}),
+    smtplib.<span class="tok-cmdlet">SMTPServerDisconnected</span>(<span class="tok-string">&quot;connection closed&quot;</span>),
+]
+
+<span class="tok-keyword">for</span> error <span class="tok-keyword">in</span> errors:
+    <span class="tok-type">print</span>(<span class="tok-type">type</span>(error).__name__, <span class="tok-string">&quot;-&gt;&quot;</span>, <span class="tok-cmdlet">explain</span>(error))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">SMTPAuthenticationError -&gt; 认证失败，请检查账号和授权码
+SMTPRecipientsRefused -&gt; 所有收件人都被拒绝
+SMTPServerDisconnected -&gt; 服务器意外断开</code></pre></figure>
+<p>处理错误时要区分“重试有意义”和“重试无意义”：网络抖动、服务器繁忙等临时故障可以退避重试，账号密码错误、收件人地址不存在等永久故障则应直接提示用户。无论成功还是失败，都要确保连接被关闭，避免服务端积累半开连接。</p>
+<h2 id="sec-10" class="doc-heading">十、练习任务</h2>
+<p>任务 1：构造一封发给多个收件人的纯文本邮件，打印完整的 MIME 文本。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> email.header <span class="tok-keyword">import</span> Header
+<span class="tok-keyword">from</span> email.mime.text <span class="tok-keyword">import</span> MIMEText
+
+message <span class="tok-op">=</span> <span class="tok-cmdlet">MIMEText</span>(<span class="tok-string">&quot;任务一：这是一封纯文本邮件。&quot;</span>, <span class="tok-string">&quot;plain&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+message[<span class="tok-string">&quot;From&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;sender@example.com&quot;</span>
+message[<span class="tok-string">&quot;To&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;alice@example.com, bob@example.com&quot;</span>
+message[<span class="tok-string">&quot;Subject&quot;</span>] <span class="tok-op">=</span> <span class="tok-cmdlet">Header</span>(<span class="tok-string">&quot;练习：纯文本邮件&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+
+<span class="tok-type">print</span>(message.<span class="tok-cmdlet">as_string</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Content-Type: text/plain; charset=&quot;utf-8&quot;
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+From: sender@example.com
+To: alice@example.com, bob@example.com
+Subject: =?utf-8?b?57uD5Lmg77ya57qv5paH5pys6YKu5Lu2?=
+
+5Lu75Yqh5LiA77ya6L+Z5piv5LiA5bCB57qv5paH5pys6YKu5Lu244CC</code></pre></figure>
+<p>任务 2：构造一封 HTML 邮件，正文包含标题和加粗文字。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> email.header <span class="tok-keyword">import</span> Header
+<span class="tok-keyword">from</span> email.mime.text <span class="tok-keyword">import</span> MIMEText
+
+html <span class="tok-op">=</span> <span class="tok-string">&quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;任务二：&lt;strong&gt;HTML&lt;/strong&gt; 邮件。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>
+message <span class="tok-op">=</span> <span class="tok-cmdlet">MIMEText</span>(html, <span class="tok-string">&quot;html&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+message[<span class="tok-string">&quot;From&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;sender@example.com&quot;</span>
+message[<span class="tok-string">&quot;To&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;receiver@example.com&quot;</span>
+message[<span class="tok-string">&quot;Subject&quot;</span>] <span class="tok-op">=</span> <span class="tok-cmdlet">Header</span>(<span class="tok-string">&quot;练习：HTML 邮件&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+
+<span class="tok-type">print</span>(message.<span class="tok-cmdlet">as_string</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Content-Type: text/html; charset=&quot;utf-8&quot;
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+From: sender@example.com
+To: receiver@example.com
+Subject: =?utf-8?b?57uD5Lmg77yaSFRNTCDpgq7ku7Y=?=
+
+PGh0bWw+PGJvZHk+PHA+5Lu75Yqh5LqM77yaPHN0cm9uZz5IVE1MPC9zdHJvbmc+IOmCruS7tuOA
+gjwvcD48L2JvZHk+PC9odG1sPg==</code></pre></figure>
+<p>任务 3：构造一封带 CSV 附件的邮件，附件文件名为 <code>scores.csv</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">from</span> email <span class="tok-keyword">import</span> encoders
+<span class="tok-keyword">from</span> email.header <span class="tok-keyword">import</span> Header
+<span class="tok-keyword">from</span> email.mime.base <span class="tok-keyword">import</span> MIMEBase
+<span class="tok-keyword">from</span> email.mime.multipart <span class="tok-keyword">import</span> MIMEMultipart
+<span class="tok-keyword">from</span> email.mime.text <span class="tok-keyword">import</span> MIMEText
+
+message <span class="tok-op">=</span> <span class="tok-cmdlet">MIMEMultipart</span>(boundary<span class="tok-op">=</span><span class="tok-string">&quot;exercise-boundary&quot;</span>)
+message[<span class="tok-string">&quot;From&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;sender@example.com&quot;</span>
+message[<span class="tok-string">&quot;To&quot;</span>] <span class="tok-op">=</span> <span class="tok-string">&quot;receiver@example.com&quot;</span>
+message[<span class="tok-string">&quot;Subject&quot;</span>] <span class="tok-op">=</span> <span class="tok-cmdlet">Header</span>(<span class="tok-string">&quot;练习：CSV 附件&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>)
+message.<span class="tok-cmdlet">attach</span>(<span class="tok-cmdlet">MIMEText</span>(<span class="tok-string">&quot;附件是 CSV 数据。&quot;</span>, <span class="tok-string">&quot;plain&quot;</span>, <span class="tok-string">&quot;utf-8&quot;</span>))
+
+csv_data <span class="tok-op">=</span> <span class="tok-string">&quot;name,score\n小明,90\n小红,95\n&quot;</span>
+attachment <span class="tok-op">=</span> <span class="tok-cmdlet">MIMEBase</span>(<span class="tok-string">&quot;text&quot;</span>, <span class="tok-string">&quot;csv&quot;</span>)
+attachment.<span class="tok-cmdlet">set_payload</span>(csv_data.<span class="tok-cmdlet">encode</span>(<span class="tok-string">&quot;utf-8&quot;</span>))
+encoders.<span class="tok-cmdlet">encode_base64</span>(attachment)
+attachment.<span class="tok-cmdlet">add_header</span>(<span class="tok-string">&quot;Content-Disposition&quot;</span>, <span class="tok-string">&quot;attachment&quot;</span>, filename<span class="tok-op">=</span><span class="tok-string">&quot;scores.csv&quot;</span>)
+message.<span class="tok-cmdlet">attach</span>(attachment)
+
+<span class="tok-type">print</span>(message.<span class="tok-cmdlet">as_string</span>())</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Content-Type: multipart/mixed; boundary=&quot;exercise-boundary&quot;
+MIME-Version: 1.0
+From: sender@example.com
+To: receiver@example.com
+Subject: =?utf-8?b?57uD5Lmg77yaQ1NWIOmZhOS7tg==?=
+
+--exercise-boundary
+Content-Type: text/plain; charset=&quot;utf-8&quot;
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+6ZmE5Lu25pivIENTViDmlbDmja7jgII=
+
+--exercise-boundary
+Content-Type: text/csv
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=&quot;scores.csv&quot;
+
+bmFtZSxzY29yZQrlsI/mmI4sOTAK5bCP57qiLDk1Cg==
+
+--exercise-boundary--</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="network.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 网络编程</span></a><a class="pager-link pager-link--next" href="mysql.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 连接 MySQL</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、SMTP 工作流程</a><a class="toc-link toc-link--h2" href="#sec-2">二、smtplib 模块概览</a><a class="toc-link toc-link--h2" href="#sec-3">三、构造纯文本邮件</a><a class="toc-link toc-link--h2" href="#sec-4">四、构造 HTML 邮件</a><a class="toc-link toc-link--h2" href="#sec-5">五、添加附件</a><a class="toc-link toc-link--h2" href="#sec-6">六、头部编码</a><a class="toc-link toc-link--h2" href="#sec-7">七、服务商与端口</a><a class="toc-link toc-link--h2" href="#sec-8">八、发送接口：SMTP、SMTP_SSL 与 send_message</a><a class="toc-link toc-link--h2" href="#sec-9">九、错误处理</a><a class="toc-link toc-link--h2" href="#sec-10">十、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 文件操作 · Python</title>
+<meta name="description" content="从 open 的文件模式讲起，掌握 read、readline、readlines、write、writelines、seek 与 tell，理解 with 与编码处理，并用 os、shutil、csv、pathlib 完成常见的文件管理任务。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="file" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link is-active" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>进阶</span></nav><h1 class="doc-title">Python 文件操作</h1><p class="doc-lead">从 open 的文件模式讲起，掌握 read、readline、readlines、write、writelines、seek 与 tell，理解 with 与编码处理，并用 os、shutil、csv、pathlib 完成常见的文件管理任务。</p><div class="doc-meta"><span>第 26 章</span><span class="doc-meta__dot"></span><span>约 33 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>程序运行结束后，变量就消失了；想让数据留下来，就得写进文件。文件操作是脚本里出现频率最高的功能之一：读配置、写日志、导出报表、批量改名，本质上都是打开文件、搬动数据、再关闭文件。</p>
+<p>这一章按“打开—读取—写入—定位—编码—管理—格式”的顺序展开：先用 <code>open()</code> 的模式参数把文件打开，再熟悉几组读写方法，然后处理编码与路径，最后用 <code>os</code>、<code>shutil</code>、<code>csv</code> 完成实际任务。所有示例都使用相对文件名（相对于脚本所在目录），并在代码块结束前删除自己创建的文件，避免污染工作目录。</p>
+<h2 id="sec-1" class="doc-heading">一、open 与文件模式</h2>
+<p><code>open()</code> 的第二个参数决定“怎么打开”。模式串里可以叠加 <code>b</code>（二进制）或 <code>+</code>（可读可写），但日常最常用的还是下面几个文本模式：</p>
+<div class="table-wrap"><table><thead><tr><th>模式</th><th>含义</th><th>文件不存在时</th><th>是否清空原内容</th></tr></thead><tbody><tr><td><code>r</code></td><td>只读，默认模式</td><td>抛出 <code>FileNotFoundError</code></td><td>否</td></tr><tr><td><code>w</code></td><td>只写</td><td>新建文件</td><td>是</td></tr><tr><td><code>a</code></td><td>追加写入</td><td>新建文件</td><td>否，写在末尾</td></tr><tr><td><code>x</code></td><td>独占新建，只写</td><td>新建文件</td><td>遇到已有文件抛 <code>FileExistsError</code></td></tr><tr><td><code>r+</code></td><td>读写，指针在开头</td><td>抛出 <code>FileNotFoundError</code></td><td>否</td></tr></tbody></table></div>
+<p>模式写错方向最容易出事：本想追加日志，却用了 <code>w</code>，结果每次运行都把旧日志清空。下面的例子依次演示 <code>w</code>、<code>a</code>、<code>x</code> 与 <code>r</code>，并在删除文件后确认目录已恢复干净：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;mode_demo.txt&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;第一行\n&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;w 模式写完已关闭：&quot;</span>, handle.closed)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;a&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;追加的一行\n&quot;</span>)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-type">open</span>(path, <span class="tok-string">&quot;x&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>)
+<span class="tok-keyword">except</span> <span class="tok-type">FileExistsError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;x 模式遇到已有文件：FileExistsError&quot;</span>)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;读到的行：&quot;</span>, handle.<span class="tok-cmdlet">read</span>().<span class="tok-cmdlet">splitlines</span>())
+<span class="tok-type">print</span>(<span class="tok-string">&quot;读完已关闭：&quot;</span>, handle.closed)
+
+os.<span class="tok-cmdlet">remove</span>(path)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;清理后文件存在：&quot;</span>, os.path.<span class="tok-cmdlet">exists</span>(path))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">w 模式写完已关闭： True
+x 模式遇到已有文件：FileExistsError
+读到的行： ['第一行', '追加的一行']
+读完已关闭： True
+清理后文件存在： False</code></pre></figure>
+<h3 id="sec-2" class="doc-heading">with 语句与异常安全</h3>
+<p><code>with</code> 的作用不只是省掉一行 <code>close()</code>。它背后的上下文管理器协议保证：无论代码块是正常结束、<code>return</code> 提前离开，还是抛出异常，退出时都会调用 <code>__exit__()</code> 关闭文件。手写 <code>open()</code> + <code>close()</code> 时，中间一旦出错，关闭语句就永远不会执行，数据可能还留在缓冲区里没有落盘：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;with_guard.txt&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;重要的数据\n&quot;</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;块内 closed：&quot;</span>, handle.closed)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;块外 closed：&quot;</span>, handle.closed)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+        <span class="tok-keyword">raise</span> <span class="tok-type">ValueError</span>(<span class="tok-string">&quot;读取时出现异常&quot;</span>)
+<span class="tok-keyword">except</span> <span class="tok-type">ValueError</span> <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;捕获：&quot;</span>, exc)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;异常后 closed：&quot;</span>, handle.closed)
+
+os.<span class="tok-cmdlet">remove</span>(path)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">块内 closed： False
+块外 closed： True
+捕获： 读取时出现异常
+异常后 closed： True</code></pre></figure>
+<h2 id="sec-3" class="doc-heading">二、读取：read、readline、readlines</h2>
+<p>三个读取方法各有适用场景：<code>read()</code> 一次读完，<code>readline()</code> 读一行，<code>readlines()</code> 把每一行装进列表。它们共享同一个文件指针，读到哪儿，指针就走到哪儿：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;poem.txt&quot;</span>
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;床前明月光\n疑是地上霜\n举头望明月\n低头思故乡\n&quot;</span>)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;read(4)：&quot;</span>, <span class="tok-type">repr</span>(handle.<span class="tok-cmdlet">read</span>(<span class="tok-num">4</span>)))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;readline()：&quot;</span>, <span class="tok-type">repr</span>(handle.<span class="tok-cmdlet">readline</span>()))
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;剩余内容：&quot;</span>, <span class="tok-type">repr</span>(handle.<span class="tok-cmdlet">read</span>()))
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    lines <span class="tok-op">=</span> handle.<span class="tok-cmdlet">readlines</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;readlines 行数：&quot;</span>, <span class="tok-type">len</span>(lines))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第二行：&quot;</span>, <span class="tok-type">repr</span>(lines[<span class="tok-num">1</span>]))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;去掉换行：&quot;</span>, [line.<span class="tok-cmdlet">strip</span>() <span class="tok-keyword">for</span> line <span class="tok-keyword">in</span> lines])
+
+os.<span class="tok-cmdlet">remove</span>(path)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">read(4)： '床前明月'
+readline()： '光\n'
+剩余内容： '疑是地上霜\n举头望明月\n低头思故乡\n'
+readlines 行数： 4
+第二行： '疑是地上霜\n'
+去掉换行： ['床前明月光', '疑是地上霜', '举头望明月', '低头思故乡']</code></pre></figure>
+<p><code>read(4)</code> 的参数是字符数而不是行数，读完后指针正好停在第四个字符之后，所以紧接着的 <code>readline()</code> 只拿到剩下的 <code>&quot;光\n&quot;</code>。<code>readlines()</code> 保留了每行末尾的 <code>\n</code>，需要干净文本时要自己 <code>strip()</code>；文件很大时它会把整份内容装进内存，不如逐行迭代省内存。</p>
+<h2 id="sec-4" class="doc-heading">三、写入：write 与 writelines</h2>
+<p><code>write()</code> 接收一个字符串，返回实际写入的字符数；<code>writelines()</code> 接收一个字符串序列，逐个写入，不会自动加换行。两者都不会替你补 <code>\n</code>，换行必须自己写进内容里：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;write_demo.txt&quot;</span>
+rows <span class="tok-op">=</span> [<span class="tok-string">&quot;第一行\n&quot;</span>, <span class="tok-string">&quot;第二行\n&quot;</span>]
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    count <span class="tok-op">=</span> handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;开头的一行\n&quot;</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;write 返回字符数：&quot;</span>, count)
+    handle.<span class="tok-cmdlet">writelines</span>(rows)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    content <span class="tok-op">=</span> handle.<span class="tok-cmdlet">read</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;总行数：&quot;</span>, <span class="tok-type">len</span>(content.<span class="tok-cmdlet">splitlines</span>()))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;完整内容：&quot;</span>, <span class="tok-type">repr</span>(content))
+
+os.<span class="tok-cmdlet">remove</span>(path)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">write 返回字符数： 6
+总行数： 3
+完整内容： '开头的一行\n第一行\n第二行\n'</code></pre></figure>
+<p><code>&quot;开头的一行\n&quot;</code> 是 5 个汉字加 1 个换行，所以 <code>write()</code> 返回 6——它数的是字符，不是字节。要写入数字，必须先 <code>str()</code> 或 f-string 转成字符串，否则会抛 <code>TypeError</code>。</p>
+<h2 id="sec-5" class="doc-heading">四、seek 与 tell</h2>
+<p>文件对象内部维护一个“当前位置”。<code>tell()</code> 返回当前位置，<code>seek()</code> 把位置挪到指定处，之后读写都从新位置开始。文本模式下这个位置是不透明的“cookie”，只能 <code>seek(0)</code>、<code>seek(0, 2)</code>，或跳回 <code>tell()</code> 曾经返回过的值：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+text_path <span class="tok-op">=</span> <span class="tok-string">&quot;seek_demo.txt&quot;</span>
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(text_path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;0123456789&quot;</span>)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(text_path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    start <span class="tok-op">=</span> handle.<span class="tok-cmdlet">tell</span>()
+    first <span class="tok-op">=</span> handle.<span class="tok-cmdlet">read</span>(<span class="tok-num">3</span>)
+    position <span class="tok-op">=</span> handle.<span class="tok-cmdlet">tell</span>()
+    handle.<span class="tok-cmdlet">seek</span>(<span class="tok-num">0</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;回到开头：&quot;</span>, handle.<span class="tok-cmdlet">read</span>(<span class="tok-num">2</span>))
+    handle.<span class="tok-cmdlet">seek</span>(position)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;回到上次位置：&quot;</span>, handle.<span class="tok-cmdlet">read</span>(<span class="tok-num">2</span>))
+    end <span class="tok-op">=</span> handle.<span class="tok-cmdlet">seek</span>(<span class="tok-num">0</span>, <span class="tok-num">2</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;起点&quot;</span>, start, <span class="tok-string">&quot;首三个&quot;</span>, first, <span class="tok-string">&quot;上次位置&quot;</span>, position, <span class="tok-string">&quot;末尾&quot;</span>, end)
+
+binary_path <span class="tok-op">=</span> <span class="tok-string">&quot;seek_demo.bin&quot;</span>
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(binary_path, <span class="tok-string">&quot;wb&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">b&quot;ABCDEFGHIJ&quot;</span>)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(binary_path, <span class="tok-string">&quot;rb&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">seek</span>(<span class="tok-op">-</span><span class="tok-num">3</span>, <span class="tok-num">2</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;二进制末尾前 3 个：&quot;</span>, handle.<span class="tok-cmdlet">read</span>())
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;当前偏移：&quot;</span>, handle.<span class="tok-cmdlet">tell</span>())
+
+os.<span class="tok-cmdlet">remove</span>(text_path)
+os.<span class="tok-cmdlet">remove</span>(binary_path)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">回到开头： 01
+回到上次位置： 34
+起点 0 首三个 012 上次位置 3 末尾 10
+二进制末尾前 3 个： b'HIJ'
+当前偏移： 10</code></pre></figure>
+<p><code>seek(offset, whence)</code> 的第二个参数决定基准：<code>0</code> 是文件开头（默认），<code>1</code> 是当前位置，<code>2</code> 是文件末尾。文本模式不支持 <code>seek(-3, 2)</code> 这类相对末尾的负偏移，会抛 <code>UnsupportedOperation</code>；需要从末尾倒着读时，改用二进制模式即可，如上面的例子。</p>
+<h2 id="sec-6" class="doc-heading">五、逐行迭代文件</h2>
+<p>文件对象本身就是可迭代对象，<code>for line in handle</code> 每次产出一行，内部按块读取缓冲，不会把整个文件塞进内存。处理大日志时这是标准写法：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;app.log&quot;</span>
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;INFO 服务启动\nWARNING 磁盘空间不足\nERROR 写入失败\n&quot;</span>)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    <span class="tok-keyword">for</span> number, line <span class="tok-keyword">in</span> <span class="tok-type">enumerate</span>(handle, start<span class="tok-op">=</span><span class="tok-num">1</span>):
+        <span class="tok-type">print</span>(number, <span class="tok-type">repr</span>(line.<span class="tok-cmdlet">rstrip</span>(<span class="tok-string">&quot;\n&quot;</span>)))
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    errors <span class="tok-op">=</span> [line.<span class="tok-cmdlet">strip</span>() <span class="tok-keyword">for</span> line <span class="tok-keyword">in</span> handle <span class="tok-keyword">if</span> line.<span class="tok-cmdlet">startswith</span>(<span class="tok-string">&quot;ERROR&quot;</span>)]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;错误行：&quot;</span>, errors)
+
+os.<span class="tok-cmdlet">remove</span>(path)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">1 'INFO 服务启动'
+2 'WARNING 磁盘空间不足'
+3 'ERROR 写入失败'
+错误行： ['ERROR 写入失败']</code></pre></figure>
+<p>迭代过程中不要混用 <code>readline()</code>：在 Python 3 里两者共用同一个缓冲区，混着用会得到难以预料的结果，要么统一用 <code>for</code>，要么统一手动读。</p>
+<h2 id="sec-7" class="doc-heading">六、编码 encoding</h2>
+<p>文本文件的读写实质是“字节 ↔ 字符串”的转换，<code>encoding</code> 决定用哪张码表。同一个文件用错编码，轻则读出乱码，重则直接抛 <code>UnicodeDecodeError</code>：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;encoding_demo.txt&quot;</span>
+text <span class="tok-op">=</span> <span class="tok-string">&quot;中文编码&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(text)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;rb&quot;</span>) <span class="tok-keyword">as</span> handle:
+    raw <span class="tok-op">=</span> handle.<span class="tok-cmdlet">read</span>()
+<span class="tok-type">print</span>(<span class="tok-string">&quot;字符数：&quot;</span>, <span class="tok-type">len</span>(text))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;UTF-8 字节数：&quot;</span>, <span class="tok-type">len</span>(raw))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;前三个字节：&quot;</span>, <span class="tok-type">list</span>(raw[:<span class="tok-num">3</span>]))
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;按 UTF-8 读取：&quot;</span>, handle.<span class="tok-cmdlet">read</span>())
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;gbk&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(text)
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;rb&quot;</span>) <span class="tok-keyword">as</span> handle:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;GBK 字节数：&quot;</span>, <span class="tok-type">len</span>(handle.<span class="tok-cmdlet">read</span>()))
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+        handle.<span class="tok-cmdlet">read</span>()
+<span class="tok-keyword">except</span> <span class="tok-type">UnicodeDecodeError</span> <span class="tok-keyword">as</span> exc:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;按 UTF-8 读取 GBK 文件失败：&quot;</span>, exc.reason)
+
+os.<span class="tok-cmdlet">remove</span>(path)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;清理完成：&quot;</span>, <span class="tok-keyword">not</span> os.path.<span class="tok-cmdlet">exists</span>(path))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">字符数： 4
+UTF-8 字节数： 12
+前三个字节： [228, 184, 173]
+按 UTF-8 读取： 中文编码
+GBK 字节数： 8
+按 UTF-8 读取 GBK 文件失败： invalid continuation byte
+清理完成： True</code></pre></figure>
+<p>四个汉字在 UTF-8 下占 12 个字节，在 GBK 下只占 8 个。UTF-8 兼容 ASCII，是目前的事实标准，新文件一律用它；读别人给的文件时，如果不确定编码，可以先按 UTF-8 读，失败再换 <code>gbk</code>，或者给 <code>open()</code> 加上 <code>errors=&quot;replace&quot;</code> 让无法解码的字节变成替换字符，而不是中断程序。</p>
+<h2 id="sec-8" class="doc-heading">七、os.rename 与 os.remove</h2>
+<p><code>os.rename()</code> 改名或移动文件，<code>os.remove()</code> 删除文件。两者都直接操作文件系统，不检查目标是否“应该”存在，所以动手前用 <code>os.path.exists()</code> 判断是个好习惯：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+old_name <span class="tok-op">=</span> <span class="tok-string">&quot;old_name.txt&quot;</span>
+new_name <span class="tok-op">=</span> <span class="tok-string">&quot;new_name.txt&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(old_name, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, newline<span class="tok-op">=</span><span class="tok-string">&quot;\n&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;重命名演示\n&quot;</span>)
+
+os.<span class="tok-cmdlet">rename</span>(old_name, new_name)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;旧文件存在：&quot;</span>, os.path.<span class="tok-cmdlet">exists</span>(old_name))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;新文件存在：&quot;</span>, os.path.<span class="tok-cmdlet">exists</span>(new_name))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;大小：&quot;</span>, os.path.<span class="tok-cmdlet">getsize</span>(new_name))
+
+os.<span class="tok-cmdlet">remove</span>(new_name)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;删除后存在：&quot;</span>, os.path.<span class="tok-cmdlet">exists</span>(new_name))
+
+<span class="tok-keyword">try</span>:
+    os.<span class="tok-cmdlet">remove</span>(new_name)
+<span class="tok-keyword">except</span> <span class="tok-type">FileNotFoundError</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;再次删除： FileNotFoundError&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">旧文件存在： False
+新文件存在： True
+大小： 16
+删除后存在： False
+再次删除： FileNotFoundError</code></pre></figure>
+<p><code>os.path.getsize()</code> 返回字节数：5 个汉字占 15 字节，加上 1 个换行正好 16 字节。这里的 <code>newline=&quot;\n&quot;</code> 关掉了平台相关的换行转换，如果不写，Windows 会把 <code>\n</code> 写成 <code>\r\n</code>，文件会多出 1 个字节。删除不存在的文件不会静默通过，而是抛 <code>FileNotFoundError</code>；批量清理时可以用 <code>contextlib.suppress(FileNotFoundError)</code> 包一层。</p>
+<h2 id="sec-9" class="doc-heading">八、shutil 复制、移动与删除目录</h2>
+<p><code>os</code> 只管单个文件，复制、移动目录、整目录删除要交给 <code>shutil</code>。<code>copy()</code> 复制内容，<code>copy2()</code> 额外保留修改时间等元数据，<code>move()</code> 移动（跨磁盘时自动退化成复制加删除），<code>rmtree()</code> 递归删除整个目录：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+<span class="tok-keyword">import</span> shutil
+
+source <span class="tok-op">=</span> <span class="tok-string">&quot;source.txt&quot;</span>
+folder <span class="tok-op">=</span> <span class="tok-string">&quot;backup&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(source, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;需要备份的内容\n&quot;</span>)
+
+shutil.<span class="tok-cmdlet">copy</span>(source, <span class="tok-string">&quot;copy.txt&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;副本存在：&quot;</span>, os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;copy.txt&quot;</span>))
+
+os.<span class="tok-cmdlet">makedirs</span>(folder, exist_ok<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+shutil.<span class="tok-cmdlet">move</span>(<span class="tok-string">&quot;copy.txt&quot;</span>, os.path.<span class="tok-cmdlet">join</span>(folder, <span class="tok-string">&quot;copy.txt&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;原位置副本还在：&quot;</span>, os.path.<span class="tok-cmdlet">exists</span>(<span class="tok-string">&quot;copy.txt&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;目录内容：&quot;</span>, os.<span class="tok-cmdlet">listdir</span>(folder))
+
+shutil.<span class="tok-cmdlet">copy2</span>(source, os.path.<span class="tok-cmdlet">join</span>(folder, <span class="tok-string">&quot;source_backup.txt&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;排序后目录内容：&quot;</span>, <span class="tok-type">sorted</span>(os.<span class="tok-cmdlet">listdir</span>(folder)))
+
+shutil.<span class="tok-cmdlet">rmtree</span>(folder)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;目录删除后存在：&quot;</span>, os.path.<span class="tok-cmdlet">exists</span>(folder))
+
+os.<span class="tok-cmdlet">remove</span>(source)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">副本存在： True
+原位置副本还在： False
+目录内容： ['copy.txt']
+排序后目录内容： ['copy.txt', 'source_backup.txt']
+目录删除后存在： False</code></pre></figure>
+<p><code>shutil.rmtree()</code> 不可恢复，也不走回收站，调用前务必确认路径。<code>os.makedirs(..., exist_ok=True)</code> 则在目录已存在时不会报错，适合放在脚本开头做初始化。</p>
+<h2 id="sec-10" class="doc-heading">九、csv 读写</h2>
+<p>CSV 是最通用的表格交换格式。不要用 <code>split(&quot;,&quot;)</code> 自己拆——字段里一旦出现逗号、引号或换行就会解析错乱，标准库的 <code>csv</code> 模块会正确处理这些情况。写入时记得 <code>newline=&quot;&quot;</code>，否则 Windows 上会多出空行：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> csv
+<span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;students.csv&quot;</span>
+rows <span class="tok-op">=</span> [
+    [<span class="tok-string">&quot;姓名&quot;</span>, <span class="tok-string">&quot;语文&quot;</span>, <span class="tok-string">&quot;数学&quot;</span>],
+    [<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-string">&quot;92&quot;</span>, <span class="tok-string">&quot;88&quot;</span>],
+    [<span class="tok-string">&quot;小红&quot;</span>, <span class="tok-string">&quot;85&quot;</span>, <span class="tok-string">&quot;95&quot;</span>],
+]
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, newline<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>) <span class="tok-keyword">as</span> handle:
+    writer <span class="tok-op">=</span> csv.<span class="tok-cmdlet">writer</span>(handle)
+    writer.<span class="tok-cmdlet">writerow</span>(rows[<span class="tok-num">0</span>])
+    writer.<span class="tok-cmdlet">writerows</span>(rows[<span class="tok-num">1</span>:])
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, newline<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>) <span class="tok-keyword">as</span> handle:
+    <span class="tok-keyword">for</span> row <span class="tok-keyword">in</span> csv.<span class="tok-cmdlet">reader</span>(handle):
+        <span class="tok-type">print</span>(<span class="tok-string">&quot; | &quot;</span>.<span class="tok-cmdlet">join</span>(row))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;写入数据行数：&quot;</span>, <span class="tok-type">len</span>(rows) <span class="tok-op">-</span> <span class="tok-num">1</span>)
+os.<span class="tok-cmdlet">remove</span>(path)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">姓名 | 语文 | 数学
+小明 | 92 | 88
+小红 | 85 | 95
+写入数据行数： 2</code></pre></figure>
+<p>读回来时，<code>csv.reader</code> 按行返回列表，<code>csv.DictReader</code> 则把首行当作字段名，每行返回字典，按列名取值比按位置取值更不容易出错：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> csv
+<span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;scores.csv&quot;</span>
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, newline<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;姓名,语文,数学\n小明,92,88\n小红,85,95\n&quot;</span>)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, newline<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>) <span class="tok-keyword">as</span> handle:
+    reader <span class="tok-op">=</span> csv.<span class="tok-cmdlet">DictReader</span>(handle)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;字段：&quot;</span>, reader.fieldnames)
+    <span class="tok-keyword">for</span> row <span class="tok-keyword">in</span> reader:
+        total <span class="tok-op">=</span> <span class="tok-type">int</span>(row[<span class="tok-string">&quot;语文&quot;</span>]) <span class="tok-op">+</span> <span class="tok-type">int</span>(row[<span class="tok-string">&quot;数学&quot;</span>])
+        <span class="tok-type">print</span>(<span class="tok-string">f&quot;{row['姓名']} 总分 {total}&quot;</span>)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, newline<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>) <span class="tok-keyword">as</span> handle:
+    table <span class="tok-op">=</span> <span class="tok-type">list</span>(csv.<span class="tok-cmdlet">reader</span>(handle))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;第一列：&quot;</span>, [row[<span class="tok-num">0</span>] <span class="tok-keyword">for</span> row <span class="tok-keyword">in</span> table])
+
+os.<span class="tok-cmdlet">remove</span>(path)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">字段： ['姓名', '语文', '数学']
+小明 总分 180
+小红 总分 180
+第一列： ['姓名', '小明', '小红']</code></pre></figure>
+<p><code>csv</code> 读出来的每个字段都是字符串，即使看起来是数字，做算术前也要 <code>int()</code> 或 <code>float()</code> 转换。字段名里的空格、BOM 都会原样保留，遇到 <code>KeyError</code> 时先打印 <code>reader.fieldnames</code> 看看实际键名。</p>
+<h2 id="sec-11" class="doc-heading">十、路径处理简介</h2>
+<p>拼接路径不要用字符串加 <code>&quot;/&quot;</code>，各平台的分隔符不同。<code>os.path</code> 提供函数式写法，<code>pathlib</code> 提供面向对象的写法，两者可以混用，新代码更推荐 <code>pathlib</code>：</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+<span class="tok-keyword">from</span> pathlib <span class="tok-keyword">import</span> Path
+
+path <span class="tok-op">=</span> <span class="tok-cmdlet">Path</span>(<span class="tok-string">&quot;data&quot;</span>) <span class="tok-op">/</span> <span class="tok-string">&quot;reports&quot;</span> <span class="tok-op">/</span> <span class="tok-string">&quot;summary.txt&quot;</span>
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;文件名：&quot;</span>, path.name)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;主名：&quot;</span>, path.stem)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;后缀：&quot;</span>, path.suffix)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;父目录：&quot;</span>, path.parent.name)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;层级数：&quot;</span>, <span class="tok-type">len</span>(path.parts))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;拆分：&quot;</span>, os.path.<span class="tok-cmdlet">split</span>(os.path.<span class="tok-cmdlet">join</span>(<span class="tok-string">&quot;data&quot;</span>, <span class="tok-string">&quot;summary.txt&quot;</span>)))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;规范化：&quot;</span>, os.path.<span class="tok-cmdlet">normpath</span>(<span class="tok-string">&quot;data/reports/../summary.txt&quot;</span>).<span class="tok-cmdlet">replace</span>(os.sep, <span class="tok-string">&quot;/&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;是否绝对路径：&quot;</span>, os.path.<span class="tok-cmdlet">isabs</span>(<span class="tok-string">&quot;data/summary.txt&quot;</span>))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;扩展名：&quot;</span>, os.path.<span class="tok-cmdlet">splitext</span>(<span class="tok-string">&quot;summary.txt&quot;</span>)[<span class="tok-num">1</span>])</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">文件名： summary.txt
+主名： summary
+后缀： .txt
+父目录： reports
+层级数： 3
+拆分： ('data', 'summary.txt')
+规范化： data/summary.txt
+是否绝对路径： False
+扩展名： .txt</code></pre></figure>
+<p><code>/</code> 运算符在 <code>pathlib</code> 里被重载为路径拼接，<code>Path(&quot;data&quot;) / &quot;summary.txt&quot;</code> 会自动使用当前平台的分隔符。<code>normpath()</code> 只做字符串层面的 <code>..</code> 化简，不会访问磁盘，也不解析符号链接；需要真实绝对路径时用 <code>Path.resolve()</code>，它会读取文件系统，路径不存在时行为取决于版本，跨平台脚本里要谨慎。</p>
+<h2 id="sec-12" class="doc-heading">练习任务</h2>
+<p>任务 1：统计一个文本文件的行数、单词数与最长的一行。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;essay.txt&quot;</span>
+text <span class="tok-op">=</span> <span class="tok-string">&quot;Python is simple\nreadable code wins\nkeep it short\n&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(text)
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    lines <span class="tok-op">=</span> handle.<span class="tok-cmdlet">read</span>().<span class="tok-cmdlet">splitlines</span>()
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;行数：&quot;</span>, <span class="tok-type">len</span>(lines))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;单词数：&quot;</span>, <span class="tok-type">sum</span>(<span class="tok-type">len</span>(line.<span class="tok-cmdlet">split</span>()) <span class="tok-keyword">for</span> line <span class="tok-keyword">in</span> lines))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;最长行：&quot;</span>, <span class="tok-type">max</span>(lines, key<span class="tok-op">=</span><span class="tok-type">len</span>))
+
+os.<span class="tok-cmdlet">remove</span>(path)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">行数： 3
+单词数： 9
+最长行： readable code wins</code></pre></figure>
+<p>任务 2：先写表头，再用追加模式补充数据，最后读回并计算平均分。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> csv
+<span class="tok-keyword">import</span> os
+
+path <span class="tok-op">=</span> <span class="tok-string">&quot;scores.csv&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, newline<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>) <span class="tok-keyword">as</span> handle:
+    csv.<span class="tok-cmdlet">writer</span>(handle).<span class="tok-cmdlet">writerow</span>([<span class="tok-string">&quot;姓名&quot;</span>, <span class="tok-string">&quot;分数&quot;</span>])
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, <span class="tok-string">&quot;a&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, newline<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>) <span class="tok-keyword">as</span> handle:
+    csv.<span class="tok-cmdlet">writer</span>(handle).<span class="tok-cmdlet">writerows</span>([[<span class="tok-string">&quot;小明&quot;</span>, <span class="tok-num">92</span>], [<span class="tok-string">&quot;小红&quot;</span>, <span class="tok-num">88</span>], [<span class="tok-string">&quot;小刚&quot;</span>, <span class="tok-num">76</span>]])
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(path, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>, newline<span class="tok-op">=</span><span class="tok-string">&quot;&quot;</span>) <span class="tok-keyword">as</span> handle:
+    rows <span class="tok-op">=</span> <span class="tok-type">list</span>(csv.<span class="tok-cmdlet">reader</span>(handle))[<span class="tok-num">1</span>:]
+
+<span class="tok-keyword">for</span> name, score <span class="tok-keyword">in</span> rows:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{name}：{score}&quot;</span>)
+
+values <span class="tok-op">=</span> [<span class="tok-type">int</span>(score) <span class="tok-keyword">for</span> _, score <span class="tok-keyword">in</span> rows]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;平均分：&quot;</span>, <span class="tok-type">round</span>(<span class="tok-type">sum</span>(values) <span class="tok-op">/</span> <span class="tok-type">len</span>(values), <span class="tok-num">1</span>))
+
+os.<span class="tok-cmdlet">remove</span>(path)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">小明：92
+小红：88
+小刚：76
+平均分： 85.3</code></pre></figure>
+<p>任务 3：把日志文件归档到子目录，读取后清理整个归档目录。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">import</span> os
+<span class="tok-keyword">import</span> shutil
+
+log <span class="tok-op">=</span> <span class="tok-string">&quot;app.log&quot;</span>
+archive <span class="tok-op">=</span> <span class="tok-string">&quot;archive&quot;</span>
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(log, <span class="tok-string">&quot;w&quot;</span>, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    handle.<span class="tok-cmdlet">write</span>(<span class="tok-string">&quot;INFO 服务启动\nERROR 连接超时\n&quot;</span>)
+
+os.<span class="tok-cmdlet">makedirs</span>(archive, exist_ok<span class="tok-op">=</span><span class="tok-keyword">True</span>)
+target <span class="tok-op">=</span> os.path.<span class="tok-cmdlet">join</span>(archive, <span class="tok-string">&quot;app-2026.log&quot;</span>)
+shutil.<span class="tok-cmdlet">move</span>(log, target)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;原文件存在：&quot;</span>, os.path.<span class="tok-cmdlet">exists</span>(log))
+<span class="tok-type">print</span>(<span class="tok-string">&quot;归档文件存在：&quot;</span>, os.path.<span class="tok-cmdlet">exists</span>(target))
+
+<span class="tok-keyword">with</span> <span class="tok-type">open</span>(target, encoding<span class="tok-op">=</span><span class="tok-string">&quot;utf-8&quot;</span>) <span class="tok-keyword">as</span> handle:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;归档行数：&quot;</span>, <span class="tok-type">len</span>(handle.<span class="tok-cmdlet">readlines</span>()))
+
+shutil.<span class="tok-cmdlet">rmtree</span>(archive)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;归档目录已清理：&quot;</span>, <span class="tok-keyword">not</span> os.path.<span class="tok-cmdlet">exists</span>(archive))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">原文件存在： False
+归档文件存在： True
+归档行数： 2
+归档目录已清理： True</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="io.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 输入输出</span></a><a class="pager-link pager-link--next" href="os.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python OS 模块</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、open 与文件模式</a><a class="toc-link toc-link--h3" href="#sec-2">with 语句与异常安全</a><a class="toc-link toc-link--h2" href="#sec-3">二、读取：read、readline、readlines</a><a class="toc-link toc-link--h2" href="#sec-4">三、写入：write 与 writelines</a><a class="toc-link toc-link--h2" href="#sec-5">四、seek 与 tell</a><a class="toc-link toc-link--h2" href="#sec-6">五、逐行迭代文件</a><a class="toc-link toc-link--h2" href="#sec-7">六、编码 encoding</a><a class="toc-link toc-link--h2" href="#sec-8">七、os.rename 与 os.remove</a><a class="toc-link toc-link--h2" href="#sec-9">八、shutil 复制、移动与删除目录</a><a class="toc-link toc-link--h2" href="#sec-10">九、csv 读写</a><a class="toc-link toc-link--h2" href="#sec-11">十、路径处理简介</a><a class="toc-link toc-link--h2" href="#sec-12">练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

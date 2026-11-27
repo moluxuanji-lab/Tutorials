@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CMake 预设与工作流 · CMake</title>
+<meta name="description" content="用 CMakePresets.json 把配置、构建、测试参数固化成可复现的命令，告别冗长的 -D 记忆负担。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="presets" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">CM</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#064f8c,#23d18b)">CM</span><span class="side-course__meta"><span class="side-course__name">CMake</span><span class="side-course__desc">16 章 · 入门 → 工程化</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">CMake 教程</span></a></li><li><a class="side-link" href="install-setup.html"><span class="side-num">02</span><span class="side-text">CMake 安装与配置</span></a></li><li><a class="side-link" href="basic.html"><span class="side-num">03</span><span class="side-text">CMake 基础</span></a></li><li><a class="side-link" href="build-flow.html"><span class="side-num">04</span><span class="side-text">CMake 构建流程</span></a></li><li><a class="side-link" href="build-demo.html"><span class="side-num">05</span><span class="side-text">CMake 构建实例</span></a></li></ul></div><div class="side-group"><p class="side-label">核心概念</p><ul class="side-list"><li><a class="side-link" href="syntax.html"><span class="side-num">06</span><span class="side-text">CMake 语法基础</span></a></li><li><a class="side-link" href="variables.html"><span class="side-num">07</span><span class="side-text">CMake 变量与缓存</span></a></li><li><a class="side-link" href="targets.html"><span class="side-num">08</span><span class="side-text">CMake 目标与依赖</span></a></li><li><a class="side-link" href="build-config.html"><span class="side-num">09</span><span class="side-text">CMake 编译与构建配置</span></a></li><li><a class="side-link" href="find-packages.html"><span class="side-num">10</span><span class="side-text">CMake 查找库与包</span></a></li></ul></div><div class="side-group"><p class="side-label">工程化</p><ul class="side-list"><li><a class="side-link" href="install-export.html"><span class="side-num">11</span><span class="side-text">CMake 安装与导出</span></a></li><li><a class="side-link" href="custom-commands.html"><span class="side-num">12</span><span class="side-text">CMake 自定义命令与目标</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">13</span><span class="side-text">CMake 自定义模块与脚本</span></a></li><li><a class="side-link is-active" href="presets.html"><span class="side-num">14</span><span class="side-text">CMake 预设与工作流</span></a></li><li><a class="side-link" href="testing.html"><span class="side-num">15</span><span class="side-text">CMake 测试与打包</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">16</span><span class="side-text">CMake 实战练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../python/index.html"><span class="side-num">PY</span><span class="side-text">Python</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">CMake</a><span>/</span><span>工程化</span></nav><h1 class="doc-title">CMake 预设与工作流</h1><p class="doc-lead">用 CMakePresets.json 把配置、构建、测试参数固化成可复现的命令，告别冗长的 -D 记忆负担。</p><div class="doc-meta"><span>第 14 章</span><span class="doc-meta__dot"></span><span>约 10 分钟</span><span class="doc-meta__dot"></span><span>共 16 章</span></div><div class="doc-body">
+<p>配置一个项目往往要记住一长串参数：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">cmake <span class="tok-param">-S</span> . <span class="tok-param">-B</span> build <span class="tok-param">-G</span> Ninja <span class="tok-param">-DCMAKE_BUILD_TYPE</span>=Release <span class="tok-param">-DBUILD_TESTS</span>=ON <span class="tok-param">-DCMAKE_INSTALL_PREFIX</span>=...</code></pre></figure>
+<p>换个机器、换个同事、换条流水线，这串命令就得口口相传。<strong>CMakePresets.json</strong> 把它们固化成有名字的 “预设”，一条命令即可复现。</p>
+<h2 id="sec-1" class="doc-heading">一、快速上手</h2>
+<figure class="codeblock" data-lang="json"><div class="codeblock__bar"><span class="codeblock__lang">JSON</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-json">{
+  <span class="tok-param">&quot;version&quot;</span>: <span class="tok-num">3</span>,
+  <span class="tok-param">&quot;configurePresets&quot;</span>: [
+    {
+      <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;default&quot;</span>,
+      <span class="tok-param">&quot;displayName&quot;</span>: <span class="tok-string">&quot;默认配置&quot;</span>,
+      <span class="tok-param">&quot;generator&quot;</span>: <span class="tok-string">&quot;Ninja&quot;</span>,
+      <span class="tok-param">&quot;binaryDir&quot;</span>: <span class="tok-string">&quot;<span class="tok-var">${sourceDir}</span>/build&quot;</span>,
+      <span class="tok-param">&quot;cacheVariables&quot;</span>: {
+        <span class="tok-param">&quot;CMAKE_BUILD_TYPE&quot;</span>: <span class="tok-string">&quot;Release&quot;</span>,
+        <span class="tok-param">&quot;BUILD_TESTS&quot;</span>: <span class="tok-string">&quot;ON&quot;</span>
+      }
+    }
+  ],
+  <span class="tok-param">&quot;buildPresets&quot;</span>: [
+    { <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;default&quot;</span>, <span class="tok-param">&quot;configurePreset&quot;</span>: <span class="tok-string">&quot;default&quot;</span> }
+  ],
+  <span class="tok-param">&quot;testPresets&quot;</span>: [
+    {
+      <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;default&quot;</span>,
+      <span class="tok-param">&quot;configurePreset&quot;</span>: <span class="tok-string">&quot;default&quot;</span>,
+      <span class="tok-param">&quot;output&quot;</span>: { <span class="tok-param">&quot;outputOnFailure&quot;</span>: <span class="tok-keyword">true</span> }
+    }
+  ]
+}</code></pre></figure>
+<p>使用方式：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">cmake <span class="tok-param">--list-presets</span>            <span class="tok-comment"># 查看可用预设</span>
+cmake <span class="tok-param">--preset</span> default          <span class="tok-comment"># 按预设配置</span>
+cmake <span class="tok-param">--build</span> <span class="tok-param">--preset</span> default  <span class="tok-comment"># 按预设构建（v2+）</span>
+ctest <span class="tok-param">--preset</span> default          <span class="tok-comment"># 按预设跑测试（v2+）</span></code></pre></figure>
+<p>VS Code、CLion、Qt Creator 都原生读取 CMakePresets.json，IDE 里能直接选择预设。</p>
+<h2 id="sec-2" class="doc-heading">二、文件与版本</h2>
+<p>预设文件放在项目根目录，最多两个：</p>
+<div class="table-wrap"><table><thead><tr><th>文件</th><th>定位</th><th>是否入库</th></tr></thead><tbody><tr><td>CMakePresets.json</td><td>项目官方预设，所有人共享</td><td>应提交到版本库</td></tr><tr><td>CMakeUserPresets.json</td><td>个人本地预设（如本机 SDK 路径）</td><td>不应提交</td></tr></tbody></table></div>
+<p><code>CMakeUserPresets.json</code> 隐式包含 <code>CMakePresets.json</code>，可以直接引用官方预设做扩展。</p>
+<p>顶层 <code>version</code> 字段是 JSON 模式版本，<strong>它决定支持的特性与所需的最低 CMake 版本</strong>：</p>
+<div class="table-wrap"><table><caption>常用 schema 版本</caption><thead><tr><th>version</th><th>最低 CMake</th><th>新增能力</th></tr></thead><tbody><tr><td>1</td><td>3.19</td><td>configurePresets 基础结构</td></tr><tr><td>2</td><td>3.20</td><td>buildPresets、testPresets</td></tr><tr><td>3</td><td>3.21</td><td>隐藏预设、继承增强（on/multiple）</td></tr><tr><td>4</td><td>3.23</td><td>vendor 字段、条件表达式增强</td></tr><tr><td>5</td><td>3.24</td><td><code>${pathListSep}</code> 宏、<code>testOutputTruncation</code></td></tr><tr><td>6</td><td>3.25</td><td><code>packagePresets</code>、<code>workflowPresets</code>（多步骤流水线）</td></tr></tbody></table></div>
+<div class="admonition admonition--note"><div class="admonition__icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></div><div class="admonition__body"><p class="admonition__title">说明</p><p>版本号不要贪高：写 <code>&quot;version&quot;: 3</code> 的文件在 CMake 3.21+ 都能用，写成 6 就要求所有人用 3.25 以上。团队环境按 “最低公共版本” 取值。</p></div></div>
+<h2 id="sec-3" class="doc-heading">三、继承与组合</h2>
+<p>预设支持 <code>inherits</code>，把公共配置收敛到基类，避免重复：</p>
+<figure class="codeblock" data-lang="json"><div class="codeblock__bar"><span class="codeblock__lang">JSON</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-json">{
+  <span class="tok-param">&quot;version&quot;</span>: <span class="tok-num">3</span>,
+  <span class="tok-param">&quot;configurePresets&quot;</span>: [
+    {
+      <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;base&quot;</span>,
+      <span class="tok-param">&quot;hidden&quot;</span>: <span class="tok-keyword">true</span>,
+      <span class="tok-param">&quot;generator&quot;</span>: <span class="tok-string">&quot;Ninja&quot;</span>,
+      <span class="tok-param">&quot;binaryDir&quot;</span>: <span class="tok-string">&quot;<span class="tok-var">${sourceDir}</span>/build/<span class="tok-var">${presetName}</span>&quot;</span>,
+      <span class="tok-param">&quot;cacheVariables&quot;</span>: { <span class="tok-param">&quot;BUILD_TESTS&quot;</span>: <span class="tok-string">&quot;ON&quot;</span> }
+    },
+    {
+      <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;debug&quot;</span>,
+      <span class="tok-param">&quot;inherits&quot;</span>: <span class="tok-string">&quot;base&quot;</span>,
+      <span class="tok-param">&quot;displayName&quot;</span>: <span class="tok-string">&quot;Debug 构建&quot;</span>,
+      <span class="tok-param">&quot;cacheVariables&quot;</span>: { <span class="tok-param">&quot;CMAKE_BUILD_TYPE&quot;</span>: <span class="tok-string">&quot;Debug&quot;</span> }
+    },
+    {
+      <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;release&quot;</span>,
+      <span class="tok-param">&quot;inherits&quot;</span>: <span class="tok-string">&quot;base&quot;</span>,
+      <span class="tok-param">&quot;displayName&quot;</span>: <span class="tok-string">&quot;Release 构建&quot;</span>,
+      <span class="tok-param">&quot;cacheVariables&quot;</span>: { <span class="tok-param">&quot;CMAKE_BUILD_TYPE&quot;</span>: <span class="tok-string">&quot;Release&quot;</span> }
+    }
+  ]
+}</code></pre></figure>
+<ul><li><p><code>hidden: true</code> 的预设只作为基类，不会出现在 <code>--list-presets</code> 里。</p></li><li><p><code>binaryDir</code> 里的 <code>${presetName}</code> 让不同预设用不同构建目录，Debug/Release 互不覆盖。</p></li></ul>
+<h2 id="sec-4" class="doc-heading">四、宏展开与条件</h2>
+<p>预设里可用的路径宏：</p>
+<div class="table-wrap"><table><thead><tr><th>宏</th><th>含义</th></tr></thead><tbody><tr><td>${sourceDir}</td><td>项目源码根目录</td></tr><tr><td>${sourceParentDir}</td><td>源码根目录的上级</td></tr><tr><td>${presetName}</td><td>当前预设名</td></tr><tr><td>${generator}</td><td>当前生成器</td></tr><tr><td>$env{NAME}</td><td>环境变量</td></tr><tr><td>${hostSystemName}</td><td>Linux / Windows / Darwin</td></tr></tbody></table></div>
+<p>按环境启用预设：</p>
+<figure class="codeblock" data-lang="json"><div class="codeblock__bar"><span class="codeblock__lang">JSON</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-json">{
+  <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;windows-only&quot;</span>,
+  <span class="tok-param">&quot;hidden&quot;</span>: <span class="tok-keyword">true</span>,
+  <span class="tok-param">&quot;condition&quot;</span>: {
+    <span class="tok-param">&quot;type&quot;</span>: <span class="tok-string">&quot;equals&quot;</span>,
+    <span class="tok-param">&quot;lhs&quot;</span>: <span class="tok-string">&quot;<span class="tok-var">${hostSystemName}</span>&quot;</span>,
+    <span class="tok-param">&quot;rhs&quot;</span>: <span class="tok-string">&quot;Windows&quot;</span>
+  }
+}</code></pre></figure>
+<h2 id="sec-5" class="doc-heading">五、构建与测试预设</h2>
+<p>配置、构建、测试三套预设可以独立命名，用 <code>configurePreset</code> 关联：</p>
+<figure class="codeblock" data-lang="json"><div class="codeblock__bar"><span class="codeblock__lang">JSON</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-json">{
+  <span class="tok-param">&quot;version&quot;</span>: <span class="tok-num">3</span>,
+  <span class="tok-param">&quot;configurePresets&quot;</span>: [
+    { <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;dev&quot;</span>, <span class="tok-param">&quot;generator&quot;</span>: <span class="tok-string">&quot;Ninja&quot;</span>, <span class="tok-param">&quot;binaryDir&quot;</span>: <span class="tok-string">&quot;<span class="tok-var">${sourceDir}</span>/build&quot;</span> }
+  ],
+  <span class="tok-param">&quot;buildPresets&quot;</span>: [
+    { <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;dev-build&quot;</span>, <span class="tok-param">&quot;configurePreset&quot;</span>: <span class="tok-string">&quot;dev&quot;</span> }
+  ],
+  <span class="tok-param">&quot;testPresets&quot;</span>: [
+    {
+      <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;dev-test&quot;</span>,
+      <span class="tok-param">&quot;configurePreset&quot;</span>: <span class="tok-string">&quot;dev&quot;</span>,
+      <span class="tok-param">&quot;output&quot;</span>: { <span class="tok-param">&quot;outputOnFailure&quot;</span>: <span class="tok-keyword">true</span> },
+      <span class="tok-param">&quot;execution&quot;</span>: { <span class="tok-param">&quot;jobs&quot;</span>: <span class="tok-num">8</span> }
+    }
+  ]
+}</code></pre></figure>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">cmake <span class="tok-param">--preset</span> dev &amp;&amp; cmake <span class="tok-param">--build</span> <span class="tok-param">--preset</span> dev<span class="tok-param">-build</span> &amp;&amp; ctest <span class="tok-param">--preset</span> dev<span class="tok-param">-test</span></code></pre></figure>
+<h2 id="sec-6" class="doc-heading">六、完整可构建示例</h2>
+<p>一个带预设的项目：</p>
+<figure class="codeblock" data-lang="cmake"><div class="codeblock__bar"><span class="codeblock__lang">CMake</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cmake"><span class="tok-comment"># CMakeLists.txt</span>
+<span class="tok-cmdlet">cmake_minimum_required</span>(<span class="tok-keyword">VERSION</span> <span class="tok-num">3.21</span>)
+<span class="tok-cmdlet">project</span>(preset-demo <span class="tok-keyword">LANGUAGES</span> <span class="tok-keyword">CXX</span>)
+
+<span class="tok-cmdlet">add_executable</span>(preset-demo src/main.cpp)</code></pre></figure>
+<figure class="codeblock" data-lang="cpp"><div class="codeblock__bar"><span class="codeblock__lang">C++</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-cpp"><span class="tok-comment">// src/main.cpp</span>
+<span class="tok-param">#include </span><span class="tok-type">&lt;iostream&gt;</span>
+<span class="tok-keyword">int</span> <span class="tok-cmdlet">main</span>() { <span class="tok-type">std</span>::<span class="tok-type">cout</span> &lt;&lt; <span class="tok-string">&quot;preset demo&quot;</span> &lt;&lt; <span class="tok-type">std</span>::<span class="tok-type">endl</span>; <span class="tok-keyword">return</span> <span class="tok-num">0</span>; }</code></pre></figure>
+<p>预设文件（<code>CMakePresets.json</code>）：</p>
+<figure class="codeblock" data-lang="json"><div class="codeblock__bar"><span class="codeblock__lang">JSON</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-json">{
+  <span class="tok-param">&quot;version&quot;</span>: <span class="tok-num">3</span>,
+  <span class="tok-param">&quot;cmakeMinimumRequired&quot;</span>: { <span class="tok-param">&quot;major&quot;</span>: <span class="tok-num">3</span>, <span class="tok-param">&quot;minor&quot;</span>: <span class="tok-num">21</span>, <span class="tok-param">&quot;patch&quot;</span>: <span class="tok-num">0</span> },
+  <span class="tok-param">&quot;configurePresets&quot;</span>: [
+    {
+      <span class="tok-param">&quot;name&quot;</span>: <span class="tok-string">&quot;dev&quot;</span>,
+      <span class="tok-param">&quot;displayName&quot;</span>: <span class="tok-string">&quot;开发默认&quot;</span>,
+      <span class="tok-param">&quot;generator&quot;</span>: <span class="tok-string">&quot;Ninja&quot;</span>,
+      <span class="tok-param">&quot;binaryDir&quot;</span>: <span class="tok-string">&quot;<span class="tok-var">${sourceDir}</span>/build&quot;</span>,
+      <span class="tok-param">&quot;cacheVariables&quot;</span>: { <span class="tok-param">&quot;CMAKE_BUILD_TYPE&quot;</span>: <span class="tok-string">&quot;Debug&quot;</span> }
+    }
+  ]
+}</code></pre></figure>
+<p>验证预设已被识别：</p>
+<figure class="codeblock" data-lang="bash"><div class="codeblock__bar"><span class="codeblock__lang">Shell</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-bash">cmake <span class="tok-param">--list-presets</span></code></pre></figure>
+<p>输出结果类似如下：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">Configure Presets:
+  &quot;dev&quot;      - 开发默认</code></pre></figure>
+<div class="admonition admonition--note"><div class="admonition__icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></div><div class="admonition__body"><p class="admonition__title">说明</p><p><code>cmakeMinimumRequired</code> 字段（3.19+）声明使用这份预设所需的最低 CMake，不满足时 CMake 会直接拒绝。</p></div></div>
+<h2 id="sec-7" class="doc-heading">七、练习任务</h2>
+<p>任务 1：为现有项目添加 debug/release 两个预设（用 hidden 基类收敛公共配置）</p>
+<p>任务 2：在 <code>CMakeUserPresets.json</code> 里写一个带本机路径的预设并验证 <code>--list-presets</code> 能看到它</p>
+<p>任务 3：给 testPreset 加 <code>&quot;output&quot;: { &quot;verbosity&quot;: &quot;verbose&quot; }</code>，观察 ctest 输出变化</p></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="modules.html"><span class="pager-dir">← 上一章</span><span class="pager-title">CMake 自定义模块与脚本</span></a><a class="pager-link pager-link--next" href="testing.html"><span class="pager-dir">下一章 →</span><span class="pager-title">CMake 测试与打包</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 CMake 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、快速上手</a><a class="toc-link toc-link--h2" href="#sec-2">二、文件与版本</a><a class="toc-link toc-link--h2" href="#sec-3">三、继承与组合</a><a class="toc-link toc-link--h2" href="#sec-4">四、宏展开与条件</a><a class="toc-link toc-link--h2" href="#sec-5">五、构建与测试预设</a><a class="toc-link toc-link--h2" href="#sec-6">六、完整可构建示例</a><a class="toc-link toc-link--h2" href="#sec-7">七、练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>

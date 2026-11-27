@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 条件控制 · Python</title>
+<meta name="description" content="掌握 if、elif、else 的分支写法与缩进规则，理解嵌套条件、三元表达式、真值判断、and 与 or 的短路、in 成员测试、match/case 模式匹配，以及 = 与 == 的区别。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("pst-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body class="page-doc" data-page="conditionals" data-base="../">
+<header class="site-header"><div class="header-inner"><button class="icon-btn menu-btn" type="button" aria-label="打开目录" data-menu-toggle><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="../index.html" aria-label="Tutorials 教程库 首页"><span class="brand-mark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span><span class="brand-text">Tutorials<span class="brand-sub">教程库</span></span><span class="brand-badge">PY</span></a><nav class="header-nav"><a href="index.html">课程首页</a><a href="../index.html">全部教程</a><a href="practice.html">实战应用</a></nav><div class="header-actions"><button class="search-trigger" type="button" data-open-search><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><span class="search-trigger__text">搜索教程</span><kbd class="search-trigger__kbd">Ctrl K</kbd></button><button class="icon-btn theme-btn" type="button" aria-label="切换主题" data-theme-toggle><svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9Z"/></svg></button></div></div><div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div></header><div class="drawer-backdrop" data-menu-close></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-inner"><div class="side-course"><a class="side-back" href="../index.html">← 全部教程</a><a class="side-course__card" href="index.html"><span class="side-course__mark" style="background:linear-gradient(135deg,#3776ab,#ffd43b)">PY</span><span class="side-course__meta"><span class="side-course__name">Python</span><span class="side-course__desc">44 章 · 入门 → 进阶</span></span></a></div><div class="side-group"><p class="side-label">入门</p><ul class="side-list"><li><a class="side-link" href="tutorial.html"><span class="side-num">01</span><span class="side-text">Python 教程</span></a></li><li><a class="side-link" href="intro.html"><span class="side-num">02</span><span class="side-text">Python 简介</span></a></li><li><a class="side-link" href="install.html"><span class="side-num">03</span><span class="side-text">Python 环境搭建</span></a></li><li><a class="side-link" href="vscode.html"><span class="side-num">04</span><span class="side-text">VS Code 配置 Python</span></a></li><li><a class="side-link" href="syntax.html"><span class="side-num">05</span><span class="side-text">Python 基础语法</span></a></li><li><a class="side-link" href="basic-types.html"><span class="side-num">06</span><span class="side-text">Python 基本数据类型</span></a></li><li><a class="side-link" href="type-conversion.html"><span class="side-num">07</span><span class="side-text">Python 数据类型转换</span></a></li><li><a class="side-link" href="comments.html"><span class="side-num">08</span><span class="side-text">Python 注释</span></a></li><li><a class="side-link" href="operators.html"><span class="side-num">09</span><span class="side-text">Python 运算符</span></a></li></ul></div><div class="side-group"><p class="side-label">核心语法</p><ul class="side-list"><li><a class="side-link" href="numbers.html"><span class="side-num">10</span><span class="side-text">Python 数字</span></a></li><li><a class="side-link" href="strings.html"><span class="side-num">11</span><span class="side-text">Python 字符串</span></a></li><li><a class="side-link" href="lists.html"><span class="side-num">12</span><span class="side-text">Python 列表</span></a></li><li><a class="side-link" href="tuples.html"><span class="side-num">13</span><span class="side-text">Python 元组</span></a></li><li><a class="side-link" href="dict.html"><span class="side-num">14</span><span class="side-text">Python 字典</span></a></li><li><a class="side-link" href="sets.html"><span class="side-num">15</span><span class="side-text">Python 集合</span></a></li><li><a class="side-link is-active" href="conditionals.html"><span class="side-num">16</span><span class="side-text">Python 条件控制</span></a></li><li><a class="side-link" href="loops.html"><span class="side-num">17</span><span class="side-text">Python 循环语句</span></a></li><li><a class="side-link" href="first-program.html"><span class="side-num">18</span><span class="side-text">Python 编程第一步</span></a></li><li><a class="side-link" href="comprehensions.html"><span class="side-num">19</span><span class="side-text">Python 推导式</span></a></li></ul></div><div class="side-group"><p class="side-label">进阶</p><ul class="side-list"><li><a class="side-link" href="functions.html"><span class="side-num">20</span><span class="side-text">Python 函数</span></a></li><li><a class="side-link" href="lambda.html"><span class="side-num">21</span><span class="side-text">Python Lambda 表达式</span></a></li><li><a class="side-link" href="iterators.html"><span class="side-num">22</span><span class="side-text">Python 迭代器与生成器</span></a></li><li><a class="side-link" href="data-structures.html"><span class="side-num">23</span><span class="side-text">Python 数据结构</span></a></li><li><a class="side-link" href="modules.html"><span class="side-num">24</span><span class="side-text">Python 模块</span></a></li><li><a class="side-link" href="io.html"><span class="side-num">25</span><span class="side-text">Python 输入输出</span></a></li><li><a class="side-link" href="file.html"><span class="side-num">26</span><span class="side-text">Python 文件操作</span></a></li><li><a class="side-link" href="os.html"><span class="side-num">27</span><span class="side-text">Python OS 模块</span></a></li><li><a class="side-link" href="errors.html"><span class="side-num">28</span><span class="side-text">Python 错误和异常</span></a></li><li><a class="side-link" href="classes.html"><span class="side-num">29</span><span class="side-text">Python 面向对象</span></a></li><li><a class="side-link" href="scope.html"><span class="side-num">30</span><span class="side-text">Python 命名空间和作用域</span></a></li></ul></div><div class="side-group"><p class="side-label">标准库与实战</p><ul class="side-list"><li><a class="side-link" href="stdlib.html"><span class="side-num">31</span><span class="side-text">Python 标准库概览</span></a></li><li><a class="side-link" href="builtins.html"><span class="side-num">32</span><span class="side-text">Python 内置函数</span></a></li><li><a class="side-link" href="regex.html"><span class="side-num">33</span><span class="side-text">Python 正则表达式</span></a></li><li><a class="side-link" href="json.html"><span class="side-num">34</span><span class="side-text">Python JSON</span></a></li><li><a class="side-link" href="datetime.html"><span class="side-num">35</span><span class="side-text">Python 日期和时间</span></a></li><li><a class="side-link" href="threading.html"><span class="side-num">36</span><span class="side-text">Python 多线程</span></a></li><li><a class="side-link" href="network.html"><span class="side-num">37</span><span class="side-text">Python 网络编程</span></a></li><li><a class="side-link" href="smtp.html"><span class="side-num">38</span><span class="side-text">Python SMTP 发送邮件</span></a></li><li><a class="side-link" href="mysql.html"><span class="side-num">39</span><span class="side-text">Python 连接 MySQL</span></a></li><li><a class="side-link" href="xml.html"><span class="side-num">40</span><span class="side-text">Python XML 解析</span></a></li><li><a class="side-link" href="urllib.html"><span class="side-num">41</span><span class="side-text">Python urllib</span></a></li><li><a class="side-link" href="requests.html"><span class="side-num">42</span><span class="side-text">Python requests 模块</span></a></li><li><a class="side-link" href="pip.html"><span class="side-num">43</span><span class="side-text">Python pip</span></a></li><li><a class="side-link" href="practice.html"><span class="side-num">44</span><span class="side-text">Python 综合练习</span></a></li></ul></div><div class="side-group"><p class="side-label">其他教程</p><ul class="side-list"><li><a class="side-link" href="../powershell/index.html"><span class="side-num">PS</span><span class="side-text">PowerShell</span></a></li><li><a class="side-link" href="../cmake/index.html"><span class="side-num">CM</span><span class="side-text">CMake</span></a></li></ul></div></div></aside>
+<main class="main" id="main">
+<article class="doc"><nav class="breadcrumb" aria-label="面包屑"><a href="../index.html">教程库</a><span>/</span><a href="index.html">Python</a><span>/</span><span>核心语法</span></nav><h1 class="doc-title">Python 条件控制</h1><p class="doc-lead">掌握 if、elif、else 的分支写法与缩进规则，理解嵌套条件、三元表达式、真值判断、and 与 or 的短路、in 成员测试、match/case 模式匹配，以及 = 与 == 的区别。</p><div class="doc-meta"><span>第 16 章</span><span class="doc-meta__dot"></span><span>约 21 分钟</span><span class="doc-meta__dot"></span><span>共 44 章</span></div><div class="doc-body">
+<p>条件控制让程序根据不同的情况走不同的分支。Python 没有花括号，分支范围完全由缩进决定，因此“代码属于哪个分支”在源码里一眼可见，这也是它强制统一风格的方式。</p>
+<p>本章从最简单的 <code>if</code> 讲起，依次介绍 <code>elif</code>、嵌套、三元表达式、真值判断、短路求值、<code>in</code> 成员测试，再进入 Python 3.10 引入的 <code>match</code> / <code>case</code> 模式匹配，最后说明 <code>=</code> 与 <code>==</code> 这个新手最容易混淆的地方。</p>
+<h2 id="sec-1" class="doc-heading">一、if 语句</h2>
+<p><code>if</code> 后面跟一个条件表达式，以冒号结尾，条件为真时执行缩进的代码块。条件表达式的结果会被自动转换成布尔值，不必显式写 <code>== True</code>。</p>
+<p>条件为假时，整个代码块被跳过，程序继续执行与 <code>if</code> 同级的下一行。冒号和缩进缺一不可，这是 Python 语法里最基础也最严格的部分。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">score <span class="tok-op">=</span> <span class="tok-num">72</span>
+
+<span class="tok-keyword">if</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">60</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;及格&quot;</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;成绩：&quot;</span>, score)
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;判断结束&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">及格
+成绩： 72
+判断结束</code></pre></figure>
+<p><code>if</code> 内部的两条 <code>print</code> 都属于条件成立时执行的代码块；最后一行没有缩进，所以无论条件真假都会执行。</p>
+<h2 id="sec-2" class="doc-heading">二、if、elif、else</h2>
+<p>多分支用 <code>elif</code>（else if 的缩写）串联，从上到下依次判断，命中一个分支后剩下的分支全部跳过。<code>else</code> 放在最后，兜住所有没有命中的情况。</p>
+<p>判断顺序很关键：条件写得太宽，后面的分支就永远轮不到。比如先判断 <code>score &gt;= 60</code> 再判断 <code>score &gt;= 90</code>，90 分以上的成绩会被第一个分支拦截。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">level</span>(score):
+    <span class="tok-keyword">if</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">90</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;优秀&quot;</span>
+    <span class="tok-keyword">elif</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">80</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;良好&quot;</span>
+    <span class="tok-keyword">elif</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">60</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;及格&quot;</span>
+    <span class="tok-keyword">else</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;不及格&quot;</span>
+
+<span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> [<span class="tok-num">95</span>, <span class="tok-num">85</span>, <span class="tok-num">72</span>, <span class="tok-num">45</span>]:
+    <span class="tok-type">print</span>(value, <span class="tok-string">&quot;-&gt;&quot;</span>, <span class="tok-cmdlet">level</span>(value))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">95 -&gt; 优秀
+85 -&gt; 良好
+72 -&gt; 及格
+45 -&gt; 不及格</code></pre></figure>
+<p><code>elif</code> 可以有任意多个，<code>else</code> 最多一个且必须放在最后。只要某个分支执行了 <code>return</code>，函数就会立即结束，不会再往下判断。</p>
+<h2 id="sec-3" class="doc-heading">三、缩进规则</h2>
+<p>Python 用缩进表示代码块，同一代码块内的语句必须保持相同的缩进量。官方风格（PEP 8）约定用 4 个空格，不要在同一个文件里混用制表符和空格。</p>
+<p>缩进不同，语句的归属就不同。下面这段代码里，前两条 <code>print</code> 属于 <code>if</code> 内部，第三条回到了顶层，所以总会打印。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">score <span class="tok-op">=</span> <span class="tok-num">75</span>
+
+<span class="tok-keyword">if</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">60</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;进入 if 内部&quot;</span>)
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;两条语句属于同一个代码块&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;这条语句在 if 外部，总会执行&quot;</span>)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-type">compile</span>(<span class="tok-string">&quot;if True:\nprint('缺少缩进')&quot;</span>, <span class="tok-string">&quot;&lt;demo&gt;&quot;</span>, <span class="tok-string">&quot;exec&quot;</span>)
+<span class="tok-keyword">except</span> IndentationError <span class="tok-keyword">as</span> error:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;缩进错误：&quot;</span>, <span class="tok-type">type</span>(error).__name__)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">进入 if 内部
+两条语句属于同一个代码块
+这条语句在 if 外部，总会执行
+缩进错误： IndentationError</code></pre></figure>
+<p><code>compile()</code> 在运行期编译一段字符串，遇到缺少缩进的代码会抛出 <code>IndentationError</code>，它是 <code>SyntaxError</code> 的子类。缩进错误在源码阶段就会被解释器拦下，不会等到运行到那一行才报错。</p>
+<h2 id="sec-4" class="doc-heading">四、嵌套条件</h2>
+<p>一个分支内部还可以再写 <code>if</code>，形成嵌套。缩进每加深一层，就表示“在外层条件成立的前提下再判断一次”。</p>
+<p>嵌套层数不宜过多，超过三层通常说明可以把条件合并，或者拆成函数提前返回。下面用“年龄 + 是否持票”两个条件演示入场判断。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">visitors <span class="tok-op">=</span> [(<span class="tok-num">20</span>, <span class="tok-keyword">True</span>), (<span class="tok-num">17</span>, <span class="tok-keyword">True</span>), (<span class="tok-num">25</span>, <span class="tok-keyword">False</span>)]
+
+<span class="tok-keyword">for</span> age, has_ticket <span class="tok-keyword">in</span> visitors:
+    <span class="tok-keyword">if</span> age <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">18</span>:
+        <span class="tok-keyword">if</span> has_ticket:
+            result <span class="tok-op">=</span> <span class="tok-string">&quot;可以入场&quot;</span>
+        <span class="tok-keyword">else</span>:
+            result <span class="tok-op">=</span> <span class="tok-string">&quot;请先购票&quot;</span>
+    <span class="tok-keyword">else</span>:
+        result <span class="tok-op">=</span> <span class="tok-string">&quot;未成年人不能入场&quot;</span>
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;年龄 {age}，有票 {has_ticket}：{result}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">年龄 20，有票 True：可以入场
+年龄 17，有票 True：未成年人不能入场
+年龄 25，有票 False：请先购票</code></pre></figure>
+<p><code>if age &gt;= 18</code> 为假时，内层的 <code>if has_ticket</code> 根本不会被求值。把最容易命中的条件放在外层，可以减少不必要的判断。</p>
+<h2 id="sec-5" class="doc-heading">五、三元表达式</h2>
+<p><code>A if 条件 else B</code> 是 <code>if</code> 的表达式形式，条件为真时取 <code>A</code>，否则取 <code>B</code>。它适合在赋值、<code>print</code> 和推导式里做简单的二选一。</p>
+<p>三元表达式可以嵌套，但超过两层就很难读，此时应该改回普通的 <code>if</code> 语句。注意条件写在中间，不要写成其他语言的 <code>条件 ? A : B</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">score <span class="tok-op">=</span> <span class="tok-num">58</span>
+result <span class="tok-op">=</span> <span class="tok-string">&quot;及格&quot;</span> <span class="tok-keyword">if</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">60</span> <span class="tok-keyword">else</span> <span class="tok-string">&quot;不及格&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;成绩&quot;</span>, score, <span class="tok-string">&quot;：&quot;</span>, result)
+
+numbers <span class="tok-op">=</span> [<span class="tok-op">-</span><span class="tok-num">3</span>, <span class="tok-num">0</span>, <span class="tok-num">7</span>]
+labels <span class="tok-op">=</span> [<span class="tok-string">&quot;正数&quot;</span> <span class="tok-keyword">if</span> n <span class="tok-op">&gt;</span> <span class="tok-num">0</span> <span class="tok-keyword">else</span> <span class="tok-string">&quot;零&quot;</span> <span class="tok-keyword">if</span> n <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span> <span class="tok-keyword">else</span> <span class="tok-string">&quot;负数&quot;</span> <span class="tok-keyword">for</span> n <span class="tok-keyword">in</span> numbers]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;分类：&quot;</span>, labels)
+
+age <span class="tok-op">=</span> <span class="tok-num">20</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;身份：&quot;</span>, <span class="tok-string">&quot;成年人&quot;</span> <span class="tok-keyword">if</span> age <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">18</span> <span class="tok-keyword">else</span> <span class="tok-string">&quot;未成年人&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">成绩 58 ： 不及格
+分类： ['负数', '零', '正数']
+身份： 成年人</code></pre></figure>
+<p><code>&quot;正数&quot; if n &gt; 0 else &quot;零&quot; if n == 0 else &quot;负数&quot;</code> 从右向左结合，等价于 <code>&quot;正数&quot; if n &gt; 0 else (&quot;零&quot; if n == 0 else &quot;负数&quot;)</code>。推导式里用三元表达式很常见，但再长就该拆成函数了。</p>
+<h2 id="sec-6" class="doc-heading">六、真值与假值</h2>
+<p><code>if</code> 后面不一定要写比较运算，任何对象都能直接判断真假。<code>0</code>、<code>0.0</code>、空字符串、空列表、空字典、空集合、<code>None</code> 和 <code>False</code> 都被视为假，其余对象为真。</p>
+<p>这条规则让代码可以写得很短：判断列表是否非空写 <code>if items:</code> 即可，不必写 <code>if len(items) &gt; 0:</code>。但要注意字符串 <code>&quot;0&quot;</code> 和 <code>&quot;False&quot;</code> 是真值，非空就是真。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">values <span class="tok-op">=</span> [<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-op">-</span><span class="tok-num">1</span>, <span class="tok-string">&quot;&quot;</span>, <span class="tok-string">&quot;0&quot;</span>, [], [<span class="tok-num">0</span>], {}, <span class="tok-keyword">None</span>, <span class="tok-keyword">False</span>, <span class="tok-keyword">True</span>]
+
+<span class="tok-keyword">for</span> value <span class="tok-keyword">in</span> values:
+    <span class="tok-type">print</span>(<span class="tok-type">repr</span>(value), <span class="tok-string">&quot;-&gt;&quot;</span>, <span class="tok-type">bool</span>(value))
+
+name <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;</span>
+<span class="tok-keyword">if</span> name:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;姓名：&quot;</span>, name)
+<span class="tok-keyword">else</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;姓名为空&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">0 -&gt; False
+1 -&gt; True
+-1 -&gt; True
+'' -&gt; False
+'0' -&gt; True
+[] -&gt; False
+[0] -&gt; True
+{} -&gt; False
+None -&gt; False
+False -&gt; False
+True -&gt; True
+姓名为空</code></pre></figure>
+<p><code>[0]</code> 是含有一个元素的列表，所以为真；<code>[]</code> 没有任何元素，所以为假。判断“有没有值”和判断“值是不是 0”是两件事，写条件时要先想清楚需要哪一种。</p>
+<h2 id="sec-7" class="doc-heading">七、and 与 or 的短路</h2>
+<p><code>and</code> 和 <code>or</code> 按从左到右的顺序求值，一旦结果确定就停止，后面的表达式不会再执行，这叫短路求值。</p>
+<p><code>and</code> 遇到第一个假值就返回它，<code>or</code> 遇到第一个真值就返回它，返回的是操作数本身而不是 <code>True</code> / <code>False</code>。常用来给变量设置默认值，例如 <code>name or &quot;匿名用户&quot;</code>。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">check</span>(label, result):
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;执行&quot;</span>, label)
+    <span class="tok-keyword">return</span> result
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;--- and ---&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-cmdlet">check</span>(<span class="tok-string">&quot;A&quot;</span>, <span class="tok-keyword">True</span>) <span class="tok-keyword">and</span> <span class="tok-cmdlet">check</span>(<span class="tok-string">&quot;B&quot;</span>, <span class="tok-keyword">False</span>) <span class="tok-keyword">and</span> <span class="tok-cmdlet">check</span>(<span class="tok-string">&quot;C&quot;</span>, <span class="tok-keyword">True</span>))
+
+<span class="tok-type">print</span>(<span class="tok-string">&quot;--- or ---&quot;</span>)
+<span class="tok-type">print</span>(<span class="tok-cmdlet">check</span>(<span class="tok-string">&quot;A&quot;</span>, <span class="tok-keyword">False</span>) <span class="tok-keyword">or</span> <span class="tok-cmdlet">check</span>(<span class="tok-string">&quot;B&quot;</span>, <span class="tok-keyword">True</span>) <span class="tok-keyword">or</span> <span class="tok-cmdlet">check</span>(<span class="tok-string">&quot;C&quot;</span>, <span class="tok-keyword">False</span>))
+
+nickname <span class="tok-op">=</span> <span class="tok-string">&quot;&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;昵称：&quot;</span>, nickname <span class="tok-keyword">or</span> <span class="tok-string">&quot;匿名用户&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">--- and ---
+执行 A
+执行 B
+False
+--- or ---
+执行 A
+执行 B
+True
+昵称： 匿名用户</code></pre></figure>
+<p>两个例子里 <code>check(&quot;C&quot;, ...)</code> 都没有执行，因为前面的结果已经能决定整体真假。利用这一点，可以把“先判断再取值”写成 <code>items and items[0]</code>，避免空列表取值报错。</p>
+<h2 id="sec-8" class="doc-heading">八、in 成员判断</h2>
+<p><code>in</code> 判断元素是否属于某个容器，<code>not in</code> 判断是否不属于。字符串判断子串，列表、元组判断元素，字典判断键，集合判断元素是否存在。</p>
+<p>成员判断可以和 <code>and</code>、<code>or</code> 组合成更复杂的条件。需要同时检查多个值都在时，用集合的子集判断会更简洁。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">fruits <span class="tok-op">=</span> [<span class="tok-string">&quot;apple&quot;</span>, <span class="tok-string">&quot;banana&quot;</span>, <span class="tok-string">&quot;cherry&quot;</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;apple&quot;</span> <span class="tok-keyword">in</span> fruits)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;grape&quot;</span> <span class="tok-keyword">in</span> fruits)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;grape&quot;</span> <span class="tok-keyword">not</span> <span class="tok-keyword">in</span> fruits)
+
+text <span class="tok-op">=</span> <span class="tok-string">&quot;python tutorial&quot;</span>
+<span class="tok-type">print</span>(<span class="tok-string">&quot;tutorial&quot;</span> <span class="tok-keyword">in</span> text)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;java&quot;</span> <span class="tok-keyword">in</span> text)
+
+permissions <span class="tok-op">=</span> {<span class="tok-string">&quot;read&quot;</span>, <span class="tok-string">&quot;write&quot;</span>}
+<span class="tok-keyword">if</span> <span class="tok-string">&quot;write&quot;</span> <span class="tok-keyword">in</span> permissions <span class="tok-keyword">and</span> <span class="tok-string">&quot;delete&quot;</span> <span class="tok-keyword">not</span> <span class="tok-keyword">in</span> permissions:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;可以修改，不能删除&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">True
+False
+True
+True
+False
+可以修改，不能删除</code></pre></figure>
+<p><code>in</code> 用在字典上只检查键，不检查值；想判断值是否存在，要写 <code>value in student.values()</code>。字符串的 <code>in</code> 区分大小写，<code>&quot;Python&quot; in text</code> 在这个例子里是 <code>False</code>。</p>
+<h2 id="sec-9" class="doc-heading">九、match 与 case</h2>
+<p>Python 3.10 引入了结构化模式匹配：<code>match</code> 后面跟待匹配的对象，<code>case</code> 后面跟模式，命中就执行对应分支。<code>case _</code> 是通配符，相当于 <code>else</code>，必须放在最后。</p>
+<p>多个字面量可以用 <code>|</code> 合并成一个模式。<code>match</code> 比较的是值是否相等，不做类型转换，因此 <code>1</code> 和 <code>&quot;1&quot;</code> 是两个不同的模式。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">describe</span>(command):
+    <span class="tok-keyword">match</span> command:
+        <span class="tok-keyword">case</span> <span class="tok-string">&quot;start&quot;</span> <span class="tok-op">|</span> <span class="tok-string">&quot;run&quot;</span>:
+            <span class="tok-keyword">return</span> <span class="tok-string">&quot;启动&quot;</span>
+        <span class="tok-keyword">case</span> <span class="tok-string">&quot;stop&quot;</span>:
+            <span class="tok-keyword">return</span> <span class="tok-string">&quot;停止&quot;</span>
+        <span class="tok-keyword">case</span> <span class="tok-string">&quot;restart&quot;</span>:
+            <span class="tok-keyword">return</span> <span class="tok-string">&quot;重启&quot;</span>
+        <span class="tok-keyword">case</span> _:
+            <span class="tok-keyword">return</span> <span class="tok-string">&quot;未知命令&quot;</span>
+
+<span class="tok-keyword">for</span> cmd <span class="tok-keyword">in</span> [<span class="tok-string">&quot;start&quot;</span>, <span class="tok-string">&quot;run&quot;</span>, <span class="tok-string">&quot;stop&quot;</span>, <span class="tok-string">&quot;restart&quot;</span>, <span class="tok-string">&quot;pause&quot;</span>]:
+    <span class="tok-type">print</span>(cmd, <span class="tok-string">&quot;-&gt;&quot;</span>, <span class="tok-cmdlet">describe</span>(cmd))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">start -&gt; 启动
+run -&gt; 启动
+stop -&gt; 停止
+restart -&gt; 重启
+pause -&gt; 未知命令</code></pre></figure>
+<p>没有 <code>case _</code> 时，所有分支都不命中就什么都不做，程序不会报错。实际使用中建议总是保留一个兜底分支，让未预料到的输入有明确的处理方式。</p>
+<h2 id="sec-10" class="doc-heading">十、序列模式与守卫</h2>
+<p><code>case</code> 可以直接解构序列：<code>(x, y)</code> 匹配长度为 2 的序列，并把两个元素分别绑定到 <code>x</code>、<code>y</code>。<code>case (0, 0)</code> 则是带字面量的模式，只有两个位置都是 0 才命中。</p>
+<p>在模式后面加 <code>if</code> 就是守卫（guard），只有模式匹配成功并且守卫为真，分支才会执行。守卫可以引用模式里绑定的变量，适合做额外的范围检查。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">handle</span>(point):
+    <span class="tok-keyword">match</span> point:
+        <span class="tok-keyword">case</span> (<span class="tok-num">0</span>, <span class="tok-num">0</span>):
+            <span class="tok-keyword">return</span> <span class="tok-string">&quot;原点&quot;</span>
+        <span class="tok-keyword">case</span> (x, <span class="tok-num">0</span>):
+            <span class="tok-keyword">return</span> <span class="tok-string">f&quot;x 轴上的点，x={x}&quot;</span>
+        <span class="tok-keyword">case</span> (<span class="tok-num">0</span>, y):
+            <span class="tok-keyword">return</span> <span class="tok-string">f&quot;y 轴上的点，y={y}&quot;</span>
+        <span class="tok-keyword">case</span> (x, y) <span class="tok-keyword">if</span> x <span class="tok-op">=</span><span class="tok-op">=</span> y:
+            <span class="tok-keyword">return</span> <span class="tok-string">f&quot;对角线上的点，坐标 {x}&quot;</span>
+        <span class="tok-keyword">case</span> (x, y):
+            <span class="tok-keyword">return</span> <span class="tok-string">f&quot;普通点 ({x}, {y})&quot;</span>
+        <span class="tok-keyword">case</span> _:
+            <span class="tok-keyword">return</span> <span class="tok-string">&quot;不是二维点&quot;</span>
+
+<span class="tok-keyword">for</span> p <span class="tok-keyword">in</span> [(<span class="tok-num">0</span>, <span class="tok-num">0</span>), (<span class="tok-num">5</span>, <span class="tok-num">0</span>), (<span class="tok-num">0</span>, <span class="tok-op">-</span><span class="tok-num">3</span>), (<span class="tok-num">4</span>, <span class="tok-num">4</span>), (<span class="tok-num">2</span>, <span class="tok-num">7</span>), (<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>)]:
+    <span class="tok-type">print</span>(p, <span class="tok-string">&quot;-&gt;&quot;</span>, <span class="tok-cmdlet">handle</span>(p))</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">(0, 0) -&gt; 原点
+(5, 0) -&gt; x 轴上的点，x=5
+(0, -3) -&gt; y 轴上的点，y=-3
+(4, 4) -&gt; 对角线上的点，坐标 4
+(2, 7) -&gt; 普通点 (2, 7)
+(1, 2, 3) -&gt; 不是二维点</code></pre></figure>
+<p>分支顺序决定匹配结果：<code>(4, 4)</code> 也满足 <code>(x, y)</code>，但前面的守卫分支先命中，所以返回“对角线上的点”。长度不是 2 的元组只能落到最后一个 <code>case _</code>。</p>
+<h2 id="sec-11" class="doc-heading">十一、= 与 == 的区别</h2>
+<p><code>=</code> 是赋值，把右边的值绑定到左边的名字；<code>==</code> 是比较，判断两边的值是否相等。把 <code>=</code> 写进 <code>if</code> 条件里是语法错误，Python 不会像某些语言那样把它当成“赋值并判断”。</p>
+<p>需要“先计算再判断”时用海象运算符 <code>:=</code>，它必须用括号包起来。另外 <code>==</code> 比较值，<code>is</code> 比较对象身份，两个内容相同的列表 <code>==</code> 为真，<code>is</code> 却为假。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python">value <span class="tok-op">=</span> <span class="tok-num">5</span>
+<span class="tok-keyword">if</span> value <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">5</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;相等判断成立&quot;</span>)
+
+item <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>]
+same <span class="tok-op">=</span> [<span class="tok-num">1</span>, <span class="tok-num">2</span>]
+<span class="tok-type">print</span>(<span class="tok-string">&quot;内容相等：&quot;</span>, item <span class="tok-op">=</span><span class="tok-op">=</span> same)
+<span class="tok-type">print</span>(<span class="tok-string">&quot;同一对象：&quot;</span>, item <span class="tok-keyword">is</span> same)
+
+<span class="tok-keyword">if</span> (n :<span class="tok-op">=</span> <span class="tok-type">len</span>(<span class="tok-string">&quot;python&quot;</span>)) <span class="tok-op">&gt;</span> <span class="tok-num">5</span>:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;长度超过 5：&quot;</span>, n)
+
+<span class="tok-keyword">try</span>:
+    <span class="tok-type">exec</span>(<span class="tok-string">&quot;if value = 5:\n    print('ok')&quot;</span>)
+<span class="tok-keyword">except</span> SyntaxError:
+    <span class="tok-type">print</span>(<span class="tok-string">&quot;赋值号 = 不能用于条件判断&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">相等判断成立
+内容相等： True
+同一对象： False
+长度超过 5： 6
+赋值号 = 不能用于条件判断</code></pre></figure>
+<p><code>exec()</code> 在运行期编译字符串，遇到 <code>if value = 5</code> 会抛出 <code>SyntaxError</code>。判断两个对象是否为同一个，只在比较 <code>None</code>、<code>True</code>、<code>False</code> 这类单例时才推荐用 <code>is</code>。</p>
+<h2 id="sec-12" class="doc-heading">练习任务</h2>
+<p>任务 1：按分数给出等级，分数超出 0 到 100 的范围时提示无效，注意先处理非法输入再判断等级。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">grade</span>(score):
+    <span class="tok-keyword">if</span> score <span class="tok-op">&lt;</span> <span class="tok-num">0</span> <span class="tok-keyword">or</span> score <span class="tok-op">&gt;</span> <span class="tok-num">100</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;分数无效&quot;</span>
+    <span class="tok-keyword">if</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">90</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;A&quot;</span>
+    <span class="tok-keyword">elif</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">80</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;B&quot;</span>
+    <span class="tok-keyword">elif</span> score <span class="tok-op">&gt;</span><span class="tok-op">=</span> <span class="tok-num">60</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;C&quot;</span>
+    <span class="tok-keyword">else</span>:
+        <span class="tok-keyword">return</span> <span class="tok-string">&quot;D&quot;</span>
+
+<span class="tok-keyword">for</span> s <span class="tok-keyword">in</span> [<span class="tok-num">95</span>, <span class="tok-num">85</span>, <span class="tok-num">60</span>, <span class="tok-num">59</span>, <span class="tok-num">101</span>, <span class="tok-op">-</span><span class="tok-num">1</span>]:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{s} -&gt; {grade(s)}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">95 -&gt; A
+85 -&gt; B
+60 -&gt; C
+59 -&gt; D
+101 -&gt; 分数无效
+-1 -&gt; 分数无效</code></pre></figure>
+<p>任务 2：判断闰年。能被 4 整除但不能被 100 整除，或者能被 400 整除的年份是闰年。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">is_leap</span>(year):
+    <span class="tok-keyword">return</span> year <span class="tok-op">%</span> <span class="tok-num">4</span> <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span> <span class="tok-keyword">and</span> (year <span class="tok-op">%</span> <span class="tok-num">100</span> <span class="tok-op">!</span><span class="tok-op">=</span> <span class="tok-num">0</span> <span class="tok-keyword">or</span> year <span class="tok-op">%</span> <span class="tok-num">400</span> <span class="tok-op">=</span><span class="tok-op">=</span> <span class="tok-num">0</span>)
+
+<span class="tok-keyword">for</span> year <span class="tok-keyword">in</span> [<span class="tok-num">1900</span>, <span class="tok-num">2000</span>, <span class="tok-num">2024</span>, <span class="tok-num">2023</span>]:
+    <span class="tok-type">print</span>(year, <span class="tok-string">&quot;闰年&quot;</span> <span class="tok-keyword">if</span> <span class="tok-cmdlet">is_leap</span>(year) <span class="tok-keyword">else</span> <span class="tok-string">&quot;平年&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">1900 平年
+2000 闰年
+2024 闰年
+2023 平年</code></pre></figure>
+<p>任务 3：用 <code>match</code> / <code>case</code> 实现一个四则运算函数，除数为 0 时返回提示，遇到不支持的运算符也给出提示。</p>
+<figure class="codeblock" data-lang="python"><div class="codeblock__bar"><span class="codeblock__lang">Python</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-cmdlet">calculate</span>(op, left, right):
+    <span class="tok-keyword">match</span> op:
+        <span class="tok-keyword">case</span> <span class="tok-string">&quot;+&quot;</span>:
+            <span class="tok-keyword">return</span> left <span class="tok-op">+</span> right
+        <span class="tok-keyword">case</span> <span class="tok-string">&quot;-&quot;</span>:
+            <span class="tok-keyword">return</span> left <span class="tok-op">-</span> right
+        <span class="tok-keyword">case</span> <span class="tok-string">&quot;*&quot;</span>:
+            <span class="tok-keyword">return</span> left <span class="tok-op">*</span> right
+        <span class="tok-keyword">case</span> <span class="tok-string">&quot;/&quot;</span> <span class="tok-keyword">if</span> right <span class="tok-op">!</span><span class="tok-op">=</span> <span class="tok-num">0</span>:
+            <span class="tok-keyword">return</span> left <span class="tok-op">/</span> right
+        <span class="tok-keyword">case</span> <span class="tok-string">&quot;/&quot;</span>:
+            <span class="tok-keyword">return</span> <span class="tok-string">&quot;除数不能为 0&quot;</span>
+        <span class="tok-keyword">case</span> _:
+            <span class="tok-keyword">return</span> <span class="tok-string">&quot;不支持的运算符&quot;</span>
+
+cases <span class="tok-op">=</span> [(<span class="tok-string">&quot;+&quot;</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>), (<span class="tok-string">&quot;-&quot;</span>, <span class="tok-num">10</span>, <span class="tok-num">4</span>), (<span class="tok-string">&quot;*&quot;</span>, <span class="tok-num">3</span>, <span class="tok-num">5</span>), (<span class="tok-string">&quot;/&quot;</span>, <span class="tok-num">8</span>, <span class="tok-num">2</span>), (<span class="tok-string">&quot;/&quot;</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>), (<span class="tok-string">&quot;%&quot;</span>, <span class="tok-num">5</span>, <span class="tok-num">2</span>)]
+<span class="tok-keyword">for</span> op, left, right <span class="tok-keyword">in</span> cases:
+    <span class="tok-type">print</span>(<span class="tok-string">f&quot;{left} {op} {right} = {calculate(op, left, right)}&quot;</span>)</code></pre></figure>
+<p>输出结果：</p>
+<figure class="codeblock" data-lang="text"><div class="codeblock__bar"><span class="codeblock__lang">输出</span><button class="codeblock__copy" type="button" aria-label="复制代码"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>复制</span></button></div><pre class=""><code class="language-text">3 + 4 = 7
+10 - 4 = 6
+3 * 5 = 15
+8 / 2 = 4.0
+1 / 0 = 除数不能为 0
+5 % 2 = 不支持的运算符</code></pre></figure></div><nav class="pager" aria-label="翻页"><a class="pager-link pager-link--prev" href="sets.html"><span class="pager-dir">← 上一章</span><span class="pager-title">Python 集合</span></a><a class="pager-link pager-link--next" href="loops.html"><span class="pager-dir">下一章 →</span><span class="pager-title">Python 循环语句</span></a></nav></article><footer class="site-footer"><div class="site-footer__inner"><div class="site-footer__brand"><span class="brand-mark brand-mark--sm"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 7 4 5-4 5M12 17h7"/></svg></span>Tutorials 教程库</div><p class="site-footer__note">内容整理自菜鸟教程 Python 系列教程，以 reStructuredText 编写，静态构建发布。</p><div class="site-footer__links"><a href="../index.html">教程库首页</a><a href="index.html">课程首页</a><a href="practice.html">实战应用</a></div></div></footer>
+</main>
+<aside class="toc" aria-label="本页目录"><div class="toc-inner"><p class="toc-title">本页目录</p><nav class="toc-nav"><a class="toc-link toc-link--h2" href="#sec-1">一、if 语句</a><a class="toc-link toc-link--h2" href="#sec-2">二、if、elif、else</a><a class="toc-link toc-link--h2" href="#sec-3">三、缩进规则</a><a class="toc-link toc-link--h2" href="#sec-4">四、嵌套条件</a><a class="toc-link toc-link--h2" href="#sec-5">五、三元表达式</a><a class="toc-link toc-link--h2" href="#sec-6">六、真值与假值</a><a class="toc-link toc-link--h2" href="#sec-7">七、and 与 or 的短路</a><a class="toc-link toc-link--h2" href="#sec-8">八、in 成员判断</a><a class="toc-link toc-link--h2" href="#sec-9">九、match 与 case</a><a class="toc-link toc-link--h2" href="#sec-10">十、序列模式与守卫</a><a class="toc-link toc-link--h2" href="#sec-11">十一、= 与 == 的区别</a><a class="toc-link toc-link--h2" href="#sec-12">练习任务</a></nav></div></aside></div>
+<div class="search-modal" id="search-modal" hidden><div class="search-backdrop" data-close-search></div><div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索教程"><div class="search-field"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><input id="search-input" type="search" placeholder="搜索命令、概念或章节，例如 print" autocomplete="off" spellcheck="false" aria-label="搜索教程"><kbd>Esc</kbd></div><div class="search-results" id="search-results"><div class="search-empty"><p>输入关键词开始搜索</p><span>试试 “列表” 、 “生成器” 或 “Get-Process”</span></div></div><div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span><span class="search-foot__brand">Tutorials 教程库</span></div></div></div>
+<script src="../assets/app.js" defer></script>
+</body>
+</html>
